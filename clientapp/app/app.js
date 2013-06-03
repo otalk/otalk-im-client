@@ -24,6 +24,7 @@ module.exports = {
         }).render();
 
         // init our api
+        /*
         this.api = window.api = new Conversatio({
             token: accessToken,
             url: 'http://localhost:3008',
@@ -31,6 +32,7 @@ module.exports = {
             autoRemoveVideos: false,
             log: true
         });
+
 
         this.api.on('user', function (user) {
             me.set(user);
@@ -55,6 +57,7 @@ module.exports = {
         this.api.on('unlocked', function () {
             me.roomKey = '';
         });
+        */
 
         new Router();
         app.history = Backbone.history;

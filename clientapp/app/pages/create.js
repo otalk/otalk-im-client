@@ -8,7 +8,7 @@ var BasePage = require('pages/base'),
 module.exports = BasePage.extend({
     template: templates.pages.create,
     events: {
-        'submit #createRoom': 'handleFormSubmit'
+        'submit #loginForm': 'handleFormSubmit'
     },
     initialize: function (spec) {
         this.url = spec.url;

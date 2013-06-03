@@ -54,7 +54,7 @@ var clientApp = new Moonboots({
         'jquery.js',
         'jquery.slidingmessage.js',
         'ui.js',
-        'socket.io.js',
+        'stanza.io.js',
         'init.js'
     ],
     server: app

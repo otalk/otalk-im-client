@@ -88,7 +88,7 @@ exports.pages.create = function anonymous(locals, attrs, escape, rethrow, merge)
     var buf = [];
     with (locals || {}) {
         var interp;
-        buf.push('<section class="page create"><a href="/"><h1 id="logo"><img src="conversatio.png" height="64" width="480" alt="Conversat.io"/></h1></a><h2><span id="title">Get a room.</span><p class="desc">Video chat with up to 6 people.</p></h2><form id="createRoom"><input id="sessionInput" placeholder="Name the conversation" autofocus="autofocus"/><button type="submit">Let’s go!</button></form><p class="about">Requires Chrome or Firefox Nightly with peer connection enabled.<br/> conversat.io uses <a href="https://github.com/henrikjoreteg/SimpleWebRTC">the simple WebRTC library</a> from <a href="http://andyet.com">&yet</a> and so can you.</p></section>');
+        buf.push('<section class="page create"><a href="/"><h1 id="logo"><img src="conversatio.png" height="64" width="480" alt="Conversat.io"/></h1></a><h2><span id="title">Log in with XMPP</span><p class="desc">WebRTC capable XMPP client</p></h2><form id="createRoom"><input id="sessionInput" placeholder="you@reaweso.me" autofocus="autofocus"/><input id="sessionInput" placeholder="password" type="password"/><button type="submit">Let’s go!</button></form><p class="about">Requires Chrome or Firefox Nightly with peer connection enabled.<br/> conversat.io uses <a href="https://github.com/henrikjoreteg/SimpleWebRTC">the simple WebRTC library</a> from <a href="http://andyet.com">&yet</a> and so can you.</p></section>');
     }
     return buf.join("");
 };
