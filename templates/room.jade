@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+    <head>
+        <title>conversat.io</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="fonts.css">
+        <meta name="google-site-verification" content="OEAv0Phoo4ZRGpC-GIVt-WpSDQU8wtQerm6s9PToCVY" />
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+        <script src="socket.io.js"></script>
+        <script src="fluidgrid.js"></script>
+        <script src="sound-effect-manager.js"></script>
+        <script src="jquery.slidingmessage.js"></script>
+        <script src="retina.js"></script>
+        <script src="simplewebrtc.js"></script>
+        <script src="conversat.io.js"></script>
+        <script async src="awesome-andbang-ad.js"></script>
+        <script async src="metrics.js"></script>
+    </head>
+    <body>
+        <div class="wrap">
+            <section>
+                <a href="/">
+                    <h1 id="logo">
+                        <img src="conversatio.png" height="64" width="480" alt="Conversat.io" />
+                    </h1>
+                </a>
+                <h2>
+                    <span id="title">Get a room.</span>
+                </h2>
+                <p class="desc">Video chat with up to 6 people.</p>
+                <h3 id="roomLink">
+                    include includes/link.svg
+                    <span id="subTitle">
+                </h3>
+                <form id="createRoom">
+                    <input id="sessionInput" placeholder="Name the conversation" autofocus/>
+                    <button type="submit">Let&rsquo;s go!</button>
+                </form>
+                <p class="about">Requires Chrome or Firefox Nightly with peer connection enabled.<br />conversat.io uses <a href="https://github.com/henrikjoreteg/SimpleWebRTC">the simple WebRTC library</a> from <a href="http://andyet.com">&yet</a> and so can you.</p>
+                <video id="localVideo"></video>
+
+                <div class="controls">
+                    <button id="shareScreen">
+                        <span class="share"><i class="ss-icon">windows</i> Share screen</span>
+                        <span class="unshare"><i class="ss-icon">windows</i> Unshare screen</span>
+                    </button>
+                    <button id="muteMicrophone">
+                        <span class="mute"><i class="ss-icon">volume</i>  Mute</span>
+                        <span class="unmute"><i class="ss-icon">volumehigh</i>  Unmute</span>
+                    </button>
+                    <button id="pauseVideo">
+                        <span class="pause"><i class="ss-icon">pause</i>  Pause</span>
+                        <span class="resume"><i class="ss-icon">play</i>  Resume</span>
+                    </button>
+                </div>
+                <!-- controls -->
+
+                <div id="remotes"></div>
+                <div id="game">
+                    <aside id="instructions" style="position: absolute">
+                        <h3>Play lander while you wait for people to join.</h3>
+                        <p>Arrow keys control the ship</p>
+                        <p><code>r</code> restarts</p>
+                        <p><code>x</code> blows up your ship</p>
+                        <p>Have fun!</p>
+                    </aside>
+                    <canvas id="viewport"></canvas>
+                </div>
+            </section>
+            <footer>
+                <a href="http://andbang.com" id="ad" target="_blank"></a>
+                <a href="http://andyet.com" target="_blank" id="andyet"><img src="http://andyet.com/images/logo.png" width=40></a>
+            </footer>
+        </div>
+    </body>
+</html>

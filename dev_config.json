@@ -1,0 +1,14 @@
+{
+    "isDev": true,
+    "auth": {
+        "id": "conversat.io-dev",
+        "secret": "conversat.io-dev-secret"
+    },
+    "http": {
+        "baseUrl": "https://localhost:8000",
+        "port": 8000
+    },
+    "session": {
+        "secret": "shhhhhh don't tell anyone ok?"
+    }
+}

@@ -1,0 +1,12 @@
+section.page.create
+  a(href='/')
+    h1#logo
+      img(src='conversatio.png', height='64', width='480', alt='Conversat.io')
+  h2
+    span#title Get a room.
+    p.desc Video chat with up to 6 people.
+
+  form#createRoom
+    input#sessionInput(placeholder='Name the conversation', autofocus='autofocus')
+    button(type='submit') Let’s go!
+  p.about Requires Chrome or Firefox Nightly with peer connection enabled.<br/> conversat.io uses <a href="https://github.com/henrikjoreteg/SimpleWebRTC">the simple WebRTC library</a> from <a href="http://andyet.com">&yet</a> and so can you.

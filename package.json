@@ -1,0 +1,50 @@
+{
+  "name": "conversat.io",
+  "description": "Easiest/best group video chat service on the planet.",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git", 
+    "url": "git@github.com:andyet/conversat.io.git"
+  },
+  "dependencies": {
+    "express": "3.x.x",
+    "connect": "2.7.6",
+    "connect-redis": "1.4.5",
+    "getconfig": "0.0.5",
+    "andbang-express-auth": "0.0.9",
+    "yetify": "0.0.1",
+    "jade": "0.30.0",
+    "moonboots": "0.0.3",
+    "clientmodules": "0.0.5",
+    "backbone": "1.0.0",
+    "underscore": "1.4.4",
+    "strictmodel": "0.0.3",
+    "precommit-hook": "0.3.4",
+    "sound-effect-manager": "0.0.5",
+    "andlog": "0.0.3",
+    "strictview": "0.0.2",
+    "system-requirements": "0.0.2",
+    "webrtc.js": "0.0.3",
+    "semi-static": "",
+    "slugger": "0.0.1",
+    "socket.io": "0.9.14",
+    "node-uuid": "1.4.0",
+    "cookie-getter": "0.0.2",
+    "wildemitter": "0.0.3"
+  },
+  "clientmodules": [
+    "backbone", 
+    "strictmodel", 
+    "underscore", 
+    "sound-effect-manager", 
+    "andlog",
+    "strictview",
+    "slugger",
+    "cookie-getter",
+    "wildemitter"
+  ],
+  "clientmodulesDir": "clientapp/modules",
+  "scripts": {
+    "postinstall": "node node_modules/clientmodules/install.js"
+  }
+}
