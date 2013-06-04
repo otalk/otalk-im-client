@@ -1,9 +1,5 @@
 {
     "isDev": true,
-    "auth": {
-        "id": "conversat.io-dev",
-        "secret": "conversat.io-dev-secret"
-    },
     "http": {
         "baseUrl": "https://localhost:8000",
         "port": 8000

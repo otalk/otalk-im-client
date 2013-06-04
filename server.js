@@ -8,7 +8,6 @@ var fs = require('fs'),
     connect = require('connect'),
     RedisStore = require('connect-redis')(connect),
     https = require('https'),
-    andbangAuth = require('andbang-express-auth'),
     Moonboots = require('moonboots'),
     config = require('getconfig'),
     yetify = require('yetify'),
@@ -33,18 +32,11 @@ app.use(express.session({
         maxAge: 1000 * 60 * 60 * 24 * 90, // 90 days
         secure: config.session.secure
     },
-    key: 'c.io'
-}));
-app.use(andbangAuth.middleware({
-    app: app,
-    clientId: config.auth.id,
-    clientSecret: config.auth.secret,
-    defaultRedirect: '/',
-    local: config.isDev
+    key: 'o.im'
 }));
 
 var clientApp = new Moonboots({
-    fileName: 'conversat.io',
+    fileName: 'otalk',
     dir: __dirname + '/clientapp',
     developmentMode: config.isDev,
     libraries: [
@@ -71,4 +63,4 @@ app.get('/help*', semiStatic({
 app.get('*', clientApp.html());
 
 server.listen(config.http.port);
-console.log('conversat.io, by ' + yetify.logo() + ' running at: ' + config.http.baseUrl);
+console.log('otalk.im, by ' + yetify.logo() + ' running at: ' + config.http.baseUrl);

@@ -1,17 +1,16 @@
 {
-  "name": "conversat.io",
-  "description": "Easiest/best group video chat service on the planet.",
+  "name": "otalk.im",
+  "description": "OTalk: WebRTC Enabled XMPP Client, in the Browser",
   "version": "0.0.1",
   "repository": {
     "type": "git", 
-    "url": "git@github.com:andyet/conversat.io.git"
+    "url": "git@github.com:andyet/otalk.git"
   },
   "dependencies": {
     "express": "3.x.x",
     "connect": "2.7.6",
     "connect-redis": "1.4.5",
     "getconfig": "0.0.5",
-    "andbang-express-auth": "0.0.9",
     "yetify": "0.0.1",
     "jade": "0.30.0",
     "moonboots": "0.0.3",
