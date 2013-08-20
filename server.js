@@ -1,18 +1,17 @@
 /*global console*/
-var fs = require('fs'),
-    privateKey = fs.readFileSync('fakekeys/privatekey.pem').toString(),
-    certificate = fs.readFileSync('fakekeys/certificate.pem').toString(),
-    express = require('express'),
-    app = express(),
-    server = require('https').createServer({key: privateKey, cert: certificate}, app),
-    connect = require('connect'),
-    RedisStore = require('connect-redis')(connect),
-    https = require('https'),
-    Moonboots = require('moonboots'),
-    config = require('getconfig'),
-    yetify = require('yetify'),
-    semiStatic = require('semi-static'),
-    uuid = require('node-uuid');
+var fs = require('fs');
+var privateKey = fs.readFileSync('fakekeys/privatekey.pem').toString();
+var certificate = fs.readFileSync('fakekeys/certificate.pem').toString();
+var express = require('express');
+var app = express();
+var server = require('https').createServer({key: privateKey, cert: certificate}, app);
+var connect = require('connect');
+var RedisStore = require('connect-redis')(connect);
+var https = require('https');
+var Moonboots = require('moonboots');
+var config = require('getconfig');
+var semiStatic = require('semi-static');
+var uuid = require('node-uuid');
 
 
 app.use(express.static(__dirname + '/public'));
@@ -36,31 +35,20 @@ app.use(express.session({
 }));
 
 var clientApp = new Moonboots({
-    fileName: 'otalk',
+    fileName: 'stanzaiodemo',
     dir: __dirname + '/clientapp',
     developmentMode: config.isDev,
     libraries: [
-        'system-requirements.js',
-        'mixpanel.js',
-        'check-system.js',
         'jquery.js',
-        'jquery.slidingmessage.js',
-        'ui.js',
         'stanza.io.js',
+        'sugar-1.2.1-dates.js',
         'init.js'
     ],
     server: app
 });
 
-// the help mini-site
-app.get('/help*', semiStatic({
-    folderPath: __dirname + '/templates/help-site',
-    root: '/help'
-}));
-
-
 // serves app on every other url
 app.get('*', clientApp.html());
 
 server.listen(config.http.port);
-console.log('otalk.im, by ' + yetify.logo() + ' running at: ' + config.http.baseUrl);
+console.log('demo.stanza.io running at: ' + config.http.baseUrl);

@@ -1,47 +1,44 @@
 var StrictModel = require('strictmodel');
+var Contacts = require('./contacts');
 
 
 module.exports = StrictModel.Model.extend({
-    props: {
-        id: 'string',
-        firstName: 'string',
-        lastName: 'string',
-        username: 'string',
-        email: 'string',
-        smallPicUrl: '/robot.png'
-    },
     session: {
-        readyToCall: ['boolean', true, false],
-        currentRoom: 'string',
-        muted: ['boolean', true, false],
-        paused: ['boolean', true, false],
-        sharingScreen: ['boolean', true, false],
-        createdRoom: ['boolean', true, false],
-        gameActive: ['boolean', true, false],
-        enterPasswordDialog: ['boolean', true, false],
-        setPasswordDialog: ['boolean', true, false],
-        roomKey: ['string', true, ''],
-        roomIsReserved: ['boolean', true, false]
+        jid: ['string', true, ''],
+        status: ['string', true, ''],
+        avatar: ['string', true, '']
     },
-    url: '/me',
     derived: {
-        name: {
-            deps: ['firstName', 'lastName'],
+        barejid: {
+            deps: ['jid'],
             fn: function () {
-                return this.firstName ? (this.firstName + ' ' + this.lastName) : '';
-            }
-        },
-        authed: {
-            deps: ['firstName'],
-            fn: function () {
-                return !!this.firstName;
-            }
-        },
-        roomLocked: {
-            deps: ['roomKey'],
-            fn: function () {
-                return !!this.roomKey;
+                var hasResource = this.jid.indexOf('/') > 0;
+                if (hasResource) {
+                    return this.jid.slice(0, this.jid.indexOf('/'));
+                }
+                return this.jid;
             }
         }
+    },
+    collections: {
+        contacts: Contacts
+    },
+    getContact: function (jid, alt) {
+        if (this.isMe(jid)) {
+            jid = alt || jid;
+        }
+
+        var hasResource = jid.indexOf('/') > 0;
+        if (hasResource) {
+            jid = jid.slice(0, jid.indexOf('/'));
+        }
+        return this.contacts.get(jid);
+    },
+    isMe: function (jid) {
+        var hasResource = jid.indexOf('/') > 0;
+        if (hasResource) {
+            jid = jid.slice(0, jid.indexOf('/'));
+        }
+        return jid === this.barejid;
     }
 });

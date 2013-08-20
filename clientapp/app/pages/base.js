@@ -11,7 +11,7 @@ module.exports = BaseView.extend({
         // store reference to current page
         app.currentPage = this;
         // set the document title
-        document.title = getOrCall(this, 'title') + ' • conversat.io';
+        document.title = getOrCall(this, 'title') + ' • Stanza.io';
         // trigger an event to the page model in case we want to respond
         this.trigger('pageloaded');
         return this;

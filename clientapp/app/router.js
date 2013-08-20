@@ -13,26 +13,25 @@ var Backbone = require('backbone'),
 
 module.exports = Backbone.Router.extend({
     routes: {
-        '': 'create',
-        'help': 'help',
-        'premium': 'premium',
-        ':room': 'talk'
+        '': 'main',
+        'info/:jid': 'info'
     },
-
     // ------- ROUTE HANDLERS ---------
-    create: function () {
-        var View = require('pages/create');
+    main: function () {
+        var View = require('pages/main');
         app.renderPage(new View({
             model: me
         }));
     },
-    help: staticPage('/partials/help'),
-    premium: staticPage('/partials/help'),
-    talk: function (roomName) {
-        var View = require('pages/talk');
-        me.currentRoom = roomName;
-        app.renderPage(new View({
-            model: me
-        }));
+    info: function (jid) {
+        var View = require('pages/info');
+        var contact = me.contacts.get(jid);
+        if (contact) {
+            app.renderPage(new View({
+                model: contact
+            }));
+        } else {
+            app.navigate('/');
+        }
     }
 });

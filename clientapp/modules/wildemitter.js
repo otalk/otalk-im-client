@@ -35,13 +35,16 @@ WildEmitter.prototype.on = function (event, groupName, fn) {
 
 // Adds an `event` listener that will be invoked a single
 // time then automatically removed.
-WildEmitter.prototype.once = function (event, fn) {
-    var self = this;
+WildEmitter.prototype.once = function (event, groupName, fn) {
+    var self = this,
+        hasGroup = (arguments.length === 3),
+        group = hasGroup ? arguments[1] : undefined, 
+        func = hasGroup ? arguments[2] : arguments[1];
     function on() {
         self.off(event, on);
-        fn.apply(this, arguments);
+        func.apply(this, arguments);
     }
-    this.on(event, on);
+    this.on(event, group, on);
     return this;
 };
 
@@ -95,13 +98,21 @@ WildEmitter.prototype.emit = function (event) {
 
     if (callbacks) {
         for (i = 0, len = callbacks.length; i < len; ++i) {
-            callbacks[i].apply(this, args);
+            if (callbacks[i]) {
+                callbacks[i].apply(this, args);
+            } else {
+                break;
+            }
         }
     }
 
     if (specialCallbacks) {
         for (i = 0, len = specialCallbacks.length; i < len; ++i) {
-            specialCallbacks[i].apply(this, [event].concat(args));
+            if (specialCallbacks[i]) {
+                specialCallbacks[i].apply(this, [event].concat(args));
+            } else {
+                break;
+            }
         }
     }
 

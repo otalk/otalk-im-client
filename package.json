@@ -11,7 +11,6 @@
     "connect": "2.7.6",
     "connect-redis": "1.4.5",
     "getconfig": "0.0.5",
-    "yetify": "0.0.1",
     "jade": "0.30.0",
     "moonboots": "0.0.3",
     "clientmodules": "0.0.5",
@@ -25,11 +24,11 @@
     "system-requirements": "0.0.2",
     "webrtc.js": "0.0.3",
     "semi-static": "",
-    "slugger": "0.0.1",
-    "socket.io": "0.9.14",
     "node-uuid": "1.4.0",
     "cookie-getter": "0.0.2",
-    "wildemitter": "0.0.3"
+    "wildemitter": "0.0.5",
+    "image-to-data-uri": "",
+    "stanza.io": ""
   },
   "clientmodules": [
     "backbone", 
@@ -38,9 +37,9 @@
     "sound-effect-manager", 
     "andlog",
     "strictview",
-    "slugger",
     "cookie-getter",
-    "wildemitter"
+    "wildemitter",
+    "image-to-data-uri"
   ],
   "clientmodulesDir": "clientapp/modules",
   "scripts": {
