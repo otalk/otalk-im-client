@@ -7,7 +7,7 @@ var Message = require('views/message');
 
 
 module.exports = BasePage.extend({
-    template: templates.pages.info,
+    template: templates.pages.chat,
     initialize: function (spec) {
         this.render();
     },

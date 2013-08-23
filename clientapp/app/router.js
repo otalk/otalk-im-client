@@ -14,7 +14,7 @@ var Backbone = require('backbone'),
 module.exports = Backbone.Router.extend({
     routes: {
         '': 'main',
-        'info/:jid': 'info'
+        'chat/:jid': 'chat'
     },
     // ------- ROUTE HANDLERS ---------
     main: function () {
@@ -23,8 +23,8 @@ module.exports = Backbone.Router.extend({
             model: me
         }));
     },
-    info: function (jid) {
-        var View = require('pages/info');
+    chat: function (jid) {
+        var View = require('pages/chat');
         var contact = me.contacts.get(jid);
         if (contact) {
             app.renderPage(new View({

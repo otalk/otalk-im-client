@@ -50,11 +50,11 @@ exports.layout = function anonymous(locals) {
     return buf.join("");
 };
 
-// info.jade compiled template
-exports.pages.info = function anonymous(locals) {
+// chat.jade compiled template
+exports.pages.chat = function anonymous(locals) {
     var buf = [];
     with (locals || {}) {
-        buf.push('<section class="page info"><nav id="contactList"></nav><header class="contactInfo"><img width="30" height="30" class="avatar"/><h1 class="name"></h1></header><ul id="conversation"></ul></section>');
+        buf.push('<section class="page chat"><nav id="contactList"></nav><header class="contactInfo"><img width="30" height="30" class="avatar"/><h1 class="name"></h1></header><ul id="conversation"></ul></section>');
     }
     return buf.join("");
 };

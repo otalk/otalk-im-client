@@ -20,7 +20,7 @@ module.exports = StrictView.extend({
         avatar: '.avatar img'
     },
     events: {
-        'click': 'getInfo'
+        'click': 'goChat'
     },
     initialize: function (opts) {
         this.containerEl = opts.containerEl;
@@ -34,7 +34,7 @@ module.exports = StrictView.extend({
         this.handleBindings();
         return this;
     },
-    getInfo: function () {
-        app.navigate('info/' + this.model.jid);
+    goChat: function () {
+        app.navigate('chat/' + this.model.jid);
     }
 });
