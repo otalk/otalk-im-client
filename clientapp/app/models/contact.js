@@ -79,12 +79,8 @@ module.exports = StrictModel.extend({
     fetchHistory: function () {
         var self = this;
 
-        var time = new Date(Date.now());
-        var yesterday = new Date(time.valueOf() + time.getTimezoneOffset() * 6000 - 86400000);
-
         client.getHistory({
             with: this.jid,
-            start: yesterday,
             rsm: {
                 count: 20,
                 before: true

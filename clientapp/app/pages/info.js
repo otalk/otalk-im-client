@@ -11,8 +11,11 @@ module.exports = BasePage.extend({
     initialize: function (spec) {
         this.render();
     },
+    imageBindings: {
+        avatar: 'header .avatar'
+    },
     contentBindings: {
-        name: 'h1.name'
+        name: 'header .name'
     },
     render: function () {
         this.basicRender();

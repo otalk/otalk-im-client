@@ -7,7 +7,11 @@ html, body {
 }
 
 #pages {
-    margin-left: 205px;
+    margin-left: 201px;
+}
+
+#log {
+    padding: 5px;
 }
 
 #contactList {
@@ -130,7 +134,6 @@ html, body {
     list-style: none;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
     width: 100%;
     display: block;
 }
@@ -144,9 +147,8 @@ html, body {
     padding-right: 10px;
     min-width: 20px;
     width: 100%;
-    box-sizing: border-box;
-    border-bottom: 1px solid #B5CB9F;
-    background: #f1fce7;
+    border-bottom: 1px solid #ccc;
+/*    background: #f1fce7; */
 }
 
 #conversation .body {
@@ -164,21 +166,17 @@ html, body {
 
 #conversation .timestamp {
     font-size: 11px;
-    border: 1px solid rgba(215,215,215,0);
-    color: #B5CB9F;
+    color: #bbb;
     font-weight: bold;
     float: right;
-    padding: 1px 5px;
-    border-radius: 5px;
-    box-shadow: rgba(0,0,0,0) 0 -1px 1px;
-    text-decoration: none !important;
-    text-shadow: none;
     display: block;
+    margin-right: 15px;
 }
 
 #conversation .mine .timestamp {
     color: #BBE0FA;
 }
+
 .delayed .timestamp:before {
     content: '@ '
 }
@@ -187,3 +185,31 @@ html, body {
     content: 'edited '
 }
 
+.contactInfo {
+    padding: 5px;
+    background-image: #bccad0;
+    background-image: -moz-linear-gradient(top, #bccad0, #95a4a9);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #bccad0), color-stop(1, #95a4a9));
+    min-height: 30px;
+    position: relative;
+}
+
+.contactInfo .avatar {
+    float: left;
+    margin-right: 5px;
+    border-radius: 5px;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.contactInfo .name {
+    margin-left: 50px;
+    font-size: 14px;
+}
+
+#me {
+    display: none;
+}

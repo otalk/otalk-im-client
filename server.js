@@ -47,6 +47,9 @@ var clientApp = new Moonboots({
     server: app
 });
 
+app.get('test', function (req, res) {
+    res.send('<html></html>');
+});
 // serves app on every other url
 app.get('*', clientApp.html());
 

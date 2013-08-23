@@ -422,8 +422,7 @@ Client.prototype.sendMessage = function (data) {
     }
     var message = new Message(data);
 
-    this.emit('message:sent', message);
-    this.send(message);
+    this.send(new Message(data));
 };
 
 Client.prototype.sendPresence = function (data) {
