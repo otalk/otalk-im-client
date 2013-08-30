@@ -23,9 +23,6 @@ module.exports = StrictView.extend({
     events: {
         'click': 'goChat'
     },
-    initialize: function (opts) {
-        this.render();
-    },
     render: function () {
         this.renderAndBind({contact: this.model});
         return this;

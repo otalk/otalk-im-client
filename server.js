@@ -19,8 +19,7 @@ var clientApp = new Moonboots({
     main: __dirname + '/clientapp/app.js',
     developmentMode: config.isDev,
     libraries: [
-        __dirname + '/clientapp/libraries/jquery.js',
-        __dirname + '/clientapp/libraries/sugar-1.2.1-dates.js',
+        __dirname + '/clientapp/libraries/zepto.js',
         __dirname + '/clientapp/libraries/IndexedDBShim.min.js',
         __dirname + '/clientapp/libraries/stanza.io.js'
     ],

@@ -1,6 +1,7 @@
 "use strict";
 
 function DiscoStorage(storage) {
+    this.storage = storage;
 }
 
 DiscoStorage.prototype = {

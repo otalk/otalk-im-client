@@ -45,7 +45,17 @@ module.exports = StrictModel.extend({
             deps: ['created'],
             fn: function () {
                 if (this.created) {
-                    return this.created.format('{MM}/{dd} {h}:{mm}{t}');
+                    var month = this.created.getMonth();
+                    var day = this.created.getDate();
+                    var hour = this.created.getHours();
+                    var minutes = this.created.getMinutes();
+
+                    var m = (hour >= 12) ? 'p' : 'a';
+                    var strDay = (day < 10) ? '0' + day : day;
+                    var strHour = (hour < 10) ? '0' + hour : hour;
+                    var strMin = (minutes < 10) ? '0' + minutes: minutes;
+
+                    return '' + month + '/' + strDay + ' ' + strHour + ':' + strMin + m;
                 }
                 return undefined;
             }
