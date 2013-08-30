@@ -4,7 +4,6 @@
 var BasePage = require('./base');
 var templates = require('../templates');
 var ContactListItem = require('../views/contactListItem');
-var ContactListItemResource = require('../views/contactListItemResource');
 var Message = require('../views/message');
 var MessageModel = require('../models/message');
 
