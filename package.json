@@ -21,8 +21,7 @@
         "strictmodel": "0.1.1",
         "strictview": "1.0.0",
         "templatizer": "0.1.2",
-        "underscore": "1.5.1",
-        "image-to-data-uri": "0.0.1"
+        "underscore": "1.5.1"
     },
     "devDependencies": {
         "precommit-hook": "0.3.6"

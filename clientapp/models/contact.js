@@ -3,7 +3,6 @@
 
 var async = require('async');
 var StrictModel = require('strictmodel').Model;
-var imageToDataURI = require('image-to-data-uri');
 var Resources = require('./resources');
 var Messages = require('./messages');
 var Message = require('./message');
