@@ -31,7 +31,6 @@ module.exports = StrictView.extend({
         return this;
     },
     goChat: function () {
-        console.log('event?');
         app.navigate('chat/' + this.model.jid);
     }
 });

@@ -6,7 +6,6 @@ var StrictModel = require('strictmodel').Model;
 
 module.exports = StrictModel.extend({
     initialize: function (attrs) {
-        console.log(attrs);
         this._created = Date.now();
     },
     type: 'message',

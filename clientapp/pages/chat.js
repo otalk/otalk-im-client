@@ -34,7 +34,6 @@ module.exports = BasePage.extend({
         return this;
     },
     killForm: function (e) {
-        console.log('kill form', e);
         e.preventDefault();
         return false;
     },
@@ -67,7 +66,6 @@ module.exports = BasePage.extend({
                 body: val,
                 chatState: 'active'
             };
-            console.log(this.editMode);
             if (this.editMode) {
                 message.replace = this.model.lastSentMessage.id;
             }
@@ -76,8 +74,6 @@ module.exports = BasePage.extend({
             message.id = id;
             message.from = me.jid;
 
-            console.log(message);
-            console.log(this.editMode);
             if (this.editMode) {
                 this.model.lastSentMessage.correct(message);
             } else {
