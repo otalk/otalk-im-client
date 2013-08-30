@@ -1,6 +1,8 @@
 section.page.chat
-    nav#contactList
     header.contactInfo
         img.avatar(width=30, height=30)
         h1.name
     ul#conversation
+    div#chatInput
+        form
+            textarea#chatBuffer(name='chatInput', type='text', placeholder='Send a message...', autocomplete='off')

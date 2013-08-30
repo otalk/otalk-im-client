@@ -422,7 +422,10 @@ Client.prototype.sendMessage = function (data) {
     }
     var message = new Message(data);
 
-    this.send(new Message(data));
+    this.emit('message:sent', message);
+    this.send(message);
+
+    return data.id;
 };
 
 Client.prototype.sendPresence = function (data) {
@@ -431,6 +434,8 @@ Client.prototype.sendPresence = function (data) {
         data.id = this.nextId();
     }
     this.send(new Presence(data));
+
+    return data.id;
 };
 
 Client.prototype.sendIq = function (data, cb) {
@@ -449,6 +454,8 @@ Client.prototype.sendIq = function (data, cb) {
         });
     }
     this.send(new Iq(data));
+
+    return data.id;
 };
 
 Client.prototype.getRoster = function (cb) {
@@ -2811,34 +2818,6 @@ Result.prototype = {
 };
 
 
-function Archived(data, xml) {
-    return stanza.init(this, xml, data);
-}
-Archived.prototype = {
-    constructor: {
-        value: Result
-    },
-    NS: 'urn:xmpp:mam:tmp',
-    EL: 'archived',
-    _name: 'archived',
-    _eventname: 'mam:archived',
-    toString: stanza.toString,
-    toJSON: stanza.toJSON,
-    get by() {
-        return stanza.getAttribute(this.xml, 'by');
-    },
-    set by(value) {
-        stanza.setAttribute(this.xml, 'by', value);
-    },
-    get id() {
-        return stanza.getAttribute(this.xml, 'id');
-    },
-    set id(value) {
-        stanza.setAttribute(this.xml, 'id', value);
-    }
-};
-
-
 function Prefs(data, xml) {
     return stanza.init(this, xml, data);
 }
@@ -2904,9 +2883,36 @@ Prefs.prototype = {
 stanza.extend(Iq, MAMQuery);
 stanza.extend(Iq, Prefs);
 stanza.extend(Message, Result);
-stanza.extend(Message, Archived);
 stanza.extend(Result, Forwarded);
 stanza.extend(MAMQuery, RSM);
+
+
+Message.prototype.__defineGetter__('archived', function () {
+    var self = this;
+
+    var archives = stanza.find(this.xml, 'urn:xmpp:mam:tmp', 'archived');
+
+    var results = [];
+    archives.forEach(function (archive) {
+        results.push({
+            by: stanza.getAttribute(archive, 'by'),
+            id: stanza.getAttribute(archive, 'id')
+        });
+    });
+
+    return results;
+});
+Message.prototype.__defineSetter__('archived', function (value) {    
+    var self = this;
+
+    value.forEach(function (val) {
+        var archive = document.createElementNS('urn:xmpp:mam:tmp', 'archived');
+        stanza.setAttribute(archive, 'by', val.by);
+        stanza.setAttribute(archive, 'id', val.id);
+        self.xml.appendChild(archive);
+    });
+});
+
 
 exports.MAMQuery = MAMQuery;
 exports.Result = Result;

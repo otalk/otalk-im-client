@@ -118,14 +118,22 @@ html, body {
     color: #777;
 }
 
+.chatView {
+    position: relative;
+}
+
 #conversation {
     background: #ecf0f2;
     box-sizing: border-box;
     bottom: 0;
     margin: 0;
+    padding-bottom: 30px;
     max-width: 100%;
     padding: 0;
     overflow-x: hidden;
+    position: relative;
+    margin-top: 50px;
+    bottom: 50px;
 }
 
 #conversation li {
@@ -187,11 +195,14 @@ html, body {
 
 .contactInfo {
     padding: 5px;
-    background-image: #bccad0;
+    background-color: #bccad0;
     background-image: -moz-linear-gradient(top, #bccad0, #95a4a9);
     background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #bccad0), color-stop(1, #95a4a9));
     min-height: 30px;
-    position: relative;
+    position: fixed;
+    top: 0px;
+    width: 100%;
+    z-index: 1000;
 }
 
 .contactInfo .avatar {
@@ -212,4 +223,44 @@ html, body {
 
 #me {
     display: none;
+}
+
+#chatInput {
+    position: fixed;
+    bottom: 0px;
+    left: 176px;
+    right: 0px;
+    z-index: 100;
+    background: #ecf0f2;
+}
+
+#chatInput form {
+    background-color: #e1e4e6;
+    background-image: -moz-linear-gradient(top, #e1e4e6, #cacdce);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #e1e4e6), color-stop(1, #cacdce));
+    padding: 10px;
+    z-index: 1000;
+    border-top: 1px solid #fff;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+}
+
+#chatBuffer {
+    width: 100%;
+    padding: 5px;
+    height: 30px;
+    line-height: 20px;
+    font-size: 13px;
+    resize: none;
+    outline: none;
+    border: 1px solid #ccc;
+    border-top-color: #bbb;
+    border-radius: 5px;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    font-family: 'lucida grande';
+}
+
+#chatBuffer.editing {
+    background-color: yellow;
 }

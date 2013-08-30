@@ -7,17 +7,9 @@
     "white": true,
     "undef": true,
     "browser": true,
-    "es5": true,
-    "predef": [
-        "$",
-        "me",
-        "confirm",
-        "alert",
-        "require",
-        "__dirname",
-        "process",
-        "exports",
-        "Buffer",
-        "module"
-    ]
+    "node": true,
+    "trailing": true,
+    "indent": 4,
+    "latedef": true,
+    "newcap": true
 }

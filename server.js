@@ -1,57 +1,46 @@
-/*global console*/
-var fs = require('fs');
-var privateKey = fs.readFileSync('fakekeys/privatekey.pem').toString();
-var certificate = fs.readFileSync('fakekeys/certificate.pem').toString();
 var express = require('express');
-var app = express();
-var server = require('https').createServer({key: privateKey, cert: certificate}, app);
-var connect = require('connect');
-var RedisStore = require('connect-redis')(connect);
-var https = require('https');
+var helmet = require('helmet');
 var Moonboots = require('moonboots');
 var config = require('getconfig');
-var semiStatic = require('semi-static');
-var uuid = require('node-uuid');
+var templatizer = require('templatizer');
 
 
+var app = express();
+app.use(express.compress());
 app.use(express.static(__dirname + '/public'));
-app.enable('trust proxy');
-app.set('view engine', 'jade');
-app.use(express.bodyParser());
-app.use(express.cookieParser());
-app.use(express.session({
-    proxy: true,
-    secret: config.session.secret,
-    store: new RedisStore({
-        host: config.session.host,
-        port: config.session.port,
-        db: config.session.db
-    }),
-    cookie: {
-        maxAge: 1000 * 60 * 60 * 24 * 90, // 90 days
-        secure: config.session.secure
-    },
-    key: 'o.im'
-}));
+if (!config.isDev) {
+    app.use(helmet.xframe());
+}
+app.use(helmet.iexss());
+app.use(helmet.contentTypeOptions());
+
 
 var clientApp = new Moonboots({
-    fileName: 'stanzaiodemo',
-    dir: __dirname + '/clientapp',
+    main: __dirname + '/clientapp/app.js',
     developmentMode: config.isDev,
     libraries: [
-        'jquery.js',
-        'stanza.io.js',
-        'sugar-1.2.1-dates.js',
-        'init.js'
+        __dirname + '/clientapp/libraries/jquery.js',
+        __dirname + '/clientapp/libraries/sugar-1.2.1-dates.js',
+        __dirname + '/clientapp/libraries/IndexedDBShim.min.js',
+        __dirname + '/clientapp/libraries/stanza.io.js'
     ],
-    server: app
+    stylesheets: [
+        __dirname + '/public/style.css'
+    ],
+    browserify: {
+        debug: false
+    },
+    server: app,
+    beforeBuild: function () {
+        var clientFolder = __dirname + '/clientapp';
+        templatizer(clientFolder + '/templates', clientFolder + '/templates.js');
+    }
 });
 
-app.get('test', function (req, res) {
-    res.send('<html></html>');
-});
+
 // serves app on every other url
 app.get('*', clientApp.html());
 
-server.listen(config.http.port);
+
+app.listen(config.http.port);
 console.log('demo.stanza.io running at: ' + config.http.baseUrl);

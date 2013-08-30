@@ -1,4 +1,5 @@
 node_modules
-clientapp/libraries
-clientapp/modules
 public
+clientapp/libraries
+clientapp/templates.js
+clientapp/.build

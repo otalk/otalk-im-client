@@ -1,48 +1,30 @@
 {
-  "name": "otalk.im",
-  "description": "OTalk: WebRTC Enabled XMPP Client, in the Browser",
-  "version": "0.0.1",
-  "repository": {
-    "type": "git", 
-    "url": "git@github.com:andyet/otalk.git"
-  },
-  "dependencies": {
-    "express": "3.x.x",
-    "connect": "2.7.6",
-    "connect-redis": "1.4.5",
-    "getconfig": "0.0.5",
-    "jade": "0.30.0",
-    "moonboots": "0.0.3",
-    "clientmodules": "0.0.5",
-    "backbone": "1.0.0",
-    "underscore": "1.4.4",
-    "strictmodel": "0.0.3",
-    "precommit-hook": "0.3.4",
-    "sound-effect-manager": "0.0.5",
-    "andlog": "0.0.3",
-    "strictview": "0.0.2",
-    "system-requirements": "0.0.2",
-    "webrtc.js": "0.0.3",
-    "semi-static": "",
-    "node-uuid": "1.4.0",
-    "cookie-getter": "0.0.2",
-    "wildemitter": "0.0.5",
-    "image-to-data-uri": "",
-    "stanza.io": ""
-  },
-  "clientmodules": [
-    "backbone", 
-    "strictmodel", 
-    "underscore", 
-    "sound-effect-manager", 
-    "andlog",
-    "strictview",
-    "cookie-getter",
-    "wildemitter",
-    "image-to-data-uri"
-  ],
-  "clientmodulesDir": "clientapp/modules",
-  "scripts": {
-    "postinstall": "node node_modules/clientmodules/install.js"
-  }
+    "name": "otalk.im",
+    "version": "0.0.1",
+    "description": "OTalk: WebRTC Enabled XMPP Client, in the Browser",
+    "repository": {
+        "type": "git", 
+        "url": "git@github.com:andyet/otalk.git"
+    },
+    "dependencies": {
+        "andlog": "0.0.4",
+        "async": "0.2.9",
+        "backbone": "1.0.0",
+        "express": "3.3.7",
+        "getconfig": "0.0.5",
+        "jade": "0.35.0",
+        "moonboots": "0.4.1",
+        "helmet": "0.1.0",
+        "node-uuid": "1.4.1",
+        "semi-static": "0.0.4",
+        "sound-effect-manager": "0.0.5",
+        "strictmodel": "0.1.1",
+        "strictview": "1.0.0",
+        "templatizer": "0.1.2",
+        "underscore": "1.5.1"
+    },
+    "devDependencies": {
+        "precommit-hook": "0.3.6"
+    },
+    "main": "server.js"
 }
