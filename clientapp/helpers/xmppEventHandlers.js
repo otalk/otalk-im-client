@@ -48,15 +48,7 @@ module.exports = function (client, app) {
 
     client.on('*', function (name, data) {
         log(name, data);
-        if (data && data.toJSON) {
-            var msg = data.toJSON();
-            window.postMessage(JSON.stringify(msg), '*');
-        }
     });
-
-    //client.on('disconnected', function () {
-    //    client.connect();
-    //});
 
     client.on('session:started', function (jid) {
         me.jid = jid;
