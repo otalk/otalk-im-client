@@ -4,50 +4,16 @@
 var crypto = XMPP.crypto;
 
 var _ = require('underscore');
+var log = require('andlog');
 var Contact = require('../models/contact');
 var Resource = require('../models/resource');
 var Message = require('../models/message');
 
 
-function logScroll() {
-    window.scrollTo(0, document.body.scrollHeight);
-}
-
-function log(name, data) {
-    var container = document.getElementById('log');
-    var logEntry = document.createElement('div'),
-        header = document.createElement('h2'),
-        entry = document.createElement('p'),
-        altEntry = document.createElement('p');
-
-    header.textContent = name;
-    logEntry.appendChild(header);
-
-    if (data && data.toJSON) {
-        var codeJSON = document.createElement('code');
-        codeJSON.textContent = JSON.stringify(data.toJSON());
-
-        altEntry.appendChild(codeJSON);
-        logEntry.appendChild(altEntry);
-        logEntry.appendChild(document.createElement('hr'));
-    }
-
-    var codeData = document.createElement('code');
-    codeData.textContent = data;
-    entry.appendChild(codeData);
-    logEntry.appendChild(entry);
-
-    if (container) {
-        container.appendChild(logEntry);
-        _.throttle(logScroll, 300);
-    }
-}
-
-
 module.exports = function (client, app) {
 
     client.on('*', function (name, data) {
-        log(name, data);
+        log.debug(name, data);
     });
 
     client.on('session:started', function (jid) {
@@ -157,13 +123,14 @@ module.exports = function (client, app) {
             message.cid = msg.id;
             message.set(msg);
 
-            if (msg.archived) {
-                msg.archived.forEach(function (archived) {
-                    if (me.isMe(archived.by)) {
-                        message.id = archived.id;
-                    }
-                });
-            }
+            //if (msg.archived) {
+            //    msg.archived.forEach(function (archived) {
+            //        if (me.isMe(archived.by)) {
+            //            message.id = archived.id;
+            //            message.cid = msg.id;
+            //        }
+            //    });
+            //}
 
             contact.messages.add(message);
             if (!contact.lockedResource) {

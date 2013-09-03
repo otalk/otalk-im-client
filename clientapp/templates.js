@@ -62,7 +62,7 @@ exports.includes.message = function anonymous(locals) {
 exports.pages.chat = function anonymous(locals) {
     var buf = [];
     with (locals || {}) {
-        buf.push('<section class="page chat"><header class="contactInfo"><img width="30" height="30" class="avatar"/><h1 class="name"></h1></header><ul id="conversation"></ul><div id="chatInput"><form><textarea id="chatBuffer" name="chatInput" type="text" placeholder="Send a message..." autocomplete="off"></textarea></form></div></section>');
+        buf.push('<section class="page chat"><header class="contactInfo"><img width="30" height="30" class="avatar"/><h1 class="name"></h1><div id="tzo"></div></header><ul id="conversation"></ul><div id="chatInput"><form><textarea id="chatBuffer" name="chatInput" type="text" placeholder="Send a message..." autocomplete="off"></textarea></form></div></section>');
     }
     return buf.join("");
 };
@@ -71,7 +71,16 @@ exports.pages.chat = function anonymous(locals) {
 exports.pages.main = function anonymous(locals) {
     var buf = [];
     with (locals || {}) {
-        buf.push('<section class="page main"><div id="log"><h2>Event Log</h2></div></section>');
+        buf.push('<section class="page main"></section>');
+    }
+    return buf.join("");
+};
+
+// signin.jade compiled template
+exports.pages.signin = function anonymous(locals) {
+    var buf = [];
+    with (locals || {}) {
+        buf.push('<section class="page signin"><div id="loginForm"><form><label>JID:<input type="text" id="jid" placeholder="you@aweso.me"/></label><label>Password:<input type="password" id="password"/></label><label>WebSocket URL:<input type="text" id="wsURL" placeholder="wss://aweso.me:5281/xmpp-websocket"/></label><input type="submit" value="Connect"/></form></div></section>');
     }
     return buf.join("");
 };

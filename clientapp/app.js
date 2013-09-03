@@ -31,24 +31,16 @@ module.exports = {
                     new Router();
                     app.history = Backbone.history;
 
-                    if (!localStorage.config) {
-                        return app.navigate('signin');
-                    }
-
                     app.view = new MainView({
                         model: me,
                         el: document.body
                     });
                     app.view.render();
 
-                    var rosterVer = localStorage.rosterVersion;
-                    var config = JSON.parse(localStorage.config);
-
-                    config.rosterVer = rosterVer;
-
-                    var client = window.client = app.client = XMPP.createClient(config);
+                    var client = window.client = app.client = XMPP.createClient({
+                        rosterVer: localStorage.rosterVersion || undefined
+                    });
                     xmppEventHandlers(client, app);
-                    client.connect();
 
                     // we have what we need, we can now start our router and show the appropriate page
                     app.history.start({pushState: true, root: '/'});

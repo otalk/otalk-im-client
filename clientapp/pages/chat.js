@@ -12,6 +12,7 @@ module.exports = BasePage.extend({
     template: templates.pages.chat,
     initialize: function (spec) {
         this.editMode = false;
+        this.model.fetchTimezone();
         this.model.fetchHistory();
         this.render();
     },
@@ -23,7 +24,8 @@ module.exports = BasePage.extend({
         avatar: 'header .avatar'
     },
     textBindings: {
-        name: 'header .name'
+        displayName: 'header .name',
+        formattedTZO: 'header #tzo'
     },
     render: function () {
         this.renderAndBind();
@@ -60,7 +62,7 @@ module.exports = BasePage.extend({
 
         if (val) {
             message = {
-                to: this.model.lockedJID,
+                to: this.model.lockedResource || this.model.jid,
                 type: 'chat',
                 body: val,
                 chatState: 'active'

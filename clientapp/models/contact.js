@@ -18,6 +18,7 @@ module.exports = StrictModel.extend({
         this.setAvatar(attrs.avatarID);
 
         this.resources.bind('add remove reset change', this.resourceChange, this);
+        this.bind('change:lockedResource', this.fetchTimezone, this);
     },
     type: 'contact',
     props: {
@@ -46,13 +47,20 @@ module.exports = StrictModel.extend({
                 return this.offlineStatus;
             }
         },
-        lockedJID: {
-            deps: ['jid', 'lockedResource'],
+        formattedTZO: {
+            deps: ['timezoneOffset', 'displayName'],
             fn: function () {
-                if (this.lockedResource) {
-                    return this.jid + '/' + this.lockedResource;
+                if (this.timezoneOffset !== undefined) {
+                    var localTZO = (new Date()).getTimezoneOffset();
+                    var diff = Math.abs(localTZO - this.timezoneOffset) / 60;
+                    if (diff === 0) {
+                        return this.displayName + ' is in the same timezone as you';
+                    }
+                    var dir = (localTZO > this.timezoneOffset) ? 'ahead' : 'behind';
+                    return this.displayName + ' is ' + diff + 'hrs ' + dir + ' you';
+                } else {
+                    return '';
                 }
-                return this.jid;
             }
         }
     },
@@ -64,7 +72,8 @@ module.exports = StrictModel.extend({
         show: ['string', true, 'offline'],
         chatState: ['string', true, 'gone'],
         lockedResource: 'string',
-        lastSentMessage: 'object'
+        lastSentMessage: 'object',
+        timezoneOffset: ['number', false, 0]
     },
     collections: {
         resources: Resources,
@@ -127,9 +136,23 @@ module.exports = StrictModel.extend({
             this.show = 'offline';
         }
     },
+    fetchTimezone: function () {
+        var self = this;
+        app.whenConnected(function () {
+            if (self.lockedResource) {
+                client.getTime(self.lockedResource, function (err, res) {
+                    if (err) return;
+                    console.log('RECV' + res.time.tzo);
+                    console.log('RECV UTC' + res.time.utc);
+                    self.timezoneOffset = res.time.tzo;
+                });
+            } else {
+                self.timezoneOffset = undefined;
+            }
+        });
+    },
     fetchHistory: function () {
         var self = this;
-
         app.whenConnected(function () {
             client.getHistory({
                 with: self.jid,

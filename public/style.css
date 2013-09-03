@@ -264,3 +264,10 @@ html, body {
 #chatBuffer.editing {
     background-color: yellow;
 }
+
+#loginForm {
+    margin: 50px;
+}
+#loginForm label {
+    display: block;
+}

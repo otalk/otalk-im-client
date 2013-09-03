@@ -2,16 +2,23 @@
 "use strict";
 
 var Backbone = require('backbone');
+var SigninPage = require('./pages/signin');
 var MainPage = require('./pages/main');
 var ChatPage = require('./pages/chat');
 
 
 module.exports = Backbone.Router.extend({
     routes: {
-        '': 'main',
+        '': 'signin',
+        'signin': 'signin',
         'chat/:jid': 'chat'
     },
     // ------- ROUTE HANDLERS ---------
+    signin: function () {
+        app.renderPage(new SigninPage({
+            model: me
+        }));
+    },
     main: function () {
         app.renderPage(new MainPage({
             model: me
