@@ -1,10 +1,10 @@
 /*global me*/
 "use strict";
 
-var StrictModel = require('strictmodel').Model;
+var HumanModel = require('human-model');
 
 
-module.exports = StrictModel.extend({
+module.exports = HumanModel.extend({
     initialize: function (attrs) {
         this._created = Date.now();
     },

@@ -2,11 +2,11 @@
 "use strict";
 
 var _ = require('underscore');
-var StrictView = require('strictview');
+var HumanView = require('human-view');
 var templates = require('../templates');
 
 
-module.exports = StrictView.extend({
+module.exports = HumanView.extend({
     template: templates.includes.contactListItem,
     classBindings: {
         show: '',

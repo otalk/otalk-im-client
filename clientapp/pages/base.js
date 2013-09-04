@@ -2,10 +2,10 @@
 "use strict";
 
 var _ = require('underscore');
-var StrictView = require('strictview');
+var HumanView = require('human-view');
 
 
-module.exports = StrictView.extend({
+module.exports = HumanView.extend({
     show: function (animation) {
         var self = this;
 

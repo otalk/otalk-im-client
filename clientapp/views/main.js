@@ -1,12 +1,12 @@
 /*global $, app, me*/
 "use strict";
 
-var StrictView = require('strictview');
+var HumanView = require('human-view');
 var templates = require('../templates');
 var ContactListItem = require('../views/contactListItem');
 
 
-module.exports = StrictView.extend({
+module.exports = HumanView.extend({
     template: templates.body,
     events: {
         'click a[href]': 'handleLinkClick'

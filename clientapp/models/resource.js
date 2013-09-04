@@ -1,9 +1,9 @@
 "use strict";
 
-var StrictModel = require('strictmodel').Model;
+var HumanModel = require('human-model');
 
 
-module.exports = StrictModel.extend({
+module.exports = HumanModel.extend({
     initialize: function () {},
     type: 'resource',
     session: {

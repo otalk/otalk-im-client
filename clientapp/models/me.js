@@ -1,12 +1,12 @@
 /*global app*/
 "use strict";
 
-var StrictModel = require('strictmodel');
+var HumanModel = require('human-model');
 var Contacts = require('./contacts');
 var Contact = require('./contact');
 
 
-module.exports = StrictModel.Model.extend({
+module.exports = HumanModel.extend({
     session: {
         jid: ['string', true, ''],
         status: ['string', true, ''],

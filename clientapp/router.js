@@ -9,7 +9,7 @@ var ChatPage = require('./pages/chat');
 
 module.exports = Backbone.Router.extend({
     routes: {
-        '': 'signin',
+        '': 'main',
         'signin': 'signin',
         'chat/:jid': 'chat'
     },

@@ -2,14 +2,14 @@
 "use strict";
 
 var async = require('async');
-var StrictModel = require('strictmodel').Model;
+var HumanModel = require('human-model');
 var Resources = require('./resources');
 var Messages = require('./messages');
 var Message = require('./message');
 var crypto = XMPP.crypto;
 
 
-module.exports = StrictModel.extend({
+module.exports = HumanModel.extend({
     initialize: function (attrs) {
         if (attrs.jid) {
             this.cid = attrs.jid;
