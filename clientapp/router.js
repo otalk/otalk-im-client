@@ -2,7 +2,6 @@
 "use strict";
 
 var Backbone = require('backbone');
-var SigninPage = require('./pages/signin');
 var MainPage = require('./pages/main');
 var ChatPage = require('./pages/chat');
 
@@ -10,15 +9,10 @@ var ChatPage = require('./pages/chat');
 module.exports = Backbone.Router.extend({
     routes: {
         '': 'main',
-        'signin': 'signin',
-        'chat/:jid': 'chat'
+        'chat/:jid': 'chat',
+        'logout': 'logout'
     },
     // ------- ROUTE HANDLERS ---------
-    signin: function () {
-        app.renderPage(new SigninPage({
-            model: me
-        }));
-    },
     main: function () {
         app.renderPage(new MainPage({
             model: me
@@ -33,5 +27,9 @@ module.exports = Backbone.Router.extend({
         } else {
             app.navigate('/');
         }
+    },
+    logout: function () {
+        localStorage.clear();
+        window.location = '/login';
     }
 });

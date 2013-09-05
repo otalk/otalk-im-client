@@ -5,6 +5,7 @@ var AvatarStorage = require('./avatars');
 var RosterStorage = require('./roster');
 var DiscoStorage = require('./disco');
 var ArchiveStorage = require('./archive');
+var RosterVerStorage = require('./rosterver');
 
 
 function Storage() {
@@ -15,6 +16,7 @@ function Storage() {
     this.roster = new RosterStorage(this);
     this.disco = new DiscoStorage(this);
     this.archive = new ArchiveStorage(this);
+    this.rosterver = new RosterVerStorage(this);
 }
 Storage.prototype = {
     constructor: {
@@ -36,6 +38,7 @@ Storage.prototype = {
             self.roster.setup(db);
             self.disco.setup(db);
             self.archive.setup(db);
+            self.rosterver.setup(db);
         };
         request.onerror = cb;
     }

@@ -13,48 +13,64 @@ var xmppEventHandlers = require('./helpers/xmppEventHandlers');
 
 module.exports = {
     launch: function () {
-        var self = this;
+        var self = window.app = this;
+        var config = localStorage.config;
+
+        if (!config) {
+            console.log('missing config');
+            window.location = '/login';
+        }
+
+        config = JSON.parse(config);
 
         _.extend(this, Backbone.Events);
 
-        var app = window.app = this;
-
-        $(function () {
-            async.series([
-                function (cb) {
-                    app.storage = new Storage();
-                    app.storage.open(cb);
-                },
-                function (cb) {
-                    var me = window.me = new MeModel();
-
-                    new Router();
-                    app.history = Backbone.history;
-
-                    app.view = new MainView({
-                        model: me,
-                        el: document.body
-                    });
-                    app.view.render();
-
-                    var client = window.client = app.client = XMPP.createClient({
-                        rosterVer: localStorage.rosterVersion || undefined
-                    });
-                    xmppEventHandlers(client, app);
-
-                    // we have what we need, we can now start our router and show the appropriate page
-                    app.history.start({pushState: true, root: '/'});
-
+        async.series([
+            function (cb) {
+                app.storage = new Storage();
+                app.storage.open(cb);
+            },
+            function (cb) {
+                app.storage.rosterver.get(config.jid, function (err, ver) {
+                    if (ver) {
+                        config.rosterVer = ver;
+                    }
                     cb();
-                }
-            ]);
-        });
+                });
+            },
+            function (cb) {
+                window.me = new MeModel();
+
+                self.api = window.client = XMPP.createClient(config);
+                xmppEventHandlers(self.api, self);
+
+                self.api.connect();
+
+                self.api.once('session:started', function () {
+                    cb();
+                });
+            },
+            function (cb) {
+                new Router();
+                app.history = Backbone.history;
+
+                self.view = new MainView({
+                    model: me,
+                    el: document.body
+                });
+                self.view.render();
+
+                // we have what we need, we can now start our router and show the appropriate page
+                app.history.start({pushState: true, root: '/'});
+                cb();
+            }
+        ]);
     },
     whenConnected: function (func) {
-        if (client.sessionStarted) {
+        if (app.api.sessionStarted) {
             func();
         } else {
-            client.once('session:started', func);
+            app.api.once('session:started', func);
         }
     },
     navigate: function (page) {

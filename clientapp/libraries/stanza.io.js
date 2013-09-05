@@ -127,6 +127,14 @@ function Client(opts) {
             self.send(new SASL.Response({
                 value: mech.response(self.getCredentials())
             }));
+
+            if (mech.cache) {
+                _.each(mech.cache, function (val, key) {
+                    self.config.credentials[key] = btoa(val);
+                });
+                self.emit('credentials:update', self.config.credentials);
+            }
+
             cb();
         });
         self.on('sasl:failure', 'sasl', function () {
@@ -377,7 +385,16 @@ Client.prototype.getCredentials = function () {
         serviceName: server
     };
 
-    return _.extend(defaultCreds, creds);
+    var result = _.extend(defaultCreds, creds);
+
+    var cachedBinary = ['saltedPassword', 'clientKey', 'serverKey'];
+    cachedBinary.forEach(function (key) {
+        if (result[key]) {
+            result[key] = atob(result[key]);
+        }
+    });
+
+    return result;
 };
 
 Client.prototype.connect = function (opts) {
@@ -4480,8 +4497,6 @@ EntityTime.prototype = {
     toString: stanza.toString,
     toJSON: stanza.toJSON,
     get tzo() {
-        console.log(this.toString());
-        console.log(this.parent.toString());
         var split, hrs, min;
         var sign = -1;
         var formatted = stanza.getSubText(this.xml, this.NS, 'tzo');
@@ -4491,14 +4506,11 @@ EntityTime.prototype = {
         }
         if (formatted.charAt(0) === '-') {
             sign = 1;
-            formatted = formatted.slice(1);
+            formatted.slice(1);
         }
         split = formatted.split(':');
-        console.log(split);
         hrs = parseInt(split[0], 10);
         min = parseInt(split[1], 10);
-        console.log('hrs', hrs);
-        console.log('min', min);
         return (hrs * 60 + min) * sign;
     },
     set tzo(value) {
@@ -14405,8 +14417,16 @@ var Buffer=require("__browserify_Buffer").Buffer;//     uuid.js
 
         mech._clientFinalMessageWithoutProof = 'c=' + gs2Header + ',r=' + mech._nonce;
 
-        var saltedPassword = Hi(cred.password, mech._salt, mech._iterationCount);
-        var clientKey = HMAC(saltedPassword, 'Client Key');
+        var saltedPassword, clientKey, serverKey;
+        if (cred.clientKey && cred.serverKey) {
+            clientKey = cred.clientKey;
+            serverKey = cred.serverKey;
+        } else {
+            saltedPassword = cred.saltedPassword || Hi(cred.password, mech._salt, mech._iterationCount);
+            clientKey = HMAC(saltedPassword, 'Client Key');
+            serverKey = HMAC(saltedPassword, 'Server Key');
+        }
+
         var storedKey = H(clientKey);
         var authMessage = mech._clientFirstMessageBare + ',' +
                           mech._challenge + ',' + 
@@ -14416,13 +14436,18 @@ var Buffer=require("__browserify_Buffer").Buffer;//     uuid.js
         var xorstuff = XOR(clientKey, clientSignature);
 
         var clientProof = new Buffer(xorstuff, 'binary').toString('base64');
-        var serverKey = HMAC(saltedPassword, 'Server Key');
 
         mech._serverSignature = HMAC(serverKey, authMessage);
 
         var result = mech._clientFinalMessageWithoutProof + ',p=' + clientProof;
 
         mech._stage = 2;
+
+        mech.cache = {
+            saltedPassword: saltedPassword,
+            clientKey: clientKey,
+            serverKey: serverKey
+        };
 
         return result;
     };

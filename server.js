@@ -1,3 +1,5 @@
+var fs = require('fs');
+var https = require('https');
 var express = require('express');
 var helmet = require('helmet');
 var Moonboots = require('moonboots');
@@ -36,10 +38,21 @@ var clientApp = new Moonboots({
     }
 });
 
+app.set('view engine', 'jade');
+
+app.get('/login', function (req, res) {
+    res.render('login');
+});
+app.get('/logout', function (req, res) {
+    res.render('logout');
+});
 
 // serves app on every other url
 app.get('*', clientApp.html());
 
 
-app.listen(config.http.port);
+https.createServer({
+    key: fs.readFileSync(config.http.key),
+    cert: fs.readFileSync(config.http.cert)
+}, app).listen(config.http.port);
 console.log('demo.stanza.io running at: ' + config.http.baseUrl);

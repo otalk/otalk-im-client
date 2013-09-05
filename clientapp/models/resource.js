@@ -3,7 +3,7 @@
 var HumanModel = require('human-model');
 
 
-module.exports = HumanModel.extend({
+module.exports = HumanModel.define({
     initialize: function () {},
     type: 'resource',
     session: {

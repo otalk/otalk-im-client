@@ -16,13 +16,42 @@ module.exports = function (client, app) {
         log.debug(name, data);
     });
 
+    client.on('credentials:update', function (creds) {
+        client.config.credentials = creds;
+
+        if (creds.clientKey && creds.serverKey) {
+            delete creds.password;
+            delete creds.saltedPassword;
+        } else if (creds.saltedPassword) {
+            delete creds.password;
+        }
+
+        localStorage.config = JSON.stringify({
+            jid: client.config.jid,
+            server: client.config.server,
+            wsURL: client.config.wsURL,
+            credentials: creds
+        });
+    });
+
+    client.on('disconnected', function () {
+        me.connectionStatus = 'disconnected';
+    });
+
+    client.on('auth:failed', function () {
+        console.log('auth failed');
+        window.location = '/login';
+    });
+
     client.on('session:started', function (jid) {
         me.jid = jid;
+
+        me.connectionStatus = 'connected';
 
         client.getRoster(function (err, resp) {
             resp = resp.toJSON();
 
-            localStorage.rosterVersion = resp.roster.ver;
+            app.storage.rosterver.set(me.barejid, resp.roster.ver);
 
             _.each(resp.roster.items, function (item) {
                 console.log(item);
@@ -41,7 +70,7 @@ module.exports = function (client, app) {
         iq = iq.toJSON();
         var items = iq.roster.items;
 
-        localStorage.rosterVersion = iq.roster.ver;
+        app.storage.rosterver.set(me.barejid, iq.roster.ver);
 
         _.each(items, function (item) {
             var contact = me.getContact(item.jid);

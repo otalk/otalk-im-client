@@ -18,7 +18,6 @@ module.exports = HumanView.extend({
         return this;
     },
     handleLinkClick: function (e) {
-        console.log(e);
         var t = $(e.target);
         var aEl = t.is('a') ? t[0] : t.closest('a')[0];
         var local = window.location.host === aEl.host;

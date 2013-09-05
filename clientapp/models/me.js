@@ -6,7 +6,7 @@ var Contacts = require('./contacts');
 var Contact = require('./contact');
 
 
-module.exports = HumanModel.extend({
+module.exports = HumanModel.define({
     session: {
         jid: ['string', true, ''],
         status: ['string', true, ''],

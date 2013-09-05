@@ -1,5 +1,5 @@
 /*global XMPP, app, me, client*/
-"use strict";
+//"use strict";
 
 var async = require('async');
 var HumanModel = require('human-model');
@@ -9,7 +9,7 @@ var Message = require('./message');
 var crypto = XMPP.crypto;
 
 
-module.exports = HumanModel.extend({
+module.exports = HumanModel.define({
     initialize: function (attrs) {
         if (attrs.jid) {
             this.cid = attrs.jid;
@@ -20,6 +20,7 @@ module.exports = HumanModel.extend({
         this.resources.bind('add remove reset change', this.resourceChange, this);
         this.bind('change:lockedResource', this.fetchTimezone, this);
     },
+    seal: true,
     type: 'contact',
     props: {
         jid: ['string', true],

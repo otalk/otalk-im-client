@@ -4,7 +4,7 @@
 var HumanModel = require('human-model');
 
 
-module.exports = HumanModel.extend({
+module.exports = HumanModel.define({
     initialize: function (attrs) {
         this._created = Date.now();
     },

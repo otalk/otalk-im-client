@@ -1,0 +1,20 @@
+extends layout
+
+block content
+    section#loginbox.content
+        h2 Log in
+        form
+            .fieldContainer
+                label(for='username') JID
+                input(type='text', id='jid', name='jid', placeholder='you@aweso.me', tabindex='1', autofocus)
+            .fieldContainer
+                label(for='password') Password
+                input(type='password', id='password', name='password', placeholder='•••••••••••••', tabindex='2')
+            .fieldContainer
+                label(for='wsURL') WebSocket URL 
+                input(type='text', id='wsURL', name='wsURL', placeholder='wss://aweso.me:5281/xmpp-websocket', tabindex='3')
+
+            button(type='submit', tabindex='3') Go!
+
+block scripts
+    script(src="/login.js")
