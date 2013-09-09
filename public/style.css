@@ -114,6 +114,10 @@ html, body {
     border-right: 4px solid orange;
 }
 
+.contact.paused {
+    border-right: 4px solid #666;
+}
+
 .contact.offline .status {
     color: #777;
 }

@@ -136,6 +136,7 @@ module.exports = HumanModel.define({
         } else {
             this.topResourceStatus = '';
             this.show = 'offline';
+            this.chatState = 'gone';
         }
     },
     fetchTimezone: function () {
