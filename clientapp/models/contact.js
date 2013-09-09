@@ -23,6 +23,7 @@ module.exports = HumanModel.define({
     seal: true,
     type: 'contact',
     props: {
+        inRoster: ['bool', true, false],
         jid: ['string', true],
         name: ['string', true, ''],
         subscription: ['string', true, 'none'],
@@ -190,6 +191,8 @@ module.exports = HumanModel.define({
         });
     },
     save: function () {
+        if (!this.inRoster) return;
+
         var data = {
             jid: this.jid,
             name: this.name,

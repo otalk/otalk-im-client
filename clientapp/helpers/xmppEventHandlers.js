@@ -4,10 +4,53 @@
 var crypto = XMPP.crypto;
 
 var _ = require('underscore');
+var async = require('async');
 var log = require('andlog');
 var Contact = require('../models/contact');
 var Resource = require('../models/resource');
 var Message = require('../models/message');
+
+
+var discoCapsQueue = async.queue(function (pres, cb) {
+    var jid = pres.from;
+    var caps = pres.caps;
+
+    log.debug('Checking storage for ' + caps.ver);
+
+    var contact = me.getContact(jid);
+    var resource = null;
+    if (contact) {
+        resource = contact.resources.get(jid);
+    }
+
+    app.storage.disco.get(caps.ver, function (err, existing) {
+        log.debug(err, existing);
+        if (existing) {
+            log.debug('Already found info for ' + caps.ver);
+            if (resource) resource.discoInfo = existing;
+            return cb();
+        }
+        log.debug('getting info for ' + caps.ver + ' from ' + jid);
+        client.getDiscoInfo(jid, caps.node + '#' + caps.ver, function (err, result) {
+            log.debug(caps.ver, err, result);
+            if (err) {
+                log.debug('Couldnt get info for ' + caps.ver);
+                return cb();
+            }
+            if (client.verifyVerString(result.discoInfo, caps.hash, caps.ver)) {
+                log.debug('Saving info for ' + caps.ver);
+                var data = result.discoInfo.toJSON();
+                app.storage.disco.add(caps.ver, data, function () {
+                    if (resource) resource.discoInfo = existing;
+                    cb();
+                });
+            } else {
+                log.debug('Couldnt verify info for ' + caps.ver + ' from ' + jid);
+                cb();
+            }
+        });
+    });
+});
 
 
 module.exports = function (client, app) {
@@ -39,7 +82,7 @@ module.exports = function (client, app) {
     });
 
     client.on('auth:failed', function () {
-        console.log('auth failed');
+        log.debug('auth failed');
         window.location = '/login';
     });
 
@@ -54,15 +97,16 @@ module.exports = function (client, app) {
             app.storage.rosterver.set(me.barejid, resp.roster.ver);
 
             _.each(resp.roster.items, function (item) {
-                console.log(item);
                 me.setContact(item, true);
             });
 
-            client.updateCaps();
-            client.sendPresence({
-                caps: client.disco.caps
+            var caps = client.updateCaps();
+            app.storage.disco.add(caps.ver, caps.discoInfo, function () {
+                client.sendPresence({
+                    caps: client.disco.caps
+                });
+                client.enableCarbons();
             });
-            client.enableCarbons();
         });
     });
 
@@ -213,5 +257,12 @@ module.exports = function (client, app) {
         }
 
         client.emit('message', msg);
+    });
+
+    client.on('disco:caps', function (pres) {
+        if (pres.from !== client.jid && pres.caps.hash) {
+            log.debug('Caps from ' + pres.from + ' ver: ' + pres.caps.ver);
+            discoCapsQueue.push(pres);
+        }
     });
 };

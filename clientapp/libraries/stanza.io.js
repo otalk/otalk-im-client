@@ -36,6 +36,7 @@ var WildEmitter = require('wildemitter');
 var _ = require('../vendor/lodash');
 var async = require('async');
 var uuid = require('node-uuid');
+var paddle = require('paddle');
 var SASL = require('./stanza/sasl');
 var Message = require('./stanza/message');
 var Presence = require('./stanza/presence');
@@ -402,6 +403,10 @@ Client.prototype.connect = function (opts) {
 
     _.extend(self.config, opts || {});
 
+    // Default iq timeout of 15 seconds
+    self.timeoutMonitor = new paddle.Paddle(self.config.timeout || 15);
+    self.timeoutMonitor.start();
+
     if (self.config.wsURL) {
         return self.conn.connect(self.config);
     }
@@ -417,6 +422,7 @@ Client.prototype.connect = function (opts) {
 };
 
 Client.prototype.disconnect = function () {
+    this.timeoutMonitor.stop();
     if (this.sessionStarted) {
         this.emit('session:end');
         this.releaseGroup('session');
@@ -461,12 +467,25 @@ Client.prototype.sendIq = function (data, cb) {
     if (!data.id) {
         data.id = this.nextId();
     }
+
+    var called = false;
+    var rescb = function (err, result) {
+        if (!called) {
+            called = true;
+            cb(err, result);
+        }
+    };
+
     if (data.type === 'get' || data.type === 'set') {
+        var timeoutCheck = this.timeoutMonitor.insure(function () {
+            rescb({type: 'error', error: {condition: 'timeout'}}, null);
+        });
         this.once('id:' + data.id, 'session', function (resp) {
+            timeoutCheck.check_in();
             if (resp._extensions.error) {
-                cb(resp, null);
+                rescb(resp, null);
             } else {
-                cb(null, resp);
+                rescb(null, resp);
             }
         });
     }
@@ -530,7 +549,7 @@ Client.prototype.denySubscription = function (jid) {
 
 module.exports = Client;
 
-},{"../vendor/lodash":90,"./stanza/bind":23,"./stanza/error":30,"./stanza/iq":33,"./stanza/message":35,"./stanza/presence":37,"./stanza/roster":41,"./stanza/sasl":43,"./stanza/session":44,"./stanza/sm":45,"./stanza/stream":46,"./stanza/streamError":47,"./stanza/streamFeatures":48,"./websocket":52,"async":53,"hostmeta":67,"node-uuid":76,"sasl-anonymous":78,"sasl-digest-md5":80,"sasl-external":82,"sasl-plain":84,"sasl-scram-sha-1":86,"saslmechanisms":88,"wildemitter":89}],3:[function(require,module,exports){
+},{"../vendor/lodash":91,"./stanza/bind":23,"./stanza/error":30,"./stanza/iq":33,"./stanza/message":35,"./stanza/presence":37,"./stanza/roster":41,"./stanza/sasl":43,"./stanza/session":44,"./stanza/sm":45,"./stanza/stream":46,"./stanza/streamError":47,"./stanza/streamFeatures":48,"./websocket":52,"async":53,"hostmeta":67,"node-uuid":76,"paddle":77,"sasl-anonymous":79,"sasl-digest-md5":81,"sasl-external":83,"sasl-plain":85,"sasl-scram-sha-1":87,"saslmechanisms":89,"wildemitter":90}],3:[function(require,module,exports){
 require('../stanza/attention');
 
 
@@ -685,7 +704,7 @@ function verifyVerString(info, hash, check) {
     if (hash === 'sha-1') {
         hash = 'sha1';
     }
-    var computed = this._generatedVerString(info, hash);
+    var computed = generateVerString(info, hash);
     return computed && computed == check;
 }
 
@@ -862,16 +881,51 @@ module.exports = function (client) {
     };
 
     client.updateCaps = function () {
+        var node = this.config.capsNode || 'https://stanza.io';
+        var data = JSON.parse(JSON.stringify({
+            identities: this.disco.identities[''],
+            features: this.disco.features[''],
+            extensions: this.disco.extensions['']
+        }));
+
+        var ver = generateVerString(data, 'sha-1');
+
         this.disco.caps = {
-            node: this.config.capsNode || 'https://stanza.io',
+            node: node,
             hash: 'sha-1',
-            ver: generateVerString({
-                identities: this.disco.identities[''],
-                features: this.disco.features[''],
-                extensions: this.disco.extensions['']
-            }, 'sha-1')
+            ver: ver
+        };
+
+        node = node + '#' + ver;
+        this.disco.features[node] = data.features;
+        this.disco.identities[node] = data.identities;
+        this.disco.extensions[node] = data.extensions;
+
+        return client.getCurrentCaps();
+    };
+
+    client.getCurrentCaps = function () {
+        var caps = client.disco.caps;
+        if (!caps.ver) {
+            return {ver: null, discoInfo: null};
+        }
+
+        var node = caps.node + '#' + caps.ver;
+        return {
+            ver: caps.ver,
+            discoInfo: {
+                identities: client.disco.identities[node],
+                features: client.disco.features[node],
+                extensions: client.disco.extensions[node]
+            }
         };
     };
+
+    client.on('presence', function (pres) {
+        if (pres._extensions.caps) {
+            client.emit('disco:caps', pres);
+        }
+    });
 
     client.on('iq:get:discoInfo', function (iq) {
         var node = iq.discoInfo.node;
@@ -900,9 +954,12 @@ module.exports = function (client) {
             }
         }));
     });
+
+    client.verifyVerString = verifyVerString;
+    client.generateVerString = generateVerString;
 };
 
-},{"../../vendor/lodash":90,"../stanza/caps":24,"../stanza/disco":29,"crypto":60}],10:[function(require,module,exports){
+},{"../../vendor/lodash":91,"../stanza/caps":24,"../stanza/disco":29,"crypto":60}],10:[function(require,module,exports){
 var stanzas = require('../stanza/forwarded');
 
 
@@ -1843,7 +1900,7 @@ Avatar.prototype = {
 
 module.exports = Avatar;
 
-},{"../../vendor/lodash":90,"./pubsub":38,"jxt":74}],23:[function(require,module,exports){
+},{"../../vendor/lodash":91,"./pubsub":38,"jxt":74}],23:[function(require,module,exports){
 var stanza = require('jxt');
 var Iq = require('./iq');
 var StreamFeatures = require('./streamFeatures');
@@ -2311,7 +2368,7 @@ stanza.extend(Message, DataForm);
 exports.DataForm = DataForm;
 exports.Field = Field;
 
-},{"../../vendor/lodash":90,"./message":35,"jxt":74}],28:[function(require,module,exports){
+},{"../../vendor/lodash":91,"./message":35,"jxt":74}],28:[function(require,module,exports){
 var stanza = require('jxt');
 var Message = require('./message');
 var Presence = require('./presence');
@@ -2516,7 +2573,7 @@ stanza.extend(DiscoItems, RSM);
 exports.DiscoInfo = DiscoInfo;
 exports.DiscoItems = DiscoItems;
 
-},{"../../vendor/lodash":90,"./dataforms":27,"./iq":33,"./rsm":42,"jxt":74}],30:[function(require,module,exports){
+},{"../../vendor/lodash":91,"./dataforms":27,"./iq":33,"./rsm":42,"jxt":74}],30:[function(require,module,exports){
 var _ = require('../../vendor/lodash');
 var stanza = require('jxt');
 var Message = require('./message');
@@ -2631,7 +2688,7 @@ stanza.extend(Iq, Error);
 
 module.exports = Error;
 
-},{"../../vendor/lodash":90,"./iq":33,"./message":35,"./presence":37,"jxt":74}],31:[function(require,module,exports){
+},{"../../vendor/lodash":91,"./iq":33,"./message":35,"./presence":37,"jxt":74}],31:[function(require,module,exports){
 var stanza = require('jxt');
 var Message = require('./message');
 var Presence = require('./presence');
@@ -2993,7 +3050,7 @@ stanza.topLevel(Message);
 
 module.exports = Message;
 
-},{"../../vendor/lodash":90,"jxt":74}],36:[function(require,module,exports){
+},{"../../vendor/lodash":91,"jxt":74}],36:[function(require,module,exports){
 var stanza = require('jxt');
 var Message = require('./message');
 var Presence = require('./presence');
@@ -3156,7 +3213,7 @@ stanza.topLevel(Presence);
 
 module.exports = Presence;
 
-},{"../../vendor/lodash":90,"jxt":74}],38:[function(require,module,exports){
+},{"../../vendor/lodash":91,"jxt":74}],38:[function(require,module,exports){
 var _ = require('../../vendor/lodash');
 var stanza = require('jxt');
 var Iq = require('./iq');
@@ -3594,7 +3651,7 @@ exports.Pubsub = Pubsub;
 exports.Item = Item;
 exports.EventItem = EventItem;
 
-},{"../../vendor/lodash":90,"./dataforms":27,"./iq":33,"./message":35,"./rsm":42,"jxt":74}],39:[function(require,module,exports){
+},{"../../vendor/lodash":91,"./dataforms":27,"./iq":33,"./message":35,"./rsm":42,"jxt":74}],39:[function(require,module,exports){
 var stanza = require('jxt');
 var Message = require('./message');
 
@@ -3773,7 +3830,7 @@ stanza.extend(Iq, Roster);
 
 module.exports = Roster;
 
-},{"../../vendor/lodash":90,"./iq":33,"jxt":74}],42:[function(require,module,exports){
+},{"../../vendor/lodash":91,"./iq":33,"jxt":74}],42:[function(require,module,exports){
 var stanza = require('jxt');
 
 
@@ -4091,7 +4148,7 @@ exports.Success = Success;
 exports.Failure = Failure;
 exports.Abort = Abort;
 
-},{"../../vendor/lodash":90,"./streamFeatures":48,"jxt":74}],44:[function(require,module,exports){
+},{"../../vendor/lodash":91,"./streamFeatures":48,"jxt":74}],44:[function(require,module,exports){
 var stanza = require('jxt');
 var Iq = require('./iq');
 var StreamFeatures = require('./streamFeatures');
@@ -4452,7 +4509,7 @@ stanza.topLevel(StreamError);
 
 module.exports = StreamError;
 
-},{"../../vendor/lodash":90,"jxt":74}],48:[function(require,module,exports){
+},{"../../vendor/lodash":91,"jxt":74}],48:[function(require,module,exports){
 var stanza = require('jxt');
 
 
@@ -4845,7 +4902,7 @@ WSConnection.prototype.send = function (data) {
 
 module.exports = WSConnection;
 
-},{"../vendor/lodash":90,"./sm":20,"./stanza/iq":33,"./stanza/message":35,"./stanza/presence":37,"./stanza/stream":46,"async":53,"node-uuid":76,"wildemitter":89}],53:[function(require,module,exports){
+},{"../vendor/lodash":91,"./sm":20,"./stanza/iq":33,"./stanza/message":35,"./stanza/presence":37,"./stanza/stream":46,"async":53,"node-uuid":76,"wildemitter":90}],53:[function(require,module,exports){
 var process=require("__browserify_process");/*global setImmediate: false, setTimeout: false, console: false */
 (function () {
 
@@ -13875,6 +13932,178 @@ var Buffer=require("__browserify_Buffer").Buffer;//     uuid.js
 }());
 
 },{"__browserify_Buffer":65,"crypto":60}],77:[function(require,module,exports){
+/**
+* Written by Nathan Fritz. Copyright © 2011 by &yet, LLC. Released under the
+* terms of the MIT License:
+* 
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+* 
+* The above copyright notice and this permission notice shall be included in
+* all copies or substantial portions of the Software.
+* 
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+* THE SOFTWARE.
+*/ 
+
+var EventEmitter = require("events").EventEmitter;
+
+/**
+ * You're up a creek; here's your Paddle. In Javascript, we rely on callback
+ * execution, often times without knowing for sure that it will happen. With
+ * Paddle, you can know. Paddle is a simple way of noting that your code should
+ * reach one of several code-execution points within a timelimit. If the time-
+ * limit is exceeded, an error callback is executed.
+ *
+ * @param freq: number of seconds between timeout checks
+ */
+function Paddle(freq) {
+    EventEmitter.call(this);
+    this.registry = new Object();
+    this.insureids = 0;
+    if(freq === undefined) {
+        this.freq = 5;
+    } else {
+        this.freq = freq;
+    }
+    this.run = false;
+    this.start();
+}
+
+//extend Paddle with EventEmitter
+Paddle.super_ = EventEmitter;
+Paddle.prototype = Object.create(EventEmitter.prototype, {
+    constructor: {
+        value: Paddle,
+        enumerable: false
+    }
+});
+
+/*
+ * Register a new check. If the check times out, error_callback will be called
+ * with the optionally specified args. You may specify an id, but one will be
+ * created otherwise.
+ *
+ * @param error_callback: function called when timeout is reached without check-in
+ * @param timeout: seconds to wait for check-in
+ * @param args: Array of arguments to call error_callback with
+ * @param id: optional -- insure will generate one for you
+ *
+ * @return Object: returns the insurance obj you just created
+ * {paddle, error_callback, args, id, timeout, done, check_in}
+ *
+ */
+function insure(error_callback, timeout, args, id) {
+    if(id === undefined) {
+        ++this.insureids;
+        this.insureids %= 65000;
+        id = this.insureids;
+    }
+    expiretime = Date.now() + timeout * 1000;
+    var that = this;
+    var insurance = {
+        paddle: that,
+        error_callback: error_callback,
+        args: args,
+        id: id,
+        timeout: expiretime,
+        done: false,
+        check_in: function() {
+            return this.paddle.check_in(this.id);
+        }
+    }
+    //this.registry[id] = [expiretime, error_callback, args];
+    this.registry[id] = insurance;
+    return insurance;
+}
+
+/*
+ * Check in with an id or paddle to confirm that your end-execution point occurred. This
+ * will cancel the timeout error, and delete the entry for this id.
+ *
+ * @param id or insurance: id from insure or insure obj
+ */
+function check_in(id) {
+    if(id.id !== undefined) {
+        //perhaps this is an insure object
+        id = id.id;
+    }
+    if(id in this.registry) {
+        this.emit('check_in', this.registry[id]);
+        this.registry[id].done = true;
+        delete this.registry[id];
+        return true;
+    }
+    return false;
+}
+
+/*
+ * Executed internally to occasionally make sure all insurance ids are within
+ * their timeouts.
+ */
+function checkEnsures() {
+    var now = Date.now();
+    for(var id in this.registry) {
+        if(now > this.registry[id].timeout) {
+            this.registry[id].error_callback.apply(this, this.registry[id].args);
+            this.emit('timeout', this.registry[id]);
+            delete this.registry[id];
+        }
+    }
+    if(this.run) {
+        setTimeout(function() { this.checkEnsures() }.bind(this), this.freq * 1000);
+    }
+}
+
+/*
+ * Start checking paddle timeouts. Optionally reset frequency.
+ *
+ * @return bool: true if running, false if it was already running.
+ */
+function start(freq) {
+    if(freq !== undefined) {
+        this.freq = freq;
+    }
+    if(!this.run) {
+        this.run = true;
+        setTimeout(function() { this.checkEnsures() }.bind(this), this.freq * 1000);
+        return true;
+    } else {
+        return false;
+    }
+}
+
+/*
+ * Stop checking Paddle timeouts.
+ * @return bool: true if stopped, false if it was already stopped.
+ */
+function stop() {
+    if(this.run) {
+        this.run = false;
+        return true;
+    } else {
+        return true;
+    }
+}
+
+Paddle.prototype.insure = insure;
+Paddle.prototype.check_in = check_in;
+Paddle.prototype.checkEnsures = checkEnsures;
+Paddle.prototype.start = start;
+Paddle.prototype.stop = stop;
+
+exports.Paddle = Paddle;
+
+},{"events":55}],78:[function(require,module,exports){
 (function(root, factory) {
   if (typeof exports === 'object') {
     // CommonJS
@@ -13930,7 +14159,7 @@ var Buffer=require("__browserify_Buffer").Buffer;//     uuid.js
   
 }));
 
-},{}],78:[function(require,module,exports){
+},{}],79:[function(require,module,exports){
 (function(root, factory) {
   if (typeof exports === 'object') {
     // CommonJS
@@ -13950,7 +14179,7 @@ var Buffer=require("__browserify_Buffer").Buffer;//     uuid.js
   
 }));
 
-},{"./lib/mechanism":77}],79:[function(require,module,exports){
+},{"./lib/mechanism":78}],80:[function(require,module,exports){
 (function(root, factory) {
   if (typeof exports === 'object') {
     // CommonJS
@@ -14140,7 +14369,7 @@ var Buffer=require("__browserify_Buffer").Buffer;//     uuid.js
   
 }));
 
-},{"crypto":60}],80:[function(require,module,exports){
+},{"crypto":60}],81:[function(require,module,exports){
 (function(root, factory) {
   if (typeof exports === 'object') {
     // CommonJS
@@ -14160,7 +14389,7 @@ var Buffer=require("__browserify_Buffer").Buffer;//     uuid.js
   
 }));
 
-},{"./lib/mechanism":79}],81:[function(require,module,exports){
+},{"./lib/mechanism":80}],82:[function(require,module,exports){
 (function(root, factory) {
   if (typeof exports === 'object') {
     // CommonJS
@@ -14216,7 +14445,7 @@ var Buffer=require("__browserify_Buffer").Buffer;//     uuid.js
   
 }));
 
-},{}],82:[function(require,module,exports){
+},{}],83:[function(require,module,exports){
 (function(root, factory) {
   if (typeof exports === 'object') {
     // CommonJS
@@ -14236,7 +14465,7 @@ var Buffer=require("__browserify_Buffer").Buffer;//     uuid.js
   
 }));
 
-},{"./lib/mechanism":81}],83:[function(require,module,exports){
+},{"./lib/mechanism":82}],84:[function(require,module,exports){
 (function(root, factory) {
   if (typeof exports === 'object') {
     // CommonJS
@@ -14303,7 +14532,7 @@ var Buffer=require("__browserify_Buffer").Buffer;//     uuid.js
   
 }));
 
-},{}],84:[function(require,module,exports){
+},{}],85:[function(require,module,exports){
 (function(root, factory) {
   if (typeof exports === 'object') {
     // CommonJS
@@ -14323,7 +14552,7 @@ var Buffer=require("__browserify_Buffer").Buffer;//     uuid.js
   
 }));
 
-},{"./lib/mechanism":83}],85:[function(require,module,exports){
+},{"./lib/mechanism":84}],86:[function(require,module,exports){
 (function(root, factory) {
   if (typeof exports === 'object') {
     // CommonJS
@@ -14581,7 +14810,7 @@ var Buffer=require("__browserify_Buffer").Buffer;//     uuid.js
     exports = module.exports = Mechanism;
 }));
 
-},{"buffer":58,"crypto":60}],86:[function(require,module,exports){
+},{"buffer":58,"crypto":60}],87:[function(require,module,exports){
 (function(root, factory) {
   if (typeof exports === 'object') {
     // CommonJS
@@ -14601,7 +14830,7 @@ var Buffer=require("__browserify_Buffer").Buffer;//     uuid.js
   
 }));
 
-},{"./lib/mechanism":85}],87:[function(require,module,exports){
+},{"./lib/mechanism":86}],88:[function(require,module,exports){
 (function(root, factory) {
   if (typeof exports === 'object') {
     // CommonJS
@@ -14674,7 +14903,7 @@ var Buffer=require("__browserify_Buffer").Buffer;//     uuid.js
   
 }));
 
-},{}],88:[function(require,module,exports){
+},{}],89:[function(require,module,exports){
 (function(root, factory) {
   if (typeof exports === 'object') {
     // CommonJS
@@ -14694,7 +14923,7 @@ var Buffer=require("__browserify_Buffer").Buffer;//     uuid.js
   
 }));
 
-},{"./lib/factory":87}],89:[function(require,module,exports){
+},{"./lib/factory":88}],90:[function(require,module,exports){
 /*
 WildEmitter.js is a slim little event emitter by @henrikjoreteg largely based 
 on @visionmedia's Emitter from UI Kit.
@@ -14831,7 +15060,7 @@ WildEmitter.prototype.getWildcardCallbacks = function (eventName) {
     return result;
 };
 
-},{}],90:[function(require,module,exports){
+},{}],91:[function(require,module,exports){
 var global=self;/**
  * @license
  * Lo-Dash 1.3.1 (Custom Build) lodash.com/license

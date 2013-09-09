@@ -23,7 +23,11 @@ DiscoStorage.prototype = {
             ver: ver,
             disco: disco
         };
-         
+        var request = this.transaction('readwrite').put(data);
+        request.onsuccess = function () {
+            cb(false, data);
+        };
+        request.onerror = cb;
     },
     get: function (ver, cb) {
         cb = cb || function () {};

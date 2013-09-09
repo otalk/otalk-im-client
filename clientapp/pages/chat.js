@@ -17,8 +17,8 @@ module.exports = BasePage.extend({
         this.render();
     },
     events: {
-        'submit #chatInput': 'killForm',
-        'keydown #chatBuffer': 'handleKeyDown'
+        'keydown #chatBuffer': 'handleKeyDown',
+        'keyup #chatBuffer': 'handleKeyUp'
     },
     srcBindings: {
         avatar: 'header .avatar'
@@ -29,16 +29,14 @@ module.exports = BasePage.extend({
     },
     render: function () {
         this.renderAndBind();
+        this.typingTimer = null;
         this.$chatBuffer = this.$('#chatBuffer');
         this.renderCollection(this.model.messages, Message, this.$('#conversation'));
         this.registerBindings();
         return this;
     },
-    killForm: function (e) {
-        e.preventDefault();
-        return false;
-    },
     handleKeyDown: function (e) {
+        clearTimeout(this.typingTimer);
         if (e.which === 13 && !e.shiftKey) {
             this.sendChat();
             e.preventDefault();
@@ -54,6 +52,34 @@ module.exports = BasePage.extend({
             this.$chatBuffer.removeClass('editing');
             e.preventDefault();
             return false;
+        } else {
+            if (!this.typing) {
+                this.typing = true;
+                client.sendMessage({
+                    to: this.model.lockedResource || this.model.jid,
+                    chatState: 'composing'
+                });
+            }
+        }
+    },
+    handleKeyUp: function (e) {
+        this.typingTimer = setTimeout(this.pausedTyping.bind(this), 5000);
+        if (this.typing && this.$chatBuffer.val().length === 0) {
+            this.typing = false;
+            client.sendMessage({
+                to: this.model.lockedResource || this.model.jid,
+                chatState: 'active'
+            });
+        }
+    },
+    pausedTyping: function () {
+        console.log('paused?', this.typing);
+        if (this.typing) {
+            this.typing = false;
+            client.sendMessage({
+                to: this.model.lockedResource || this.model.jid,
+                chatState: 'paused'
+            });
         }
     },
     sendChat: function () {
@@ -79,11 +105,13 @@ module.exports = BasePage.extend({
                 this.model.lastSentMessage.correct(message);
             } else {
                 var msgModel = new MessageModel(message);
+                msgModel.cid = id;
                 this.model.messages.add(msgModel);
                 this.model.lastSentMessage = msgModel;
             }
         }
         this.editMode = false;
+        this.typing = false;
         this.$chatBuffer.removeClass('editing');
         this.$chatBuffer.val('');
     }

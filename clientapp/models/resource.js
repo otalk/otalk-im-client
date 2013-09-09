@@ -11,6 +11,7 @@ module.exports = HumanModel.define({
         status: ['string', true, ''],
         show: ['string', true, ''],
         priority: ['number', true, 0],
-        idleSince: 'date'
+        idleSince: 'date',
+        discoInfo: 'object'
     }
 });

@@ -52,6 +52,7 @@ module.exports = BaseCollection.extend({
 
             contacts.forEach(function (contact) {
                 contact = new Contact(contact);
+                contact.inRoster = true;
                 contact.save();
                 self.add(contact);
             });
