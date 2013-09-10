@@ -8,21 +8,9 @@ var Contact = require('./contact');
 
 module.exports = HumanModel.define({
     session: {
-        jid: ['string', true, ''],
+        jid: ['object', true],
         status: ['string', true, ''],
         avatar: ['string', true, '']
-    },
-    derived: {
-        barejid: {
-            deps: ['jid'],
-            fn: function () {
-                var hasResource = this.jid.indexOf('/') > 0;
-                if (hasResource) {
-                    return this.jid.slice(0, this.jid.indexOf('/'));
-                }
-                return this.jid;
-            }
-        }
     },
     collections: {
         contacts: Contacts
@@ -31,15 +19,12 @@ module.exports = HumanModel.define({
         if (this.isMe(jid)) {
             jid = alt || jid;
         }
-
-        var hasResource = jid.indexOf('/') > 0;
-        if (hasResource) {
-            jid = jid.slice(0, jid.indexOf('/'));
-        }
-        return this.contacts.get(jid);
+        return this.contacts.get(jid.bare);
     },
     setContact: function (data, create) {
         var contact = this.getContact(data.jid);
+        data.jid = data.jid.bare;
+
         if (contact) {
             contact.set(data);
             contact.save();
@@ -50,14 +35,10 @@ module.exports = HumanModel.define({
         }
     },
     removeContact: function (jid) {
-        this.contacts.remove(jid);
-        app.storage.roster.remove(jid);
+        this.contacts.remove(jid.bare);
+        app.storage.roster.remove(jid.bare);
     },
     isMe: function (jid) {
-        var hasResource = jid.indexOf('/') > 0;
-        if (hasResource) {
-            jid = jid.slice(0, jid.indexOf('/'));
-        }
-        return jid === this.barejid;
+        return jid.bare === this.jid.bare;
     }
 });

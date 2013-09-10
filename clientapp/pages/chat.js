@@ -52,7 +52,7 @@ module.exports = BasePage.extend({
             this.$chatBuffer.removeClass('editing');
             e.preventDefault();
             return false;
-        } else {
+        } else if (!e.ctrlKey) {
             if (!this.typing) {
                 this.typing = true;
                 client.sendMessage({

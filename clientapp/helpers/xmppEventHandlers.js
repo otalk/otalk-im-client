@@ -94,7 +94,7 @@ module.exports = function (client, app) {
         client.getRoster(function (err, resp) {
             resp = resp.toJSON();
 
-            app.storage.rosterver.set(me.barejid, resp.roster.ver);
+            app.storage.rosterver.set(me.jid.bare, resp.roster.ver);
 
             _.each(resp.roster.items, function (item) {
                 me.setContact(item, true);
@@ -114,7 +114,7 @@ module.exports = function (client, app) {
         iq = iq.toJSON();
         var items = iq.roster.items;
 
-        app.storage.rosterver.set(me.barejid, iq.roster.ver);
+        app.storage.rosterver.set(me.jid.bare, iq.roster.ver);
 
         _.each(items, function (item) {
             var contact = me.getContact(item.jid);
@@ -126,7 +126,7 @@ module.exports = function (client, app) {
                 return;
             }
 
-            me.setContact(item, false);
+            me.setContact(item, true);
         });
     });
 
@@ -141,10 +141,11 @@ module.exports = function (client, app) {
 
             var resource = contact.resources.get(pres.from);
             if (resource) {
+                pres.from = pres.from.full;
                 resource.set(pres);
             } else {
                 resource = new Resource(pres);
-                resource.cid = pres.from;
+                resource.cid = pres.from.full;
                 contact.resources.add(resource);
             }
         }
@@ -154,7 +155,7 @@ module.exports = function (client, app) {
         pres = pres.toJSON();
         var contact = me.getContact(pres.from);
         if (contact) {
-            var resource = contact.resources.get(pres.from);
+            var resource = contact.resources.get(pres.from.full);
             if (resource) {
                 contact.resources.remove(resource);
             }
