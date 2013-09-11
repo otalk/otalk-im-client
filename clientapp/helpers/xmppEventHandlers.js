@@ -208,7 +208,7 @@ module.exports = function (client, app) {
 
             contact.messages.add(message);
             if (!contact.lockedResource) {
-                contact.lockedResource = msg.from;
+                contact.lockedResource = msg.from.full;
             } else if (msg.from !== contact.lockedResource) {
                 contact.lockedResource = undefined;
             }
@@ -261,7 +261,7 @@ module.exports = function (client, app) {
     });
 
     client.on('disco:caps', function (pres) {
-        if (pres.from !== client.jid && pres.caps.hash) {
+        if (pres.caps.hash) {
             log.debug('Caps from ' + pres.from + ' ver: ' + pres.caps.ver);
             discoCapsQueue.push(pres);
         }

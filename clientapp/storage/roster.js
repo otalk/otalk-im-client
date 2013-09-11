@@ -1,3 +1,4 @@
+/*global, IDBKeyRange*/
 "use strict";
 
 // SCHEMA
@@ -17,9 +18,10 @@ RosterStorage.prototype = {
         value: RosterStorage
     },
     setup: function (db) {
-        db.createObjectStore('roster', {
-            keyPath: 'jid'
+        var store = db.createObjectStore('roster', {
+            keyPath: 'storageId'
         });
+        store.createIndex("owner", "owner", {unique: false});
     },
     transaction: function (mode) {
         var trans = this.storage.db.transaction('roster', mode);
@@ -48,11 +50,12 @@ RosterStorage.prototype = {
         };
         request.onerror = cb;
     },
-    getAll: function (cb) {
+    getAll: function (owner, cb) {
         cb = cb || function () {};
         var results = [];
 
-        var request = this.transaction('readonly').openCursor();
+        var store = this.transaction('readonly');
+        var request = store.index('owner').openCursor(IDBKeyRange.only(owner));
         request.onsuccess = function (e) {
             var cursor = e.target.result;
             if (cursor) {

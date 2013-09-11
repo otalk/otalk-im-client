@@ -44,21 +44,6 @@ module.exports = BaseCollection.extend({
         }
     },
     initialize: function (model, options) {
-        var self = this;
-        this.bind('change', this.orderChange, this);
-
-        app.storage.roster.getAll(function (err, contacts) {
-            if (err) return;
-
-            contacts.forEach(function (contact) {
-                contact = new Contact(contact);
-                contact.inRoster = true;
-                contact.save();
-                self.add(contact);
-            });
-        });
-    },
-    orderChange: function () {
-        this.sort();
+        this.bind('change', this.sort, this);
     }
 });

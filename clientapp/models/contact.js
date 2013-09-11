@@ -24,6 +24,8 @@ module.exports = HumanModel.define({
     type: 'contact',
     props: {
         inRoster: ['bool', true, false],
+        owner: ['string', true, ''],
+        storageId: ['string', true, ''],
         jid: ['string', true],
         name: ['string', true, ''],
         subscription: ['string', true, 'none'],
@@ -195,6 +197,8 @@ module.exports = HumanModel.define({
         if (!this.inRoster) return;
 
         var data = {
+            storageId: this.storageId,
+            owner: this.owner,
             jid: this.jid,
             name: this.name,
             groups: this.groups,
