@@ -205,17 +205,19 @@ module.exports = function (client, app) {
         var contact = me.getContact(msg.from, msg.to);
         if (contact && !msg.replace) {
             var message = new Message();
-            message.cid = msg.id;
+            if (msg.id) {
+                message.cid = msg.id;
+            }
             message.set(msg);
 
-            //if (msg.archived) {
-            //    msg.archived.forEach(function (archived) {
-            //        if (me.isMe(archived.by)) {
-            //            message.id = archived.id;
-            //            message.cid = msg.id;
-            //        }
-            //    });
-            //}
+            if (msg.archived) {
+                msg.archived.forEach(function (archived) {
+                    if (me.isMe(archived.by)) {
+                        message.id = archived.id;
+                        message.cid = msg.id || archived.id;
+                    }
+                });
+            }
 
             if (!contact.activeContact && msg.from.bare === contact.jid) {
                 contact.unreadCount++;
