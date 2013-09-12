@@ -11,11 +11,14 @@ module.exports = HumanView.extend({
     classBindings: {
         show: '',
         subscription: '',
-        chatState: ''
+        chatState: '',
+        activeContact: '',
+        hasUnread: ''
     },
     textBindings: {
         displayName: '.name',
-        status: '.status'
+        status: '.status',
+        unreadCount: '.unread'
     },
     srcBindings: {
         avatar: '.avatar'

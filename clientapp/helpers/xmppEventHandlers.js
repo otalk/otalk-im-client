@@ -78,7 +78,7 @@ module.exports = function (client, app) {
     });
 
     client.on('disconnected', function () {
-        me.connectionStatus = 'disconnected';
+        me.connected = false;
     });
 
     client.on('auth:failed', function () {
@@ -89,7 +89,7 @@ module.exports = function (client, app) {
     client.on('session:started', function (jid) {
         me.jid = jid;
 
-        me.connectionStatus = 'connected';
+        me.connected = true;
 
         client.getRoster(function (err, resp) {
             resp = resp.toJSON();
@@ -186,6 +186,13 @@ module.exports = function (client, app) {
             if (info.chatState === 'gone') {
                 contact.lockedResource = undefined;
             }
+        } else if (me.isMe(info.from)) {
+            if (info.chatState === 'active' || info.chatState === 'composing') {
+                contact = me.getContact(info.to);
+                if (contact) {
+                    contact.unreadCount = 0;
+                }
+            }
         }
     });
 
@@ -206,6 +213,9 @@ module.exports = function (client, app) {
             //    });
             //}
 
+            if (!contact.activeContact) {
+                contact.unreadCount++;
+            }
             contact.messages.add(message);
             if (!contact.lockedResource) {
                 contact.lockedResource = msg.from.full;

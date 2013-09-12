@@ -1,4 +1,4 @@
-/*global app*/
+/*global app, client*/
 "use strict";
 
 var HumanModel = require('human-model');
@@ -14,12 +14,29 @@ module.exports = HumanModel.define({
     session: {
         jid: ['object', true],
         status: ['string', true, ''],
-        avatar: ['string', true, '']
+        avatar: ['string', true, ''],
+        connected: ['bool', true, false],
+        _activeContact: ['string', true, '']
     },
     collections: {
         contacts: Contacts
     },
+    setActiveContact: function (jid) {
+        var prev = this.getContact(this._activeContact);
+        if (prev) {
+            prev.activeContact = false;
+        }
+        var curr = this.getContact(jid);
+        if (curr) {
+            curr.activeContact = true;
+            curr.unreadCount = 0;
+        }
+        this._activeContact = jid;
+    },
     getContact: function (jid, alt) {
+        if (typeof jid === 'string') jid = new client.JID(jid);
+        if (typeof alt === 'string') alt = new client.JID(alt);
+
         if (this.isMe(jid)) {
             jid = alt || jid;
         }

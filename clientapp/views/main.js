@@ -11,6 +11,9 @@ module.exports = HumanView.extend({
     events: {
         'click a[href]': 'handleLinkClick'
     },
+    classBindings: {
+        connected: '#reconnect'
+    },
     render: function () {
         $('head').append(templates.head());
         this.renderAndBind();

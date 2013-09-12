@@ -51,8 +51,9 @@ app.get('/logout', function (req, res) {
 app.get('*', clientApp.html());
 
 
-https.createServer({
-    key: fs.readFileSync(config.http.key),
-    cert: fs.readFileSync(config.http.cert)
-}, app).listen(config.http.port);
+//https.createServer({
+//    key: fs.readFileSync(config.http.key),
+//    cert: fs.readFileSync(config.http.cert)
+//}, app).listen(config.http.port);
+app.listen(config.http.port);
 console.log('demo.stanza.io running at: ' + config.http.baseUrl);

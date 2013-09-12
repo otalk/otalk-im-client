@@ -12,7 +12,7 @@ exports.pages = {};
 exports.body = function anonymous(locals) {
     var buf = [];
     with (locals || {}) {
-        buf.push('<body><div class="wrap"><header id="me"><img class="avatar"/><p class="status"></p></header><nav id="contactList"></nav><section id="pages"></section><footer></footer></div></body>');
+        buf.push('<body><div class="wrap"><div id="reconnect"></div><header id="me"><img class="avatar"/><p class="status"></p></header><nav class="main"><li><a href="/logout">Logout</a></li><li><a href="/">Home</a></li></nav><nav id="contactList"></nav><section id="pages"></section><footer></footer></div></body>');
     }
     return buf.join("");
 };
@@ -35,7 +35,7 @@ exports.includes.contactListItem = function anonymous(locals) {
             "class": "avatar"
         }, {
             src: true
-        }) + '/><div class="name">' + jade.escape(null == (jade.interp = contact.displayName) ? "" : jade.interp) + '</div><div class="status">' + jade.escape(null == (jade.interp = contact.status) ? "" : jade.interp) + "</div></li>");
+        }) + '/><div class="name">' + jade.escape(null == (jade.interp = contact.displayName) ? "" : jade.interp) + '</div><div class="unread">' + jade.escape(null == (jade.interp = contact.unreadCount) ? "" : jade.interp) + '</div><div class="status">' + jade.escape(null == (jade.interp = contact.status) ? "" : jade.interp) + "</div></li>");
     }
     return buf.join("");
 };

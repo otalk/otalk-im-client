@@ -66,6 +66,12 @@ module.exports = HumanModel.define({
                     return '';
                 }
             }
+        },
+        hasUnread: {
+            deps: ['unreadCount'],
+            fn: function () {
+                return this.unreadCount > 0;
+            }
         }
     },
     session: {
@@ -77,7 +83,9 @@ module.exports = HumanModel.define({
         chatState: ['string', true, 'gone'],
         lockedResource: 'string',
         lastSentMessage: 'object',
-        timezoneOffset: ['number', false, 0]
+        timezoneOffset: ['number', false, 0],
+        activeContact: ['bool', true, false],
+        unreadCount: ['number', true, 0]
     },
     collections: {
         resources: Resources,

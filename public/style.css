@@ -4,6 +4,7 @@ html, body {
     padding: 0px;
     margin: 0px;
     background-color: #ecf0f2;
+    color: #2e2d2d;
 }
 
 #pages {
@@ -14,11 +15,62 @@ html, body {
     padding: 5px;
 }
 
+#reconnect {
+    z-index: 5000;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, .5);
+}
+
+#reconnect.connected {
+    display: none;
+}
+
+#me {
+    display: none;
+}
+
+nav.main {
+    background-color: #1C232D;
+    width: 176px;
+    border-right: 1px solid black;
+    padding: 5px;
+    margin: 0px;
+    text-align: center;
+    box-sizing: border-box;
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+}
+
+nav.main li {
+    display: inline-block;
+    margin: 5px;
+}
+
+nav.main a {
+    display: block;
+    text-decoration: none;
+    text-align: center;
+    border-radius: 3px;
+    border: none;
+    height: 20px;
+    padding: 0 1em;
+    color: white;
+    background-color: #333;
+    line-height: 20px;
+    font-size: 12px;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
 #contactList {
     top: 0px;
-    left: 0px;
+    bottom: 40px;
     width: 175px;
-    height: 100%;
     background-color: #1C232D;
     position: fixed;
     overflow-y: auto;
@@ -120,6 +172,12 @@ html, body {
 
 .contact.offline .status {
     color: #777;
+}
+
+.contact.activeContact {
+    background-color: #35c8ff;
+    background-image: -moz-linear-gradient(top, #35c8ff, #00aeef);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #35c8ff), color-stop(1, #00aeef));
 }
 
 .chatView {
@@ -226,8 +284,18 @@ html, body {
     font-size: 14px;
 }
 
-#me {
+.contact .unread {
     display: none;
+    color: white;
+    width: 20px;
+    border-radius: 10px;
+    position: relative;
+    text-align: center;
+    background-color: red;
+}
+
+.contact.hasUnread .unread {
+    display: block;
 }
 
 #chatInput {
@@ -270,9 +338,58 @@ html, body {
     background-color: yellow;
 }
 
-#loginForm {
-    margin: 50px;
+#loginbox {
+    position: relative;
+    margin: auto;
+    margin-top: 5%;
+    padding: 20px;
+    background-color: white;
+    width: 75%;
 }
-#loginForm label {
+#loginbox label {
     display: block;
+    margin-bottom: 5px;
+    font-size: 13px;
+    font-weight: bold;
+    color: #777;
+}
+#loginbox input {
+    width: 100%;
+    display: block;
+    height: 35px;
+    font-size: 14px;
+    padding: 10px 0.5em;
+    margin-bottom: 15px;
+    background-color: #f9fafa;
+    border: 1px solid #eeeeee;
+    color: #2e2d2d;
+    box-sizing: border-box;
+}
+#loginbox input:focus {
+    border: 1px solid #a7d9eb;
+    outline: 0px;
+}
+#loginbox button {
+    text-decoration: none;
+    text-align: center;
+    border-radius: 3px;
+    border: none;
+    height: 35px;
+    padding: 0 1em;
+    color: white;
+    background-color: #7ec6e2;
+    line-height: 35px;
+    font-size: 16px;
+    cursor: pointer;
+}
+#loginbox h2 {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #f8f8f8
+}
+.aux header {
+    margin-top: 10%;
+    text-align: center;
+}
+#logo {
+    margin: auto;
 }

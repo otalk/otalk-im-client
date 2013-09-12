@@ -7,7 +7,9 @@ html
 
         link(rel="stylesheet", href="/styles.css")
         block head
-    body
+    body.aux
+        header
+            img#logo(src="/logo.png", alt="OTalk")
         block content
 
         script(src='/zepto.js')

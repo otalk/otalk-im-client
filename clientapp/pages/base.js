@@ -1,4 +1,4 @@
-/*global $, app*/
+/*global $, app, me*/
 "use strict";
 
 var _ = require('underscore');
@@ -29,6 +29,10 @@ module.exports = HumanView.extend({
 
         this.trigger('pageloaded');
 
+        if (this.model.jid) {
+            me.setActiveContact(this.model.jid);
+        }
+
         return this;
     },
     hide: function () {
@@ -44,6 +48,8 @@ module.exports = HumanView.extend({
         } else {
             this.animateRemove();
         }
+
+        me.setActiveContact('');
 
         return this;
     }
