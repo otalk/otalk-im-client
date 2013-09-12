@@ -12,7 +12,7 @@ module.exports = HumanView.extend({
         'click a[href]': 'handleLinkClick'
     },
     classBindings: {
-        connected: '#reconnect'
+        connected: '#connectionOverlay'
     },
     render: function () {
         $('head').append(templates.head());

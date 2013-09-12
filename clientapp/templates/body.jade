@@ -1,6 +1,9 @@
 body
     .wrap
-        #reconnect
+        aside#connectionStatus
+            button.reconnect Reconnect
+            span.message disconnected
+        #connectionOverlay
         header#me
             img.avatar
             p.status

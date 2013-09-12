@@ -19,6 +19,7 @@ app.use(helmet.contentTypeOptions());
 
 var clientApp = new Moonboots({
     main: __dirname + '/clientapp/app.js',
+    templateFile: __dirname + '/clientapp/template.html',
     developmentMode: config.isDev,
     libraries: [
         __dirname + '/clientapp/libraries/zepto.js',
