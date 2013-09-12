@@ -73,7 +73,6 @@ module.exports = BasePage.extend({
         }
     },
     pausedTyping: function () {
-        console.log('paused?', this.typing);
         if (this.typing) {
             this.typing = false;
             client.sendMessage({
@@ -94,7 +93,7 @@ module.exports = BasePage.extend({
                 chatState: 'active'
             };
             if (this.editMode) {
-                message.replace = this.model.lastSentMessage.id;
+                message.replace = this.model.lastSentMessage.id || this.model.lastSentMessage.cid;
             }
 
             var id = client.sendMessage(message);

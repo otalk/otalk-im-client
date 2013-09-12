@@ -2,6 +2,7 @@
 //"use strict";
 
 var async = require('async');
+var uuid = require('node-uuid');
 var HumanModel = require('human-model');
 var Resources = require('./resources');
 var Messages = require('./messages');
@@ -12,7 +13,7 @@ var crypto = XMPP.crypto;
 module.exports = HumanModel.define({
     initialize: function (attrs) {
         if (attrs.jid) {
-            this.cid = attrs.jid;
+            this.id = attrs.jid;
         }
 
         this.setAvatar(attrs.avatarID);
@@ -23,6 +24,7 @@ module.exports = HumanModel.define({
     seal: true,
     type: 'contact',
     props: {
+        id: ['string', true, false],
         inRoster: ['bool', true, false],
         owner: ['string', true, ''],
         storageId: ['string', true, ''],
@@ -155,8 +157,6 @@ module.exports = HumanModel.define({
             if (self.lockedResource) {
                 client.getTime(self.lockedResource, function (err, res) {
                     if (err) return;
-                    console.log('RECV' + res.time.tzo);
-                    console.log('RECV UTC' + res.time.utc);
                     self.timezoneOffset = res.time.tzo;
                 });
             } else {
@@ -181,6 +181,10 @@ module.exports = HumanModel.define({
                 results.forEach(function (result) {
                     result = result.toJSON();
                     var msg = result.mam.forwarded.message;
+                    
+                    if (!msg.id) {
+                        msg.id = uuid.v4();
+                    }
 
                     if (!msg.delay) {
                         msg.delay = result.mam.forwarded.delay;
@@ -188,14 +192,14 @@ module.exports = HumanModel.define({
 
                     if (msg.replace) {
                         var original = self.messages.get(msg.replace);
-                        if (original) {
-                            return original.correct(msg);
-                        }
+                        // Drop the message if editing a previous, but
+                        // keep it if it didn't actually change an
+                        // existing message.
+                        if (original && original.correct(msg)) return;
                     }
 
-                    var message = new Message();
-                    message.cid = msg.id || result.mam.id;
-                    message.set(msg);
+                    var message = new Message(msg);
+                    message.archivedId = result.mam.id;
                     self.messages.add(message);
                 });
             });

@@ -9,15 +9,14 @@ module.exports = HumanModel.define({
         this._created = Date.now();
     },
     type: 'message',
-    idDefinition: {
-        type: 'string'
-    },
     props: {
+        id: ['string', true, ''],
         to: ['string', true, ''],
         from: ['string', true, ''],
         body: ['string', true, ''],
         type: ['string', true, 'normal'],
-        acked: ['bool', true, false]
+        acked: ['bool', true, false],
+        archivedId: ['string', true, '']
     },
     derived: {
         mine: {
@@ -68,12 +67,14 @@ module.exports = HumanModel.define({
         delay: 'object'
     },
     correct: function (msg) {
-        if (this.from !== msg.from) return;
+        if (this.from.full !== msg.from.full) return false;
 
         delete msg.id;
         
         this.set(msg);
         this._created = Date.now();
         this.edited = true;
+
+        return true;
     }
 });

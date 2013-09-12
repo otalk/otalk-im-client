@@ -6,6 +6,7 @@ var crypto = XMPP.crypto;
 var _ = require('underscore');
 var async = require('async');
 var log = require('andlog');
+var uuid = require('node-uuid');
 var Contact = require('../models/contact');
 var Resource = require('../models/resource');
 var Message = require('../models/message');
@@ -149,7 +150,7 @@ module.exports = function (client, app) {
                 resource.set(pres);
             } else {
                 resource = new Resource(pres);
-                resource.cid = pres.from.full;
+                resource.id = pres.from.full;
                 contact.resources.add(resource);
             }
         }
@@ -204,17 +205,16 @@ module.exports = function (client, app) {
         msg = msg.toJSON();
         var contact = me.getContact(msg.from, msg.to);
         if (contact && !msg.replace) {
-            var message = new Message();
-            if (msg.id) {
-                message.cid = msg.id;
+            if (!msg.id) {
+                msg.id = uuid.v4();
             }
-            message.set(msg);
+
+            var message = new Message(msg);
 
             if (msg.archived) {
                 msg.archived.forEach(function (archived) {
                     if (me.isMe(archived.by)) {
-                        message.id = archived.id;
-                        message.cid = msg.id || archived.id;
+                        message.archivedId = archived.id;
                     }
                 });
             }

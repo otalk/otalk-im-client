@@ -7,6 +7,7 @@ module.exports = HumanModel.define({
     initialize: function () {},
     type: 'resource',
     session: {
+        id: ['string', true],
         jid: ['string', true],
         status: ['string', true, ''],
         show: ['string', true, ''],
