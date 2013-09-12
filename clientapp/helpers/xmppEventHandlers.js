@@ -228,7 +228,14 @@ module.exports = function (client, app) {
                     onclick: _.bind(app.navigate, app, '/chat/' + contact.jid)
                 });
             }
+
             contact.messages.add(message);
+
+            var newInteraction = new Date(message.created);
+            if (!contact.lastInteraction || contact.lastInteraction < newInteraction) {
+                contact.lastInteraction = newInteraction;
+            }
+
             if (!contact.lockedResource) {
                 contact.lockedResource = msg.from.full;
             } else if (msg.from !== contact.lockedResource) {

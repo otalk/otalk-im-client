@@ -87,7 +87,8 @@ module.exports = HumanModel.define({
         lastSentMessage: 'object',
         timezoneOffset: ['number', false, 0],
         activeContact: ['bool', true, false],
-        unreadCount: ['number', true, 0]
+        unreadCount: ['number', true, 0],
+        lastInteraction: 'date'
     },
     collections: {
         resources: Resources,
@@ -167,12 +168,20 @@ module.exports = HumanModel.define({
     fetchHistory: function () {
         var self = this;
         app.whenConnected(function () {
+            var filter = {
+                count: 20,
+                before: true,
+            };
+
+            var lastMessage = self.messages.last();
+            if (lastMessage && lastMessage.archivedId) {
+                filter.after = lastMessage.archivedId;
+            }
+
             client.getHistory({
                 with: self.jid,
-                rsm: {
-                    count: 20,
-                    before: true
-                }
+                start: self.lastInteraction,
+                rsm: filter
             }, function (err, res) {
                 if (err) return;
 
@@ -198,8 +207,15 @@ module.exports = HumanModel.define({
                         if (original && original.correct(msg)) return;
                     }
 
+
                     var message = new Message(msg);
                     message.archivedId = result.mam.id;
+
+                    var newInteraction = new Date(message.created);
+                    if (!self.lastInteraction || newInteraction > self.lastInteraction) {
+                        self.lastInteraction = newInteraction;
+                    }
+
                     self.messages.add(message);
                 });
             });
