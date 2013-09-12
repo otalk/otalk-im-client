@@ -9,12 +9,15 @@ var MainView = require('./views/main');
 var Router = require('./router');
 var Storage = require('./storage');
 var xmppEventHandlers = require('./helpers/xmppEventHandlers');
+var notifier = require('./helpers/notifications');
 
 
 module.exports = {
     launch: function () {
         var self = window.app = this;
         var config = localStorage.config;
+   
+        self.notifier = notifier;
 
         if (!config) {
             console.log('missing config');

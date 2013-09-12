@@ -16,6 +16,7 @@ module.exports = HumanModel.define({
         status: ['string', true, ''],
         avatar: ['string', true, ''],
         connected: ['bool', true, false],
+        shouldAskForAlertsPermission: ['bool', true, false],
         _activeContact: ['string', true, '']
     },
     collections: {

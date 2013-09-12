@@ -23,6 +23,7 @@ var clientApp = new Moonboots({
     developmentMode: config.isDev,
     libraries: [
         __dirname + '/clientapp/libraries/zepto.js',
+        __dirname + '/clientapp/libraries/ui.js',
         __dirname + '/clientapp/libraries/IndexedDBShim.min.js',
         __dirname + '/clientapp/libraries/stanza.io.js'
     ],

@@ -217,8 +217,14 @@ module.exports = function (client, app) {
             //    });
             //}
 
-            if (!contact.activeContact) {
+            if (!contact.activeContact && msg.from.bare === contact.jid) {
                 contact.unreadCount++;
+                app.notifier.show({
+                    title: contact.displayName,
+                    description: msg.body,
+                    icon: contact.avatar,
+                    onclick: _.bind(app.navigate, app, '/chat/' + contact.jid)
+                });
             }
             contact.messages.add(message);
             if (!contact.lockedResource) {

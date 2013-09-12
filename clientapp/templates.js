@@ -6,6 +6,7 @@ var jade = exports.jade=function(exports){Array.isArray||(Array.isArray=function
 
 // create our folder objects
 exports.includes = {};
+exports.misc = {};
 exports.pages = {};
 
 // body.jade compiled template
@@ -58,6 +59,33 @@ exports.includes.message = function anonymous(locals) {
     return buf.join("");
 };
 
+// growlMessage.jade compiled template
+exports.misc.growlMessage = function anonymous(locals) {
+    var buf = [];
+    with (locals || {}) {
+        buf.push('<div class="growlMessage">');
+        if (icon) {
+            buf.push("<img" + jade.attrs({
+                src: icon,
+                height: "30",
+                width: "30"
+            }, {
+                src: true,
+                height: true,
+                width: true
+            }) + "/>");
+        }
+        if (title) {
+            buf.push("<h1>" + jade.escape(null == (jade.interp = title) ? "" : jade.interp) + "</h1>");
+        }
+        if (description) {
+            buf.push("<p>" + jade.escape(null == (jade.interp = description) ? "" : jade.interp) + "</p>");
+        }
+        buf.push("</div>");
+    }
+    return buf.join("");
+};
+
 // chat.jade compiled template
 exports.pages.chat = function anonymous(locals) {
     var buf = [];
@@ -71,7 +99,7 @@ exports.pages.chat = function anonymous(locals) {
 exports.pages.main = function anonymous(locals) {
     var buf = [];
     with (locals || {}) {
-        buf.push('<section class="page main"><p>This space intentionally left blank.</p></section>');
+        buf.push('<section class="page main"><h1>This space intentionally blank</h1><button class="enableAlerts">Enable alerts</button></section>');
     }
     return buf.join("");
 };
