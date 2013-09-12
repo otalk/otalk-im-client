@@ -86,6 +86,10 @@ module.exports = function (client, app) {
         window.location = '/login';
     });
 
+    client.on('stream:management:resumed', function () {
+        me.connected = true;
+    });
+
     client.on('session:started', function (jid) {
         me.jid = jid;
 
