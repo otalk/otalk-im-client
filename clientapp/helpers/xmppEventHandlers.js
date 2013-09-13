@@ -155,6 +155,11 @@ module.exports = function (client, app) {
                 resource = new Resource(pres);
                 resource.id = pres.from.full;
                 contact.resources.add(resource);
+
+                if (!pres.caps) {
+                    resource.fetchDisco();
+                }
+                resource.fetchTimezone();
             }
         }
     });
