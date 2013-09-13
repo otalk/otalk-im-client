@@ -34,7 +34,7 @@ html, body {
 
 nav.main {
     background-color: #1C232D;
-    width: 176px;
+    width: 156px;
     border-right: 1px solid black;
     padding: 5px;
     margin: 0px;
@@ -58,7 +58,7 @@ nav.main a {
     border-radius: 3px;
     border: none;
     height: 20px;
-    padding: 0 1em;
+    padding: 0 5px;
     color: white;
     background-color: #333;
     line-height: 20px;
@@ -71,7 +71,7 @@ nav.main a {
 #contactList {
     top: 0px;
     bottom: 40px;
-    width: 175px;
+    width: 155px;
     background-color: #1C232D;
     position: fixed;
     overflow-y: auto;
