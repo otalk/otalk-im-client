@@ -18,11 +18,8 @@ module.exports = HumanModel.define({
         }
         this.setAvatar(attrs.avatarID);
 
-        // I don't know why yet, but I need a bound listener to keep things from breaking.
-        this.bind('change:id', function () {}, this);
         this.resources.bind('add remove reset change', this.onResourceChange, this);
     },
-    seal: true,
     type: 'contact',
     props: {
         id: ['string', true, false],
