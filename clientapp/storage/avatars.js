@@ -14,6 +14,9 @@ AvatarStorage.prototype = {
         value: AvatarStorage
     },
     setup: function (db) {
+        if (db.objectStoreNames.contains('avatars')) {
+            db.deleteObjectStore('avatars');
+        }
         db.createObjectStore('avatars', {
             keyPath: 'id'
         });

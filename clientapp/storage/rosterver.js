@@ -14,6 +14,9 @@ RosterVerStorage.prototype = {
         value: RosterVerStorage
     },
     setup: function (db) {
+        if (db.objectStoreNames.contains('rosterver')) {
+            db.deleteObjectStore('rosterver');
+        }
         db.createObjectStore('rosterver', {
             keyPath: 'jid'
         });

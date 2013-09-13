@@ -157,6 +157,8 @@ module.exports = HumanModel.define({
         this.lockedResource = undefined;
     },
     addMessage: function (message, notify) {
+        message.owner = me.jid.bare;
+
         if (notify && !this.activeContact && message.from.bare === this.jid) {
             this.unreadCount++;
             app.notifier.show({
@@ -168,6 +170,8 @@ module.exports = HumanModel.define({
         }
 
         this.messages.add(message);
+
+        message.save();
 
         var newInteraction = new Date(message.created);
         if (!this.lastInteraction || this.lastInteraction < newInteraction) {

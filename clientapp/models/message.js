@@ -1,4 +1,4 @@
-/*global me*/
+/*global app, me*/
 "use strict";
 
 var HumanModel = require('human-model');
@@ -10,6 +10,7 @@ module.exports = HumanModel.define({
     },
     type: 'message',
     props: {
+        owner: 'string',
         id: ['string', true, ''],
         to: ['object', true],
         from: ['object', true],
@@ -75,6 +76,22 @@ module.exports = HumanModel.define({
         this._created = Date.now();
         this.edited = true;
 
+        this.save();
+
         return true;
+    },
+    save: function () {
+        var data = {
+            archivedId: this.archivedId,
+            owner: this.owner,
+            to: this.to,
+            from: this.from,
+            created: this.created,
+            body: this.body,
+            type: this.type,
+            delay: this.delay,
+            edited: this.edited
+        };
+        app.storage.archive.add(data);
     }
 });

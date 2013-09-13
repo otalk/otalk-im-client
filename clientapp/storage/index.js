@@ -22,7 +22,7 @@ Storage.prototype = {
     constructor: {
         value: Storage
     },
-    version: 1,
+    version: 2,
     open: function (cb) {
         cb = cb || function () {};
 

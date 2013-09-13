@@ -18,6 +18,9 @@ RosterStorage.prototype = {
         value: RosterStorage
     },
     setup: function (db) {
+        if (db.objectStoreNames.contains('roster')) {
+            db.deleteObjectStore('roster');
+        }
         var store = db.createObjectStore('roster', {
             keyPath: 'storageId'
         });

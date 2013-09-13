@@ -9,6 +9,9 @@ DiscoStorage.prototype = {
         value: DiscoStorage
     },
     setup: function (db) {
+        if (db.objectStoreNames.contains('disco')) {
+            db.deleteObjectStore('disco');
+        }
         db.createObjectStore('disco', {
             keyPath: 'ver'
         });
