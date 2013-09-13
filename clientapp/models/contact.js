@@ -1,5 +1,5 @@
 /*global XMPP, app, me, client*/
-//"use strict";
+"use strict";
 
 var _ = require('underscore');
 var async = require('async');
@@ -23,25 +23,25 @@ module.exports = HumanModel.define({
     type: 'contact',
     props: {
         id: ['string', true, false],
+        avatarID: ['string', true, ''],
+        groups: ['array', true, []],
         inRoster: ['bool', true, false],
-        owner: ['string', true, ''],
-        storageId: ['string', true, ''],
         jid: ['string', true],
         name: ['string', true, ''],
-        subscription: ['string', true, 'none'],
-        groups: ['array', true, []],
-        avatarID: ['string', true, '']
+        owner: ['string', true, ''],
+        storageId: ['string', true, ''],
+        subscription: ['string', true, 'none']
     },
     session: {
-        topResource: 'string',
-        lockedResource: 'string',
-        offlineStatus: ['string', true, ''],
+        activeContact: ['bool', true, false],
         avatar: 'string',
         chatState: ['string', true, 'gone'],
+        lastInteraction: 'date',
         lastSentMessage: 'object',
-        activeContact: ['bool', true, false],
-        unreadCount: ['number', true, 0],
-        lastInteraction: 'date'
+        lockedResource: 'object',
+        offlineStatus: ['string', true, ''],
+        topResource: 'object',
+        unreadCount: ['number', true, 0]
     },
     derived: {
         displayName: {
@@ -54,10 +54,10 @@ module.exports = HumanModel.define({
             deps: ['topResource', 'lockedResource', 'offlineStatus'],
             fn: function () {
                 if (this.lockedResource) {
-                    return this.resources.get(this.lockedResource).status;
+                    return this.lockedResource.status;
                 }
                 if (this.topResource) {
-                    return this.resources.get(this.topResource).status;
+                    return this.topResource.status;
                 }
                 return this.offlineStatus;
             }
@@ -66,10 +66,10 @@ module.exports = HumanModel.define({
             deps: ['topResource', 'lockedResource'],
             fn: function () {
                 if (this.lockedResource) {
-                    return this.resources.get(this.lockedResource).show || 'online';
+                    return this.lockedResource.show || 'online';
                 }
                 if (this.topResource) {
-                    return this.resources.get(this.topResource).show || 'online';
+                    return this.topResource.show || 'online';
                 }
                 return 'offline';
             }
@@ -78,10 +78,10 @@ module.exports = HumanModel.define({
             deps: ['topResource', 'lockedResource'],
             fn: function () {
                 if (this.lockedResource) {
-                    return this.resources.get(this.lockedResource).idleSince;
+                    return this.lockedResource.idleSince;
                 }
                 if (this.topResource) {
-                    return this.resources.get(this.topResource).idleSince;
+                    return this.topResource.idleSince;
                 }
             }
         },
@@ -89,10 +89,10 @@ module.exports = HumanModel.define({
             deps: ['topResource', 'lockedResource'],
             fn: function () {
                 if (this.lockedResource) {
-                    return this.resources.get(this.lockedResource).timezoneOffset;
+                    return this.lockedResource.timezoneOffset;
                 }
                 if (this.topResource) {
-                    return this.resources.get(this.topResource).timezoneOffset;
+                    return this.topResource.timezoneOffset;
                 }
             }
         },
@@ -171,8 +171,9 @@ module.exports = HumanModel.define({
         var res = this.resources.first();
         if (res) {
             this.offlineStatus = '';
-            this.topResource = res.id;
+            this.topResource = res;
         } else {
+            this.topResource = undefined;
             this.chatState = 'gone';
         }
 
