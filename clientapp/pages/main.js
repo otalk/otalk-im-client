@@ -27,10 +27,5 @@ module.exports = BasePage.extend({
                 });
             }
         });
-    },
-    render: function () {
-        this.renderAndBind();
-
-        return this;
     }
 });

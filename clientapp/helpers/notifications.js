@@ -46,7 +46,7 @@ exports.show = function (opts) {
 };
 
 exports.shouldAskPermission = function () {
-    return window.webkitNotifications && (window.webkitNotifications.checkPermission() !== 0) && (window.webkitNotifications.checkPermission() !== 2);
+    return (window.webkitNotifications && (window.webkitNotifications.checkPermission() !== 0) && (window.webkitNotifications.checkPermission() !== 2)) || false;
 };
 
 exports.askPermission = function (cb) {
