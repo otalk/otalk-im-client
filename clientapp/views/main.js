@@ -16,6 +16,7 @@ module.exports = HumanView.extend({
     },
     render: function () {
         $('head').append(templates.head());
+        $('body').removeClass('aux');
         this.renderAndBind();
         this.renderCollection(me.contacts, ContactListItem, this.$('#contactList'));
         return this;

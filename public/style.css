@@ -40,6 +40,7 @@ nav.main {
     margin: 0px;
     text-align: center;
     box-sizing: border-box;
+    -moz-box-sizing: border-box;
     position: fixed;
     bottom: 0px;
     left: 0px;
@@ -64,6 +65,7 @@ nav.main a {
     font-size: 12px;
     cursor: pointer;
     box-sizing: border-box;
+    -moz-box-sizing: border-box;
 }
 
 #contactList {
@@ -186,6 +188,7 @@ nav.main a {
 #conversation {
     background: #ecf0f2;
     box-sizing: border-box;
+    -moz-box-sizing: border-box;
     bottom: 0;
     margin: 0;
     padding-bottom: 30px;
@@ -363,12 +366,13 @@ nav.main a {
     border: 1px solid #eeeeee;
     color: #2e2d2d;
     box-sizing: border-box;
+    -moz-box-sizing: border-box;
 }
 #loginbox input:focus {
     border: 1px solid #a7d9eb;
     outline: 0px;
 }
-#loginbox button {
+#loginbox button, .andyetLogin {
     text-decoration: none;
     text-align: center;
     border-radius: 3px;
@@ -384,6 +388,11 @@ nav.main a {
 #loginbox h2 {
     padding-bottom: 10px;
     border-bottom: 1px solid #f8f8f8
+}
+.andyetLogin {
+    display: block;
+    float: right;
+    font-size: 14px;
 }
 .aux header {
     margin-top: 10%;

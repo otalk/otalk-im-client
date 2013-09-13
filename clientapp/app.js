@@ -50,6 +50,7 @@ module.exports = {
                 self.api.connect();
 
                 self.api.once('session:started', function () {
+                    app.hasConnected = true;
                     cb();
                 });
             },

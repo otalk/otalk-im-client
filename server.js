@@ -48,6 +48,12 @@ app.get('/login', function (req, res) {
 app.get('/logout', function (req, res) {
     res.render('logout');
 });
+app.get('/oauth/login', function (req, res) {
+    res.redirect('https://apps.andyet.com/oauth/authorize?client_id=' + config.andyetAuth.id + '&response_type=token');
+});
+app.get('/oauth/callback', function (req, res) {
+    res.render('oauthLogin');
+});
 
 // serves app on every other url
 app.get('*', clientApp.html());

@@ -80,6 +80,9 @@ module.exports = function (client, app) {
 
     client.on('disconnected', function () {
         me.connected = false;
+        if (!app.hasConnected) {
+            window.location = '/login';
+        }
     });
 
     client.on('auth:failed', function () {
