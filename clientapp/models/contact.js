@@ -1,6 +1,7 @@
 /*global XMPP, app, me, client*/
 //"use strict";
 
+var _ = require('underscore');
 var async = require('async');
 var uuid = require('node-uuid');
 var HumanModel = require('human-model');
@@ -15,11 +16,11 @@ module.exports = HumanModel.define({
         if (attrs.jid) {
             this.id = attrs.jid;
         }
-
         this.setAvatar(attrs.avatarID);
 
-        this.resources.bind('add remove reset change', this.resourceChange, this);
-        this.bind('change:lockedResource', this.fetchTimezone, this);
+        // I don't know why yet, but I need a bound listener to keep things from breaking.
+        this.bind('change:id', function () {}, this);
+        this.resources.bind('add remove reset change', this.onResourceChange, this);
     },
     seal: true,
     type: 'contact',
@@ -97,7 +98,6 @@ module.exports = HumanModel.define({
     setAvatar: function (id, type) {
         var self = this;
 
-
         if (!id) {
             var gID = crypto.createHash('md5').update(this.jid).digest('hex');
             self.avatar = 'https://gravatar.com/avatar/' + gID + '?s=30&d=mm';
@@ -135,7 +135,7 @@ module.exports = HumanModel.define({
             }
         });
     },
-    resourceChange: function () {
+    onResourceChange: function () {
         // Manually propagate change events for properties that
         // depend on the resources collection.
         this.resources.sort();
@@ -151,19 +151,6 @@ module.exports = HumanModel.define({
             this.show = 'offline';
             this.chatState = 'gone';
         }
-    },
-    fetchTimezone: function () {
-        var self = this;
-        app.whenConnected(function () {
-            if (self.lockedResource) {
-                client.getTime(self.lockedResource, function (err, res) {
-                    if (err) return;
-                    self.timezoneOffset = res.time.tzo;
-                });
-            } else {
-                self.timezoneOffset = undefined;
-            }
-        });
     },
     fetchHistory: function () {
         var self = this;

@@ -12,7 +12,6 @@ module.exports = BasePage.extend({
     template: templates.pages.chat,
     initialize: function (spec) {
         this.editMode = false;
-        this.model.fetchTimezone();
         this.model.fetchHistory();
         this.render();
     },
