@@ -227,22 +227,7 @@ module.exports = function (client, app) {
                 });
             }
 
-            if (!contact.activeContact && msg.from.bare === contact.jid) {
-                contact.unreadCount++;
-                app.notifier.show({
-                    title: contact.displayName,
-                    description: msg.body,
-                    icon: contact.avatar,
-                    onclick: _.bind(app.navigate, app, '/chat/' + contact.jid)
-                });
-            }
-
-            contact.messages.add(message);
-
-            var newInteraction = new Date(message.created);
-            if (!contact.lastInteraction || contact.lastInteraction < newInteraction) {
-                contact.lastInteraction = newInteraction;
-            }
+            contact.addMessage(message, true);
 
             if (!contact.lockedResource) {
                 contact.lockedResource = msg.from.full;

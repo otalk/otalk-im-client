@@ -35,23 +35,68 @@ module.exports = HumanModel.define({
         groups: ['array', true, []],
         avatarID: ['string', true, '']
     },
+    session: {
+        topResource: 'string',
+        lockedResource: 'string',
+        offlineStatus: ['string', true, ''],
+        avatar: 'string',
+        chatState: ['string', true, 'gone'],
+        lastSentMessage: 'object',
+        activeContact: ['bool', true, false],
+        unreadCount: ['number', true, 0],
+        lastInteraction: 'date'
+    },
     derived: {
         displayName: {
             deps: ['name', 'jid'],
             fn: function () {
-                if (this.name) {
-                    return this.name;
-                }
-                return this.jid;
+                return this.name || this.jid;
             }
         },
         status: {
-            deps: ['topResourceStatus', 'offlineStatus'],
+            deps: ['topResource', 'lockedResource', 'offlineStatus'],
             fn: function () {
-                if (this.topResourceStatus) {
-                    return this.topResourceStatus;
+                if (this.lockedResource) {
+                    return this.resources.get(this.lockedResource).status;
+                }
+                if (this.topResource) {
+                    return this.resources.get(this.topResource).status;
                 }
                 return this.offlineStatus;
+            }
+        },
+        show: {
+            deps: ['topResource', 'lockedResource'],
+            fn: function () {
+                if (this.lockedResource) {
+                    return this.resources.get(this.lockedResource).show || 'online';
+                }
+                if (this.topResource) {
+                    return this.resources.get(this.topResource).show || 'online';
+                }
+                return 'offline';
+            }
+        },
+        idleSince: {
+            deps: ['topResource', 'lockedResource'],
+            fn: function () {
+                if (this.lockedResource) {
+                    return this.resources.get(this.lockedResource).idleSince;
+                }
+                if (this.topResource) {
+                    return this.resources.get(this.topResource).idleSince;
+                }
+            }
+        },
+        timezoneOffset: {
+            deps: ['topResource', 'lockedResource'],
+            fn: function () {
+                if (this.lockedResource) {
+                    return this.resources.get(this.lockedResource).timezoneOffset;
+                }
+                if (this.topResource) {
+                    return this.resources.get(this.topResource).timezoneOffset;
+                }
             }
         },
         formattedTZO: {
@@ -76,20 +121,6 @@ module.exports = HumanModel.define({
                 return this.unreadCount > 0;
             }
         }
-    },
-    session: {
-        topResourceStatus: ['string', true, ''],
-        offlineStatus: ['string', true, ''],
-        idleSince: 'date',
-        avatar: 'string',
-        show: ['string', true, 'offline'],
-        chatState: ['string', true, 'gone'],
-        lockedResource: 'string',
-        lastSentMessage: 'object',
-        timezoneOffset: ['number', false, 0],
-        activeContact: ['bool', true, false],
-        unreadCount: ['number', true, 0],
-        lastInteraction: 'date'
     },
     collections: {
         resources: Resources,
@@ -143,13 +174,29 @@ module.exports = HumanModel.define({
         var res = this.resources.first();
         if (res) {
             this.offlineStatus = '';
-            this.topResourceStatus = res.status;
-            this.show = res.show || 'online';
-            this.lockedResource = undefined;
+            this.topResource = res.id;
         } else {
-            this.topResourceStatus = '';
-            this.show = 'offline';
             this.chatState = 'gone';
+        }
+
+        this.lockedResource = undefined;
+    },
+    addMessage: function (message, notify) {
+        if (notify && !this.activeContact && message.from.bare === this.jid) {
+            this.unreadCount++;
+            app.notifier.show({
+                title: this.displayName,
+                description: message.body,
+                icon: this.avatar,
+                onclick: _.bind(app.navigate, app, '/chat/' + this.jid)
+            });
+        }
+
+        this.messages.add(message);
+
+        var newInteraction = new Date(message.created);
+        if (!this.lastInteraction || this.lastInteraction < newInteraction) {
+            this.lastInteraction = newInteraction;
         }
     },
     fetchHistory: function () {
@@ -198,12 +245,7 @@ module.exports = HumanModel.define({
                     var message = new Message(msg);
                     message.archivedId = result.mam.id;
 
-                    var newInteraction = new Date(message.created);
-                    if (!self.lastInteraction || newInteraction > self.lastInteraction) {
-                        self.lastInteraction = newInteraction;
-                    }
-
-                    self.messages.add(message);
+                    self.addMessage(message, false);
                 });
             });
         });
