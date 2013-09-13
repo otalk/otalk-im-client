@@ -241,7 +241,7 @@ module.exports = function (client, app) {
 
             if (!contact.lockedResource) {
                 contact.lockedResource = msg.from.full;
-            } else if (msg.from !== contact.lockedResource) {
+            } else if (msg.from.full !== contact.lockedResource) {
                 contact.lockedResource = undefined;
             }
         }

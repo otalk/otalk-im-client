@@ -11,8 +11,8 @@ module.exports = HumanModel.define({
     type: 'message',
     props: {
         id: ['string', true, ''],
-        to: ['string', true, ''],
-        from: ['string', true, ''],
+        to: ['object', true],
+        from: ['object', true],
         body: ['string', true, ''],
         type: ['string', true, 'normal'],
         acked: ['bool', true, false],
