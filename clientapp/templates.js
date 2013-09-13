@@ -13,7 +13,7 @@ exports.pages = {};
 exports.body = function anonymous(locals) {
     var buf = [];
     with (locals || {}) {
-        buf.push('<body><div class="wrap"><aside id="connectionStatus"><button class="reconnect">Reconnect</button><span class="message">disconnected</span></aside><div id="connectionOverlay"></div><header id="me"><img class="avatar"/><p class="status"></p></header><nav class="main"><li><a href="/logout">Logout</a></li><li><a href="/">Home</a></li></nav><nav id="contactList"></nav><section id="pages"></section><footer></footer></div></body>');
+        buf.push('<body><div class="wrap"><div id="connectionOverlay"><aside id="connectionStatus"><button class="reconnect">Reconnect</button><span class="message">disconnected</span></aside></div><header id="me"><img class="avatar"/><p class="status"></p></header><nav class="main"><li><a href="/logout">Logout</a></li><li><a href="/">Home</a></li></nav><nav id="contactList"></nav><section id="pages"></section><footer></footer></div></body>');
     }
     return buf.join("");
 };
@@ -99,7 +99,7 @@ exports.pages.chat = function anonymous(locals) {
 exports.pages.main = function anonymous(locals) {
     var buf = [];
     with (locals || {}) {
-        buf.push('<section class="page main"><h1>This space intentionally blank</h1><button class="enableAlerts">Enable alerts</button></section>');
+        buf.push('<section class="page main"><button class="enableAlerts">Enable alerts</button><section class="notifications"><h1>Notifications</h1><ul></ul></section></section>');
     }
     return buf.join("");
 };

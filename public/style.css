@@ -197,7 +197,7 @@ nav.main a {
     overflow-x: hidden;
     position: relative;
     margin-top: 50px;
-    padding-top: 30px;
+    padding-top: 50px;
     bottom: 50px;
 }
 
@@ -372,7 +372,7 @@ nav.main a {
     border: 1px solid #a7d9eb;
     outline: 0px;
 }
-#loginbox button, .andyetLogin {
+button, .andyetLogin {
     text-decoration: none;
     text-align: center;
     border-radius: 3px;
@@ -400,4 +400,14 @@ nav.main a {
 }
 #logo {
     margin: auto;
+}
+
+.enableAlerts {
+    display: none;
+}
+.enableAlerts.shouldAskForAlertsPermission {
+    display: block;
+    font-size: 12px;
+    height: 20px;
+    line-height: 20px;
 }

@@ -230,8 +230,8 @@ module.exports = function (client, app) {
             contact.addMessage(message, true);
 
             if (!contact.lockedResource) {
-                contact.lockedResource = contact.resources.get(msg.from.full);
-            } else if (msg.from.full !== contact.lockedResource.id) {
+                contact.lockedResource = msg.from.full;
+            } else if (msg.from.full !== contact.lockedResource) {
                 contact.lockedResource = undefined;
             }
         }

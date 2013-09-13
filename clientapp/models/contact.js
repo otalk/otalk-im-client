@@ -36,11 +36,15 @@ module.exports = HumanModel.define({
         activeContact: ['bool', true, false],
         avatar: 'string',
         chatState: ['string', true, 'gone'],
+        idleSince: 'string',
         lastInteraction: 'date',
         lastSentMessage: 'object',
-        lockedResource: 'object',
+        lockedResource: 'string',
         offlineStatus: ['string', true, ''],
-        topResource: 'object',
+        show: ['string', true, 'offline'],
+        status: ['string', true, ''],
+        timezoneOffset: 'number',
+        topResource: 'string',
         unreadCount: ['number', true, 0]
     },
     derived: {
@@ -50,58 +54,12 @@ module.exports = HumanModel.define({
                 return this.name || this.jid;
             }
         },
-        status: {
-            deps: ['topResource', 'lockedResource', 'offlineStatus'],
-            fn: function () {
-                if (this.lockedResource) {
-                    return this.lockedResource.status;
-                }
-                if (this.topResource) {
-                    return this.topResource.status;
-                }
-                return this.offlineStatus;
-            }
-        },
-        show: {
-            deps: ['topResource', 'lockedResource'],
-            fn: function () {
-                if (this.lockedResource) {
-                    return this.lockedResource.show || 'online';
-                }
-                if (this.topResource) {
-                    return this.topResource.show || 'online';
-                }
-                return 'offline';
-            }
-        },
-        idleSince: {
-            deps: ['topResource', 'lockedResource'],
-            fn: function () {
-                if (this.lockedResource) {
-                    return this.lockedResource.idleSince;
-                }
-                if (this.topResource) {
-                    return this.topResource.idleSince;
-                }
-            }
-        },
-        timezoneOffset: {
-            deps: ['topResource', 'lockedResource'],
-            fn: function () {
-                if (this.lockedResource) {
-                    return this.lockedResource.timezoneOffset;
-                }
-                if (this.topResource) {
-                    return this.topResource.timezoneOffset;
-                }
-            }
-        },
         formattedTZO: {
             deps: ['timezoneOffset', 'displayName'],
             fn: function () {
                 if (this.timezoneOffset !== undefined) {
                     var localTZO = (new Date()).getTimezoneOffset();
-                    var diff = Math.abs(localTZO - this.timezoneOffset) / 60;
+                    var diff = Math.abs(localTZO  % (24 * 60) - this.timezoneOffset % (24 * 60)) / 60;
                     if (diff === 0) {
                         return this.displayName + ' is in the same timezone as you';
                     }
@@ -163,6 +121,15 @@ module.exports = HumanModel.define({
             }
         });
     },
+    onLockedResourceChange: function () {
+        var res = this.resources.get(this.lockedResource);
+        if (res) {
+            this.status = res.status;
+            this.show = res.show || 'online';
+            this.timezoneOffset = res.timezoneOffset;
+            this.idleSince = res.idleSince;
+        }
+    },
     onResourceChange: function () {
         // Manually propagate change events for properties that
         // depend on the resources collection.
@@ -171,10 +138,20 @@ module.exports = HumanModel.define({
         var res = this.resources.first();
         if (res) {
             this.offlineStatus = '';
-            this.topResource = res;
+            this.topResource = res.id;
+            if (!this.lockedResource) {
+                this.status = res.status;
+                this.show = res.show || 'online';
+                this.timezoneOffset = res.timezoneOffset;
+                this.idleSince = res.idleSince;
+            }
         } else {
             this.topResource = undefined;
             this.chatState = 'gone';
+            this.status = this.offlineStatus;
+            this.show = 'offline';
+            this.timezoneOffset = undefined;
+            this.idleSince = undefined;
         }
 
         this.lockedResource = undefined;
