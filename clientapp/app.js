@@ -24,6 +24,14 @@ module.exports = {
             window.location = '/login';
         }
 
+        app.hasFocus = false;
+        $(window).blur(function () {
+            me.hasFocus = false;
+        });
+        $(window).focus(function () {
+            me.hasFocus = true;
+        });
+
         config = JSON.parse(config);
 
         _.extend(this, Backbone.Events);

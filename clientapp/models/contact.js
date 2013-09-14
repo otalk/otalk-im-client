@@ -159,7 +159,7 @@ module.exports = HumanModel.define({
     addMessage: function (message, notify) {
         message.owner = me.jid.bare;
 
-        if (notify && !this.activeContact && message.from.bare === this.jid) {
+        if (notify && (!this.activeContact || (this.activeContact && !app.hasFocus)) && message.from.bare === this.jid) {
             this.unreadCount++;
             app.notifier.show({
                 title: this.displayName,

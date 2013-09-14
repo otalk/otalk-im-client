@@ -10,6 +10,9 @@ var uuid = require('node-uuid');
 module.exports = HumanModel.define({
     initialize: function () {
         this.bind('change:jid', this.loadContacts, this);
+        this.bind('change:hasFocus', function () {
+            this.setActiveContact(this._activeContact);
+        }, this);
     },
     session: {
         jid: ['object', true],
@@ -17,6 +20,7 @@ module.exports = HumanModel.define({
         avatar: ['string', true, ''],
         connected: ['bool', true, false],
         shouldAskForAlertsPermission: ['bool', true, false],
+        hasFocus: ['bool', true, false],
         _activeContact: ['string', true, '']
     },
     collections: {
