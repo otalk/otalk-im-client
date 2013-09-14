@@ -260,9 +260,13 @@ nav.main a {
 
 .contactInfo {
     padding: 5px;
-    background-color: #bccad0;
-    background-image: -moz-linear-gradient(top, #bccad0, #95a4a9);
-    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #bccad0), color-stop(1, #95a4a9));
+    background-color: #e1e4e6;
+    background-image: -moz-linear-gradient(top, #e1e4e6, #cacdce);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #e1e4e6), color-stop(1, #cacdce));
+    -webkit-box-shadow: color 2px 1px 5px;
+    -moz-box-shadow: rgba(0,0,0,0.1) 2px 1px 5px;
+    box-shadow: rgba(0,0,0,0.1) 2px 1px 5px;
+    border-bottom: 1px solid #aaa;
     min-height: 30px;
     position: fixed;
     top: 0px;
@@ -291,7 +295,9 @@ nav.main a {
     color: white;
     width: 20px;
     border-radius: 10px;
-    position: relative;
+    position: absolute;
+    top: 20px;
+    left: 20px;
     text-align: center;
     background-color: red;
 }
