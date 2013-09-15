@@ -29,7 +29,8 @@ module.exports = BasePage.extend({
     render: function () {
         this.renderAndBind();
         this.typingTimer = null;
-        this.$chatBuffer = this.$('#chatBuffer');
+        this.$chatInput = this.$('#chatBuffer');
+        this.$messageList = this.$('#conversation');
         this.renderCollection(this.model.messages, Message, this.$('#conversation'));
         this.registerBindings();
         return this;
@@ -40,15 +41,15 @@ module.exports = BasePage.extend({
             this.sendChat();
             e.preventDefault();
             return false;
-        } else if (e.which === 38 && this.$chatBuffer.val() === '' && this.model.lastSentMessage) {
+        } else if (e.which === 38 && this.$chatInput.val() === '' && this.model.lastSentMessage) {
             this.editMode = true;
-            this.$chatBuffer.addClass('editing');
-            this.$chatBuffer.val(this.model.lastSentMessage.body);
+            this.$chatInput.addClass('editing');
+            this.$chatInput.val(this.model.lastSentMessage.body);
             e.preventDefault();
             return false;
         } else if (e.which === 40 && this.editMode) {
             this.editMode = false;
-            this.$chatBuffer.removeClass('editing');
+            this.$chatInput.removeClass('editing');
             e.preventDefault();
             return false;
         } else if (!e.ctrlKey) {
@@ -62,13 +63,37 @@ module.exports = BasePage.extend({
         }
     },
     handleKeyUp: function (e) {
+        this.resizeInput();
         this.typingTimer = setTimeout(this.pausedTyping.bind(this), 5000);
-        if (this.typing && this.$chatBuffer.val().length === 0) {
+        if (this.typing && this.$chatInput.val().length === 0) {
             this.typing = false;
             client.sendMessage({
                 to: this.model.lockedResource || this.model.jid,
                 chatState: 'active'
             });
+        }
+    },
+    resizeInput: function () {
+        var height;
+        var scrollHeight;
+        var newHeight;
+        var newPadding;
+        var paddingDelta;
+        var maxHeight = 102;
+
+        this.$chatInput.removeAttr('style');
+        height = this.$chatInput.height() + 10,
+        scrollHeight = this.$chatInput.get(0).scrollHeight,
+        newHeight = scrollHeight + 2;
+
+        if (newHeight > maxHeight) newHeight = maxHeight;
+        if (newHeight > height) {
+            this.$chatInput.css('height', newHeight);
+            newPadding = newHeight + 21;
+            paddingDelta = newPadding - parseInt(this.$messageList.css('paddingBottom'), 10);
+            if (!!paddingDelta) {
+                this.$messageList.css('paddingBottom', newPadding);
+            }
         }
     },
     pausedTyping: function () {
@@ -82,7 +107,7 @@ module.exports = BasePage.extend({
     },
     sendChat: function () {
         var message;
-        var val = this.$chatBuffer.val();
+        var val = this.$chatInput.val();
 
         if (val) {
             message = {
@@ -110,7 +135,7 @@ module.exports = BasePage.extend({
         }
         this.editMode = false;
         this.typing = false;
-        this.$chatBuffer.removeClass('editing');
-        this.$chatBuffer.val('');
+        this.$chatInput.removeClass('editing');
+        this.$chatInput.val('');
     }
 });
