@@ -64,7 +64,7 @@ module.exports = BasePage.extend({
     },
     handleKeyUp: function (e) {
         this.resizeInput();
-        this.typingTimer = setTimeout(this.pausedTyping.bind(this), 5000);
+        this.typingTimer = setTimeout(this.pausedTyping.bind(this), 3000);
         if (this.typing && this.$chatInput.val().length === 0) {
             this.typing = false;
             client.sendMessage({
