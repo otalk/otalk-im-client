@@ -28,7 +28,7 @@ var clientApp = new Moonboots({
         __dirname + '/clientapp/libraries/stanza.io.js'
     ],
     stylesheets: [
-        __dirname + '/public/style.css'
+        __dirname + '/public/css/otalk.css'
     ],
     browserify: {
         debug: false

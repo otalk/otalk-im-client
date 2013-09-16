@@ -13,10 +13,10 @@ module.exports = HumanView.extend({
     },
     classBindings: {
         mine: '.message',
-        receiptReceived: '',
-        acked: '',
-        delayed: '',
-        edited: ''
+        receiptReceived: '.message',
+        acked: '.message',
+        delayed: '.message',
+        edited: '.message'
     },
     textBindings: {
         body: '.body',

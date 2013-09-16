@@ -24,13 +24,13 @@ module.exports = HumanView.extend({
         avatar: '.avatar'
     },
     events: {
-        'click': 'goChat'
+        'click': 'handleClick'
     },
     render: function () {
         this.renderAndBind({contact: this.model});
         return this;
     },
-    goChat: function () {
+    handleClick: function () {
         app.navigate('chat/' + this.model.jid);
     }
 });

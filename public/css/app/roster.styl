@@ -1,0 +1,143 @@
+@import '../_variables'
+@import '../_mixins'
+
+#menu
+  position: fixed
+  top: 0px
+  bottom: 0px
+  left: 0px
+  width: 155px
+  background-color: #1c232d
+  z-index: 300
+  overflow-y: auto;
+  overflow-x: hidden;
+  webkit-transition-fix()
+  noselect()
+  shadow: #000 1px 0px 1px
+
+  .main
+    li
+      list-style-type: none
+      padding: 5px
+      line-height: 12px
+
+      &:hover
+        background-color: #2a323f
+
+        a
+          color: #666
+
+      a
+        text-decoration: none
+        font-size: 12px
+        color: #777
+
+
+  h1
+    font-size: 11px
+    margin: 0px
+    margin-bottom: 1px
+    padding: 5px
+    color: #222
+    border-top: 1px solid #fff
+    border-bottom: 1px solid #aaa
+    gradient: #e1e4e6 #cacdce
+    shadow: rgba(0,0,0,0.75) 2px 1px 5px
+    text-shadow: #fff 1px 1px 1px
+
+#roster 
+  li
+    list-style-type: none
+    padding: 11px
+    margin: 0px
+    position: relative
+    min-height: 20px
+    font-size: 11px
+    color: #fff
+
+    &:nth-child(2n)
+      background-color: #1e252f
+
+    &:hover
+      background-color: #2a323f
+
+    &.hasUnread .unread
+      display: block
+
+    &.online,
+    &.chat
+      border-left: 2px solid green
+
+    &.dnd
+      border-left: 2px solid red
+
+    &.away,
+    &.xa
+      border-left: 2px solid orange
+
+    &.offline
+      border-left: 2px solid #222
+      color: #aaa
+
+      img
+        opacity: .25
+
+      .status
+        color: #777
+
+    &.activeContact
+      gradient: #35c8ff #00aeef
+      border-top: 1px solid #8de0ff
+      border-bottom: 1px solid #004a65
+
+    &.composing
+      border-right: 4px solid orange
+
+    &.paused
+      border-right: 4px solid #666
+
+    img
+      opacity: 1
+
+    .avatar
+      vertical-align: top
+      margin-right: 5px
+      position: absolute
+      left: 5px
+      top: 5px
+      width: 30px
+      height: 30px
+      roundall: 5px
+      shadow: rgba(0,0,0,0.5) -1px -1px 1px
+      noselect()
+
+    .name
+      margin: 0px
+      margin-left: 40px
+      font-weight: bold
+      text-shadow: rgba(0,0,0,0.5) -1px -1px 1px
+
+    .status
+      color: #ccc
+      font-size: 10px
+      font-style: italic
+      font-weight: 600
+      margin: 0px
+      margin-left: 40px
+      text-shadow: rgba(0,0,0,0.5) 1px 1px 1px
+
+    .unread
+      display: none
+      color: white
+      padding-left: 5px
+      padding-right: 5px
+      roundall: 11px
+      position: absolute
+      top: 20px
+      left: 20px
+      text-align: center
+      font-weight: bold
+      background-color: red
+      border: 1px solid white
+      text-shadow: rgba(0,0,0,0.5) 1px 1px 1px
+      shadow: rgba(0,0,0,0.5) 1px 1px 1px

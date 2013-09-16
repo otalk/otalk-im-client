@@ -1,17 +1,18 @@
 body
-    .wrap
-        #connectionOverlay
-            aside#connectionStatus
-                button.reconnect Reconnect
-                span.message disconnected
-        header#me
-            img.avatar
-            p.status
+    #connectionOverlay
+        aside#connectionStatus
+            button.reconnect Reconnect
+            span.message disconnected
+    aside#menu
         nav.main
             li
                 a(href="/logout") Logout
             li
                 a(href="/") Settings
-        nav#contactList
-        section#pages
-        footer
+        section#roster
+            h1 Roster
+            nav
+        section#bookmarks
+            h1 Bookmarks
+            nav
+    section#pages

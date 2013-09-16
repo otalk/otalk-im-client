@@ -18,7 +18,7 @@ module.exports = HumanView.extend({
         $('head').append(templates.head());
         $('body').removeClass('aux');
         this.renderAndBind();
-        this.renderCollection(me.contacts, ContactListItem, this.$('#contactList'));
+        this.renderCollection(me.contacts, ContactListItem, this.$('#roster nav'));
         return this;
     },
     handleLinkClick: function (e) {

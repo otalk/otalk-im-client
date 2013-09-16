@@ -1,9 +1,10 @@
 section.page.chat
-    header.contactInfo
-        img.avatar(width=30, height=30)
-        h1.name
-        #tzo
-    ul#conversation
-    div#chatInput
-        form
-            textarea#chatBuffer(name='chatInput', type='text', placeholder='Send a message...', autocomplete='off')
+  section.conversation
+    header
+      img.avatar
+      h1.name
+      .tzo
+    ul.messages
+    .chatBox
+      form
+        textarea(name='chatInput', type='text', placeholder='Send a message...', autocomplete='off')

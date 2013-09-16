@@ -3,7 +3,6 @@
 
 var BasePage = require('./base');
 var templates = require('../templates');
-var ContactListItem = require('../views/contactListItem');
 var Message = require('../views/message');
 var MessageModel = require('../models/message');
 
@@ -16,22 +15,36 @@ module.exports = BasePage.extend({
         this.render();
     },
     events: {
-        'keydown #chatBuffer': 'handleKeyDown',
-        'keyup #chatBuffer': 'handleKeyUp'
+        'keydown textarea': 'handleKeyDown',
+        'keyup textarea': 'handleKeyUp'
     },
     srcBindings: {
         avatar: 'header .avatar'
     },
     textBindings: {
         displayName: 'header .name',
-        formattedTZO: 'header #tzo'
+        formattedTZO: 'header .tzo'
+    },
+    show: function (animation) {
+        BasePage.prototype.show.apply(this, [animation]);
+        client.sendMessage({
+            to: this.model.lockedResource || this.model.jid,
+            chatState: 'active'
+        });
+    },
+    hide: function () {
+        BasePage.prototype.hide.apply(this);
+        client.sendMessage({
+            to: this.model.lockedResource || this.model.jid,
+            chatState: 'inactive'
+        });
     },
     render: function () {
         this.renderAndBind();
         this.typingTimer = null;
-        this.$chatInput = this.$('#chatBuffer');
-        this.$messageList = this.$('#conversation');
-        this.renderCollection(this.model.messages, Message, this.$('#conversation'));
+        this.$chatInput = this.$('.chatBox textarea');
+        this.$messageList = this.$('.messages');
+        this.renderCollection(this.model.messages, Message, this.$('.messages'));
         this.registerBindings();
         return this;
     },

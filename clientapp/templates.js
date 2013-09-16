@@ -13,7 +13,7 @@ exports.pages = {};
 exports.body = function anonymous(locals) {
     var buf = [];
     with (locals || {}) {
-        buf.push('<body><div class="wrap"><div id="connectionOverlay"><aside id="connectionStatus"><button class="reconnect">Reconnect</button><span class="message">disconnected</span></aside></div><header id="me"><img class="avatar"/><p class="status"></p></header><nav class="main"><li><a href="/logout">Logout</a></li><li><a href="/">Settings</a></li></nav><nav id="contactList"></nav><section id="pages"></section><footer></footer></div></body>');
+        buf.push('<body><div id="connectionOverlay"><aside id="connectionStatus"><button class="reconnect">Reconnect</button><span class="message">disconnected</span></aside></div><aside id="menu"><nav class="main"><li><a href="/logout">Logout</a></li><li><a href="/">Settings</a></li></nav><section id="roster"><h1>Roster</h1><nav></nav></section><section id="bookmarks"><h1>Bookmarks</h1><nav></nav></section></aside><section id="pages"></section></body>');
     }
     return buf.join("");
 };
@@ -90,7 +90,7 @@ exports.misc.growlMessage = function anonymous(locals) {
 exports.pages.chat = function anonymous(locals) {
     var buf = [];
     with (locals || {}) {
-        buf.push('<section class="page chat"><header class="contactInfo"><img width="30" height="30" class="avatar"/><h1 class="name"></h1><div id="tzo"></div></header><ul id="conversation"></ul><div id="chatInput"><form><textarea id="chatBuffer" name="chatInput" type="text" placeholder="Send a message..." autocomplete="off"></textarea></form></div></section>');
+        buf.push('<section class="page chat"><section class="conversation"><header><img class="avatar"/><h1 class="name"></h1><div class="tzo"></div></header><ul class="messages"></ul><div class="chatBox"><form><textarea name="chatInput" type="text" placeholder="Send a message..." autocomplete="off"></textarea></form></div></section></section>');
     }
     return buf.join("");
 };
@@ -99,7 +99,7 @@ exports.pages.chat = function anonymous(locals) {
 exports.pages.main = function anonymous(locals) {
     var buf = [];
     with (locals || {}) {
-        buf.push('<section class="page main"><button class="enableAlerts">Enable alerts</button><section class="avatar"><img id="settingsAvatar"/></section><section class="notifications"><h1>Notifications</h1><ul></ul></section></section>');
+        buf.push('<section class="page main"><button class="enableAlerts">Enable alerts</button><h1>This space intentionally blank</h1></section>');
     }
     return buf.join("");
 };
@@ -109,15 +109,6 @@ exports.pages.signin = function anonymous(locals) {
     var buf = [];
     with (locals || {}) {
         buf.push('<section class="page signin"><div id="loginForm"><form><label>JID:<input type="text" id="jid" placeholder="you@aweso.me"/></label><label>Password:<input type="password" id="password"/></label><label>WebSocket URL:<input type="text" id="wsURL" placeholder="wss://aweso.me:5281/xmpp-websocket"/></label><input type="submit" value="Connect"/></form></div></section>');
-    }
-    return buf.join("");
-};
-
-// wrapper.jade compiled template
-exports.pages.wrapper = function anonymous(locals) {
-    var buf = [];
-    with (locals || {}) {
-        buf.push('<div class="page"></div>');
     }
     return buf.join("");
 };
