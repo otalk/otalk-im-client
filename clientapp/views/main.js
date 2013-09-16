@@ -1,4 +1,4 @@
-/*global $, app, me*/
+/*global $, app, me, client*/
 "use strict";
 
 var HumanView = require('human-view');
@@ -9,7 +9,8 @@ var ContactListItem = require('../views/contactListItem');
 module.exports = HumanView.extend({
     template: templates.body,
     events: {
-        'click a[href]': 'handleLinkClick'
+        'click a[href]': 'handleLinkClick',
+        'click .reconnect': 'handleReconnect'
     },
     classBindings: {
         connected: '#connectionOverlay'
@@ -20,6 +21,9 @@ module.exports = HumanView.extend({
         this.renderAndBind();
         this.renderCollection(me.contacts, ContactListItem, this.$('#roster nav'));
         return this;
+    },
+    handleReconnect: function (e) {
+        client.connect();
     },
     handleLinkClick: function (e) {
         var t = $(e.target);

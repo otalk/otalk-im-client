@@ -31,6 +31,10 @@ module.exports = {
         $(window).focus(function () {
             me.hasFocus = true;
         });
+        window.onbeforeunload = function () {
+            client.disconnect();
+            return "End active session?";
+        };
 
         config = JSON.parse(config);
 
