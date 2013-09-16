@@ -4,12 +4,14 @@
 var Backbone = require('backbone');
 var MainPage = require('./pages/main');
 var ChatPage = require('./pages/chat');
+var GroupChatPage = require('./pages/groupchat');
 
 
 module.exports = Backbone.Router.extend({
     routes: {
         '': 'main',
         'chat/:jid': 'chat',
+        'groupchat/:jid': 'groupchat',
         'logout': 'logout'
     },
     // ------- ROUTE HANDLERS ---------
@@ -22,6 +24,16 @@ module.exports = Backbone.Router.extend({
         var contact = me.contacts.get(jid);
         if (contact) {
             app.renderPage(new ChatPage({
+                model: contact
+            }));
+        } else {
+            app.navigate('/');
+        }
+    },
+    groupchat: function (jid) {
+        var contact = me.mucs.get(jid);
+        if (contact) {
+            app.renderPage(new GroupChatPage({
                 model: contact
             }));
         } else {

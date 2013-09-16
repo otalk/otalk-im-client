@@ -115,6 +115,8 @@ module.exports = function (client, app) {
                 });
                 client.enableCarbons();
             });
+
+            me.mucs.fetch();
         });
     });
 
@@ -234,6 +236,19 @@ module.exports = function (client, app) {
             } else if (msg.from.full !== contact.lockedResource) {
                 contact.lockedResource = undefined;
             }
+        }
+    });
+
+    client.on('groupchat', function (msg) {
+        msg = msg.toJSON();
+        var contact = me.getContact(msg.from, msg.to);
+        if (contact && !msg.replace) {
+            if (!msg.id) {
+                msg.id = uuid.v4();
+            }
+
+            var message = new Message(msg);
+            contact.addMessage(message, true);
         }
     });
 

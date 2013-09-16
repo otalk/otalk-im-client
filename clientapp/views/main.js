@@ -4,6 +4,7 @@
 var HumanView = require('human-view');
 var templates = require('../templates');
 var ContactListItem = require('../views/contactListItem');
+var MUCListItem = require('../views/mucListItem');
 
 
 module.exports = HumanView.extend({
@@ -20,6 +21,7 @@ module.exports = HumanView.extend({
         $('body').removeClass('aux');
         this.renderAndBind();
         this.renderCollection(me.contacts, ContactListItem, this.$('#roster nav'));
+        this.renderCollection(me.mucs, MUCListItem, this.$('#bookmarks nav'));
         return this;
     },
     handleReconnect: function (e) {

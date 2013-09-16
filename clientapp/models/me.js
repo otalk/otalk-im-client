@@ -4,6 +4,8 @@
 var HumanModel = require('human-model');
 var Contacts = require('./contacts');
 var Contact = require('./contact');
+var MUCs = require('./mucs');
+var MUC = require('./muc');
 var uuid = require('node-uuid');
 
 
@@ -24,7 +26,8 @@ module.exports = HumanModel.define({
         _activeContact: ['string', true, '']
     },
     collections: {
-        contacts: Contacts
+        contacts: Contacts,
+        mucs: MUCs
     },
     setActiveContact: function (jid) {
         var prev = this.getContact(this._activeContact);
@@ -45,7 +48,7 @@ module.exports = HumanModel.define({
         if (this.isMe(jid)) {
             jid = alt || jid;
         }
-        return this.contacts.get(jid.bare);
+        return this.contacts.get(jid.bare) || this.mucs.get(jid.bare) || undefined;
     },
     setContact: function (data, create) {
         var contact = this.getContact(data.jid);
