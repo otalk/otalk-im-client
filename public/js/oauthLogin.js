@@ -14,7 +14,7 @@ parts.forEach(function (value) {
                 localStorage.config = JSON.stringify({
                     jid: user.username.toLowerCase() + "@otalk.im",
                     server: "otalk.im",
-                    wsURL: "wss://otalk.im:5281/xmpp-websocket",
+                    wsURL: "wss://otalk.im/xmpp-websocket",
                     credentials: {
                         username: user.username.toLowerCase(),
                         password: token
