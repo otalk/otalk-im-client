@@ -26,10 +26,10 @@ module.exports = {
 
         app.hasFocus = false;
         $(window).blur(function () {
-            me.hasFocus = false;
+            app.hasFocus = false;
         });
         $(window).focus(function () {
-            me.hasFocus = true;
+            app.hasFocus = true;
         });
         window.onbeforeunload = function () {
             if (client.sessionStarted) {
