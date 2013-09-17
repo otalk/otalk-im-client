@@ -145,6 +145,7 @@ module.exports = HumanModel.define({
                 this.timezoneOffset = res.timezoneOffset;
                 this.idleSince = res.idleSince;
             }
+            this.chatState = 'active';
         } else {
             this.topResource = undefined;
             this.chatState = 'gone';
