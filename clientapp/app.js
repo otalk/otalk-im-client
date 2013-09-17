@@ -24,20 +24,6 @@ module.exports = {
             window.location = '/login';
         }
 
-        me.hasFocus = false;
-        $(window).blur(function () {
-            me.hasFocus = false;
-        });
-        $(window).focus(function () {
-            me.hasFocus = true;
-        });
-        window.onbeforeunload = function () {
-            if (client.sessionStarted) {
-                client.disconnect();
-                return "End active session?";
-            }
-        };
-
         config = JSON.parse(config);
 
         _.extend(this, Backbone.Events);
@@ -57,6 +43,20 @@ module.exports = {
             },
             function (cb) {
                 window.me = new MeModel();
+
+                me.hasFocus = false;
+                $(window).blur(function () {
+                    me.hasFocus = false;
+                });
+                $(window).focus(function () {
+                    me.hasFocus = true;
+                });
+                window.onbeforeunload = function () {
+                    if (client.sessionStarted) {
+                        client.disconnect();
+                        return "End active session?";
+                    }
+                };
 
                 self.api = window.client = XMPP.createClient(config);
                 xmppEventHandlers(self.api, self);
