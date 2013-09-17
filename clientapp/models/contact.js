@@ -63,7 +63,7 @@ module.exports = HumanModel.define({
                     if (diff === 0) {
                         return this.displayName + ' is in the same timezone as you';
                     }
-                    var dir = (localTZO > this.timezoneOffset) ? 'ahead' : 'behind';
+                    var dir = (localTZO > this.timezoneOffset) ? 'ahead of' : 'behind';
                     return this.displayName + ' is ' + diff + 'hrs ' + dir + ' you';
                 } else {
                     return '';
