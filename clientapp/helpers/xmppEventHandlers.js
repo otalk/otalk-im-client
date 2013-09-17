@@ -84,7 +84,7 @@ module.exports = function (client, app) {
             console.error(err);
         }
         if (!app.hasConnected) {
-            window.location = '/login';
+            //window.location = '/login';
         }
     });
 
