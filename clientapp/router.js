@@ -1,4 +1,4 @@
-/*global app, me*/
+/*global app, me, client*/
 "use strict";
 
 var Backbone = require('backbone');
@@ -41,6 +41,9 @@ module.exports = Backbone.Router.extend({
         }
     },
     logout: function () {
+        if (client.sessionStarted) {
+            client.disconnect();
+        }
         localStorage.clear();
         window.location = '/login';
     }
