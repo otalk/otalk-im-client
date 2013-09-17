@@ -5098,12 +5098,12 @@ WSConnection.prototype.connect = function (opts) {
     self.conn = new WebSocket(opts.wsURL, 'xmpp');
     self.conn.onerror = function (e) {
         e.preventDefault();
-        self.emit('disconnected', self);
+        self.emit('disconnected', e);
         return false;
     };
 
     self.conn.onclose = function () {
-        self.emit('disconnected', self);
+        self.emit('disconnected');
     };
 
     self.conn.onopen = function () {

@@ -78,8 +78,11 @@ module.exports = function (client, app) {
         });
     });
 
-    client.on('disconnected', function () {
+    client.on('disconnected', function (err) {
         me.connected = false;
+        if (err) {
+            console.error(err);
+        }
         if (!app.hasConnected) {
             window.location = '/login';
         }
