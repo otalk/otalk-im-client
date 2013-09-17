@@ -24,12 +24,12 @@ module.exports = {
             window.location = '/login';
         }
 
-        app.hasFocus = false;
+        me.hasFocus = false;
         $(window).blur(function () {
-            app.hasFocus = false;
+            me.hasFocus = false;
         });
         $(window).focus(function () {
-            app.hasFocus = true;
+            me.hasFocus = true;
         });
         window.onbeforeunload = function () {
             if (client.sessionStarted) {
