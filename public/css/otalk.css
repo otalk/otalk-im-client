@@ -664,7 +664,13 @@ body {
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
 }
-body #pages {
+h1,
+h2,
+h3,
+h4 {
+  color: #3c3c3c;
+}
+#pages {
   position: absolute;
   top: 0px;
   right: 0px;
@@ -673,7 +679,7 @@ body #pages {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
-body #menu {
+#menu {
   width: 155px;
 }
 .aux header {
@@ -715,6 +721,11 @@ body #menu {
 .box h2 {
   margin: 0;
   padding-bottom: 20px;
+}
+@media screen and (min-width: 768px) {
+  .box {
+    width: 50%;
+  }
 }
 input[type=text],
 input[type=email],
@@ -770,8 +781,6 @@ label {
 button,
 a.button {
   display: inline-block;
-  text-decoration: none;
-  text-align: center;
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
   -khtml-border-radius: 3px;
@@ -780,12 +789,15 @@ a.button {
   border-radius: 3px;
   border: none;
   height: 35px;
+  min-width: 80px;
   padding: 0 1em;
   color: #fff;
   background: #00aeef;
   line-height: 35px;
   font-size: 14px;
   font-weight: bold;
+  text-decoration: none;
+  text-align: center;
   cursor: pointer;
 }
 button:hover,
