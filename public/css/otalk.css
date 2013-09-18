@@ -612,9 +612,6 @@ td {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
-.chatBox textarea:focus {
-  border-color: #bbb;
-}
 .chatBox textarea.editing {
   background-color: #ff0;
 }
@@ -703,21 +700,10 @@ body #menu {
 }
 #loginbox input {
   width: 100%;
-  display: block;
-  height: 35px;
-  font-size: 14px;
-  padding: 10px 0.5em;
   margin-bottom: 15px;
-  background-color: #f9fafa;
-  border: 1px solid #eee;
-  color: #2e2d2d;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-}
-#loginbox input:focus {
-  border: 1px solid #a7d9eb;
-  outline: 0px;
 }
 #loginbox button,
 #loginbox .andyetLogin {
@@ -747,4 +733,44 @@ body #menu {
   color: #222;
   padding-bottom: 10px;
   border-bottom: 1px solid #f8f8f8;
+}
+input[type=text],
+input[type=email],
+input[type=search],
+textarea {
+  -webkit-appearance: none;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -khtml-border-radius: 3px;
+  -o-border-radius: 3px;
+  -border-radius: 3px;
+  border-radius: 3px;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid #e4e4e4;
+  font-size: 0.8em;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-transition: border 0.2s ease-in 0;
+  -o-transition: border 0.2s ease-in 0;
+  transition: border 0.2s ease-in 0;
+  -moz-transition: border 0.2s ease-in 0;
+  -webkit-transition: border 0.2s ease-in 0;
+  -moz-transition: border 0.2s ease-in 0;
+}
+input[type=text],
+input[type=email],
+input[type=search] {
+  height: 8px;
+}
+textarea {
+  resize: none;
+}
+input[type=text]:focus,
+input[type=email]:focus,
+input[type=search]:focus,
+textarea:focus {
+  outline: none;
+  border: 1px solid #78daff;
 }

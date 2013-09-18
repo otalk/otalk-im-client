@@ -1,0 +1,25 @@
+input[type=text], input[type=email], input[type=search], textarea
+  -webkit-appearance: none
+  roundall(3px)
+  padding: 10px
+  background: white
+  border: 1px solid $grayOutline
+  font-size: 0.8em
+  borderbox()
+
+  transition: border .2s ease-in 0
+  -webkit-transition: border .2s ease-in 0
+  -moz-transition: border .2s ease-in 0
+
+input[type=text], input[type=email], input[type=search]
+  height: 8px
+
+textarea
+  resize: none
+
+input[type=text]:focus, 
+input[type=email]:focus, 
+input[type=search]:focus,
+textarea:focus
+  outline: none
+  border: 1px solid lighten($activeBlue, 50%)
