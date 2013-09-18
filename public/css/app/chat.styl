@@ -115,7 +115,7 @@
 
 .chatBox
   borderbox()
-  border-top: 1px solid rgba(0,0,0,.08)
+  border-top: 1px solid $grayOutline
   bottom: 0px
   position: fixed
   right: 0px
@@ -123,11 +123,8 @@
   z-index: 200
 
   form
-    gradient: #e1e4e6 #cacdce
+    background: $grayBackground
     padding: 11px
-    border-top: 1px solid #fff
-    border-left: 1px solid #ddd
-    border-right: 1px solid #ddd
 
   .formwrap
     borderbox()
@@ -139,22 +136,20 @@
     background-color: #fff
     width: 100%
     height: 30px
-    border: 1px solid #ccc
-    border-top-color: #bbb
-    roundall: 5px
-    innerShadow: rgba(0,0,0,.1) 0 -1px 3px
+    border: 1px solid $grayOutline
+    roundall: 3px
     line-height: 18px
     outline: none
     resize: none
     color: #222f3b
     font-size: 14px
     -webkit-font-smoothing: antialiased
+    -webkit-appearance: none
     padding: 5px
     borderbox()
 
     &:focus
       border-color: #bbb
-      border-top-color: #aaa
 
     &.editing
       background-color: yellow

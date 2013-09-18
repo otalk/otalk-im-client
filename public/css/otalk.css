@@ -570,7 +570,7 @@ td {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  border-top: 1px solid rgba(0,0,0,0.08);
+  border-top: 1px solid #e4e4e4;
   bottom: 0px;
   position: fixed;
   right: 0px;
@@ -578,13 +578,8 @@ td {
   z-index: 200;
 }
 .chatBox form {
-  background: #e1e4e6;
-  background-image: -moz-linear-gradient(top, #e1e4e6, #cacdce);
-  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #e1e4e6), color-stop(1, #cacdce));
+  background: #f7f7f7;
   padding: 11px;
-  border-top: 1px solid #fff;
-  border-left: 1px solid #ddd;
-  border-right: 1px solid #ddd;
 }
 .chatBox .formwrap {
   -moz-box-sizing: border-box;
@@ -598,23 +593,20 @@ td {
   background-color: #fff;
   width: 100%;
   height: 30px;
-  border: 1px solid #ccc;
-  border-top-color: #bbb;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  -khtml-border-radius: 5px;
-  -o-border-radius: 5px;
-  -border-radius: 5px;
-  border-radius: 5px;
-  -moz-box-shadow: inset rgba(0,0,0,0.1) 0 -1px 3px;
-  -webkit-box-shadow: inset rgba(0,0,0,0.1) 0 -1px 3px;
-  box-shadow: inset rgba(0,0,0,0.1) 0 -1px 3px;
+  border: 1px solid #e4e4e4;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -khtml-border-radius: 3px;
+  -o-border-radius: 3px;
+  -border-radius: 3px;
+  border-radius: 3px;
   line-height: 18px;
   outline: none;
   resize: none;
   color: #222f3b;
   font-size: 14px;
   -webkit-font-smoothing: antialiased;
+  -webkit-appearance: none;
   padding: 5px;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -622,7 +614,6 @@ td {
 }
 .chatBox textarea:focus {
   border-color: #bbb;
-  border-top-color: #aaa;
 }
 .chatBox textarea.editing {
   background-color: #ff0;
