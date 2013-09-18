@@ -688,51 +688,27 @@ body #menu {
   margin: auto;
   margin-top: 5%;
   padding: 20px;
-  background-color: #fff;
+  background: #fff;
   width: 75%;
-}
-#loginbox label {
-  display: block;
-  margin-bottom: 5px;
-  font-size: 13px;
-  font-weight: bold;
-  color: #777;
-}
-#loginbox input {
-  width: 100%;
-  margin-bottom: 15px;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-}
-#loginbox button,
-#loginbox .andyetLogin {
-  text-decoration: none;
-  text-align: center;
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
   -khtml-border-radius: 3px;
   -o-border-radius: 3px;
   -border-radius: 3px;
   border-radius: 3px;
-  border: none;
-  height: 35px;
-  padding: 0 1em;
-  color: #fff;
-  background-color: #7ec6e2;
-  line-height: 35px;
-  font-size: 16px;
-  cursor: pointer;
 }
-#loginbox .andyetLogin {
-  display: block;
+#loginbox input {
+  width: 100%;
+  margin-bottom: 15px;
+}
+#loginbox a.button {
   float: right;
-  font-size: 14px;
 }
 #loginbox h2 {
+  margin-top: 0;
   color: #222;
   padding-bottom: 10px;
-  border-bottom: 1px solid #f8f8f8;
+  border-bottom: 1px solid #f2f2f2;
 }
 input[type=text],
 input[type=email],
@@ -750,6 +726,7 @@ textarea {
   background: #fff;
   border: 1px solid #e4e4e4;
   font-size: 0.8em;
+  color: #565656;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -776,4 +753,36 @@ input[type=password]:focus,
 textarea:focus {
   outline: none;
   border: 1px solid #78daff;
+}
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 13px;
+  font-weight: bold;
+  color: #565656;
+}
+button,
+a.button {
+  display: inline-block;
+  text-decoration: none;
+  text-align: center;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -khtml-border-radius: 3px;
+  -o-border-radius: 3px;
+  -border-radius: 3px;
+  border-radius: 3px;
+  border: none;
+  height: 35px;
+  padding: 0 1em;
+  color: #fff;
+  background: #00aeef;
+  line-height: 35px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+}
+button:hover,
+a.button:hover {
+  background: #007aa7;
 }

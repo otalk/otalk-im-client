@@ -5,6 +5,7 @@ input[type=text], input[type=email], input[type=search], input[type=password], t
   background: white
   border: 1px solid $grayOutline
   font-size: 0.8em
+  color: $baseText
   borderbox()
 
   transition: border .2s ease-in 0
@@ -24,3 +25,28 @@ input[type=password]:focus,
 textarea:focus
   outline: none
   border: 1px solid lighten($activeBlue, 50%)
+
+label
+  display: block
+  margin-bottom: 5px
+  font-size: 13px
+  font-weight: bold
+  color: $baseText
+
+button, a.button
+  display: inline-block
+  text-decoration: none
+  text-align: center
+  roundall(3px)
+  border: none
+  height: 35px
+  padding: 0 1em
+  color: white
+  background: $activeBlue
+  line-height: 35px
+  font-size: 14px
+  font-weight: bold
+  cursor: pointer
+
+  &:hover
+    background: darken($activeBlue, 30%)
