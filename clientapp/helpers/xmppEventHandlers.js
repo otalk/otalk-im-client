@@ -186,15 +186,21 @@ module.exports = function (client, app) {
 
     client.on('avatar', function (info) {
         var contact = me.getContact(info.jid);
-        if (contact) {
-            var id = '';
-            var type = 'image/png';
-            if (info.avatars.length > 0) {
-                id = info.avatars[0].id;
-                type = info.avatars[0].type || 'image/png';
+        if (!contact) {
+            if (me.isMe(info.jid)) {
+                contact = me;
+            } else {
+                return;
             }
-            contact.setAvatar(id, type);
         }
+
+        var id = '';
+        var type = 'image/png';
+        if (info.avatars.length > 0) {
+            id = info.avatars[0].id;
+            type = info.avatars[0].type || 'image/png';
+        }
+        contact.setAvatar(id, type);
     });
 
     client.on('chatState', function (info) {

@@ -1,4 +1,4 @@
-/*global app, client*/
+/*global app, client, XMPP*/
 "use strict";
 
 var HumanModel = require('human-model');
@@ -20,6 +20,7 @@ module.exports = HumanModel.define({
         jid: ['object', true],
         status: ['string', true, ''],
         avatar: ['string', true, ''],
+        avatarID: ['string', true, ''],
         connected: ['bool', true, false],
         shouldAskForAlertsPermission: ['bool', true, false],
         hasFocus: ['bool', true, false],
@@ -40,6 +41,44 @@ module.exports = HumanModel.define({
             curr.unreadCount = 0;
         }
         this._activeContact = jid;
+    },
+    setAvatar: function (id, type) {
+        var self = this;
+
+        if (!id) {
+            var gID = XMPP.crypto.createHash('md5').update(this.jid).digest('hex');
+            self.avatar = 'https://gravatar.com/avatar/' + gID + '?s=30&d=mm';
+            return;
+        }
+
+        app.storage.avatars.get(id, function (err, avatar) {
+            if (err) {
+                if (!type) {
+                    // We can't find the ID, and we don't know the type, so fallback.
+                    var gID = XMPP.crypto.createHash('md5').update(self.jid.bare).digest('hex');
+                    self.avatar = 'https://gravatar.com/avatar/' + gID + '?s=30&d=mm';
+                    return;
+                }
+                app.whenConnected(function () {
+                    client.getAvatar(self.jid.bare, id, function (err, resp) {
+                        if (err) return;
+                        resp = resp.toJSON();
+                        var avatarData = resp.pubsub.retrieve.item.avatarData;
+                        var dataURI = 'data:' + type + ';base64,' + avatarData;
+                        app.storage.avatars.add({id: id, uri: dataURI});
+                        self.set({
+                            avatar: dataURI,
+                            avatarID: id
+                        });
+                    });
+                });
+            } else {
+                self.set({
+                    avatar: avatar.uri,
+                    avatarID: avatar.id
+                });
+            }
+        });
     },
     getContact: function (jid, alt) {
         if (typeof jid === 'string') jid = new client.JID(jid);

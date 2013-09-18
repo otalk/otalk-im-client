@@ -245,6 +245,67 @@ td {
 .clearfix {
   zoom: 1;
 }
+body {
+  background: #ecf0f2;
+  color: #222;
+  font-family: 'Lucdia Grande', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 17px;
+  font-weight: 500;
+  -webkit-font-smoothing: antialiased;
+}
+body #pages {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  left: 156px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+body #menu {
+  width: 155px;
+}
+#connectionOverlay {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: 1000;
+  -webkit-transition: all 0.25s linear 0;
+  -o-transition: all 0.25s linear 0;
+  transition: all 0.25s linear 0;
+  -moz-transition: all 0.25s linear 0;
+}
+#connectionOverlay.connected {
+  height: 0px;
+}
+#connectionOverlay.connected #connectionStatus {
+  top: -51px;
+}
+#connectionStatus {
+  height: 50px;
+  line-height: 50px;
+  top: 0px;
+  position: fixed;
+  background-color: #333;
+  border-bottom: 1px solid #000;
+  width: 100%;
+  z-index: 9999;
+  text-align: center;
+}
+#connectionStatus span.message {
+  display: inline-block;
+  padding: 0px 10px;
+  font-weight: bold;
+  font-size: 24px;
+}
+#connectionStatus button {
+  padding: 5px 8px;
+  position: relative;
+  top: -3px;
+}
 #menu {
   position: fixed;
   top: 0px;
@@ -627,66 +688,20 @@ td {
 .chatBox textarea.editing {
   background-color: #ff0;
 }
-#connectionOverlay {
-  position: fixed;
-  top: 0px;
-  left: 0px;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.5);
-  z-index: 1000;
-  -webkit-transition: all 0.25s linear 0;
-  -o-transition: all 0.25s linear 0;
-  transition: all 0.25s linear 0;
-  -moz-transition: all 0.25s linear 0;
-}
-#connectionOverlay.connected {
-  height: 0px;
-}
-#connectionOverlay.connected #connectionStatus {
-  top: -51px;
-}
-#connectionStatus {
-  height: 50px;
-  line-height: 50px;
-  top: 0px;
-  position: fixed;
-  background-color: #333;
-  border-bottom: 1px solid #000;
-  width: 100%;
-  z-index: 9999;
+.uploadRegion {
+  font-size: 12px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -khtml-border-radius: 10px;
+  -o-border-radius: 10px;
+  -border-radius: 10px;
+  border-radius: 10px;
+  border: 1px dashed #777;
+  margin: 10px;
   text-align: center;
 }
-#connectionStatus span.message {
-  display: inline-block;
-  padding: 0px 10px;
-  font-weight: bold;
-  font-size: 24px;
-}
-#connectionStatus button {
-  padding: 5px 8px;
-  position: relative;
-  top: -3px;
-}
-body {
-  background: #ecf0f2;
-  color: #222;
-  font-family: 'Lucdia Grande', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-size: 17px;
-  font-weight: 500;
-  -webkit-font-smoothing: antialiased;
-}
-body #pages {
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  left: 156px;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-}
-body #menu {
-  width: 155px;
+.uploadRegion input {
+  width: 100%;
 }
 .aux header {
   margin-top: 10%;

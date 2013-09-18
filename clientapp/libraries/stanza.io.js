@@ -708,14 +708,14 @@ module.exports = function (client) {
     });
 
     client.publishAvatar = function (id, data, cb) {
-        client.publish(null, 'urn:xmpp:avatar:data', {
+        client.publish('', 'urn:xmpp:avatar:data', {
             id: id,
             avatarData: data
         }, cb);
     };
 
     client.useAvatars = function (info, cb) {
-        client.publish(null, 'urn:xmpp:avatar:metadata', {
+        client.publish('', 'urn:xmpp:avatar:metadata', {
             id: 'current',
             avatars: info
         }, cb);

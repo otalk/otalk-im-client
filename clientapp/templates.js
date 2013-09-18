@@ -73,6 +73,15 @@ exports.includes.mucListItem = function anonymous(locals) {
     return buf.join("");
 };
 
+// mucMessage.jade compiled template
+exports.includes.mucMessage = function anonymous(locals) {
+    var buf = [];
+    with (locals || {}) {
+        buf.push('<li><div class="message"><span class="sender">' + jade.escape(null == (jade.interp = message.nick) ? "" : jade.interp) + '</span><span class="timestamp">' + jade.escape(null == (jade.interp = message.created) ? "" : jade.interp) + '</span><p class="body">' + jade.escape(null == (jade.interp = message.body) ? "" : jade.interp) + "</p></div></li>");
+    }
+    return buf.join("");
+};
+
 // growlMessage.jade compiled template
 exports.misc.growlMessage = function anonymous(locals) {
     var buf = [];
@@ -122,7 +131,7 @@ exports.pages.groupchat = function anonymous(locals) {
 exports.pages.main = function anonymous(locals) {
     var buf = [];
     with (locals || {}) {
-        buf.push('<section class="page main"><button class="enableAlerts">Enable alerts</button><h1>This space intentionally blank</h1></section>');
+        buf.push('<section class="page main"><button class="enableAlerts">Enable alerts</button><div id="avatarChanger"><h1>Change Avatar</h1><div class="uploadRegion"><p>Drag and drop a new avatar here</p><img width="40" height="40"/><form><input id="uploader" type="file"/></form></div></div><h1>This space intentionally blank</h1></section>');
     }
     return buf.join("");
 };
