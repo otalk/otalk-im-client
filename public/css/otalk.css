@@ -658,10 +658,10 @@ td {
 }
 body {
   background: #ecf0f2;
-  color: #222;
-  font-family: 'Lucdia Grande', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-size: 17px;
-  font-weight: 500;
+  color: #565656;
+  font-family: 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
   -webkit-font-smoothing: antialiased;
 }
 body #pages {
@@ -683,11 +683,11 @@ body #menu {
 #logo {
   margin: auto;
 }
-#loginbox {
+.box {
   position: relative;
   margin: auto;
   margin-top: 5%;
-  padding: 20px;
+  padding: 20px 0;
   background: #fff;
   width: 75%;
   -moz-border-radius: 3px;
@@ -697,18 +697,24 @@ body #menu {
   -border-radius: 3px;
   border-radius: 3px;
 }
-#loginbox input {
+.box .head,
+.box .content {
+  padding: 0 20px;
+}
+.box .head {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #f2f2f2;
+}
+.box input {
   width: 100%;
   margin-bottom: 15px;
 }
-#loginbox a.button {
+.box a.button {
   float: right;
 }
-#loginbox h2 {
-  margin-top: 0;
-  color: #222;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #f2f2f2;
+.box h2 {
+  margin: 0;
+  padding-bottom: 20px;
 }
 input[type=text],
 input[type=email],
