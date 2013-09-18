@@ -1,7 +1,7 @@
-input[type=text], input[type=email], input[type=search], textarea
+input[type=text], input[type=email], input[type=search], input[type=password], textarea
   -webkit-appearance: none
   roundall(3px)
-  padding: 10px
+  padding: 0 10px
   background: white
   border: 1px solid $grayOutline
   font-size: 0.8em
@@ -11,8 +11,8 @@ input[type=text], input[type=email], input[type=search], textarea
   -webkit-transition: border .2s ease-in 0
   -moz-transition: border .2s ease-in 0
 
-input[type=text], input[type=email], input[type=search]
-  height: 8px
+input[type=text], input[type=email], input[type=search], input[type=password]
+  height: 35px
 
 textarea
   resize: none
@@ -20,6 +20,7 @@ textarea
 input[type=text]:focus, 
 input[type=email]:focus, 
 input[type=search]:focus,
+input[type=password]:focus,
 textarea:focus
   outline: none
   border: 1px solid lighten($activeBlue, 50%)

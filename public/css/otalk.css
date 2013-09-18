@@ -737,6 +737,7 @@ body #menu {
 input[type=text],
 input[type=email],
 input[type=search],
+input[type=password],
 textarea {
   -webkit-appearance: none;
   -moz-border-radius: 3px;
@@ -745,7 +746,7 @@ textarea {
   -o-border-radius: 3px;
   -border-radius: 3px;
   border-radius: 3px;
-  padding: 10px;
+  padding: 0 10px;
   background: #fff;
   border: 1px solid #e4e4e4;
   font-size: 0.8em;
@@ -761,8 +762,9 @@ textarea {
 }
 input[type=text],
 input[type=email],
-input[type=search] {
-  height: 8px;
+input[type=search],
+input[type=password] {
+  height: 35px;
 }
 textarea {
   resize: none;
@@ -770,6 +772,7 @@ textarea {
 input[type=text]:focus,
 input[type=email]:focus,
 input[type=search]:focus,
+input[type=password]:focus,
 textarea:focus {
   outline: none;
   border: 1px solid #78daff;
