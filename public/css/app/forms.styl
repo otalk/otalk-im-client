@@ -6,7 +6,7 @@ input[type=text], input[type=email], input[type=search], input[type=password], t
   padding: 0 10px
   background: white
   border: 1px solid $grayOutline
-  font-size: 0.8em
+  font-size: $fontSmall
   color: $baseText
   borderbox()
   gotham()
@@ -36,7 +36,10 @@ label
   font-weight: bold
   color: $baseText
 
-button, a.button
+a.button
+  line-height: 35px
+
+button
   display: inline-block
   gotham()
   roundall(3px)
@@ -46,8 +49,7 @@ button, a.button
   padding: 0 1em
   color: white
   background: $activeBlue
-  line-height: 35px
-  font-size: 14px
+  font-size: $fontMedium
   font-weight: bold
   text-decoration: none
   text-align: center
