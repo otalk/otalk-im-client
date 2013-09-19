@@ -7,13 +7,12 @@
   bottom: 0px
   left: 0px
   width: 155px
-  background-color: #1c232d
+  background-color: $sidebarBg
   z-index: 300
   overflow-y: auto;
   overflow-x: hidden;
   webkit-transition-fix()
   noselect()
-  shadow: #000 1px 0px 1px
 
   .main
     li
@@ -22,7 +21,7 @@
       line-height: 12px
 
       &:hover
-        background-color: #2a323f
+        background: $sidebarActive
 
         a
           color: #666
@@ -34,16 +33,12 @@
 
 
   h1
-    font-size: 11px
-    margin: 0px
-    margin-bottom: 1px
-    padding: 5px
-    color: #222
-    border-top: 1px solid #fff
-    border-bottom: 1px solid #aaa
-    gradient: #e1e4e6 #cacdce
-    shadow: rgba(0,0,0,0.75) 2px 1px 5px
-    text-shadow: #fff 1px 1px 1px
+    font-size: $fontMedium
+    margin: 0
+    padding: 10px
+    color: white
+    border-top: 1px solid lighten($sidebarBg, 15%)
+    border-bottom: 1px solid lighten($sidebarBg, 15%)
 
 #roster,
 #bookmarks

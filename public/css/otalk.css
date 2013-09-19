@@ -251,7 +251,7 @@ td {
   bottom: 0px;
   left: 0px;
   width: 155px;
-  background-color: #1c232d;
+  background-color: #0b1316;
   z-index: 300;
   overflow-y: auto;
   overflow-x: hidden;
@@ -262,9 +262,6 @@ td {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  -webkit-box-shadow: #000 1px 0px 1px;
-  -moz-box-shadow: #000 1px 0px 1px;
-  box-shadow: #000 1px 0px 1px;
 }
 #menu .main li {
   list-style-type: none;
@@ -272,7 +269,7 @@ td {
   line-height: 12px;
 }
 #menu .main li:hover {
-  background-color: #2a323f;
+  background: #192a47;
 }
 #menu .main li:hover a {
   color: #666;
@@ -283,20 +280,12 @@ td {
   color: #777;
 }
 #menu h1 {
-  font-size: 11px;
-  margin: 0px;
-  margin-bottom: 1px;
-  padding: 5px;
-  color: #222;
-  border-top: 1px solid #fff;
-  border-bottom: 1px solid #aaa;
-  background: #e1e4e6;
-  background-image: -moz-linear-gradient(top, #e1e4e6, #cacdce);
-  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #e1e4e6), color-stop(1, #cacdce));
-  -webkit-box-shadow: rgba(0,0,0,0.75) 2px 1px 5px;
-  -moz-box-shadow: rgba(0,0,0,0.75) 2px 1px 5px;
-  box-shadow: rgba(0,0,0,0.75) 2px 1px 5px;
-  text-shadow: #fff 1px 1px 1px;
+  font-size: 14px;
+  margin: 0;
+  padding: 10px;
+  color: #fff;
+  border-top: 1px solid #233c46;
+  border-bottom: 1px solid #233c46;
 }
 #roster li,
 #bookmarks li {
@@ -755,6 +744,8 @@ textarea {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
+  font-family: 'Gotham SSm A', 'Gotham SSm B', Helvetica, Arial, sans-serif;
+  font-style: normal;
   -webkit-transition: border 0.2s ease-in 0;
   -o-transition: border 0.2s ease-in 0;
   transition: border 0.2s ease-in 0;
