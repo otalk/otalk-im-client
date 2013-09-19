@@ -510,8 +510,8 @@ td {
   box-sizing: border-box;
 }
 .messages .message.mine {
-  background: #eaf7ff;
-  border-bottom: 1px solid #bbe0fa;
+  background: #fff;
+  border-bottom: 1px solid #e7e7e7;
 }
 .messages .message.mine .timestamp {
   color: #bbe0fa;
@@ -535,7 +535,6 @@ td {
   font-weight: bold;
   float: right;
   display: block;
-  margin-right: 15px;
 }
 .chatBox {
   -moz-box-sizing: border-box;
