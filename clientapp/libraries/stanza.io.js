@@ -5098,12 +5098,12 @@ WSConnection.prototype.connect = function (opts) {
     self.conn = new WebSocket(opts.wsURL, 'xmpp');
     self.conn.onerror = function (e) {
         e.preventDefault();
-        self.emit('disconnected', e);
+        self.emit('disconnected', self);
         return false;
     };
 
     self.conn.onclose = function () {
-        self.emit('disconnected');
+        self.emit('disconnected', self);
     };
 
     self.conn.onopen = function () {
@@ -14955,7 +14955,7 @@ exports.Paddle = Paddle;
      */
     function Hi(text, salt, iterations) {
         var ui1 = HMAC(text, salt + '\0\0\0\1');
-        ui = ui1;
+        var ui = ui1;
         for (var i = 0; i < iterations - 1; i++) {
             ui1 = HMAC(text, ui1);
             ui = XOR(ui, ui1);
