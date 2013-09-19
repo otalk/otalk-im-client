@@ -16,7 +16,8 @@ module.exports = BasePage.extend({
     events: {
         'click .enableAlerts': 'enableAlerts',
         'dragover': 'handleAvatarChangeDragOver',
-        'drop': 'handleAvatarChange'
+        'drop': 'handleAvatarChange',
+        'change #uploader': 'handleAvatarChange'
     },
     initialize: function (spec) {
         me.shouldAskForAlertsPermission = app.notifier.shouldAskPermission();
@@ -38,8 +39,18 @@ module.exports = BasePage.extend({
         return false;
     },
     handleAvatarChange: function (e) {
+        var file;
+
         e.preventDefault();
-        var file = e.dataTransfer.files[0];
+        
+        if (e.dataTransfer) {
+            file = e.dataTransfer.files[0];
+        } else if (e.target.files) {
+            file = e.target.files[0];
+        } else {
+            return;
+        }
+
         if (file.type.match('image.*')) {
             console.log('Got an image file!', file.type);
             var fileTracker = new FileReader();
