@@ -8,7 +8,7 @@ var HumanModel = require('human-model');
 var Resources = require('./resources');
 var Messages = require('./messages');
 var Message = require('./message');
-var crypto = XMPP.crypto;
+var fetchAvatar = require('../helpers/fetchAvatar');
 
 
 module.exports = HumanModel.define({
@@ -128,42 +128,10 @@ module.exports = HumanModel.define({
     },
     setAvatar: function (id, type) {
         var self = this;
-
-        if (!id) {
-            var gID = crypto.createHash('md5').update(this.jid).digest('hex');
-            self.avatar = 'https://gravatar.com/avatar/' + gID + '?s=30&d=mm';
-            return;
-        }
-
-        app.storage.avatars.get(id, function (err, avatar) {
-            if (err) {
-                if (!type) {
-                    // We can't find the ID, and we don't know the type, so fallback.
-                    var gID = crypto.createHash('md5').update(self.jid).digest('hex');
-                    self.avatar = 'https://gravatar.com/avatar/' + gID + '?s=30&d=mm';
-                    return;
-                }
-                app.whenConnected(function () {
-                    client.getAvatar(self.jid, id, function (err, resp) {
-                        if (err) return;
-                        resp = resp.toJSON();
-                        var avatarData = resp.pubsub.retrieve.item.avatarData;
-                        var dataURI = 'data:' + type + ';base64,' + avatarData;
-                        app.storage.avatars.add({id: id, uri: dataURI});
-                        self.set({
-                            avatar: dataURI,
-                            avatarID: id
-                        });
-                        self.save();
-                    });
-                });
-            } else {
-                self.set({
-                    avatar: avatar.uri,
-                    avatarID: avatar.id
-                });
-                self.save();
-            }
+        fetchAvatar(this.jid, id, type, function (avatar) {
+            self.avatarID = avatar.id;
+            self.avatar = avatar.uri;
+            self.save();
         });
     },
     onResourceChange: function () {

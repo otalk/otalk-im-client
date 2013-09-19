@@ -7,6 +7,7 @@ var Contact = require('./contact');
 var MUCs = require('./mucs');
 var MUC = require('./muc');
 var uuid = require('node-uuid');
+var fetchAvatar = require('../helpers/fetchAvatar');
 
 
 module.exports = HumanModel.define({
@@ -44,40 +45,9 @@ module.exports = HumanModel.define({
     },
     setAvatar: function (id, type) {
         var self = this;
-
-        if (!id) {
-            var gID = XMPP.crypto.createHash('md5').update(this.jid).digest('hex');
-            self.avatar = 'https://gravatar.com/avatar/' + gID + '?s=30&d=mm';
-            return;
-        }
-
-        app.storage.avatars.get(id, function (err, avatar) {
-            if (err) {
-                if (!type) {
-                    // We can't find the ID, and we don't know the type, so fallback.
-                    var gID = XMPP.crypto.createHash('md5').update(self.jid.bare).digest('hex');
-                    self.avatar = 'https://gravatar.com/avatar/' + gID + '?s=30&d=mm';
-                    return;
-                }
-                app.whenConnected(function () {
-                    client.getAvatar(self.jid.bare, id, function (err, resp) {
-                        if (err) return;
-                        resp = resp.toJSON();
-                        var avatarData = resp.pubsub.retrieve.item.avatarData;
-                        var dataURI = 'data:' + type + ';base64,' + avatarData;
-                        app.storage.avatars.add({id: id, uri: dataURI});
-                        self.set({
-                            avatar: dataURI,
-                            avatarID: id
-                        });
-                    });
-                });
-            } else {
-                self.set({
-                    avatar: avatar.uri,
-                    avatarID: avatar.id
-                });
-            }
+        fetchAvatar('', id, type, function (avatar) {
+            self.avatarID = avatar.id;
+            self.avatar = avatar.uri;
         });
     },
     getContact: function (jid, alt) {
