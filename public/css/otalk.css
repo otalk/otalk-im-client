@@ -296,14 +296,15 @@ td {
   min-height: 20px;
   font-size: 11px;
   color: #fff;
+  cursor: pointer;
 }
 #roster li:nth-child(2n),
 #bookmarks li:nth-child(2n) {
-  background-color: #1e252f;
+  background: #1e252f;
 }
 #roster li:hover,
 #bookmarks li:hover {
-  background-color: #2a323f;
+  background: #2a323f;
 }
 #roster li.hasUnread .unread,
 #bookmarks li.hasUnread .unread {
@@ -472,7 +473,7 @@ td {
   font-weight: normal;
   margin: 0px;
   padding: 0px;
-  padding-top: 150px;
+  padding-top: 130px;
   overflow-y: auto;
   overflow-x: hidden;
   position: relative;
@@ -627,7 +628,7 @@ td {
   top: -3px;
 }
 body {
-  background: #ecf0f2;
+  background: #fff;
   color: #565656;
   font-family: 'Gotham SSm A', 'Gotham SSm B', Helvetica, Arial, sans-serif;
   font-style: normal;
@@ -645,10 +646,13 @@ h4 {
   position: absolute;
   top: 0px;
   right: 0px;
-  left: 201px;
+  left: 181px;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
+}
+.aux {
+  background: #f7f7f7;
 }
 .aux header {
   margin-top: 8%;
