@@ -12,6 +12,7 @@ module.exports = HumanModel.define({
         status: ['string', true, ''],
         show: ['string', true, ''],
         priority: ['number', true, 0],
+        chatState: ['string', true, 'gone'],
         idleSince: 'date',
         discoInfo: 'object',
         timezoneOffset: 'number'

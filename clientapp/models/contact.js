@@ -18,7 +18,10 @@ module.exports = HumanModel.define({
         }
         this.setAvatar(attrs.avatarID);
 
-        this.resources.bind('add remove reset change', this.onResourceChange, this);
+        this.resources.bind('add remove reset', this.onResourceListChange, this);
+        this.resources.bind('change', this.onResourceChange, this);
+
+        this.bind('change:topResource change:lockedResource change:_forceUpdate', this.summarizeResources, this);
     },
     type: 'contact',
     props: {
@@ -35,17 +38,13 @@ module.exports = HumanModel.define({
     session: {
         activeContact: ['bool', true, false],
         avatar: 'string',
-        chatState: ['string', true, 'gone'],
-        idleSince: 'string',
         lastInteraction: 'date',
         lastSentMessage: 'object',
         lockedResource: 'string',
         offlineStatus: ['string', true, ''],
-        show: ['string', true, 'offline'],
-        status: ['string', true, ''],
-        timezoneOffset: 'number',
         topResource: 'string',
-        unreadCount: ['number', true, 0]
+        unreadCount: ['number', true, 0],
+        _forceUpdate: ['number', true, 0]
     },
     derived: {
         displayName: {
@@ -68,6 +67,52 @@ module.exports = HumanModel.define({
                 } else {
                     return '';
                 }
+            }
+        },
+        status: {
+            deps: ['topResource', 'lockedResource', '_forceUpdate'],
+            fn: function () {
+                var resource = this.resources.get(this.lockedResource) || this.resources.get(this.topResource) || {};
+                return resource.status || '';
+            }
+        },
+        show: {
+            deps: ['topResource', 'lockedResource', '_forceUpdate'],
+            fn: function () {
+                if (this.resources.length === 0) {
+                    return 'offline';
+                }
+                var resource = this.resources.get(this.lockedResource) || this.resources.get(this.topResource) || {};
+                return resource.show || 'online';
+            }
+        },
+        timezoneOffset: {
+            deps: ['topResource', 'lockedResource', '_forceUpdate'],
+            fn: function () {
+                var resource = this.resources.get(this.lockedResource) || this.resources.get(this.topResource) || {};
+                return resource.timezoneOffset || undefined;
+            }
+        },
+        idleSince: {
+            deps: ['topResource', 'lockedResource', '_forceUpdate'],
+            fn: function () {
+                var resource = this.resources.get(this.lockedResource) || this.resources.get(this.topResource) || {};
+                return resource.idleSince || undefined;
+            }
+        },
+        chatState: {
+            deps: ['topResource', 'lockedResource', '_forceUpdate'],
+            fn: function () {
+                var states = {};
+                this.resources.models.forEach(function (resource) {
+                    states[resource.chatState] = true;
+                });
+
+                if (states.composing) return 'composing';
+                if (states.paused) return 'paused';
+                if (states.active) return 'active';
+                if (states.inactive) return 'inactive';
+                return 'gone';
             }
         },
         hasUnread: {
@@ -121,16 +166,12 @@ module.exports = HumanModel.define({
             }
         });
     },
-    onLockedResourceChange: function () {
-        var res = this.resources.get(this.lockedResource);
-        if (res) {
-            this.status = res.status;
-            this.show = res.show || 'online';
-            this.timezoneOffset = res.timezoneOffset;
-            this.idleSince = res.idleSince;
-        }
-    },
     onResourceChange: function () {
+        this.resources.sort();
+        this.topResource = (this.resources.first() || {}).id;
+        this._forceUpdate++;
+    },
+    onResourceListChange: function () {
         // Manually propagate change events for properties that
         // depend on the resources collection.
         this.resources.sort();
@@ -139,20 +180,8 @@ module.exports = HumanModel.define({
         if (res) {
             this.offlineStatus = '';
             this.topResource = res.id;
-            if (!this.lockedResource) {
-                this.status = res.status;
-                this.show = res.show || 'online';
-                this.timezoneOffset = res.timezoneOffset;
-                this.idleSince = res.idleSince;
-            }
-            this.chatState = 'active';
         } else {
             this.topResource = undefined;
-            this.chatState = 'gone';
-            this.status = this.offlineStatus;
-            this.show = 'offline';
-            this.timezoneOffset = undefined;
-            this.idleSince = undefined;
         }
 
         this.lockedResource = undefined;

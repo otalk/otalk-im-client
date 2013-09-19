@@ -175,12 +175,16 @@ module.exports = function (client, app) {
         if (contact) {
             var resource = contact.resources.get(pres.from.full);
             if (resource) {
+                if (resource.id === contact.lockedResource) {
+                    contact.lockedResource = '';
+                }
+
+                if (contact.resources.length === 1) {
+                    contact.offlineStatus = pres.status;
+                }
                 contact.resources.remove(resource);
             }
 
-            if (contact.resources.length === 0) {
-                contact.offlineStatus = pres.status;
-            }
         }
     });
 
@@ -206,9 +210,13 @@ module.exports = function (client, app) {
     client.on('chatState', function (info) {
         var contact = me.getContact(info.from);
         if (contact) {
-            contact.chatState = info.chatState;
-            if (info.chatState === 'gone') {
-                contact.lockedResource = undefined;
+            var resource = contact.resources.get(info.from.full);
+            if (resource) {
+                resource.chatState = info.chatState;
+                console.log(info.chatState);
+                if (info.chatState === 'gone') {
+                    contact.lockedResource = undefined;
+                }
             }
         } else if (me.isMe(info.from)) {
             if (info.chatState === 'active' || info.chatState === 'composing') {
