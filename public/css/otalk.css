@@ -250,7 +250,7 @@ td {
   top: 0px;
   bottom: 0px;
   left: 0px;
-  width: 155px;
+  width: 180px;
   background-color: #0b1316;
   z-index: 300;
   overflow-y: auto;
@@ -436,7 +436,7 @@ td {
   border-bottom: 1px solid #aaa;
   position: fixed;
   right: 0px;
-  left: 156px;
+  left: 181px;
   z-index: 10;
   font-size: 14px;
   -moz-box-sizing: border-box;
@@ -545,7 +545,7 @@ td {
   bottom: 0px;
   position: fixed;
   right: 0px;
-  left: 156px;
+  left: 181px;
   z-index: 200;
 }
 .chatBox form {
@@ -646,13 +646,10 @@ h4 {
   position: absolute;
   top: 0px;
   right: 0px;
-  left: 156px;
+  left: 201px;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-}
-#menu {
-  width: 155px;
 }
 .aux header {
   margin-top: 8%;
