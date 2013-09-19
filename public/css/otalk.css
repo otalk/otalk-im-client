@@ -659,7 +659,8 @@ td {
 body {
   background: #ecf0f2;
   color: #565656;
-  font-family: 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: 'Gotham SSm A', 'Gotham SSm B', Helvetica, Arial, sans-serif;
+  font-style: normal;
   font-size: 16px;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
@@ -788,6 +789,8 @@ label {
 button,
 a.button {
   display: inline-block;
+  font-family: 'Gotham SSm A', 'Gotham SSm B', Helvetica, Arial, sans-serif;
+  font-style: normal;
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
   -khtml-border-radius: 3px;
