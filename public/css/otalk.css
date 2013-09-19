@@ -340,8 +340,8 @@ td {
 }
 #roster li.activeContact,
 #bookmarks li.activeContact {
-  border-top: 1px solid #8de0ff;
-  border-bottom: 1px solid #004a65;
+  background: #00aeef;
+  color: #fff;
 }
 #roster li.composing,
 #bookmarks li.composing {
@@ -364,12 +364,12 @@ td {
   top: 5px;
   width: 30px;
   height: 30px;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  -khtml-border-radius: 5px;
-  -o-border-radius: 5px;
-  -border-radius: 5px;
-  border-radius: 5px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -khtml-border-radius: 3px;
+  -o-border-radius: 3px;
+  -border-radius: 3px;
+  border-radius: 3px;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -379,9 +379,9 @@ td {
 }
 #roster li .name,
 #bookmarks li .name {
-  margin: 0px;
   margin-left: 40px;
   font-weight: bold;
+  line-height: 20px;
 }
 #roster li .status,
 #bookmarks li .status {
@@ -433,7 +433,7 @@ td {
 }
 .conversation header {
   padding: 5px;
-  border-bottom: 1px solid #aaa;
+  border-bottom: 2px solid #e4e4e4;
   position: fixed;
   right: 0px;
   left: 181px;
@@ -442,18 +442,17 @@ td {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
+  background: #f7f7f7;
   color: #222;
-  font-weight: normal;
-  font-size: 11px;
 }
 .conversation header .avatar {
   margin-right: 5px;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  -khtml-border-radius: 5px;
-  -o-border-radius: 5px;
-  -border-radius: 5px;
-  border-radius: 5px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -khtml-border-radius: 3px;
+  -o-border-radius: 3px;
+  -border-radius: 3px;
+  border-radius: 3px;
   width: 30px;
   height: 30px;
   position: absolute;

@@ -82,8 +82,8 @@
         color: #777
 
     &.activeContact
-      border-top: 1px solid #8de0ff
-      border-bottom: 1px solid #004a65
+      background: $activeBlue
+      color: white
 
     &.composing
       border-right: 4px solid orange
@@ -102,13 +102,13 @@
       top: 5px
       width: 30px
       height: 30px
-      roundall: 5px
+      roundall(3px)
       noselect()
 
     .name
-      margin: 0px
       margin-left: 40px
       font-weight: bold
+      line-height: 20px
 
     .status
       color: #ccc
