@@ -54,7 +54,8 @@ module.exports = {
                 window.onbeforeunload = function () {
                     if (client.sessionStarted) {
                         client.disconnect();
-                        return "End active session?";
+                        // We'll make this a setting later
+                        //return "End active session?";
                     }
                 };
 
