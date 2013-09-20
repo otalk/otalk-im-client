@@ -216,6 +216,8 @@ module.exports = function (client, app) {
                 console.log(info.chatState);
                 if (info.chatState === 'gone') {
                     contact.lockedResource = undefined;
+                } else {
+                    contact.lockedResource = info.from.full;
                 }
             }
         } else if (me.isMe(info.from)) {
@@ -247,12 +249,7 @@ module.exports = function (client, app) {
             }
 
             contact.addMessage(message, true);
-
-            if (!contact.lockedResource) {
-                contact.lockedResource = msg.from.full;
-            } else if (msg.from.full !== contact.lockedResource) {
-                contact.lockedResource = undefined;
-            }
+            contact.lockedResource = msg.from.full;
         }
     });
 
