@@ -265,17 +265,25 @@ td {
 }
 #menu .main li {
   list-style-type: none;
-  padding: 5px;
   line-height: 12px;
+}
+#menu .main li svg {
+  height: 25px;
+  width: 30px;
+  display: inline-block;
+  fill: #fff;
 }
 #menu .main li:hover {
   background: #192a47;
 }
 #menu .main li a {
+  display: block;
+  padding: 15px;
   text-decoration: none;
   font-size: 14px;
   color: #fff;
   font-weight: 600;
+  border-bottom: 1px solid #1e3356;
 }
 #menu h1 {
   font-size: 14px;
@@ -342,6 +350,7 @@ td {
 #bookmarks li.activeContact {
   background: #00aeef;
   color: #fff;
+  font-weight: bold;
 }
 #roster li.composing,
 #bookmarks li.composing {
