@@ -268,9 +268,10 @@ td {
   line-height: 12px;
 }
 #menu .main li svg {
-  height: 25px;
-  width: 30px;
-  display: inline-block;
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  margin-top: -13px;
   fill: #fff;
 }
 #menu .main li:hover {
@@ -278,11 +279,13 @@ td {
 }
 #menu .main li a {
   display: block;
-  padding: 15px;
+  position: relative;
+  padding: 0 15px 0 40px;
   text-decoration: none;
   font-size: 14px;
   color: #fff;
   font-weight: 600;
+  line-height: 35px;
   border-bottom: 1px solid #1e3356;
 }
 #menu h1 {
