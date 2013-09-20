@@ -13,11 +13,15 @@ module.exports = BasePage.extend({
     srcBindings: {
         avatar: '#avatarChanger img'
     },
+    textBindings: {
+        status: '.status'
+    },
     events: {
         'click .enableAlerts': 'enableAlerts',
         'dragover': 'handleAvatarChangeDragOver',
         'drop': 'handleAvatarChange',
-        'change #uploader': 'handleAvatarChange'
+        'change #uploader': 'handleAvatarChange',
+        'blur .status': 'handleStatusChange'
     },
     initialize: function (spec) {
         me.shouldAskForAlertsPermission = app.notifier.shouldAskPermission();
@@ -74,5 +78,13 @@ module.exports = BasePage.extend({
             };
             fileTracker.readAsDataURL(file);
         }
+    },
+    handleStatusChange: function (e) {
+        var text = e.target.textContent;
+        me.status = text;
+        client.sendPresence({
+            status: text,
+            caps: client.disco.caps
+        });
     }
 });
