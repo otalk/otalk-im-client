@@ -271,21 +271,20 @@ td {
 #menu .main li:hover {
   background: #192a47;
 }
-#menu .main li:hover a {
-  color: #666;
-}
 #menu .main li a {
   text-decoration: none;
-  font-size: 12px;
-  color: #777;
+  font-size: 14px;
+  color: #fff;
+  font-weight: 600;
 }
 #menu h1 {
   font-size: 14px;
   margin: 0;
-  padding: 10px;
-  color: #fff;
-  border-top: 1px solid #233c46;
-  border-bottom: 1px solid #233c46;
+  padding: 5px 10px;
+  color: #668bc9;
+  border-top: 1px solid #1e3356;
+  border-bottom: 1px solid #1e3356;
+  background: #192a47;
 }
 #roster li,
 #bookmarks li {
@@ -360,17 +359,18 @@ td {
 #bookmarks li .avatar {
   vertical-align: top;
   margin-right: 5px;
+  margin-top: -10px;
   position: absolute;
-  left: 5px;
-  top: 5px;
-  width: 30px;
-  height: 30px;
-  -moz-border-radius: 3px;
-  -webkit-border-radius: 3px;
-  -khtml-border-radius: 3px;
-  -o-border-radius: 3px;
-  -border-radius: 3px;
-  border-radius: 3px;
+  left: 10px;
+  top: 50%;
+  width: 20px;
+  height: 20px;
+  -moz-border-radius: 30px;
+  -webkit-border-radius: 30px;
+  -khtml-border-radius: 30px;
+  -o-border-radius: 30px;
+  -border-radius: 30px;
+  border-radius: 30px;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -380,8 +380,7 @@ td {
 }
 #roster li .name,
 #bookmarks li .name {
-  margin-left: 40px;
-  font-weight: bold;
+  margin-left: 30px;
   line-height: 20px;
 }
 #roster li .status,
@@ -763,7 +762,8 @@ label {
 a.button {
   line-height: 35px;
 }
-button {
+button,
+a.button {
   display: inline-block;
   font-family: 'Gotham SSm A', 'Gotham SSm B', Helvetica, Arial, sans-serif;
   font-style: normal;
@@ -785,6 +785,7 @@ button {
   text-align: center;
   cursor: pointer;
 }
-button:hover {
+button:hover,
+a.button:hover {
   background: #007aa7;
 }

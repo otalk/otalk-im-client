@@ -23,22 +23,21 @@
       &:hover
         background: $sidebarActive
 
-        a
-          color: #666
-
       a
         text-decoration: none
-        font-size: $fontSmall
-        color: #777
+        font-size: $fontMedium
+        color: white
+        font-weight: 600
 
 
   h1
     font-size: $fontMedium
     margin: 0
-    padding: 10px
-    color: white
-    border-top: 1px solid lighten($sidebarBg, 15%)
-    border-bottom: 1px solid lighten($sidebarBg, 15%)
+    padding: 5px 10px
+    color: lighten($sidebarActive, 50%)
+    border-top: 1px solid lighten($sidebarActive, 5%)
+    border-bottom: 1px solid lighten($sidebarActive, 5%)
+    background: $sidebarActive
 
 #roster,
 #bookmarks
@@ -98,17 +97,17 @@
     .avatar
       vertical-align: top
       margin-right: 5px
+      margin-top: -10px
       position: absolute
-      left: 5px
-      top: 5px
-      width: 30px
-      height: 30px
-      roundall(3px)
+      left: 10px
+      top: 50%
+      width: 20px
+      height: 20px
+      roundall(30px)
       noselect()
 
     .name
-      margin-left: 40px
-      font-weight: bold
+      margin-left: 30px
       line-height: 20px
 
     .status
