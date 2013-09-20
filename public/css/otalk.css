@@ -263,6 +263,11 @@ td {
   -ms-user-select: none;
   user-select: none;
 }
+#menu .main li a,
+#menu h1,
+#menu #roster li {
+  border-bottom: 1px solid #1e3356;
+}
 #menu .main li {
   list-style-type: none;
   line-height: 12px;
@@ -286,24 +291,21 @@ td {
   color: #fff;
   font-weight: 600;
   line-height: 35px;
-  border-bottom: 1px solid #1e3356;
 }
 #menu h1 {
   font-size: 14px;
   margin: 0;
   padding: 5px 10px;
   color: #668bc9;
-  border-top: 1px solid #1e3356;
-  border-bottom: 1px solid #1e3356;
   background: #192a47;
 }
 #roster li,
 #bookmarks li {
   list-style-type: none;
-  padding: 11px;
+  padding: 8px 10px;
   margin: 0px;
   position: relative;
-  min-height: 20px;
+  min-height: 15px;
   font-size: 12px;
   color: #fff;
   cursor: pointer;
@@ -324,21 +326,21 @@ td {
 #bookmarks li.online,
 #roster li.chat,
 #bookmarks li.chat {
-  border-left: 2px solid #008000;
+  border-left: 3px solid #008000;
 }
 #roster li.dnd,
 #bookmarks li.dnd {
-  border-left: 2px solid #f00;
+  border-left: 3px solid #f00;
 }
 #roster li.away,
 #bookmarks li.away,
 #roster li.xa,
 #bookmarks li.xa {
-  border-left: 2px solid #ffa500;
+  border-left: 3px solid #ffa500;
 }
 #roster li.offline,
 #bookmarks li.offline {
-  border-left: 2px solid #222;
+  border-left: none;
   color: #aaa;
 }
 #roster li.offline img,
@@ -623,9 +625,8 @@ td {
   top: 0px;
   position: fixed;
   background-color: #333;
-  border-bottom: 1px solid #000;
   width: 100%;
-  z-index: 9999;
+  z-index: 100;
   text-align: center;
 }
 #connectionStatus span.message {
@@ -633,6 +634,7 @@ td {
   padding: 0px 10px;
   font-weight: bold;
   font-size: 20px;
+  color: #fff;
 }
 #connectionStatus button {
   padding: 5px 8px;
