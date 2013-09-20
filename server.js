@@ -31,13 +31,12 @@ var clientApp = new Moonboots({
     stylesheets: [
         __dirname + '/public/css/otalk.css'
     ],
-    browserify: {
-        debug: false
-    },
     server: app,
     beforeBuild: function () {
-        var clientFolder = __dirname + '/clientapp';
-        templatizer(clientFolder + '/templates', clientFolder + '/templates.js');
+        if (config.isDev) {
+            var clientFolder = __dirname + '/clientapp';
+            templatizer(clientFolder + '/templates', clientFolder + '/templates.js');
+        }
     }
 });
 
