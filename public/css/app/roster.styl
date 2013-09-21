@@ -128,26 +128,28 @@
       margin-left: 30px
       line-height: 20px
       color: white
+      text-overflow: ellipsis
+      overflow: hidden
+      width: 70%
 
     .status
-      color: #ccc
-      font-size: $fontSmall
-      font-style: italic
-      font-weight: 600
-      margin: 0px
-      margin-left: 40px
+      color: $textSecondary
+      font-size: $fontSmall-2px
+      margin: 0
+      margin-left: 30px
+
+      &:not(:empty)
+        margin-top: -5px
 
     .unread
       display: none
       color: white
-      padding-left: 5px
-      padding-right: 5px
-      roundall: 11px
+      padding: 0 5px
+      roundall(20px)
       position: absolute
-      top: 20px
-      left: 20px
+      top: 10px
+      right: 15px
       text-align: center
       font-weight: bold
-      background-color: red
-      border: 1px solid white
+      background: $activeBlue
 

@@ -413,35 +413,38 @@ td {
   margin-left: 30px;
   line-height: 20px;
   color: #fff;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 70%;
 }
 #roster li .status,
 #bookmarks li .status {
-  color: #ccc;
-  font-size: 12px;
-  font-style: italic;
-  font-weight: 600;
-  margin: 0px;
-  margin-left: 40px;
+  color: #b7b7b7;
+  font-size: $fontSmall-2px;
+  margin: 0;
+  margin-left: 30px;
+}
+#roster li .status:not(:empty),
+#bookmarks li .status:not(:empty) {
+  margin-top: -5px;
 }
 #roster li .unread,
 #bookmarks li .unread {
   display: none;
   color: #fff;
-  padding-left: 5px;
-  padding-right: 5px;
-  -moz-border-radius: 11px;
-  -webkit-border-radius: 11px;
-  -khtml-border-radius: 11px;
-  -o-border-radius: 11px;
-  -border-radius: 11px;
-  border-radius: 11px;
+  padding: 0 5px;
+  -moz-border-radius: 20px;
+  -webkit-border-radius: 20px;
+  -khtml-border-radius: 20px;
+  -o-border-radius: 20px;
+  -border-radius: 20px;
+  border-radius: 20px;
   position: absolute;
-  top: 20px;
-  left: 20px;
+  top: 10px;
+  right: 15px;
   text-align: center;
   font-weight: bold;
-  background-color: #f00;
-  border: 1px solid #fff;
+  background: #00aeef;
 }
 .page.chat {
   padding-top: 0px;
