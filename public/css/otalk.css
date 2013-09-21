@@ -478,14 +478,14 @@ td {
 }
 .conversation header .avatar {
   margin-right: 5px;
-  -moz-border-radius: 3px;
-  -webkit-border-radius: 3px;
-  -khtml-border-radius: 3px;
-  -o-border-radius: 3px;
-  -border-radius: 3px;
-  border-radius: 3px;
   width: 30px;
   height: 30px;
+  -moz-border-radius: 50px;
+  -webkit-border-radius: 50px;
+  -khtml-border-radius: 50px;
+  -o-border-radius: 50px;
+  -border-radius: 50px;
+  border-radius: 50px;
   position: absolute;
   top: 11px;
   left: 11px;
