@@ -30,7 +30,7 @@
         fill: white
 
       &:hover
-        background: lighten($sidebarBg, 10%)
+        background: $activeBlue
 
       a
         display: block
@@ -44,23 +44,26 @@
 
 
   h1
-    font-size: $fontMedium
+    font-size: $fontSmall
     margin: 0
-    padding: 5px 10px
-    color: lighten($sidebarActive, 50%)
-    background: $sidebarActive
+    padding: 5px 15px
+    color: white
+    text-transform: uppercase
 
 #roster,
 #bookmarks
   li
     list-style-type: none
-    padding: 8px 10px
+    padding: 7px 10px
     margin: 0px
     position: relative
     min-height: 15px
     font-size: $fontSmall
     color: #fff
     cursor: pointer
+    transition: all .3s ease-in 0
+    -webkit-transition: all .3s ease-in 0
+    -moz-transition: all .3s ease-in 0
 
     &:nth-child(2n)
       background: lighten($sidebarBg, 5%)
@@ -73,18 +76,21 @@
 
     &.online,
     &.chat
-      border-left: 4px solid #427a00
+      border-left: 3px solid #427a00
 
     &.dnd
-      border-left: 4px solid #c50041
+      border-left: 3px solid #c50041
 
     &.away,
     &.xa
-      border-left: 4px solid #f57900
+      border-left: 3px solid #f57900
 
     &.offline
       border-left: none
-      color: #aaa
+
+    &.offline:not(:hover)
+      .name
+        color: $textSecondary
 
       img
         opacity: .25
@@ -92,10 +98,12 @@
       .status
         color: #777
 
-    &.activeContact
+    &.activeContact, &.offline.activeContact
       background: white
-      color: $activeBlue
       font-weight: bold
+
+      .name
+        color: $baseText
 
     &.composing
       border-right: 4px solid orange
@@ -121,6 +129,7 @@
     .name
       margin-left: 30px
       line-height: 20px
+      color: white
 
     .status
       color: #ccc

@@ -280,7 +280,7 @@ td {
   fill: #fff;
 }
 #menu .main li:hover {
-  background: #1b2e36;
+  background: #00aeef;
 }
 #menu .main li a {
   display: block;
@@ -293,22 +293,28 @@ td {
   line-height: 35px;
 }
 #menu h1 {
-  font-size: 14px;
+  font-size: 12px;
   margin: 0;
-  padding: 5px 10px;
-  color: #668bc9;
-  background: #192a47;
+  padding: 5px 15px;
+  color: #fff;
+  text-transform: uppercase;
 }
 #roster li,
 #bookmarks li {
   list-style-type: none;
-  padding: 8px 10px;
+  padding: 7px 10px;
   margin: 0px;
   position: relative;
   min-height: 15px;
   font-size: 12px;
   color: #fff;
   cursor: pointer;
+  -webkit-transition: all 0.3s ease-in 0;
+  -o-transition: all 0.3s ease-in 0;
+  transition: all 0.3s ease-in 0;
+  -moz-transition: all 0.3s ease-in 0;
+  -webkit-transition: all 0.3s ease-in 0;
+  -moz-transition: all 0.3s ease-in 0;
 }
 #roster li:nth-child(2n),
 #bookmarks li:nth-child(2n) {
@@ -326,36 +332,46 @@ td {
 #bookmarks li.online,
 #roster li.chat,
 #bookmarks li.chat {
-  border-left: 4px solid #427a00;
+  border-left: 3px solid #427a00;
 }
 #roster li.dnd,
 #bookmarks li.dnd {
-  border-left: 4px solid #c50041;
+  border-left: 3px solid #c50041;
 }
 #roster li.away,
 #bookmarks li.away,
 #roster li.xa,
 #bookmarks li.xa {
-  border-left: 4px solid #f57900;
+  border-left: 3px solid #f57900;
 }
 #roster li.offline,
 #bookmarks li.offline {
   border-left: none;
-  color: #aaa;
 }
-#roster li.offline img,
-#bookmarks li.offline img {
+#roster li.offline:not(:hover) .name,
+#bookmarks li.offline:not(:hover) .name {
+  color: #b7b7b7;
+}
+#roster li.offline:not(:hover) img,
+#bookmarks li.offline:not(:hover) img {
   opacity: 0.25;
 }
-#roster li.offline .status,
-#bookmarks li.offline .status {
+#roster li.offline:not(:hover) .status,
+#bookmarks li.offline:not(:hover) .status {
   color: #777;
 }
 #roster li.activeContact,
-#bookmarks li.activeContact {
+#bookmarks li.activeContact,
+#roster li.offline.activeContact,
+#bookmarks li.offline.activeContact {
   background: #fff;
-  color: #00aeef;
   font-weight: bold;
+}
+#roster li.activeContact .name,
+#bookmarks li.activeContact .name,
+#roster li.offline.activeContact .name,
+#bookmarks li.offline.activeContact .name {
+  color: #565656;
 }
 #roster li.composing,
 #bookmarks li.composing {
@@ -396,6 +412,7 @@ td {
 #bookmarks li .name {
   margin-left: 30px;
   line-height: 20px;
+  color: #fff;
 }
 #roster li .status,
 #bookmarks li .status {
