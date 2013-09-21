@@ -266,7 +266,7 @@ td {
 #menu .main li a,
 #menu h1,
 #menu #roster li {
-  border-bottom: 1px solid #1e3356;
+  border-bottom: 1px solid #1a2e35;
 }
 #menu .main li {
   list-style-type: none;
@@ -280,7 +280,7 @@ td {
   fill: #fff;
 }
 #menu .main li:hover {
-  background: #192a47;
+  background: #1b2e36;
 }
 #menu .main li a {
   display: block;
@@ -312,11 +312,11 @@ td {
 }
 #roster li:nth-child(2n),
 #bookmarks li:nth-child(2n) {
-  background: #1e252f;
+  background: #132126;
 }
 #roster li:hover,
 #bookmarks li:hover {
-  background: #2a323f;
+  background: #00aeef;
 }
 #roster li.hasUnread .unread,
 #bookmarks li.hasUnread .unread {
@@ -326,17 +326,17 @@ td {
 #bookmarks li.online,
 #roster li.chat,
 #bookmarks li.chat {
-  border-left: 3px solid #008000;
+  border-left: 4px solid #427a00;
 }
 #roster li.dnd,
 #bookmarks li.dnd {
-  border-left: 3px solid #f00;
+  border-left: 4px solid #c50041;
 }
 #roster li.away,
 #bookmarks li.away,
 #roster li.xa,
 #bookmarks li.xa {
-  border-left: 3px solid #ffa500;
+  border-left: 4px solid #f57900;
 }
 #roster li.offline,
 #bookmarks li.offline {
@@ -353,8 +353,8 @@ td {
 }
 #roster li.activeContact,
 #bookmarks li.activeContact {
-  background: #00aeef;
-  color: #fff;
+  background: #fff;
+  color: #00aeef;
   font-weight: bold;
 }
 #roster li.composing,

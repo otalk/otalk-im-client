@@ -15,7 +15,7 @@
   noselect()
 
   .main li a, h1, #roster li
-    border-bottom: 1px solid lighten($sidebarActive, 5%)
+    border-bottom: 1px solid #1a2e35
 
   .main
     li
@@ -30,7 +30,7 @@
         fill: white
 
       &:hover
-        background: $sidebarActive
+        background: lighten($sidebarBg, 10%)
 
       a
         display: block
@@ -63,24 +63,24 @@
     cursor: pointer
 
     &:nth-child(2n)
-      background: #1e252f
+      background: lighten($sidebarBg, 5%)
 
     &:hover
-      background: #2a323f
+      background: $activeBlue
 
     &.hasUnread .unread
       display: block
 
     &.online,
     &.chat
-      border-left: 3px solid green
+      border-left: 4px solid #427a00
 
     &.dnd
-      border-left: 3px solid red
+      border-left: 4px solid #c50041
 
     &.away,
     &.xa
-      border-left: 3px solid orange
+      border-left: 4px solid #f57900
 
     &.offline
       border-left: none
@@ -93,8 +93,8 @@
         color: #777
 
     &.activeContact
-      background: $activeBlue
-      color: white
+      background: white
+      color: $activeBlue
       font-weight: bold
 
     &.composing
