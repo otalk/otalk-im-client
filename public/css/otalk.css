@@ -265,7 +265,11 @@ td {
 }
 #menu .main li {
   list-style-type: none;
-  line-height: 12px;
+  margin: 10px 0 5px 0;
+  text-align: center;
+}
+#menu .main li:last-child {
+  margin: 0;
 }
 #menu .main li svg {
   position: absolute;
@@ -274,18 +278,15 @@ td {
   margin-top: -13px;
   fill: #fff;
 }
-#menu .main li:hover {
-  background: #00aeef;
-}
 #menu .main li a {
-  display: block;
   position: relative;
-  padding: 0 15px 0 40px;
-  text-decoration: none;
-  font-size: 14px;
-  color: #fff;
-  font-weight: 600;
-  line-height: 35px;
+  width: 120px;
+}
+#menu .main li .button {
+  background: #1f2d49;
+}
+#menu .main li .button:hover {
+  background: #2b3f65;
 }
 #menu h1 {
   font-size: 12px;
@@ -808,7 +809,7 @@ a.button {
   padding: 0 1em;
   color: #fff;
   background: #00aeef;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: bold;
   text-decoration: none;
   text-align: center;
