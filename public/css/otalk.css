@@ -263,11 +263,6 @@ td {
   -ms-user-select: none;
   user-select: none;
 }
-#menu .main li a,
-#menu h1,
-#menu #roster li {
-  border-bottom: 1px solid #1a2e35;
-}
 #menu .main li {
   list-style-type: none;
   line-height: 12px;
@@ -295,7 +290,7 @@ td {
 #menu h1 {
   font-size: 12px;
   margin: 0;
-  padding: 5px 15px;
+  padding: 20px 15px 10px 15px;
   color: #fff;
   text-transform: uppercase;
 }
@@ -318,7 +313,7 @@ td {
 }
 #roster li:nth-child(2n),
 #bookmarks li:nth-child(2n) {
-  background: #132126;
+  background: #111e23;
 }
 #roster li:hover,
 #bookmarks li:hover {
