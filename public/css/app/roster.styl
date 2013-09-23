@@ -51,7 +51,7 @@
 #bookmarks
   li
     list-style-type: none
-    padding: 7px 10px
+    padding: 7px 25px 7px 10px
     margin: 0px
     position: relative
     min-height: 15px
@@ -89,9 +89,6 @@
       img
         opacity: .25
 
-      .status
-        color: #777
-
     &.activeContact, &.offline.activeContact
       background: white
       font-weight: bold
@@ -105,16 +102,18 @@
         content: ''
         position: absolute
         top: 50%
-        right: 10px
+        right: 15px
         height: 8px
         width: 8px
         margin-top: -4px
         roundall(10px)
-        animation: pulsate 1.5s infinite ease-in
 
     &.composing
       &:after
         background: #f57900
+        animation: pulsate 1.5s infinite ease-in
+        -webkit-animation: pulsate 1.5s infinite ease-in
+        -moz-animation: pulsate 1.5s infinite ease-in
 
     &.paused
       &:after
@@ -143,12 +142,13 @@
 
     .status
       color: $textSecondary
-      font-size: $fontSmall-2px
+      font-size: 10px
+      line-height: 12px
       margin: 0
       margin-left: 30px
 
       &:not(:empty)
-        margin-top: -5px
+        margin-top: -2px
 
     .unread
       display: none
@@ -157,7 +157,7 @@
       roundall(20px)
       position: absolute
       top: 10px
-      right: 15px
+      right: 10px
       text-align: center
       font-weight: bold
       background: $activeBlue

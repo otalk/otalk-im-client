@@ -298,7 +298,7 @@ td {
 #roster li,
 #bookmarks li {
   list-style-type: none;
-  padding: 7px 10px;
+  padding: 7px 25px 7px 10px;
   margin: 0px;
   position: relative;
   min-height: 15px;
@@ -348,10 +348,6 @@ td {
 #bookmarks li.offline:not(:hover) img {
   opacity: 0.25;
 }
-#roster li.offline:not(:hover) .status,
-#bookmarks li.offline:not(:hover) .status {
-  color: #777;
-}
 #roster li.activeContact,
 #bookmarks li.activeContact,
 #roster li.offline.activeContact,
@@ -372,7 +368,7 @@ td {
   content: '';
   position: absolute;
   top: 50%;
-  right: 10px;
+  right: 15px;
   height: 8px;
   width: 8px;
   margin-top: -4px;
@@ -382,11 +378,13 @@ td {
   -o-border-radius: 10px;
   -border-radius: 10px;
   border-radius: 10px;
-  animation: pulsate 1.5s infinite ease-in;
 }
 #roster li.composing:after,
 #bookmarks li.composing:after {
   background: #f57900;
+  animation: pulsate 1.5s infinite ease-in;
+  -webkit-animation: pulsate 1.5s infinite ease-in;
+  -moz-animation: pulsate 1.5s infinite ease-in;
 }
 #roster li.paused:after,
 #bookmarks li.paused:after {
@@ -431,13 +429,14 @@ td {
 #roster li .status,
 #bookmarks li .status {
   color: #b7b7b7;
-  font-size: $fontSmall-2px;
+  font-size: 10px;
+  line-height: 12px;
   margin: 0;
   margin-left: 30px;
 }
 #roster li .status:not(:empty),
 #bookmarks li .status:not(:empty) {
-  margin-top: -5px;
+  margin-top: -2px;
 }
 #roster li .unread,
 #bookmarks li .unread {
@@ -452,7 +451,7 @@ td {
   border-radius: 20px;
   position: absolute;
   top: 10px;
-  right: 15px;
+  right: 10px;
   text-align: center;
   font-weight: bold;
   background: #00aeef;
