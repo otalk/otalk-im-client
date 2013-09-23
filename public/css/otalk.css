@@ -263,6 +263,9 @@ td {
   -ms-user-select: none;
   user-select: none;
 }
+#menu .main {
+  margin-bottom: 10px;
+}
 #menu .main li {
   list-style-type: none;
   margin: 10px 0 5px 0;
@@ -289,9 +292,9 @@ td {
   background: #2b3f65;
 }
 #menu h1 {
-  font-size: 12px;
+  font-size: 10px;
   margin: 0;
-  padding: 10px;
+  padding: 20px 10px;
   color: #fff;
   text-transform: uppercase;
 }
@@ -314,7 +317,7 @@ td {
 }
 #roster li:hover,
 #bookmarks li:hover {
-  background: #00aeef;
+  background: #1f2d49;
 }
 #roster li.hasUnread .unread,
 #bookmarks li.hasUnread .unread {
@@ -343,6 +346,10 @@ td {
 #roster li.offline:not(:hover) .name,
 #bookmarks li.offline:not(:hover) .name {
   color: #6e6e6e;
+}
+#roster li.offline:not(:hover) .status,
+#bookmarks li.offline:not(:hover) .status {
+  color: #404040;
 }
 #roster li.offline:not(:hover) img,
 #bookmarks li.offline:not(:hover) img {
@@ -442,7 +449,7 @@ td {
 #bookmarks li .unread {
   display: none;
   color: #fff;
-  padding: 0 5px;
+  padding: 2px 5px;
   -moz-border-radius: 20px;
   -webkit-border-radius: 20px;
   -khtml-border-radius: 20px;
@@ -450,11 +457,12 @@ td {
   -border-radius: 20px;
   border-radius: 20px;
   position: absolute;
-  top: 10px;
+  top: 8px;
   right: 10px;
+  font-size: 10px;
   text-align: center;
-  font-weight: bold;
-  background: #00aeef;
+  color: #43629e;
+  background: #1f2d49;
 }
 @-moz-keyframes pulsate {
   0% {

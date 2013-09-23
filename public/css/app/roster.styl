@@ -15,6 +15,7 @@
   noselect()
 
   .main
+    margin-bottom: 10px
     li
       list-style-type: none
       margin: 10px 0 5px 0
@@ -35,15 +36,15 @@
         width: 130px
 
       .button
-        background: $sidebarButton
+        background: $sidebarActive
 
         &:hover
-          background: lighten($sidebarButton, 10%)
+          background: lighten($sidebarActive, 10%)
 
   h1
-    font-size: $fontSmall
+    font-size: 10px
     margin: 0
-    padding: 10px
+    padding: 20px 10px
     color: white
     text-transform: uppercase
 
@@ -63,7 +64,7 @@
     -moz-transition: all .3s ease-in 0
 
     &:hover
-      background: $activeBlue
+      background: $sidebarActive
 
     &.hasUnread .unread
       display: block
@@ -85,6 +86,9 @@
     &.offline:not(:hover)
       .name
         color: darken($textSecondary, 40%)
+
+      .status
+        color: darken($textSecondary, 65%)
 
       img
         opacity: .25
@@ -153,14 +157,15 @@
     .unread
       display: none
       color: white
-      padding: 0 5px
+      padding: 2px 5px
       roundall(20px)
       position: absolute
-      top: 10px
+      top: 8px
       right: 10px
+      font-size: 10px
       text-align: center
-      font-weight: bold
-      background: $activeBlue
+      color: lighten($sidebarActive, 30%)
+      background: $sidebarActive
 
 @keyframes pulsate
   0%
