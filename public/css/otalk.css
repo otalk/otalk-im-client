@@ -696,30 +696,17 @@ td {
   position: relative;
 }
 .chatBox textarea {
-  background-color: #fff;
   width: 100%;
+  position: relative;
   height: 30px;
-  border: 1px solid #e4e4e4;
-  -moz-border-radius: 3px;
-  -webkit-border-radius: 3px;
-  -khtml-border-radius: 3px;
-  -o-border-radius: 3px;
-  -border-radius: 3px;
-  border-radius: 3px;
   line-height: 18px;
-  outline: none;
-  resize: none;
-  color: #222f3b;
-  font-size: 14px;
-  -webkit-font-smoothing: antialiased;
-  -webkit-appearance: none;
   padding: 5px;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
+  background: #fff;
 }
 .chatBox textarea.editing {
-  background-color: #ff0;
+  background-color: #fffcea;
+  border: 1px solid #efe391;
+  color: #d2bd2d;
 }
 #connectionOverlay {
   position: fixed;
@@ -863,6 +850,8 @@ textarea {
   box-sizing: border-box;
   font-family: 'Gotham SSm A', 'Gotham SSm B', Helvetica, Arial, sans-serif;
   font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -webkit-appearance: none;
   -webkit-transition: border 0.2s ease-in 0;
   -o-transition: border 0.2s ease-in 0;
   transition: border 0.2s ease-in 0;
