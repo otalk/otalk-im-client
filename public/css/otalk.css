@@ -280,7 +280,7 @@ td {
 }
 #menu .main li a {
   position: relative;
-  width: 120px;
+  width: 130px;
 }
 #menu .main li .button {
   background: #1f2d49;
@@ -291,7 +291,7 @@ td {
 #menu h1 {
   font-size: 12px;
   margin: 0;
-  padding: 20px 15px 10px 15px;
+  padding: 10px;
   color: #fff;
   text-transform: uppercase;
 }
@@ -311,10 +311,6 @@ td {
   -moz-transition: all 0.3s ease-in 0;
   -webkit-transition: all 0.3s ease-in 0;
   -moz-transition: all 0.3s ease-in 0;
-}
-#roster li:nth-child(2n),
-#bookmarks li:nth-child(2n) {
-  background: #111e23;
 }
 #roster li:hover,
 #bookmarks li:hover {
@@ -346,7 +342,7 @@ td {
 }
 #roster li.offline:not(:hover) .name,
 #bookmarks li.offline:not(:hover) .name {
-  color: #b7b7b7;
+  color: #6e6e6e;
 }
 #roster li.offline:not(:hover) img,
 #bookmarks li.offline:not(:hover) img {
@@ -369,13 +365,32 @@ td {
 #bookmarks li.offline.activeContact .name {
   color: #565656;
 }
-#roster li.composing,
-#bookmarks li.composing {
-  border-right: 4px solid #ffa500;
+#roster li.composing:after,
+#bookmarks li.composing:after,
+#roster li.paused:after,
+#bookmarks li.paused:after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  height: 8px;
+  width: 8px;
+  margin-top: -4px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -khtml-border-radius: 10px;
+  -o-border-radius: 10px;
+  -border-radius: 10px;
+  border-radius: 10px;
+  animation: pulsate 1.5s infinite ease-in;
 }
-#roster li.paused,
-#bookmarks li.paused {
-  border-right: 4px solid #666;
+#roster li.composing:after,
+#bookmarks li.composing:after {
+  background: #f57900;
+}
+#roster li.paused:after,
+#bookmarks li.paused:after {
+  background: #b7b7b7;
 }
 #roster li img,
 #bookmarks li img {
@@ -441,6 +456,71 @@ td {
   text-align: center;
   font-weight: bold;
   background: #00aeef;
+}
+@-moz-keyframes pulsate {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes pulsate {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+@-o-keyframes pulsate {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+@-ms-keyframes pulsate {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes pulsate {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
 .page.chat {
   padding-top: 0px;

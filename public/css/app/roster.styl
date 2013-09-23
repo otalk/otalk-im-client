@@ -32,7 +32,7 @@
 
       a
         position: relative
-        width: 120px
+        width: 130px
 
       .button
         background: $sidebarButton
@@ -43,7 +43,7 @@
   h1
     font-size: $fontSmall
     margin: 0
-    padding: 20px 15px 10px 15px
+    padding: 10px
     color: white
     text-transform: uppercase
 
@@ -61,9 +61,6 @@
     transition: all .3s ease-in 0
     -webkit-transition: all .3s ease-in 0
     -moz-transition: all .3s ease-in 0
-
-    &:nth-child(2n)
-      background: lighten($sidebarBg, 4%)
 
     &:hover
       background: $activeBlue
@@ -87,7 +84,7 @@
 
     &.offline:not(:hover)
       .name
-        color: $textSecondary
+        color: darken($textSecondary, 40%)
 
       img
         opacity: .25
@@ -102,11 +99,26 @@
       .name
         color: $baseText
 
+    &.composing, &.paused
+
+      &:after
+        content: ''
+        position: absolute
+        top: 50%
+        right: 10px
+        height: 8px
+        width: 8px
+        margin-top: -4px
+        roundall(10px)
+        animation: pulsate 1.5s infinite ease-in
+
     &.composing
-      border-right: 4px solid orange
+      &:after
+        background: #f57900
 
     &.paused
-      border-right: 4px solid #666
+      &:after
+        background: $textSecondary
 
     img
       opacity: 1
@@ -150,3 +162,10 @@
       font-weight: bold
       background: $activeBlue
 
+@keyframes pulsate
+  0%
+    opacity: 1.0
+  50%
+    opacity: 0.5
+  100%
+    opacity: 1.0
