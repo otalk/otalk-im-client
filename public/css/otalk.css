@@ -555,12 +555,10 @@ td {
   right: 0px;
   left: 181px;
   z-index: 10;
-  font-size: 14px;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
   background: #f7f7f7;
-  color: #222;
 }
 .conversation header .avatar {
   margin-right: 5px;
@@ -583,6 +581,26 @@ td {
   margin-left: 45px;
   font-size: 14px;
   line-height: 14px;
+}
+.conversation header .tzo:not(:empty) {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  height: 20px;
+  margin-top: -10px;
+  padding: 0 5px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -khtml-border-radius: 3px;
+  -o-border-radius: 3px;
+  -border-radius: 3px;
+  border-radius: 3px;
+  text-transform: uppercase;
+  font-size: 9px;
+  font-weight: bold;
+  line-height: 20px;
+  color: #898989;
+  background: #e4e4e4;
 }
 .messages {
   background: #f7fdff;
