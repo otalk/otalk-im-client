@@ -57,8 +57,6 @@
       background: $grayOutline
 
 .messages
-  background: lighten($activeBlue, 97%)
-  font-weight: normal
   margin: 0px
   padding: 0px
   padding-top: 130px
@@ -68,6 +66,7 @@
   bottom: 75px
   width: 100%
   borderbox()
+  background: lighten($activeBlue, 97%)
 
   li
     position: relative
@@ -85,17 +84,18 @@
   .message
     font-size: 12px
     margin: 0px
-    padding: 7px 11px
+    padding: 10px
     display: inline-block
     padding-right: 11px
     min-width: 20px
     width: 100%
-    border-bottom: 1px solid lighten($activeBlue, 90%)
     borderbox()
+
+    &:not(.mine)
+      color: $activeBlue
 
     &.mine
       background: white
-      border-bottom: 1px solid lighten($grayOutline, 10%)
 
       .timestamp
         color: darken($grayOutline, 20%)
@@ -113,7 +113,6 @@
       word-break: break-word
       padding: 0px
       margin: 0px
-      color: #111
 
     .timestamp
       font-size: 10px
