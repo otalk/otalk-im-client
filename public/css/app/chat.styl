@@ -18,24 +18,17 @@
 
   header
     padding: 5px
-    gradient: #e1e4e6 #cacdce
-    shadow: rgba(#000,0.1) 2px 1px 5px
-    border-bottom: 1px solid #aaa
+    border-bottom: 2px solid $grayOutline
     position: fixed
     right: 0px
-    left: 156px
+    left: 181px
     z-index: 10
-    font-size: 14px
     borderbox()
-    color: #222
-    font-weight: normal
-    font-size: 11px
+    background: $grayBackground
 
     .avatar
       margin-right: 5px
-      roundall: 5px
-      width: 30px
-      height: 30px
+      avatarLarge()
       position: absolute
       top: 11px
       left: 11px
@@ -48,12 +41,27 @@
       font-size: 14px
       line-height: 14px
 
+    .tzo:not(:empty)
+      position: absolute
+      right: 15px
+      top: 50%
+      height: 20px
+      margin-top: -10px
+      padding: 0 5px
+      roundall(3px)
+      text-transform: uppercase
+      font-size: 9px
+      font-weight: bold
+      line-height: 20px
+      color: lighten($baseText, 30%)
+      background: $grayOutline
+
 .messages
-  background: #ecf0f2
+  background: lighten($activeBlue, 97%)
   font-weight: normal
   margin: 0px
   padding: 0px
-  padding-top: 150px
+  padding-top: 130px
   overflow-y: auto
   overflow-x: hidden
   position: relative
@@ -71,8 +79,10 @@
     display: block
     borderbox()
 
+    &:last-child .message
+      border: none
+
   .message
-    color: #33404c
     font-size: 12px
     margin: 0px
     padding: 7px 11px
@@ -80,15 +90,15 @@
     padding-right: 11px
     min-width: 20px
     width: 100%
-    border-bottom: 1px solid #ccc
+    border-bottom: 1px solid lighten($activeBlue, 90%)
     borderbox()
 
     &.mine
-      background: #eaf7ff
-      border-bottom: 1px solid #bbe0fa
+      background: white
+      border-bottom: 1px solid lighten($grayOutline, 10%)
 
       .timestamp
-        color: #bbe0fa
+        color: darken($grayOutline, 20%)
 
     &.delayed
       .timestamp:before
@@ -106,28 +116,24 @@
       color: #111
 
     .timestamp
-      font-size: 12px
-      color: #bbb
+      font-size: 10px
       font-weight: bold
+      color: lighten($activeBlue, 50%)
       float: right
       display: block
-      margin-right: 15px
 
 .chatBox
   borderbox()
-  border-top: 1px solid rgba(0,0,0,.08)
+  border-top: 1px solid $grayOutline
   bottom: 0px
   position: fixed
   right: 0px
-  left: 156px
+  left: 181px
   z-index: 200
 
   form
-    gradient: #e1e4e6 #cacdce
+    background: $grayBackground
     padding: 11px
-    border-top: 1px solid #fff
-    border-left: 1px solid #ddd
-    border-right: 1px solid #ddd
 
   .formwrap
     borderbox()
@@ -136,25 +142,14 @@
     position: relative
 
   textarea
-    background-color: #fff
     width: 100%
+    position: relative
     height: 30px
-    border: 1px solid #ccc
-    border-top-color: #bbb
-    roundall: 5px
-    innerShadow: rgba(0,0,0,.1) 0 -1px 3px
     line-height: 18px
-    outline: none
-    resize: none
-    color: #222f3b
-    font-size: 14px
-    -webkit-font-smoothing: antialiased
     padding: 5px
-    borderbox()
-
-    &:focus
-      border-color: #bbb
-      border-top-color: #aaa
+    background: white
 
     &.editing
-      background-color: yellow
+      background-color: #fffcea
+      border: 1px solid #efe391
+      color: #d2bd2d

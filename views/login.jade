@@ -1,9 +1,14 @@
 extends layout
 
 block content
-    section#loginbox.content
-        a.andyetLogin(href="/oauth/login") have an &amp;yet account?
-        h2 Log in
+  section#loginbox.content.box
+    .head
+        h2 
+          | Log in
+          a.button(href="/oauth/login") Have an &amp;yet account?
+
+    .content
+
         form
             .fieldContainer
                 label(for='username') JID

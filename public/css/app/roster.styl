@@ -6,96 +6,122 @@
   top: 0px
   bottom: 0px
   left: 0px
-  width: 155px
-  background-color: #1c232d
+  width: 180px
+  background-color: $sidebarBg
   z-index: 300
   overflow-y: auto;
   overflow-x: hidden;
   webkit-transition-fix()
   noselect()
-  shadow: #000 1px 0px 1px
 
   .main
+    margin-bottom: 10px
     li
       list-style-type: none
-      padding: 5px
-      line-height: 12px
+      margin: 10px 0 5px 0
+      text-align: center
 
-      &:hover
-        background-color: #2a323f
+      &:last-child
+        margin: 0
 
-        a
-          color: #666
+      svg
+        position: absolute
+        top: 50%
+        left: 10px
+        margin-top: -13px
+        fill: white
 
       a
-        text-decoration: none
-        font-size: 12px
-        color: #777
+        position: relative
+        width: 130px
 
+      .button
+        background: $sidebarActive
+
+        &:hover
+          background: lighten($sidebarActive, 10%)
 
   h1
-    font-size: 11px
-    margin: 0px
-    margin-bottom: 1px
-    padding: 5px
-    color: #222
-    border-top: 1px solid #fff
-    border-bottom: 1px solid #aaa
-    gradient: #e1e4e6 #cacdce
-    shadow: rgba(0,0,0,0.75) 2px 1px 5px
-    text-shadow: #fff 1px 1px 1px
+    font-size: 10px
+    margin: 0
+    padding: 20px 10px
+    color: white
+    text-transform: uppercase
 
 #roster,
 #bookmarks
   li
     list-style-type: none
-    padding: 11px
+    padding: 7px 25px 7px 10px
     margin: 0px
     position: relative
-    min-height: 20px
-    font-size: 11px
+    min-height: 15px
+    font-size: $fontSmall
     color: #fff
-
-    &:nth-child(2n)
-      background-color: #1e252f
+    cursor: pointer
+    transition: all .3s ease-in 0
+    -webkit-transition: all .3s ease-in 0
+    -moz-transition: all .3s ease-in 0
 
     &:hover
-      background-color: #2a323f
+      background: $sidebarActive
 
     &.hasUnread .unread
       display: block
 
     &.online,
     &.chat
-      border-left: 2px solid green
+      border-left: 3px solid #427a00
 
     &.dnd
-      border-left: 2px solid red
+      border-left: 3px solid #c50041
 
     &.away,
     &.xa
-      border-left: 2px solid orange
+      border-left: 3px solid #f57900
 
     &.offline
-      border-left: 2px solid #222
-      color: #aaa
+      border-left: none
+
+    &.offline:not(:hover)
+      .name
+        color: darken($textSecondary, 40%)
+
+      .status
+        color: darken($textSecondary, 65%)
 
       img
         opacity: .25
 
-      .status
-        color: #777
+    &.activeContact, &.offline.activeContact
+      background: white
+      font-weight: bold
 
-    &.activeContact
-      gradient: #35c8ff #00aeef
-      border-top: 1px solid #8de0ff
-      border-bottom: 1px solid #004a65
+      .name
+        color: $baseText
+
+    &.composing, &.paused
+
+      &:after
+        content: ''
+        position: absolute
+        top: 50%
+        right: 15px
+        height: 8px
+        width: 8px
+        margin-top: -4px
+        roundall(10px)
 
     &.composing
-      border-right: 4px solid orange
+      &:after
+        background: #f57900
+        animation: pulsate 1.5s infinite ease-in
+        -webkit-animation: pulsate 1.5s infinite ease-in
+        -moz-animation: pulsate 1.5s infinite ease-in
 
     &.paused
-      border-right: 4px solid #666
+      &:after
+        background: $textSecondary
 
     img
       opacity: 1
@@ -103,42 +129,48 @@
     .avatar
       vertical-align: top
       margin-right: 5px
+      margin-top: -10px
       position: absolute
-      left: 5px
-      top: 5px
-      width: 30px
-      height: 30px
-      roundall: 5px
-      shadow: rgba(0,0,0,0.5) -1px -1px 1px
+      left: 10px
+      top: 50%
+      avatarSmall()
       noselect()
 
     .name
-      margin: 0px
-      margin-left: 40px
-      font-weight: bold
-      text-shadow: rgba(0,0,0,0.5) -1px -1px 1px
+      margin-left: 30px
+      line-height: 20px
+      color: white
+      text-overflow: ellipsis
+      overflow: hidden
+      width: 70%
 
     .status
-      color: #ccc
+      color: $textSecondary
       font-size: 10px
-      font-style: italic
-      font-weight: 600
-      margin: 0px
-      margin-left: 40px
-      text-shadow: rgba(0,0,0,0.5) 1px 1px 1px
+      line-height: 12px
+      margin: 0
+      margin-left: 30px
+
+      &:not(:empty)
+        margin-top: -2px
 
     .unread
       display: none
       color: white
-      padding-left: 5px
-      padding-right: 5px
-      roundall: 11px
+      padding: 2px 5px
+      roundall(20px)
       position: absolute
-      top: 20px
-      left: 20px
+      top: 8px
+      right: 10px
+      font-size: 10px
       text-align: center
-      font-weight: bold
-      background-color: red
-      border: 1px solid white
-      text-shadow: rgba(0,0,0,0.5) 1px 1px 1px
-      shadow: rgba(0,0,0,0.5) 1px 1px 1px
+      color: lighten($sidebarActive, 30%)
+      background: $sidebarActive
+
+@keyframes pulsate
+  0%
+    opacity: 1.0
+  50%
+    opacity: 0.5
+  100%
+    opacity: 1.0

@@ -2,19 +2,19 @@
 @import '../_mixins'
 
 body
-  background: #ecf0f2
-  color: #222
-  font-family: 'Lucdia Grande', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif
-  font-size: 17px
-  font-weight: 500
+  background: white
+  color: $baseText
+  gotham()
+  font-size: 16px
+  font-weight: 400
   -webkit-font-smoothing: antialiased
 
-  #pages
-    position: absolute
-    top: 0px
-    right: 0px
-    left: 156px
-    borderbox()
+h1, h2, h3, h4
+  color: darken($baseText, 30%)
 
-  #menu
-    width: 155px
+#pages
+  position: absolute
+  top: 0px
+  right: 0px
+  left: 181px
+  borderbox()
