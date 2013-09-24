@@ -66,6 +66,22 @@ module.exports = HumanModel.define({
             fn: function () {
                 return !this.acked;
             }
+        },
+        nick: {
+            deps: ['mine', 'type'],
+            fn: function () {
+                if (this.mine) {
+                    if (this.type === 'groupchat') {
+                        return me.mucs.get(this.to.bare).nick;
+                    } else {
+                        return 'me';
+                    }
+                }
+                if (this.type === 'groupchat') {
+                    return this.from.resource;
+                }
+                return me.getContact(this.from.bare).displayName;
+            }
         }
     },
     session: {

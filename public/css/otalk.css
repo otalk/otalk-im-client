@@ -738,6 +738,9 @@ h4 {
   float: right;
   display: block;
 }
+.messages .message .sender {
+  display: block;
+}
 .chatBox {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;

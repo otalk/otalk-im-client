@@ -3,7 +3,7 @@
 
 var BasePage = require('./base');
 var templates = require('../templates');
-var Message = require('../views/message');
+var Message = require('../views/mucMessage');
 var MessageModel = require('../models/message');
 
 
@@ -23,7 +23,7 @@ module.exports = BasePage.extend({
         avatar: 'header .avatar'
     },
     textBindings: {
-        displayName: 'header .name',
+        displayName: 'header .name'
     },
     show: function (animation) {
         BasePage.prototype.show.apply(this, [animation]);
@@ -124,7 +124,7 @@ module.exports = BasePage.extend({
 
         if (val) {
             message = {
-                to: this.model.lockedResource || this.model.jid,
+                to: this.model.jid,
                 type: 'groupchat',
                 body: val,
                 chatState: 'active'

@@ -77,7 +77,7 @@ exports.includes.mucListItem = function anonymous(locals) {
 exports.includes.mucMessage = function anonymous(locals) {
     var buf = [];
     with (locals || {}) {
-        buf.push('<li><div class="message"><span class="sender">' + jade.escape(null == (jade.interp = message.nick) ? "" : jade.interp) + '</span><span class="timestamp">' + jade.escape(null == (jade.interp = message.created) ? "" : jade.interp) + '</span><p class="body">' + jade.escape(null == (jade.interp = message.body) ? "" : jade.interp) + "</p></div></li>");
+        buf.push('<li><div class="message"><span class="timestamp">' + jade.escape(null == (jade.interp = message.created) ? "" : jade.interp) + '</span><p class="body">' + jade.escape(null == (jade.interp = message.body) ? "" : jade.interp) + '</p><span class="sender">' + jade.escape(null == (jade.interp = message.nick) ? "" : jade.interp) + "</span></div></li>");
     }
     return buf.join("");
 };

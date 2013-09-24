@@ -94,7 +94,6 @@ module.exports = HumanModel.define({
                 self.contacts.add(contact);
             });
         });
- 
     },
     isMe: function (jid) {
         return jid.bare === this.jid.bare;
