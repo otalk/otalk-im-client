@@ -248,6 +248,7 @@ module.exports = function (client, app) {
                 });
             }
 
+            message.acked = true;
             contact.addMessage(message, true);
             contact.lockedResource = msg.from.full;
         }
@@ -262,6 +263,7 @@ module.exports = function (client, app) {
             }
 
             var message = new Message(msg);
+            message.acked = true;
             contact.addMessage(message, true);
         }
     });
@@ -278,7 +280,7 @@ module.exports = function (client, app) {
 
         original.correct(msg);
     });
-    
+
     client.on('carbon:received', function (carbon) {
         if (!me.isMe(carbon.from)) return;
 
@@ -315,6 +317,18 @@ module.exports = function (client, app) {
         if (pres.caps.hash) {
             log.debug('Caps from ' + pres.from + ' ver: ' + pres.caps.ver);
             discoCapsQueue.push(pres);
+        }
+    });
+
+    client.on('stanza:acked', function (stanza) {
+        if (stanza.body) {
+            var contact = me.getContact(stanza.to, stanza.from);
+            if (contact) {
+                var msg = contact.messages.get(stanza.id);
+                if (msg) {
+                    msg.acked = true;
+                }
+            }
         }
     });
 };

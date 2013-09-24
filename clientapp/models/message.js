@@ -45,6 +45,7 @@ module.exports = HumanModel.define({
             deps: ['created'],
             fn: function () {
                 if (this.created) {
+                    console.log(this.created);
                     var month = this.created.getMonth();
                     var day = this.created.getDate();
                     var hour = this.created.getHours();
@@ -59,6 +60,12 @@ module.exports = HumanModel.define({
                 }
                 return undefined;
             }
+        },
+        pending: {
+            deps: ['acked'],
+            fn: function () {
+                return !this.acked;
+            }
         }
     },
     session: {
@@ -71,7 +78,7 @@ module.exports = HumanModel.define({
         if (this.from.full !== msg.from.full) return false;
 
         delete msg.id;
-        
+
         this.set(msg);
         this._created = Date.now();
         this.edited = true;

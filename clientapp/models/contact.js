@@ -201,7 +201,7 @@ module.exports = HumanModel.define({
                 results.forEach(function (result) {
                     result = result.toJSON();
                     var msg = result.mam.forwarded.message;
-                    
+
                     if (!msg.id) {
                         msg.id = uuid.v4();
                     }
@@ -221,6 +221,7 @@ module.exports = HumanModel.define({
 
                     var message = new Message(msg);
                     message.archivedId = result.mam.id;
+                    message.acked = true;
 
                     self.addMessage(message, false);
                 });

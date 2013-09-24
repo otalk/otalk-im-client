@@ -723,6 +723,9 @@ h4 {
 .messages .message.edited .timestamp:before {
   content: 'edited ';
 }
+.messages .message.pending {
+  background-color: #f00;
+}
 .messages .message .body {
   display: inline;
   word-break: break-word;
