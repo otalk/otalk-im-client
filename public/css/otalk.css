@@ -384,8 +384,8 @@ h3 {
 #bookmarks li:hover {
   background: #1f2d49;
 }
-#roster li:hover.hasUnread .unread,
-#bookmarks li:hover.hasUnread .unread {
+#roster li:hover .unread:not(:empty),
+#bookmarks li:hover .unread:not(:empty) {
   display: block;
 }
 #roster li.online:after,

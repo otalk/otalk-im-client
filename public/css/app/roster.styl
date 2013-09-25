@@ -66,7 +66,7 @@
     &:hover
       background: $sidebarActive
 
-      &.hasUnread .unread
+      .unread:not(:empty)
         display: block
 
     &.online, &.chat, &.dnd, &.away, &.xa
