@@ -45,7 +45,6 @@ module.exports = HumanModel.define({
             deps: ['created'],
             fn: function () {
                 if (this.created) {
-                    console.log(this.created);
                     var month = this.created.getMonth();
                     var day = this.created.getDate();
                     var hour = this.created.getHours();
