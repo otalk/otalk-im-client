@@ -387,25 +387,45 @@ h4 {
 #bookmarks li.hasUnread .unread {
   display: block;
 }
-#roster li.online,
-#bookmarks li.online,
-#roster li.chat,
-#bookmarks li.chat {
-  border-left: 3px solid #427a00;
+#roster li.online:after,
+#bookmarks li.online:after,
+#roster li.chat:after,
+#bookmarks li.chat:after,
+#roster li.dnd:after,
+#bookmarks li.dnd:after,
+#roster li.away:after,
+#bookmarks li.away:after,
+#roster li.xa:after,
+#bookmarks li.xa:after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  height: 8px;
+  width: 8px;
+  margin-top: -4px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -khtml-border-radius: 10px;
+  -o-border-radius: 10px;
+  -border-radius: 10px;
+  border-radius: 10px;
 }
-#roster li.dnd,
-#bookmarks li.dnd {
-  border-left: 3px solid #c50041;
+#roster li.online:after,
+#bookmarks li.online:after,
+#roster li.chat:after,
+#bookmarks li.chat:after {
+  background: #427a00;
 }
-#roster li.away,
-#bookmarks li.away,
-#roster li.xa,
-#bookmarks li.xa {
-  border-left: 3px solid #f57900;
+#roster li.dnd:after,
+#bookmarks li.dnd:after {
+  background: #c50041;
 }
-#roster li.offline,
-#bookmarks li.offline {
-  border-left: none;
+#roster li.away:after,
+#bookmarks li.away:after,
+#roster li.xa:after,
+#bookmarks li.xa:after {
+  background: #f57900;
 }
 #roster li.offline:not(:hover) .name,
 #bookmarks li.offline:not(:hover) .name {
@@ -433,26 +453,7 @@ h4 {
   color: #565656;
 }
 #roster li.composing:after,
-#bookmarks li.composing:after,
-#roster li.paused:after,
-#bookmarks li.paused:after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  right: 15px;
-  height: 8px;
-  width: 8px;
-  margin-top: -4px;
-  -moz-border-radius: 10px;
-  -webkit-border-radius: 10px;
-  -khtml-border-radius: 10px;
-  -o-border-radius: 10px;
-  -border-radius: 10px;
-  border-radius: 10px;
-}
-#roster li.composing:after,
 #bookmarks li.composing:after {
-  background: #f57900;
   animation: pulsate 1.5s infinite ease-in;
   -webkit-animation: pulsate 1.5s infinite ease-in;
   -moz-animation: pulsate 1.5s infinite ease-in;

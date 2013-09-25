@@ -69,19 +69,31 @@
     &.hasUnread .unread
       display: block
 
+    &.online, &.chat, &.dnd, &.away, &.xa
+
+      &:after
+        content: ''
+        position: absolute
+        top: 50%
+        right: 15px
+        height: 8px
+        width: 8px
+        margin-top: -4px
+        roundall(10px)
+
     &.online,
     &.chat
-      border-left: 3px solid #427a00
+      &:after
+        background: #427a00
 
     &.dnd
-      border-left: 3px solid #c50041
+      &:after
+        background: #c50041
 
     &.away,
     &.xa
-      border-left: 3px solid #f57900
-
-    &.offline
-      border-left: none
+      &:after
+        background: #f57900
 
     &.offline:not(:hover)
       .name
@@ -100,21 +112,8 @@
       .name
         color: $baseText
 
-    &.composing, &.paused
-
-      &:after
-        content: ''
-        position: absolute
-        top: 50%
-        right: 15px
-        height: 8px
-        width: 8px
-        margin-top: -4px
-        roundall(10px)
-
     &.composing
       &:after
-        background: #f57900
         animation: pulsate 1.5s infinite ease-in
         -webkit-animation: pulsate 1.5s infinite ease-in
         -moz-animation: pulsate 1.5s infinite ease-in
