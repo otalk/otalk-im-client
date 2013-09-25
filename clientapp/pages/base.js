@@ -24,7 +24,7 @@ module.exports = HumanView.extend({
 
         document.title = function () {
             var title = _.result(self, 'title');
-            return title ? title + '- OTalk' : 'OTalk';
+            return title ? title + '- Otalk' : 'Otalk';
         }();
 
         this.trigger('pageloaded');

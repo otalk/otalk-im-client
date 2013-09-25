@@ -1,7 +1,7 @@
 {
     "name": "otalk.im",
     "version": "0.0.1",
-    "description": "OTalk: WebRTC Enabled XMPP Client, in the Browser",
+    "description": "Otalk: WebRTC Enabled XMPP Client, in the Browser",
     "repository": {
         "type": "git", 
         "url": "git@github.com:andyet/otalk.git"
