@@ -63,11 +63,11 @@
     -webkit-transition: all .3s ease-in 0
     -moz-transition: all .3s ease-in 0
 
+    .unread:not(:empty)
+      display: block
+
     &:hover
       background: $sidebarActive
-
-      .unread:not(:empty)
-        display: block
 
     &.online, &.chat, &.dnd, &.away, &.xa
 

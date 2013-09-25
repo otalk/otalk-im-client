@@ -38,6 +38,15 @@ module.exports = HumanModel.define({
                 return this.name || this.jid;
             }
         },
+        displayUnreadCount: {
+            deps: ['unreadCount'],
+            fn: function () {
+                if (this.unreadCount > 0) {
+                    return this.unreadCount.toString();
+                }
+                return '';
+            }
+        },
         hasUnread: {
             deps: ['unreadCount'],
             fn: function () {

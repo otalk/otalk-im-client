@@ -14,7 +14,7 @@ module.exports = HumanView.extend({
     },
     textBindings: {
         displayName: '.name',
-        unreadCount: '.unread'
+        displayUnreadCount: '.unread'
     },
     events: {
         'click': 'handleClick'

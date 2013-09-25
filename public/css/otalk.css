@@ -380,13 +380,13 @@ h3 {
   -webkit-transition: all 0.3s ease-in 0;
   -moz-transition: all 0.3s ease-in 0;
 }
+#roster li .unread:not(:empty),
+#bookmarks li .unread:not(:empty) {
+  display: block;
+}
 #roster li:hover,
 #bookmarks li:hover {
   background: #1f2d49;
-}
-#roster li:hover .unread:not(:empty),
-#bookmarks li:hover .unread:not(:empty) {
-  display: block;
 }
 #roster li.online:after,
 #bookmarks li.online:after,
