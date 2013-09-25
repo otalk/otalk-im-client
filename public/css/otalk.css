@@ -728,7 +728,7 @@ h3 {
   content: 'edited ';
 }
 .messages .message.pending {
-  background-color: #f00;
+  color: #ababab;
 }
 .messages .message .body {
   display: inline;
