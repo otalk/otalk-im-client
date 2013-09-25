@@ -1,12 +1,22 @@
 @import '../_variables'
 @import '../_mixins'
 
+.main div
+  padding: 20px
+  border-bottom: 1px solid $grayOutline
+
+  &:last-of-type
+    border: none
+
 .uploadRegion
-  font-size: 12px
-  roundall: 10px
-  border: 1px dashed #777
-  margin: 10px
-  text-align: center
+  font-size: $fontSmall
+  roundall(3px)
+  margin: 10px 0
+  color: $textSecondary
+  background: $grayBackground
+
+  p
+    margin: 0
 
   input
     width: 100%

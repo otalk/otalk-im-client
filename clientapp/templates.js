@@ -131,7 +131,7 @@ exports.pages.groupchat = function anonymous(locals) {
 exports.pages.main = function anonymous(locals) {
     var buf = [];
     with (locals || {}) {
-        buf.push('<section class="page main"><p>Current status:<span contenteditable="true" class="status"></span></p><div id="avatarChanger"><h1>Change Avatar</h1><div class="uploadRegion"><p>Drag and drop a new avatar here</p><img/><form><input id="uploader" type="file"/></form></div></div><button class="enableAlerts">Enable alerts</button><h1>This space intentionally blank</h1></section>');
+        buf.push('<section class="page main"><div><h3>Current status<span contenteditable="true" class="status"></span></h3></div><div id="avatarChanger"><h3>Change Avatar</h3><div class="uploadRegion"><p>Drag and drop a new avatar here</p><img/><form><input id="uploader" type="file"/></form></div></div><div><h3>Alerts</h3><button class="enableAlerts">Enable alerts</button></div></section>');
     }
     return buf.join("");
 };

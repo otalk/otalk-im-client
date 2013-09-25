@@ -1,16 +1,17 @@
 section.page.main
 
-  p Current status:
-    span.status(contenteditable="true")
+  div
+    h3 Current status
+      span.status(contenteditable="true")
 
   div#avatarChanger
-    h1 Change Avatar
+    h3 Change Avatar
     div.uploadRegion
       p Drag and drop a new avatar here
       img
       form
         input#uploader(type="file")
 
-  button.enableAlerts Enable alerts
-
-  h1 This space intentionally blank
+  div
+    h3 Alerts
+    button.enableAlerts Enable alerts

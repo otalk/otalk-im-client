@@ -260,6 +260,10 @@ h3,
 h4 {
   color: #3c3c3c;
 }
+h3 {
+  margin-top: 0;
+  font-size: 14px;
+}
 #pages {
   position: absolute;
   top: 0px;
@@ -268,9 +272,6 @@ h4 {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-}
-#pages .page.main {
-  padding: 20px;
 }
 #connectionOverlay {
   position: fixed;
@@ -780,17 +781,27 @@ h4 {
   border: 1px solid #efe391;
   color: #d2bd2d;
 }
+.main div {
+  padding: 20px;
+  border-bottom: 1px solid #e4e4e4;
+}
+.main div:last-of-type {
+  border: none;
+}
 .uploadRegion {
   font-size: 12px;
-  -moz-border-radius: 10px;
-  -webkit-border-radius: 10px;
-  -khtml-border-radius: 10px;
-  -o-border-radius: 10px;
-  -border-radius: 10px;
-  border-radius: 10px;
-  border: 1px dashed #777;
-  margin: 10px;
-  text-align: center;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -khtml-border-radius: 3px;
+  -o-border-radius: 3px;
+  -border-radius: 3px;
+  border-radius: 3px;
+  margin: 10px 0;
+  color: #b7b7b7;
+  background: #f7f7f7;
+}
+.uploadRegion p {
+  margin: 0;
 }
 .uploadRegion input {
   width: 100%;
