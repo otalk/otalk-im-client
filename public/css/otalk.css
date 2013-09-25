@@ -781,14 +781,25 @@ h3 {
   border: 1px solid #efe391;
   color: #d2bd2d;
 }
-.main div {
+.main > div {
   padding: 20px;
   border-bottom: 1px solid #e4e4e4;
 }
-.main div:last-of-type {
+.main > div:last-of-type {
   border: none;
 }
+.main > div .status {
+  padding: 5px;
+  background: #f7f7f7;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -khtml-border-radius: 3px;
+  -o-border-radius: 3px;
+  -border-radius: 3px;
+  border-radius: 3px;
+}
 .uploadRegion {
+  padding: 15px;
   font-size: 12px;
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
@@ -905,7 +916,8 @@ input[type=text]:focus,
 input[type=email]:focus,
 input[type=search]:focus,
 input[type=password]:focus,
-textarea:focus {
+textarea:focus,
+.main .status:focus {
   outline: none;
   border: 1px solid #78daff;
 }
