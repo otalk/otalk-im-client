@@ -384,8 +384,8 @@ h3 {
 #bookmarks li:hover {
   background: #1f2d49;
 }
-#roster li:hover.hasUnread .unread,
-#bookmarks li:hover.hasUnread .unread {
+#roster li:hover .unread:not(:empty),
+#bookmarks li:hover .unread:not(:empty) {
   display: block;
 }
 #roster li.online:after,
@@ -503,13 +503,14 @@ h3 {
 #bookmarks li .status {
   color: #b7b7b7;
   font-size: 10px;
+  font-weight: 400;
   line-height: 12px;
   margin: 0;
-  margin-left: 30px;
+  margin-left: 40px;
 }
 #roster li .status:not(:empty),
 #bookmarks li .status:not(:empty) {
-  margin-top: -2px;
+  margin-top: -8px;
 }
 #roster li .unread,
 #bookmarks li .unread {
@@ -727,7 +728,7 @@ h3 {
   content: 'edited ';
 }
 .messages .message.pending {
-  background-color: #f00;
+  color: #ababab;
 }
 .messages .message .body {
   display: inline;
@@ -781,14 +782,25 @@ h3 {
   border: 1px solid #efe391;
   color: #d2bd2d;
 }
-.main div {
+.main > div {
   padding: 20px;
   border-bottom: 1px solid #e4e4e4;
 }
-.main div:last-of-type {
+.main > div:last-of-type {
   border: none;
 }
+.main > div .status {
+  padding: 5px;
+  background: #f7f7f7;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -khtml-border-radius: 3px;
+  -o-border-radius: 3px;
+  -border-radius: 3px;
+  border-radius: 3px;
+}
 .uploadRegion {
+  padding: 15px;
   font-size: 12px;
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
@@ -905,7 +917,8 @@ input[type=text]:focus,
 input[type=email]:focus,
 input[type=search]:focus,
 input[type=password]:focus,
-textarea:focus {
+textarea:focus,
+.main .status:focus {
   outline: none;
   border: 1px solid #78daff;
 }

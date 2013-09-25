@@ -66,7 +66,7 @@
     &:hover
       background: $sidebarActive
 
-      &.hasUnread .unread
+      .unread:not(:empty)
         display: block
 
     &.online, &.chat, &.dnd, &.away, &.xa
@@ -146,12 +146,13 @@
     .status
       color: $textSecondary
       font-size: 10px
+      font-weight: 400
       line-height: 12px
       margin: 0
-      margin-left: 30px
+      margin-left: 40px
 
       &:not(:empty)
-        margin-top: -2px
+        margin-top: -8px
 
     .unread
       display: none

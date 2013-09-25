@@ -1,14 +1,20 @@
 @import '../_variables'
 @import '../_mixins'
 
-.main div
+.main > div
   padding: 20px
   border-bottom: 1px solid $grayOutline
 
   &:last-of-type
     border: none
 
+  .status
+    padding: 5px
+    background: $grayBackground
+    roundall(3px)
+
 .uploadRegion
+  padding: 15px
   font-size: $fontSmall
   roundall(3px)
   margin: 10px 0
