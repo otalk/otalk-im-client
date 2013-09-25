@@ -18,7 +18,7 @@ module.exports = HumanView.extend({
     textBindings: {
         displayName: '.name',
         status: '.status',
-        unreadCount: '.unread'
+        displayUnreadCount: '.unread'
     },
     srcBindings: {
         avatar: '.avatar'
