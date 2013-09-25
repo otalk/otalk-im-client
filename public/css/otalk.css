@@ -365,10 +365,10 @@ h4 {
 #roster li,
 #bookmarks li {
   list-style-type: none;
-  padding: 7px 25px 7px 10px;
+  padding: 7px 35px 7px 10px;
   margin: 0px;
   position: relative;
-  min-height: 15px;
+  min-height: 30px;
   font-size: 12px;
   color: #fff;
   cursor: pointer;
@@ -383,8 +383,8 @@ h4 {
 #bookmarks li:hover {
   background: #1f2d49;
 }
-#roster li.hasUnread .unread,
-#bookmarks li.hasUnread .unread {
+#roster li:hover.hasUnread .unread,
+#bookmarks li:hover.hasUnread .unread {
   display: block;
 }
 #roster li.online:after,
@@ -470,18 +470,18 @@ h4 {
 #bookmarks li .avatar {
   vertical-align: top;
   margin-right: 5px;
-  margin-top: -10px;
+  margin-top: -15px;
   position: absolute;
   left: 10px;
   top: 50%;
-  width: 20px;
-  height: 20px;
-  -moz-border-radius: 30px;
-  -webkit-border-radius: 30px;
-  -khtml-border-radius: 30px;
-  -o-border-radius: 30px;
-  -border-radius: 30px;
-  border-radius: 30px;
+  width: 30px;
+  height: 30px;
+  -moz-border-radius: 50px;
+  -webkit-border-radius: 50px;
+  -khtml-border-radius: 50px;
+  -o-border-radius: 50px;
+  -border-radius: 50px;
+  border-radius: 50px;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -491,8 +491,8 @@ h4 {
 }
 #roster li .name,
 #bookmarks li .name {
-  margin-left: 30px;
-  line-height: 20px;
+  margin-left: 40px;
+  line-height: 30px;
   color: #fff;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -514,20 +514,22 @@ h4 {
 #bookmarks li .unread {
   display: none;
   color: #fff;
-  padding: 2px 5px;
-  -moz-border-radius: 20px;
-  -webkit-border-radius: 20px;
-  -khtml-border-radius: 20px;
-  -o-border-radius: 20px;
-  -border-radius: 20px;
-  border-radius: 20px;
+  height: 22px;
+  width: 30px;
+  padding-top: 8px;
+  -moz-border-radius: 30px;
+  -webkit-border-radius: 30px;
+  -khtml-border-radius: 30px;
+  -o-border-radius: 30px;
+  -border-radius: 30px;
+  border-radius: 30px;
   position: absolute;
-  top: 8px;
-  right: 10px;
+  top: 7px;
+  left: 10px;
   font-size: 10px;
+  font-weight: bold;
   text-align: center;
-  color: #43629e;
-  background: #1f2d49;
+  background: rgba(0,174,239,0.8);
 }
 @-moz-keyframes pulsate {
   0% {
