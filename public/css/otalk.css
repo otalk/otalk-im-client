@@ -683,34 +683,28 @@ h3 {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  background: #f7fdff;
 }
 .messages li {
   position: relative;
   z-index: 1;
   list-style: none;
-  padding: 0px;
+  padding: 10px 0;
   width: 100%;
-  min-height: 40px;
+  min-height: 50px;
   display: block;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  border: 1px solid #00f;
+  border-bottom: 1px solid #e4e4e4;
 }
-.messages li:last-child .message {
+.messages li:last-of-type {
   border: none;
 }
-.messages li.chatGroup {
-  border: 1px solid #f00;
-}
 .messages li .messageAvatar {
-  position: relative;
-  display: inline-block;
-  float: left;
-  width: 30px;
-  height: 30px;
-  margin: 0px 8px 8px 8px;
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  margin-top: -15px;
 }
 .messages li .messageAvatar img {
   width: 30px;
@@ -721,7 +715,6 @@ h3 {
   -o-border-radius: 50px;
   -border-radius: 50px;
   border-radius: 50px;
-  border: 1px solid #f00;
 }
 .messages li .messageAvatar .name {
   text-indent: -9999em;
@@ -730,12 +723,10 @@ h3 {
 }
 .messages .messageWrapper {
   margin-left: 50px;
-  border-left: 1px solid #f00;
 }
 .messages .message {
   font-size: 12px;
   margin: 0px;
-  padding: 10px;
   display: inline-block;
   padding-right: 11px;
   min-width: 20px;

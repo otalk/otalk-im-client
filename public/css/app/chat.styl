@@ -66,36 +66,30 @@
   bottom: 75px
   width: 100%
   borderbox()
-  background: lighten($activeBlue, 97%)
 
   li
     position: relative
     z-index: 1
     list-style: none
-    padding: 0px
+    padding: 10px 0
     width: 100%
-    min-height: 40px
+    min-height: 50px
     display: block
     borderbox()
-    border: 1px solid blue
+    border-bottom: 1px solid $grayOutline
 
-    &:last-child .message
+    &:last-of-type
       border: none
 
-    &.chatGroup
-      border: 1px solid red
-
     .messageAvatar
-      position: relative
-      display: inline-block
-      float: left
-      width: 30px
-      height: 30px
-      margin: 0px 8px 8px 8px
+      position: absolute
+      top: 50%
+      left: 10px
+      margin-top: -15px
 
       img
         avatar()
-        border: 1px solid red
+
       .name
         text-indent: -9999em
         position: absolute
@@ -103,12 +97,10 @@
 
   .messageWrapper
     margin-left: 50px
-    border-left: 1px solid red
 
   .message
     font-size: 12px
     margin: 0px
-    padding: 10px
     display: inline-block
     padding-right: 11px
     min-width: 20px
