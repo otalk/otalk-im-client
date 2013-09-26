@@ -104,7 +104,7 @@ module.exports = {
                 queue: false
             });
         } else {
-            this.$scrollContainer.scrollTop(height);
+            this.$scrollContainer[0].scrollTop = height;
         }
     },
     scrollToBottom: function (animate) {

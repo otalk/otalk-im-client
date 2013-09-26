@@ -269,9 +269,15 @@ h3 {
   top: 0px;
   right: 0px;
   left: 181px;
+  height: 100%;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
+}
+#pages .scroll-container {
+  height: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 #connectionOverlay {
   position: fixed;
