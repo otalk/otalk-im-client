@@ -62,7 +62,6 @@ module.exports = {
     handleAtBottom: function () {
         if (this.isVisible()) {
             this.pinnedToBottom = true;
-            this.scrollToBottom();
         }
     },
     isBottom: function () {
