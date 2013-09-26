@@ -3,6 +3,7 @@
 
 var HumanModel = require('human-model');
 var templates = require('../templates');
+var htmlify = require('../helpers/htmlify');
 
 
 module.exports = HumanModel.define({
@@ -91,6 +92,12 @@ module.exports = HumanModel.define({
                     return this.from.resource;
                 }
                 return me.getContact(this.from.bare).displayName;
+            }
+        },
+        processedBody: {
+            deps: ['body'],
+            fn: function () {
+                return htmlify.toHTML(this.body);
             }
         },
         partialTemplateHtml: {

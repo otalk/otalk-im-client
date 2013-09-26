@@ -7,7 +7,7 @@ var raf = require('raf-component');
 
 module.exports = {
     initializeScroll: function () {
-        var check = _.bind(this.handleScroll, this);
+        var check = _.bind(_.throttle(this.handleScroll, 100), this);
         var self = this;
 
         function animate() {

@@ -37,7 +37,7 @@ exports.includes.bareMessage = function anonymous(locals) {
         }, {
             "class": true,
             id: true
-        }) + '><span class="timestamp">' + jade.escape(null == (jade.interp = message.formattedTime) ? "" : jade.interp) + '</span><p class="body">' + jade.escape(null == (jade.interp = message.body) ? "" : jade.interp) + "</p></div>");
+        }) + '><span class="timestamp">' + jade.escape(null == (jade.interp = message.formattedTime) ? "" : jade.interp) + '</span><p class="body">' + ((jade.interp = message.processedBody) == null ? "" : jade.interp) + "</p></div>");
     }
     return buf.join("");
 };
@@ -124,7 +124,7 @@ exports.includes.wrappedMessage = function anonymous(locals) {
         }, {
             "class": true,
             id: true
-        }) + '><span class="timestamp">' + jade.escape(null == (jade.interp = message.formattedTime) ? "" : jade.interp) + '</span><p class="body">' + jade.escape(null == (jade.interp = message.body) ? "" : jade.interp) + "</p></div></div></li>");
+        }) + '><span class="timestamp">' + jade.escape(null == (jade.interp = message.formattedTime) ? "" : jade.interp) + '</span><p class="body">' + ((jade.interp = message.processedBody) == null ? "" : jade.interp) + "</p></div></div></li>");
     }
     return buf.join("");
 };
