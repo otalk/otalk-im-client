@@ -25,7 +25,8 @@ module.exports = HumanModel.define({
         connected: ['bool', true, false],
         shouldAskForAlertsPermission: ['bool', true, false],
         hasFocus: ['bool', true, false],
-        _activeContact: ['string', true, '']
+        _activeContact: ['string', true, ''],
+        displayName: ['string', true, 'Me']
     },
     collections: {
         contacts: Contacts,

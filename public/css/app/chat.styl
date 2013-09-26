@@ -72,14 +72,38 @@
     position: relative
     z-index: 1
     list-style: none
-    margin: 0px
     padding: 0px
     width: 100%
+    min-height: 40px
     display: block
     borderbox()
+    border: 1px solid blue
 
     &:last-child .message
       border: none
+
+    &.chatGroup
+      border: 1px solid red
+
+    .messageAvatar
+      position: relative
+      display: inline-block
+      float: left
+      width: 30px
+      height: 30px
+      margin: 0px 8px 8px 8px
+
+      img
+        avatar()
+        border: 1px solid red
+      .name
+        text-indent: -9999em
+        position: absolute
+        width: 1px
+
+  .messageWrapper
+    margin-left: 50px
+    border-left: 1px solid red
 
   .message
     font-size: 12px

@@ -689,16 +689,48 @@ h3 {
   position: relative;
   z-index: 1;
   list-style: none;
-  margin: 0px;
   padding: 0px;
   width: 100%;
+  min-height: 40px;
   display: block;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
+  border: 1px solid #00f;
 }
 .messages li:last-child .message {
   border: none;
+}
+.messages li.chatGroup {
+  border: 1px solid #f00;
+}
+.messages li .messageAvatar {
+  position: relative;
+  display: inline-block;
+  float: left;
+  width: 30px;
+  height: 30px;
+  margin: 0px 8px 8px 8px;
+}
+.messages li .messageAvatar img {
+  width: 30px;
+  height: 30px;
+  -moz-border-radius: 50px;
+  -webkit-border-radius: 50px;
+  -khtml-border-radius: 50px;
+  -o-border-radius: 50px;
+  -border-radius: 50px;
+  border-radius: 50px;
+  border: 1px solid #f00;
+}
+.messages li .messageAvatar .name {
+  text-indent: -9999em;
+  position: absolute;
+  width: 1px;
+}
+.messages .messageWrapper {
+  margin-left: 50px;
+  border-left: 1px solid #f00;
 }
 .messages .message {
   font-size: 12px;

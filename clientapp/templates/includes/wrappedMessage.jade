@@ -1,0 +1,6 @@
+li
+  a.messageAvatar(href='#')
+    img(src=message.sender.avatar, alt=message.sender.displayName, data-placement="below")
+    span.name=message.sender.displayName + ": &nbsp;"
+  .messageWrapper
+    include bareMessage

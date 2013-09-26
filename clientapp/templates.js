@@ -27,6 +27,21 @@ exports.head = function anonymous(locals) {
     return buf.join("");
 };
 
+// bareMessage.jade compiled template
+exports.includes.bareMessage = function anonymous(locals) {
+    var buf = [];
+    with (locals || {}) {
+        buf.push("<div" + jade.attrs({
+            id: "chat" + message.cid,
+            "class": "message" + " " + message.classList
+        }, {
+            "class": true,
+            id: true
+        }) + '><span class="timestamp">' + jade.escape(null == (jade.interp = message.formattedTime) ? "" : jade.interp) + '</span><p class="body">' + jade.escape(null == (jade.interp = message.body) ? "" : jade.interp) + "</p></div>");
+    }
+    return buf.join("");
+};
+
 // contactListItem.jade compiled template
 exports.includes.contactListItem = function anonymous(locals) {
     var buf = [];
@@ -59,6 +74,15 @@ exports.includes.message = function anonymous(locals) {
     return buf.join("");
 };
 
+// messageGroup.jade compiled template
+exports.includes.messageGroup = function anonymous(locals) {
+    var buf = [];
+    with (locals || {}) {
+        buf.push("<li></li>");
+    }
+    return buf.join("");
+};
+
 // mucListItem.jade compiled template
 exports.includes.mucListItem = function anonymous(locals) {
     var buf = [];
@@ -78,6 +102,29 @@ exports.includes.mucMessage = function anonymous(locals) {
     var buf = [];
     with (locals || {}) {
         buf.push('<li><div class="message"><span class="timestamp">' + jade.escape(null == (jade.interp = message.created) ? "" : jade.interp) + '</span><p class="body">' + jade.escape(null == (jade.interp = message.body) ? "" : jade.interp) + '</p><span class="sender">' + jade.escape(null == (jade.interp = message.nick) ? "" : jade.interp) + "</span></div></li>");
+    }
+    return buf.join("");
+};
+
+// wrappedMessage.jade compiled template
+exports.includes.wrappedMessage = function anonymous(locals) {
+    var buf = [];
+    with (locals || {}) {
+        buf.push('<li><a href="#" class="messageAvatar"><img' + jade.attrs({
+            src: message.sender.avatar,
+            alt: message.sender.displayName,
+            "data-placement": "below"
+        }, {
+            src: true,
+            alt: true,
+            "data-placement": true
+        }) + '/><span class="name">' + jade.escape(null == (jade.interp = message.sender.displayName + ": &nbsp;") ? "" : jade.interp) + '</span></a><div class="messageWrapper"><div' + jade.attrs({
+            id: "chat" + message.cid,
+            "class": "message" + " " + message.classList
+        }, {
+            "class": true,
+            id: true
+        }) + '><span class="timestamp">' + jade.escape(null == (jade.interp = message.formattedTime) ? "" : jade.interp) + '</span><p class="body">' + jade.escape(null == (jade.interp = message.body) ? "" : jade.interp) + "</p></div></div></li>");
     }
     return buf.join("");
 };

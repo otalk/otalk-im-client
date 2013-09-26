@@ -2,6 +2,7 @@
 "use strict";
 
 var HumanModel = require('human-model');
+var templates = require('../templates');
 
 
 module.exports = HumanModel.define({
@@ -24,6 +25,16 @@ module.exports = HumanModel.define({
             deps: ['from'],
             fn: function () {
                 return me.isMe(this.from);
+            }
+        },
+        sender: {
+            deps: ['from', 'mine'],
+            fn: function () {
+                if (this.mine) {
+                    return me;
+                } else {
+                    return me.getContact(this.from);
+                }
             }
         },
         delayed: {
@@ -81,6 +92,31 @@ module.exports = HumanModel.define({
                 }
                 return me.getContact(this.from.bare).displayName;
             }
+        },
+        partialTemplateHtml: {
+            deps: ['edited', 'pending', 'body'],
+            cache: false,
+            fn: function () {
+                return templates.includes.bareMessage({message: this});
+            }
+        },
+        templateHtml: {
+            fn: function () {
+                return templates.includes.wrappedMessage({message: this});
+            }
+        },
+        classList: {
+            cache: false,
+            fn: function () {
+                var res = [];
+
+                if (this.mine) res.push('mine');
+                if (this.pending) res.push('pending');
+                if (this.delayed) res.push('delayed');
+                if (this.edited) res.push('edited');
+
+                return res.join(' ');
+            }
         }
     },
     session: {
@@ -115,5 +151,8 @@ module.exports = HumanModel.define({
             edited: this.edited
         };
         app.storage.archive.add(data);
+    },
+    shouldGroupWith: function (previous) {
+        return previous && previous.from.bare === this.from.bare;
     }
 });
