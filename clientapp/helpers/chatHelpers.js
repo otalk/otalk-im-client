@@ -2,11 +2,20 @@
 "use strict";
 
 var _ = require('underscore');
+var raf = require('raf-component');
 
 
 module.exports = {
     initializeScroll: function () {
-        $(this.$scrollContainer).scroll(_.bind(_.throttle(this.handleScroll, 300), this));
+        var check = _.bind(this.handleScroll, this);
+        var self = this;
+
+        function animate() {
+            self.rafID = raf(animate);
+            check();
+        }
+        animate();
+
         this.pinnedToBottom = true;
         this.lastScrollTop = 0;
     },
@@ -20,6 +29,7 @@ module.exports = {
     scrollPageUnload: function () {
         this.savePosition();
         this.trimOldChats();
+        raf.cancel(this.rafID);
     },
     savePosition: function () {
         this.lastScrollPosition = this.pinnedToBottom ? '' : this.$scrollContainer.scrollTop();
@@ -29,7 +39,7 @@ module.exports = {
         var removedIds;
         if (this.pinnedToBottom) {
             _.delay(function () {
-                removedIds = self.collection.trimOlderChats();
+                removedIds = [];//self.collection.trimOlderChats();
                 removedIds.forEach(function (id) {
                     self.$('#chat' + id).remove();
                 });
@@ -38,7 +48,7 @@ module.exports = {
     },
     handleScroll: function (e) {
         var scrollTop = this.$scrollContainer[0].scrollTop;
-        var direction = scrollTop > this.lastScrollTop ? 'down' : 'up';
+        var direction = scrollTop >= this.lastScrollTop ? 'down' : 'up';
         if (direction === 'up' && !this.isBottom()) {
             this.pinnedToBottom = false;
         } else if (this.isBottom()) {
@@ -52,6 +62,7 @@ module.exports = {
     handleAtBottom: function () {
         if (this.isVisible()) {
             this.pinnedToBottom = true;
+            this.scrollToBottom();
         }
     },
     isBottom: function () {
@@ -59,7 +70,7 @@ module.exports = {
         var scrollHeight = this.$scrollContainer[0].scrollHeight;
         var height = this.$scrollContainer.height();
         var fromBottom = scrollHeight - (scrollTop + height);
-        return fromBottom < 40 || $('body').is(':animated');
+        return fromBottom < 80;
     },
     resizeInput: function () {
         var height;

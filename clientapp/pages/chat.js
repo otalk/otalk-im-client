@@ -89,7 +89,7 @@ module.exports = BasePage.extend(chatHelpers).extend({
     },
     handleWindowResize: function () {
         this.scrollIfPinned();
-        this.$chatInput.trigger('keyup');
+        this.resizeInput();
     },
     handleKeyDown: function (e) {
         clearTimeout(this.typingTimer);
@@ -142,6 +142,8 @@ module.exports = BasePage.extend(chatHelpers).extend({
         var message;
         var val = this.$chatInput.val();
 
+        this.scrollToBottom(true);
+
         if (val) {
             message = {
                 to: this.model.lockedResource || this.model.jid,
@@ -175,8 +177,6 @@ module.exports = BasePage.extend(chatHelpers).extend({
     },
     refreshModel: function (model) {
         var existing = this.$('#chat' + model.cid);
-        console.log(model);
-        console.log(model.classList);
         existing.replaceWith(model.partialTemplateHtml);
     },
     appendModel: function (model, preload) {
