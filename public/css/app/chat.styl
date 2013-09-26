@@ -66,7 +66,6 @@
   bottom: 75px
   width: 100%
   borderbox()
-  background: lighten($activeBlue, 97%)
 
   li
     position: relative
@@ -74,7 +73,7 @@
     list-style: none
     padding: 10px 0
     width: 100%
-    min-height: 40px
+    min-height: 50px
     display: block
     borderbox()
     border-bottom: 1px solid $grayOutline
@@ -83,16 +82,14 @@
       border: none
 
     .messageAvatar
-      position: relative
-      display: inline-block
-      float: left
-      width: 30px
-      height: 30px
-      margin: 0px 8px 8px 8px
+      position: absolute
+      top: 50%
+      left: 10px
+      margin-top: -15px
 
       img
         avatar()
-        border: 1px solid red
+
       .name
         text-indent: -9999em
         position: absolute
