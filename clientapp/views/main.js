@@ -11,7 +11,9 @@ module.exports = HumanView.extend({
     template: templates.body,
     initialize: function () {
         this.listenTo(app.state, 'change:title', this.handleTitle);
-        window.macgap.dock.badge = '';
+        if (window.macgap) {
+            window.macgap.dock.badge = '';
+        }
     },
     events: {
         'click a[href]': 'handleLinkClick',
