@@ -22,10 +22,7 @@ module.exports = HumanView.extend({
 
         app.currentPage = this;
 
-        document.title = function () {
-            var title = _.result(self, 'title');
-            return title ? title + '- Otalk' : 'Otalk';
-        }();
+        app.state.pageTitle = _.result(self, 'title');
 
         this.trigger('pageloaded');
 

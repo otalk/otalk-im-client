@@ -13,6 +13,13 @@ module.exports = HumanModel.define({
             self.focused = true;
             self.markActive();
         });
+        if (window.macgap) {
+            document.addEventListener('sleep', function () {
+                clearTimeout(this.idleTimer);
+                self.markInactive();
+            }, true);
+        }
+
         this.markActive();
     },
     session: {
@@ -21,7 +28,22 @@ module.exports = HumanModel.define({
         connected: ['bool', true, false],
         hasConnected: ['bool', true, false],
         idleTimeout: ['number', true, 600000],
-        idleSince: 'date'
+        idleSince: 'date',
+        allowAlerts: ['bool', true, false],
+        badge: 'string',
+        pageTitle: 'string'
+    },
+    derived: {
+        title: {
+            deps: ['pageTitle', 'badge'],
+            fn: function () {
+                var base = this.pageTitle ? 'Otalk - ' + this.pageTitle : 'Otalk';
+                if (this.badge) {
+                    return this.badge + ' • ' + base;
+                }
+                return base;
+            }
+        }
     },
     markActive: function () {
         clearTimeout(this.idleTimer);

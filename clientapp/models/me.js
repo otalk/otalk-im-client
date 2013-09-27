@@ -17,6 +17,7 @@ module.exports = HumanModel.define({
             this.setActiveContact(this._activeContact);
         }, this);
 
+        this.contacts.bind('change:unreadCount', this.updateUnreadCount, this);
         app.state.bind('change:active', this.updateIdlePresence, this);
     },
     session: {
@@ -113,5 +114,13 @@ module.exports = HumanModel.define({
         }
 
         app.api.sendPresence(update);
+    },
+    updateUnreadCount: function () {
+        var unreadCounts = this.contacts.pluck('unreadCount');
+        var count = unreadCounts.reduce(function (a, b) { return a + b; });
+        if (count === 0) {
+            count = '';
+        }
+        app.state.badge = '' + count;
     }
 });

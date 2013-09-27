@@ -9,6 +9,9 @@ var MUCListItem = require('../views/mucListItem');
 
 module.exports = HumanView.extend({
     template: templates.body,
+    initialize: function () {
+        this.listenTo(app.state, 'change:title', this.handleTitle);
+    },
     events: {
         'click a[href]': 'handleLinkClick',
         'click .reconnect': 'handleReconnect'
@@ -37,6 +40,12 @@ module.exports = HumanView.extend({
             e.preventDefault();
             app.navigate(path);
             return false;
+        }
+    },
+    handleTitle: function (e) {
+        document.title = app.state.title;
+        if (window.macgap) {
+            window.macgap.dock.badge = app.state.badge;
         }
     }
 });
