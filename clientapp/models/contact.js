@@ -109,6 +109,12 @@ module.exports = HumanModel.define({
                 return resource.idleSince || undefined;
             }
         },
+        idle: {
+            deps: ['idleSince'],
+            fn: function () {
+                return !!this.idleSince;
+            }
+        },
         chatState: {
             deps: ['topResource', 'lockedResource', '_forceUpdate'],
             fn: function () {

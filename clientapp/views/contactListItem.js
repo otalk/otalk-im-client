@@ -13,7 +13,8 @@ module.exports = HumanView.extend({
         subscription: '',
         chatState: '',
         activeContact: '',
-        hasUnread: ''
+        hasUnread: '',
+        idle: ''
     },
     textBindings: {
         displayName: '.name',

@@ -469,6 +469,14 @@ h3 {
 #bookmarks li.paused:after {
   background: #b7b7b7;
 }
+#roster li.idle .name,
+#bookmarks li.idle .name {
+  color: #f00;
+}
+#roster li.idle:after,
+#bookmarks li.idle:after {
+  background: #f00;
+}
 #roster li img,
 #bookmarks li img {
   opacity: 1;

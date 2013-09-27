@@ -15,7 +15,14 @@ module.exports = BaseCollection.extend({
             return 1;
         }
         if (res1.show === res2.show) {
-            return 0;
+            if (!!res1.idleSince && !!res2.idleSince) {
+                return 0;
+            }
+            if (res1.idleSince && !res2.idleSince) {
+                return 1;
+            }
+            return -1;
+
         }
 
         var ranking = {
