@@ -476,7 +476,7 @@ h3 {
 #roster li.idle .name,
 #bookmarks li.idle .name {
   color: #b7b7b7;
-  width: 60%;
+  max-width: 60%;
 }
 #roster li.idle .user,
 #bookmarks li.idle .user {
@@ -652,7 +652,7 @@ h3 {
   border-bottom: 2px solid #e4e4e4;
   position: fixed;
   right: 0px;
-  left: 181px;
+  left: 201px;
   z-index: 10;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
