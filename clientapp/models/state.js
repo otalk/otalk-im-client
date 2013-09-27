@@ -30,8 +30,8 @@ module.exports = HumanModel.define({
         idleTimeout: ['number', true, 600000],
         idleSince: 'date',
         allowAlerts: ['bool', true, false],
-        badge: 'string',
-        pageTitle: 'string'
+        badge: ['string', true, ''],
+        pageTitle: ['string', true, '']
     },
     derived: {
         title: {
