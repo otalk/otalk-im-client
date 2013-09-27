@@ -51,7 +51,7 @@ exports.includes.contactListItem = function anonymous(locals) {
             "class": "avatar"
         }, {
             src: true
-        }) + '/><div class="name">' + jade.escape(null == (jade.interp = contact.displayName) ? "" : jade.interp) + '</div><div class="unread">' + jade.escape(null == (jade.interp = contact.unreadCount) ? "" : jade.interp) + '</div><div class="status">' + jade.escape(null == (jade.interp = contact.status) ? "" : jade.interp) + '</div><div class="idleTime">' + jade.escape(null == (jade.interp = contact.idleSince) ? "" : jade.interp) + "</div></li>");
+        }) + '/><div class="user"><span class="name">' + jade.escape(null == (jade.interp = contact.displayName) ? "" : jade.interp) + '</span><span class="idleTime">' + jade.escape(null == (jade.interp = contact.idleSince) ? "" : jade.interp) + '</span></div><div class="unread">' + jade.escape(null == (jade.interp = contact.unreadCount) ? "" : jade.interp) + '</div><div class="status">' + jade.escape(null == (jade.interp = contact.status) ? "" : jade.interp) + "</div></li>");
     }
     return buf.join("");
 };

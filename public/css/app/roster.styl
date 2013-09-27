@@ -69,7 +69,7 @@
     &:hover
       background: $sidebarActive
 
-    &.online, &.chat, &.dnd, &.away, &.xa
+    &.online:not(.idle), &.chat, &.dnd, &.away, &.xa
 
       &:after
         content: ''
@@ -118,13 +118,18 @@
         -webkit-animation: pulsate 1.5s infinite ease-in
         -moz-animation: pulsate 1.5s infinite ease-in
 
-    &.paused, &.idle
+    &.paused
       &:after
         background: $textSecondary
 
     &.idle
+      padding-right: 15px
       .name
         color: $textSecondary
+        width: 60%
+
+      .user
+        width: 95%
 
     img
       opacity: 1
@@ -139,13 +144,16 @@
       avatar()
       noselect()
 
-    .name
+    .user
       margin-left: 40px
       line-height: 30px
       color: white
+      width: 70%
+
+    .name
+      display: inline-block
       text-overflow: ellipsis
       overflow: hidden
-      width: 70%
 
     .status
       color: $textSecondary
@@ -174,6 +182,8 @@
       background: rgba(0, 174, 239, .8)
 
     .idleTime
+      display: inline-block
+      margin-left: 5px
       font-size: 10px
       color: darken($textSecondary, 50%)
 

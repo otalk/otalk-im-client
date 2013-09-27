@@ -394,8 +394,8 @@ h3 {
 #bookmarks li:hover {
   background: #1f2d49;
 }
-#roster li.online:after,
-#bookmarks li.online:after,
+#roster li.online:not(.idle):after,
+#bookmarks li.online:not(.idle):after,
 #roster li.chat:after,
 #bookmarks li.chat:after,
 #roster li.dnd:after,
@@ -466,14 +466,21 @@ h3 {
   -moz-animation: pulsate 1.5s infinite ease-in;
 }
 #roster li.paused:after,
-#bookmarks li.paused:after,
-#roster li.idle:after,
-#bookmarks li.idle:after {
+#bookmarks li.paused:after {
   background: #b7b7b7;
+}
+#roster li.idle,
+#bookmarks li.idle {
+  padding-right: 15px;
 }
 #roster li.idle .name,
 #bookmarks li.idle .name {
   color: #b7b7b7;
+  width: 60%;
+}
+#roster li.idle .user,
+#bookmarks li.idle .user {
+  width: 95%;
 }
 #roster li img,
 #bookmarks li img {
@@ -502,14 +509,18 @@ h3 {
   -ms-user-select: none;
   user-select: none;
 }
-#roster li .name,
-#bookmarks li .name {
+#roster li .user,
+#bookmarks li .user {
   margin-left: 40px;
   line-height: 30px;
   color: #fff;
+  width: 70%;
+}
+#roster li .name,
+#bookmarks li .name {
+  display: inline-block;
   text-overflow: ellipsis;
   overflow: hidden;
-  width: 70%;
 }
 #roster li .status,
 #bookmarks li .status {
@@ -547,6 +558,8 @@ h3 {
 }
 #roster li .idleTime,
 #bookmarks li .idleTime {
+  display: inline-block;
+  margin-left: 5px;
   font-size: 10px;
   color: #5c5c5c;
 }
