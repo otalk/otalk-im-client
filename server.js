@@ -20,13 +20,12 @@ app.use(helmet.contentTypeOptions());
 var clientApp = new Moonboots({
     main: __dirname + '/clientapp/app.js',
     templateFile: __dirname + '/clientapp/template.html',
-    developmentMode: config.isDev,
+    //developmentMode: config.isDev,
     libraries: [
         __dirname + '/clientapp/libraries/zepto.js',
         __dirname + '/clientapp/libraries/ui.js',
         __dirname + '/clientapp/libraries/resampler.js',
-        __dirname + '/clientapp/libraries/IndexedDBShim.min.js',
-        __dirname + '/clientapp/libraries/stanza.io.js'
+        __dirname + '/clientapp/libraries/IndexedDBShim.min.js'
     ],
     stylesheets: [
         __dirname + '/public/css/otalk.css'

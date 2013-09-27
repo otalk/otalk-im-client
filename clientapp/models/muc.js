@@ -1,4 +1,4 @@
-/*global XMPP, app, me, client*/
+/*global app, me, client*/
 "use strict";
 
 var _ = require('underscore');

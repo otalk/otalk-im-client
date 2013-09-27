@@ -1,9 +1,11 @@
-/*global $, app, me, client, XMPP*/
+/*global $, app, me, client*/
 "use strict";
 
 var _ = require('underscore');
 var async = require('async');
 var Backbone = require('backbone');
+var StanzaIO = require('stanza.io');
+
 var AppState = require('./models/state');
 var MeModel = require('./models/me');
 var MainView = require('./views/main');
@@ -52,7 +54,7 @@ module.exports = {
                     }
                 };
 
-                self.api = window.client = XMPP.createClient(config);
+                self.api = window.client = StanzaIO.createClient(config);
                 xmppEventHandlers(self.api, self);
 
                 self.api.once('session:started', function () {

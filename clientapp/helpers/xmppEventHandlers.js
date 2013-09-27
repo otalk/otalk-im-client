@@ -1,10 +1,9 @@
-/*global XMPP, me, app, client*/
+/*global me, app, client*/
 "use strict";
-
-var crypto = XMPP.crypto;
 
 var _ = require('underscore');
 var async = require('async');
+var crypto = require('crypto');
 var log = require('andlog');
 var uuid = require('node-uuid');
 var Contact = require('../models/contact');

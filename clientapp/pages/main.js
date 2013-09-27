@@ -1,4 +1,4 @@
-/*global app, me, XMPP, client, Resample*/
+/*global app, me, client, Resample*/
 "use strict";
 
 var crypto = require('crypto');
