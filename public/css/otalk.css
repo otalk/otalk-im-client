@@ -466,16 +466,14 @@ h3 {
   -moz-animation: pulsate 1.5s infinite ease-in;
 }
 #roster li.paused:after,
-#bookmarks li.paused:after {
+#bookmarks li.paused:after,
+#roster li.idle:after,
+#bookmarks li.idle:after {
   background: #b7b7b7;
 }
 #roster li.idle .name,
 #bookmarks li.idle .name {
-  color: #f00;
-}
-#roster li.idle:after,
-#bookmarks li.idle:after {
-  background: #f00;
+  color: #b7b7b7;
 }
 #roster li img,
 #bookmarks li img {
@@ -546,6 +544,10 @@ h3 {
   font-weight: bold;
   text-align: center;
   background: rgba(0,174,239,0.8);
+}
+#roster li .idle,
+#bookmarks li .idle {
+  font-size: 10px;
 }
 @-moz-keyframes pulsate {
   0% {

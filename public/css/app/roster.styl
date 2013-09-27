@@ -118,15 +118,13 @@
         -webkit-animation: pulsate 1.5s infinite ease-in
         -moz-animation: pulsate 1.5s infinite ease-in
 
-    &.paused
+    &.paused, &.idle
       &:after
         background: $textSecondary
 
     &.idle
       .name
-        color: red
-      &:after
-        background: red
+        color: $textSecondary
 
     img
       opacity: 1
@@ -174,6 +172,9 @@
       font-weight: bold
       text-align: center
       background: rgba(0, 174, 239, .8)
+
+    .idle
+      font-size: 10px
 
 @keyframes pulsate
   0%
