@@ -1,4 +1,4 @@
-/*global app, client, XMPP*/
+/*global app, client*/
 "use strict";
 
 var HumanModel = require('human-model');
@@ -16,6 +16,8 @@ module.exports = HumanModel.define({
         this.bind('change:hasFocus', function () {
             this.setActiveContact(this._activeContact);
         }, this);
+
+        app.state.bind('change:active', this.updateIdlePresence, this);
     },
     session: {
         jid: ['object', true],
@@ -98,5 +100,18 @@ module.exports = HumanModel.define({
     },
     isMe: function (jid) {
         return jid.bare === this.jid.bare;
+    },
+    updateIdlePresence: function () {
+        var update = {
+            status: this.status,
+            show: this.show,
+            caps: app.api.disco.caps
+        };
+
+        if (!app.state.active) {
+            update.idle = {since: app.state.idleSince};
+        }
+
+        app.api.sendPresence(update);
     }
 });

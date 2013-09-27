@@ -4,6 +4,7 @@
 var _ = require('underscore');
 var async = require('async');
 var Backbone = require('backbone');
+var AppState = require('./models/state');
 var MeModel = require('./models/me');
 var MainView = require('./views/main');
 var Router = require('./router');
@@ -16,7 +17,7 @@ module.exports = {
     launch: function () {
         var self = window.app = this;
         var config = localStorage.config;
-   
+
         self.notifier = notifier;
 
         if (!config) {
@@ -42,37 +43,30 @@ module.exports = {
                 });
             },
             function (cb) {
-                window.me = new MeModel();
+                app.state = new AppState();
+                app.me = window.me = new MeModel();
 
-                me.hasFocus = false;
-                $(window).blur(function () {
-                    me.hasFocus = false;
-                });
-                $(window).focus(function () {
-                    me.hasFocus = true;
-                });
                 window.onbeforeunload = function () {
-                    if (client.sessionStarted) {
-                        client.disconnect();
+                    if (app.api.sessionStarted) {
+                        app.api.disconnect();
                     }
                 };
 
                 self.api = window.client = XMPP.createClient(config);
                 xmppEventHandlers(self.api, self);
 
-                self.api.connect();
-
                 self.api.once('session:started', function () {
-                    app.hasConnected = true;
+                    app.state.hasConnected = true;
                     cb();
                 });
+                self.api.connect();
             },
             function (cb) {
                 new Router();
                 app.history = Backbone.history;
 
                 self.view = new MainView({
-                    model: me,
+                    model: app.state,
                     el: document.body
                 });
                 self.view.render();
@@ -92,6 +86,7 @@ module.exports = {
     },
     navigate: function (page) {
         var url = (page.charAt(0) === '/') ? page.slice(1) : page;
+        app.state.markActive();
         app.history.navigate(url, true);
     },
     renderPage: function (view, animation) {

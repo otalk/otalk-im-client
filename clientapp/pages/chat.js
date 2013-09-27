@@ -93,6 +93,7 @@ module.exports = BasePage.extend(chatHelpers).extend({
     },
     handleKeyDown: function (e) {
         clearTimeout(this.typingTimer);
+
         if (e.which === 13 && !e.shiftKey) {
             this.sendChat();
             e.preventDefault();
@@ -120,6 +121,7 @@ module.exports = BasePage.extend(chatHelpers).extend({
     },
     handleKeyUp: function (e) {
         this.resizeInput();
+        clearTimeout(this.typingTimer);
         this.typingTimer = setTimeout(this.pausedTyping.bind(this), 5000);
         if (this.typing && this.$chatInput.val().length === 0) {
             this.typing = false;

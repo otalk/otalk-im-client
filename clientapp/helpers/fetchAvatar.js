@@ -1,5 +1,5 @@
-/*global app, client*/
-
+/*global app*/
+"use strict";
 var crypto = require('crypto');
 
 
@@ -26,7 +26,7 @@ module.exports = function (jid, id, type, cb) {
         }
 
         app.whenConnected(function () {
-            client.getAvatar(jid, id, function (err, resp) {
+            app.api.getAvatar(jid, id, function (err, resp) {
                 if (err) {
                     return cb(fallback(jid));
                 }

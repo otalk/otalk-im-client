@@ -58,6 +58,9 @@ module.exports = function (client, app) {
 
     client.on('*', function (name, data) {
         log.debug(name, data);
+        if (name === 'raw:outgoing') {
+            log.debug(data.toString());
+        }
     });
 
     client.on('credentials:update', function (creds) {
@@ -79,11 +82,11 @@ module.exports = function (client, app) {
     });
 
     client.on('disconnected', function (err) {
-        me.connected = false;
+        app.state.connected = false;
         if (err) {
             console.error(err);
         }
-        if (!app.hasConnected) {
+        if (!app.state.hasConnected) {
             window.location = '/login';
         }
     });
@@ -94,13 +97,13 @@ module.exports = function (client, app) {
     });
 
     client.on('stream:management:resumed', function () {
-        me.connected = true;
+        app.state.connected = true;
     });
 
     client.on('session:started', function (jid) {
         me.jid = jid;
 
-        me.connected = true;
+        app.state.connected = true;
 
         client.getRoster(function (err, resp) {
             resp = resp.toJSON();

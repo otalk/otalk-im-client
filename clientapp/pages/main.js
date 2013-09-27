@@ -1,6 +1,7 @@
 /*global app, me, XMPP, client, Resample*/
 "use strict";
 
+var crypto = require('crypto');
 var BasePage = require('./base');
 var templates = require('../templates');
 
@@ -46,7 +47,7 @@ module.exports = BasePage.extend({
         var file;
 
         e.preventDefault();
-        
+
         if (e.dataTransfer) {
             file = e.dataTransfer.files[0];
         } else if (e.target.files) {
@@ -56,13 +57,11 @@ module.exports = BasePage.extend({
         }
 
         if (file.type.match('image.*')) {
-            console.log('Got an image file!', file.type);
             var fileTracker = new FileReader();
             fileTracker.onload = function () {
                 var resampler = new Resample(this.result, 80, 80, function (data) {
                     var b64Data = data.split(',')[1];
-                    var id = XMPP.crypto.createHash('sha1').update(atob(b64Data)).digest('hex');
-                    console.log(id);
+                    var id = crypto.createHash('sha1').update(atob(b64Data)).digest('hex');
                     app.storage.avatars.add({id: id, uri: data});
                     client.publishAvatar(id, b64Data, function (err, res) {
                         if (err) return;
