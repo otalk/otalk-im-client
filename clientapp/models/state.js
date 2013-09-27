@@ -1,4 +1,4 @@
-/*global app, $*/
+/*global app, $, me*/
 "use strict";
 
 var HumanModel = require('human-model');
@@ -11,11 +11,15 @@ module.exports = HumanModel.define({
         });
         $(window).focus(function () {
             self.focused = true;
+            if (me._activeContact) {
+                me.setActiveContact(me._activeContact);
+            }
             self.markActive();
         });
         if (window.macgap) {
             document.addEventListener('sleep', function () {
                 clearTimeout(this.idleTimer);
+                console.log('went to sleep');
                 self.markInactive();
             }, true);
         }
