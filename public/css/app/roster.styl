@@ -49,19 +49,27 @@
     text-transform: uppercase
 
 #roster,
-#bookmarks
+#bookmarks    
+
   li
+    display: table
     list-style-type: none
     padding: 7px 35px 7px 10px
     margin: 0px
     position: relative
-    min-height: 30px
+    min-height: 40px
     font-size: $fontSmall
     color: #fff
     cursor: pointer
     transition: all .3s ease-in 0
     -webkit-transition: all .3s ease-in 0
     -moz-transition: all .3s ease-in 0
+    width: 100%
+    borderbox()
+
+    .wrap
+      display: table-cell
+      vertical-align: middle
 
     .unread:not(:empty)
       display: block
@@ -146,7 +154,6 @@
 
     .user
       margin-left: 40px
-      line-height: 30px
       color: white
       width: 70%
 
@@ -162,9 +169,6 @@
       line-height: 12px
       margin: 0
       margin-left: 40px
-
-      &:not(:empty)
-        margin-top: -8px
 
     .unread
       display: none

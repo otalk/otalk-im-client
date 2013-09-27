@@ -46,12 +46,12 @@ exports.includes.bareMessage = function anonymous(locals) {
 exports.includes.contactListItem = function anonymous(locals) {
     var buf = [];
     with (locals || {}) {
-        buf.push('<li class="contact"><img' + jade.attrs({
+        buf.push('<li class="contact"><div class="wrap"><img' + jade.attrs({
             src: contact.avatar,
             "class": "avatar"
         }, {
             src: true
-        }) + '/><div class="user"><span class="name">' + jade.escape(null == (jade.interp = contact.displayName) ? "" : jade.interp) + '</span><span class="idleTime">' + jade.escape(null == (jade.interp = contact.idleSince) ? "" : jade.interp) + '</span></div><div class="unread">' + jade.escape(null == (jade.interp = contact.unreadCount) ? "" : jade.interp) + '</div><div class="status">' + jade.escape(null == (jade.interp = contact.status) ? "" : jade.interp) + "</div></li>");
+        }) + '/><div class="user"><span class="name">' + jade.escape(null == (jade.interp = contact.displayName) ? "" : jade.interp) + '</span><span class="idleTime">' + jade.escape(null == (jade.interp = contact.idleSince) ? "" : jade.interp) + '</span></div><div class="unread">' + jade.escape(null == (jade.interp = contact.unreadCount) ? "" : jade.interp) + '</div><div class="status">' + jade.escape(null == (jade.interp = contact.status) ? "" : jade.interp) + "</div></div></li>");
     }
     return buf.join("");
 };
