@@ -268,7 +268,7 @@ h3 {
   position: absolute;
   top: 0px;
   right: 0px;
-  left: 181px;
+  left: 201px;
   height: 100%;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -321,7 +321,7 @@ h3 {
   top: 0px;
   bottom: 0px;
   left: 0px;
-  width: 180px;
+  width: 200px;
   background-color: #0b1316;
   z-index: 300;
   overflow-y: auto;
@@ -354,7 +354,7 @@ h3 {
 }
 #menu .main li a {
   position: relative;
-  width: 130px;
+  width: 150px;
 }
 #menu .main li .button {
   background: #1f2d49;
@@ -545,9 +545,10 @@ h3 {
   text-align: center;
   background: rgba(0,174,239,0.8);
 }
-#roster li .idle,
-#bookmarks li .idle {
+#roster li .idleTime,
+#bookmarks li .idleTime {
   font-size: 10px;
+  color: #5c5c5c;
 }
 @-moz-keyframes pulsate {
   0% {
