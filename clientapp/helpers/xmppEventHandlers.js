@@ -9,7 +9,6 @@ var uuid = require('node-uuid');
 var Contact = require('../models/contact');
 var Resource = require('../models/resource');
 var Message = require('../models/message');
-var attachMediaStream = require('attachmediastream');
 
 
 var discoCapsQueue = async.queue(function (pres, cb) {
