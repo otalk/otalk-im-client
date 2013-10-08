@@ -9,6 +9,7 @@ var uuid = require('node-uuid');
 var Contact = require('../models/contact');
 var Resource = require('../models/resource');
 var Message = require('../models/message');
+var attachMediaStream = require('attachmediastream');
 
 
 var discoCapsQueue = async.queue(function (pres, cb) {
@@ -289,7 +290,7 @@ module.exports = function (client, app) {
         var msg = carbon.carbonReceived.forwarded.message;
         var delay = carbon.carbonReceived.forwarded.delay;
         if (!delay.stamp) {
-            delay.stamp = Date.now();
+            delay.stamp = new Date(Date.now());
         }
 
         if (!msg._extensions.delay) {
@@ -305,7 +306,7 @@ module.exports = function (client, app) {
         var msg = carbon.carbonSent.forwarded.message;
         var delay = carbon.carbonSent.forwarded.delay;
         if (!delay.stamp) {
-            delay.stamp = Date.now();
+            delay.stamp = new Date(Date.now());
         }
 
         if (!msg._extensions.delay) {

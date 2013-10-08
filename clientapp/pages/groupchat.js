@@ -28,14 +28,14 @@ module.exports = BasePage.extend({
     show: function (animation) {
         BasePage.prototype.show.apply(this, [animation]);
         client.sendMessage({
-            to: this.model.lockedResource || this.model.jid,
+            to: this.model.jid,
             chatState: 'active'
         });
     },
     hide: function () {
         BasePage.prototype.hide.apply(this);
         client.sendMessage({
-            to: this.model.lockedResource || this.model.jid,
+            to: this.model.jid,
             chatState: 'inactive'
         });
     },
@@ -69,7 +69,7 @@ module.exports = BasePage.extend({
             if (!this.typing) {
                 this.typing = true;
                 client.sendMessage({
-                    to: this.model.lockedResource || this.model.jid,
+                    to: this.model.jid,
                     chatState: 'composing'
                 });
             }
@@ -81,7 +81,7 @@ module.exports = BasePage.extend({
         if (this.typing && this.$chatInput.val().length === 0) {
             this.typing = false;
             client.sendMessage({
-                to: this.model.lockedResource || this.model.jid,
+                to: this.model.jid,
                 chatState: 'active'
             });
         }
@@ -113,7 +113,7 @@ module.exports = BasePage.extend({
         if (this.typing) {
             this.typing = false;
             client.sendMessage({
-                to: this.model.lockedResource || this.model.jid,
+                to: this.model.jid,
                 chatState: 'paused'
             });
         }

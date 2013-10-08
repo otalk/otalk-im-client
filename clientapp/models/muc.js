@@ -84,8 +84,8 @@ module.exports = HumanModel.define({
         }
         client.joinRoom(this.jid, this.nick, {
             history: {
-                maxstanzas: 20,
-                since: this.lastInteraction
+                maxstanzas: 50
+                //since: this.lastInteraction
             }
         });
     },

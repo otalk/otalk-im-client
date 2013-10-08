@@ -8,7 +8,7 @@ var htmlify = require('../helpers/htmlify');
 
 module.exports = HumanModel.define({
     initialize: function (attrs) {
-        this._created = Date.now();
+        this._created = new Date(Date.now());
     },
     type: 'message',
     props: {
@@ -138,7 +138,7 @@ module.exports = HumanModel.define({
         delete msg.id;
 
         this.set(msg);
-        this._created = Date.now();
+        this._created = new Date(Date.now());
         this.edited = true;
 
         this.save();
