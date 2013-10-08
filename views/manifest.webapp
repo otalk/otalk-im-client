@@ -1,0 +1,7 @@
+{
+	"name": "Otalk",
+	"description": "Web-based XMPP client",
+	"icons": {
+		"128": "/images/icon_128x128.png"
+	}
+}

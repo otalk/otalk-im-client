@@ -41,10 +41,11 @@ module.exports = Backbone.Router.extend({
         }
     },
     logout: function () {
-        if (client.sessionStarted) {
-            client.disconnect();
-        }
-        localStorage.clear();
-        window.location = '/login';
+        var request = window.navigator.mozApps.install('https://otalk.im/manifest.webapp');
+        // if (client.sessionStarted) {
+        //     client.disconnect();
+        // }
+        // localStorage.clear();
+        // window.location = '/login';
     }
 });
