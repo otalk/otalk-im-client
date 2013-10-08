@@ -28,6 +28,7 @@ module.exports = BasePage.extend({
     show: function (animation) {
         BasePage.prototype.show.apply(this, [animation]);
         client.sendMessage({
+            type: 'groupchat',
             to: this.model.jid,
             chatState: 'active'
         });
@@ -35,6 +36,7 @@ module.exports = BasePage.extend({
     hide: function () {
         BasePage.prototype.hide.apply(this);
         client.sendMessage({
+            type: 'groupchat',
             to: this.model.jid,
             chatState: 'inactive'
         });
@@ -69,6 +71,7 @@ module.exports = BasePage.extend({
             if (!this.typing) {
                 this.typing = true;
                 client.sendMessage({
+                    type: 'groupchat',
                     to: this.model.jid,
                     chatState: 'composing'
                 });
@@ -81,6 +84,7 @@ module.exports = BasePage.extend({
         if (this.typing && this.$chatInput.val().length === 0) {
             this.typing = false;
             client.sendMessage({
+                type: 'groupchat',
                 to: this.model.jid,
                 chatState: 'active'
             });
@@ -113,6 +117,7 @@ module.exports = BasePage.extend({
         if (this.typing) {
             this.typing = false;
             client.sendMessage({
+                type: 'groupchat',
                 to: this.model.jid,
                 chatState: 'paused'
             });
