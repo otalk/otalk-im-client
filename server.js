@@ -54,6 +54,11 @@ app.get('/oauth/callback', function (req, res) {
     res.render('oauthLogin');
 });
 
+app.get('/manifest.webapp', function (req, res) {
+    res.set('Content-Type', 'application/x-web-app-manifest+json');
+    res.sent(fs.readFileSync('public/manifest.webapp'));
+});
+
 // serves app on every other url
 app.get('*', clientApp.html());
 

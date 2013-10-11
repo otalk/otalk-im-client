@@ -19,6 +19,7 @@ module.exports = BasePage.extend({
     },
     events: {
         'click .enableAlerts': 'enableAlerts',
+        'click .installFirefox': 'installFirefox',
         'dragover': 'handleAvatarChangeDragOver',
         'drop': 'handleAvatarChange',
         'change #uploader': 'handleAvatarChange',
@@ -38,6 +39,9 @@ module.exports = BasePage.extend({
                 });
             }
         });
+    },
+    installFirefox: function () {
+        navigator.mozApps.install(window.location.origin + '/manifest.webapp');
     },
     handleAvatarChangeDragOver: function (e) {
         e.preventDefault();

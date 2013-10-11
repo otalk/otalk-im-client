@@ -24,6 +24,16 @@ module.exports = HumanModel.define({
             }, true);
         }
 
+        if (navigator.mozApps) {
+            this.installable = true;
+            var req = navigator.mozApps.checkInstalled(window.location.origin + '/manifest.webapp');
+            req.onsuccess = function (e) {
+                if (req.result) {
+                    self.installedFirefox = true;
+                }
+            };
+        }
+
         this.markActive();
     },
     session: {
@@ -35,7 +45,9 @@ module.exports = HumanModel.define({
         idleSince: 'date',
         allowAlerts: ['bool', true, false],
         badge: ['string', true, ''],
-        pageTitle: ['string', true, '']
+        pageTitle: ['string', true, ''],
+        installable: ['bool', true, false],
+        installedFirefox: ['bool', true, false]
     },
     derived: {
         title: {
