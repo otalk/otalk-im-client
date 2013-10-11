@@ -26,19 +26,18 @@ module.exports = BasePage.extend({
         'blur .status': 'handleStatusChange'
     },
     initialize: function (spec) {
-        me.shouldAskForAlertsPermission = app.notifier.shouldAskPermission();
         this.renderAndBind();
     },
     enableAlerts: function () {
-        app.notifier.askPermission(function () {
-            var shouldAsk = app.notifier.shouldAskPermission();
-            if (!shouldAsk) {
-                app.notifier.show({
-                    title: 'Ok, sweet!',
-                    description: "You'll now be notified of stuff that happens."
-                });
-            }
-        });
+        if (app.notifications.permissionNeeded()) {
+            app.notifications.requestPermission(function (perm) {
+                if (perm === 'granted') {
+                    app.notifications.create('Ok, sweet!', {
+                        body: "You'll now be notified of stuff that happens."
+                    });
+                }
+            });
+        }
     },
     installFirefox: function () {
         navigator.mozApps.install(window.location.origin + '/manifest.webapp');

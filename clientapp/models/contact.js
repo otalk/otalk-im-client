@@ -174,10 +174,10 @@ module.exports = HumanModel.define({
 
         if (notify && (!this.activeContact || (this.activeContact && !app.state.focused)) && message.from.bare === this.jid) {
             this.unreadCount++;
-            app.notifier.show({
-                title: this.displayName,
-                description: message.body,
+            app.notifications.create(this.displayName, {
+                body: message.body,
                 icon: this.avatar,
+                tag: this.jid,
                 onclick: _.bind(app.navigate, app, '/chat/' + this.jid)
             });
         }

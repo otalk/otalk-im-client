@@ -24,7 +24,7 @@ module.exports = HumanModel.define({
             }, true);
         }
 
-        if (navigator.mozApps) {
+        if (window.navigator.mozApps) {
             this.installable = true;
             var req = navigator.mozApps.checkInstalled(window.location.origin + '/manifest.webapp');
             req.onsuccess = function (e) {
@@ -33,6 +33,8 @@ module.exports = HumanModel.define({
                 }
             };
         }
+
+        //this.allowAlerts = app.notifications.allowed();
 
         this.markActive();
     },

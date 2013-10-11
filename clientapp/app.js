@@ -12,7 +12,7 @@ var MainView = require('./views/main');
 var Router = require('./router');
 var Storage = require('./storage');
 var xmppEventHandlers = require('./helpers/xmppEventHandlers');
-var notifier = require('./helpers/notifications');
+var Notify = require('notify.js');
 
 
 module.exports = {
@@ -20,7 +20,6 @@ module.exports = {
         var self = window.app = this;
         var config = localStorage.config;
 
-        self.notifier = notifier;
 
         if (!config) {
             console.log('missing config');
@@ -33,6 +32,7 @@ module.exports = {
 
         async.series([
             function (cb) {
+                app.notifications = new Notify();
                 app.storage = new Storage();
                 app.storage.open(cb);
             },
