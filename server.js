@@ -8,6 +8,7 @@ var templatizer = require('templatizer');
 
 
 var app = express();
+
 app.use(express.compress());
 app.use(express.static(__dirname + '/public'));
 if (!config.isDev) {
@@ -19,7 +20,7 @@ app.use(helmet.contentTypeOptions());
 
 var clientApp = new Moonboots({
     main: __dirname + '/clientapp/app.js',
-    templateFile: __dirname + '/clientapp/template.html',
+    templateFile: __dirname + '/clientapp/templates/main.html',
     developmentMode: config.isDev,
     libraries: [
         __dirname + '/clientapp/libraries/zepto.js',
@@ -30,14 +31,24 @@ var clientApp = new Moonboots({
     stylesheets: [
         __dirname + '/public/css/otalk.css'
     ],
-    server: app,
-    beforeBuild: function () {
-        if (config.isDev) {
-            var clientFolder = __dirname + '/clientapp';
-            templatizer(clientFolder + '/templates', clientFolder + '/templates.js');
-        }
-    }
+    server: app
 });
+
+if (config.isDev) {
+    clientApp.config.beforeBuild = function () {
+        var clientFolder = __dirname + '/clientapp';
+        templatizer(clientFolder + '/templates', clientFolder + '/templates.js');
+
+        var pkginfo = JSON.parse(fs.readFileSync('./package.json'));
+        var cacheManifest = fs.readFileSync('clientapp/templates/misc/manifest.cache', 'utf-8');
+        cacheManifest = cacheManifest
+            .replace('#{version}', pkginfo.version + ' ' + Date.now())
+            .replace('#{jsFileName}', '/' + clientApp.jsFileName())
+            .replace('#{cssFileName}', '/' + clientApp.cssFileName());
+
+        fs.writeFileSync('./public/x-manifest.cache', cacheManifest);
+    };
+}
 
 app.set('view engine', 'jade');
 
@@ -56,7 +67,12 @@ app.get('/oauth/callback', function (req, res) {
 
 app.get('/manifest.webapp', function (req, res) {
     res.set('Content-Type', 'application/x-web-app-manifest+json');
-    res.sent(fs.readFileSync('public/manifest.webapp'));
+    res.send(fs.readFileSync('./public/x-manifest.webapp'));
+});
+
+app.get('/manifest.cache', function (req, res) {
+    res.set('Content-Type', 'text/cache-manifest');
+    res.send(fs.readFileSync('./public/x-manifest.cache'));
 });
 
 // serves app on every other url
