@@ -67,7 +67,7 @@ module.exports = BasePage.extend({
             this.$chatInput.removeClass('editing');
             e.preventDefault();
             return false;
-        } else if (!e.ctrlKey) {
+        } else if (!e.ctrlKey && !e.metaKey) {
             if (!this.typing) {
                 this.typing = true;
                 client.sendMessage({
