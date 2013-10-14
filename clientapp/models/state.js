@@ -16,25 +16,12 @@ module.exports = HumanModel.define({
             }
             self.markActive();
         });
-        if (window.macgap) {
-            document.addEventListener('sleep', function () {
-                clearTimeout(this.idleTimer);
-                console.log('went to sleep');
-                self.markInactive();
-            }, true);
-        }
 
-        if (window.navigator.mozApps) {
-            this.installable = true;
-            var req = navigator.mozApps.checkInstalled(window.location.origin + '/manifest.webapp');
-            req.onsuccess = function (e) {
-                if (req.result) {
-                    self.installedFirefox = true;
-                }
-            };
-        }
-
-        //this.allowAlerts = app.notifications.allowed();
+        app.desktop.on('sleep', function () {
+            clearTimeout(this.idleTimer);
+            console.log('went to sleep');
+            self.markInactive();
+        });
 
         this.markActive();
     },
@@ -47,9 +34,7 @@ module.exports = HumanModel.define({
         idleSince: 'date',
         allowAlerts: ['bool', true, false],
         badge: ['string', true, ''],
-        pageTitle: ['string', true, ''],
-        installable: ['bool', true, false],
-        installedFirefox: ['bool', true, false]
+        pageTitle: ['string', true, '']
     },
     derived: {
         title: {

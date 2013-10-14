@@ -3,5 +3,13 @@
     "description": "Modern XMPP client",
     "icons": {
         "128": "/images/icon_128x128.png"
+    },
+    "permissions": {
+        "storage": {
+            "description": "Required for caching contact information and message history."
+        },
+        "desktop-notification": {
+            "description": "Required to show alerts for new messages."
+        }
     }
 }

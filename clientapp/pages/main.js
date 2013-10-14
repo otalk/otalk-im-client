@@ -40,7 +40,11 @@ module.exports = BasePage.extend({
         }
     },
     installFirefox: function () {
-        navigator.mozApps.install(window.location.origin + '/manifest.webapp');
+        if (!app.desktop.installed) {
+            app.desktop.install();
+        } else {
+            app.desktop.uninstall();
+        }
     },
     handleAvatarChangeDragOver: function (e) {
         e.preventDefault();

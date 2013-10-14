@@ -13,6 +13,7 @@ var Router = require('./router');
 var Storage = require('./storage');
 var xmppEventHandlers = require('./helpers/xmppEventHandlers');
 var Notify = require('notify.js');
+var Desktop = require('./helpers/desktop');
 
 
 module.exports = {
@@ -33,6 +34,7 @@ module.exports = {
         async.series([
             function (cb) {
                 app.notifications = new Notify();
+                app.desktop = new Desktop();
                 app.storage = new Storage();
                 app.storage.open(cb);
             },
