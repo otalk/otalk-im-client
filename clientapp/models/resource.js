@@ -17,6 +17,40 @@ module.exports = HumanModel.define({
         discoInfo: 'object',
         timezoneOffset: 'number'
     },
+    derived: {
+        supportsChatStates: {
+            deps: ['discoInfo'],
+            fn: function () {
+                if (!this.discoInfo) return false;
+                var features = this.discoInfo.features;
+                return features.indexOf('http://jabber.org/protocol/chatstate') >= 0;
+            }
+        },
+        supportsJingleMedia: {
+            deps: ['discoInfo'],
+            fn: function () {
+                if (!this.discoInfo) return false;
+                var features = this.discoInfo.features;
+                if (features.indexOf('urn:xmpp:jingle:1') === -1) {
+                    return false;
+                }
+
+                if (features.indexOf('urn:xmpp:jingle:apps:rtp:1') === -1) {
+                    return false;
+                }
+
+                if (features.indexOf('urn:xmpp:jingle:apps:rtp:audio') === -1) {
+                    return false;
+                }
+
+                if (features.indexOf('urn:xmpp:jingle:apps:rtp:video') === -1) {
+                    return false;
+                }
+
+                return true;
+            }
+        }
+    },
     fetchTimezone: function () {
         var self = this;
 
