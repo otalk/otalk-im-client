@@ -66,6 +66,12 @@ module.exports = {
                 self.api.connect();
             },
             function (cb) {
+                function start() {
+                    // start our router and show the appropriate page
+                    app.history.start({pushState: true, root: '/'});
+                    cb();
+                }
+
                 new Router();
                 app.history = Backbone.history;
 
@@ -75,9 +81,11 @@ module.exports = {
                 });
                 self.view.render();
 
-                // we have what we need, we can now start our router and show the appropriate page
-                app.history.start({pushState: true, root: '/'});
-                cb();
+                if (me.contacts.length) {
+                    start();
+                } else {
+                    me.contacts.once('loaded', start);
+                }
             }
         ]);
     },

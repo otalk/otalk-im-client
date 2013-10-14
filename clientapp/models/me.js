@@ -97,6 +97,8 @@ module.exports = HumanModel.define({
                 contact.save();
                 self.contacts.add(contact);
             });
+
+            self.contacts.trigger('loaded');
         });
     },
     isMe: function (jid) {

@@ -26,7 +26,8 @@ module.exports = BasePage.extend(chatHelpers).extend({
     },
     events: {
         'keydown textarea': 'handleKeyDown',
-        'keyup textarea': 'handleKeyUp'
+        'keyup textarea': 'handleKeyUp',
+        'click .call': 'handleCallClick'
     },
     srcBindings: {
         avatar: 'header .avatar'
@@ -62,6 +63,7 @@ module.exports = BasePage.extend(chatHelpers).extend({
         this.$scrollContainer = this.$messageList;
 
         this.listenTo(this.model.messages, 'add', this.handleChatAdded);
+        this.listenToAndRun(this.model, 'change:jingleResources', this.handleJingleResourcesChanged);
 
         this.renderCollection();
 
@@ -77,6 +79,10 @@ module.exports = BasePage.extend(chatHelpers).extend({
     },
     handlePageUnloaded: function () {
         this.scrollPageUnload();
+    },
+    handleCallClick: function () {
+        this.model.call();
+        return false;
     },
     renderCollection: function () {
         var self = this;
@@ -180,6 +186,10 @@ module.exports = BasePage.extend(chatHelpers).extend({
     refreshModel: function (model) {
         var existing = this.$('#chat' + model.cid);
         existing.replaceWith(model.partialTemplateHtml);
+    },
+    handleJingleResourcesChanged: function (model, val) {
+        var resources = val || this.model.jingleResources;
+        this.$('button.call').prop('disabled', !resources.length);
     },
     appendModel: function (model, preload) {
         var self = this;
