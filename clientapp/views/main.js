@@ -11,9 +11,7 @@ module.exports = HumanView.extend({
     template: templates.body,
     initialize: function () {
         this.listenTo(app.state, 'change:title', this.handleTitle);
-        if (window.macgap) {
-            window.macgap.dock.badge = '';
-        }
+        app.desktop.updateBadge('');
     },
     events: {
         'click a[href]': 'handleLinkClick',
@@ -47,8 +45,6 @@ module.exports = HumanView.extend({
     },
     handleTitle: function (e) {
         document.title = app.state.title;
-        if (window.macgap) {
-            window.macgap.dock.badge = app.state.badge;
-        }
+        app.desktop.updateBadge(app.state.badge);
     }
 });
