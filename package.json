@@ -23,7 +23,7 @@
         "templatizer": "0.1.2",
         "underscore": "1.5.1",
         "raf-component": "1.1.1",
-        "stanza.io": "2.5.4",
+        "stanza.io": "2.5.7",
         "notify.js": "0.0.1"
     },
     "devDependencies": {
