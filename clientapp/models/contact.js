@@ -135,6 +135,14 @@ module.exports = HumanModel.define({
             fn: function () {
                 return this.unreadCount > 0;
             }
+        },
+        jingleResources: {
+            cache: false,
+            fn: function () {
+                return this.resources.filter(function (res) {
+                    return res.supportsJingleMedia;
+                });
+            }
         }
     },
     collections: {
