@@ -46,7 +46,7 @@ module.exports = HumanModel.define({
         topResource: 'string',
         unreadCount: ['number', true, 0],
         _forceUpdate: ['number', true, 0],
-        callState: 'string',
+        callState: ['string', true, ''],
         stream: 'object'
     },
     derived: {

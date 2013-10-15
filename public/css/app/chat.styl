@@ -16,6 +16,17 @@
   width: 100%
   borderbox()
 
+  .remoteVideo
+    display: none
+
+  &.activeCall
+    .remoteVideo
+      width: 100%
+      display: block
+
+    .messages
+      padding-top: 630px
+
   header
     padding: 5px
     border-bottom: 2px solid $grayOutline
@@ -44,7 +55,7 @@
     .tzo:not(:empty)
       position: absolute
       right: 15px
-      top: 50%
+      top: 25px
       height: 20px
       margin-top: -10px
       padding: 0 5px

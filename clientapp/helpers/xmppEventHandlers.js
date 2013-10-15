@@ -336,13 +336,13 @@ module.exports = function (client, app) {
 
     client.on('jingle:incoming', function (session) {
         var contact = me.getContact(session.peer);
-        contact.callState = 'incoming';
+        contact.callState = 'incomingCall';
         contact.jingleCall = session;
     });
 
     client.on('jingle:outgoing', function (session) {
         var contact = me.getContact(session.peer);
-        contact.callState = 'outgoing';
+        contact.callState = 'outgoingCall';
         contact.jingleCall = session;
     });
 
@@ -354,7 +354,7 @@ module.exports = function (client, app) {
 
     client.on('jingle:accepted', function (session) {
         var contact = me.getContact(session.peer);
-        contact.callState = 'active';
+        contact.callState = 'activeCall';
     });
 
     client.on('jingle:localstream:added', function (stream) {
@@ -368,11 +368,13 @@ module.exports = function (client, app) {
     client.on('jingle:remotestream:added', function (session) {
         var contact = me.getContact(session.peer);
         contact.stream = session.stream;
+        contact.trigger('change:stream');
     });
 
     client.on('jingle:remotestream:removed', function (session) {
         var contact = me.getContact(session.peer);
         contact.stream = null;
+        contact.trigger('change:stream');
     });
 
     client.on('jingle:ringing', function (session) {

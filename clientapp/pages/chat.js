@@ -39,6 +39,9 @@ module.exports = BasePage.extend(chatHelpers).extend({
         displayName: 'header .name',
         formattedTZO: 'header .tzo'
     },
+    classBindings: {
+        callState: '.conversation'
+    },
     show: function (animation) {
         BasePage.prototype.show.apply(this, [animation]);
         client.sendMessage({
@@ -196,8 +199,9 @@ module.exports = BasePage.extend(chatHelpers).extend({
         this.$('button.call').prop('disabled', !resources.length);
     },
     handleStream: function () {
-        if (this.model.stream) {
-            attachMediaStream(this.model.stream, this.$('.remoteVideo'));
+        this.attach = attachMediaStream;
+        if (!!this.model.stream) {
+            attachMediaStream(this.model.stream, this.$('.remoteVideo')[0]);
         }
     },
     appendModel: function (model, preload) {
