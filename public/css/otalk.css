@@ -503,7 +503,7 @@ h3 {
   margin-top: -15px;
   position: absolute;
   left: 10px;
-  top: 50%;
+  top: 20px;
   width: 30px;
   height: 30px;
   -moz-border-radius: 50px;
@@ -554,7 +554,7 @@ h3 {
   -border-radius: 30px;
   border-radius: 30px;
   position: absolute;
-  top: 7px;
+  top: 5px;
   left: 10px;
   font-size: 10px;
   font-weight: bold;
@@ -567,6 +567,9 @@ h3 {
   margin-left: 5px;
   font-size: 10px;
   color: #5c5c5c;
+}
+#bookmarks .name {
+  padding: 10px 15px 10px 40px;
 }
 @-moz-keyframes pulsate {
   0% {
@@ -635,7 +638,6 @@ h3 {
 }
 .page.chat {
   padding-top: 0px;
-  height: 100%;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -646,7 +648,6 @@ h3 {
   left: 0px;
   right: 0px;
   padding: 0px;
-  height: 100%;
   width: 100%;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -658,9 +659,6 @@ h3 {
 .conversation.activeCall .remoteVideo {
   width: 100%;
   display: block;
-}
-.conversation.activeCall .messages {
-  padding-top: 630px;
 }
 .conversation header {
   padding: 5px;
@@ -877,6 +875,7 @@ h3 {
   -o-border-radius: 3px;
   -border-radius: 3px;
   border-radius: 3px;
+  font-size: 12px;
 }
 .uploadRegion {
   padding: 15px;
@@ -896,6 +895,9 @@ h3 {
 }
 .uploadRegion input {
   width: 100%;
+}
+.uploadRegion img {
+  margin: 10px 0;
 }
 .aux {
   background: #f7f7f7;
@@ -927,6 +929,10 @@ h3 {
 }
 .box.connect h2 {
   padding: 0;
+}
+.box.connect .button {
+  float: none;
+  margin-top: 20px;
 }
 .box .head,
 .box .content {
@@ -1037,6 +1043,9 @@ a.button {
 button:hover,
 a.button:hover {
   background: #007aa7;
+}
+.enableAlerts {
+  margin-right: 5px;
 }
 body {
   position: relative !important;
