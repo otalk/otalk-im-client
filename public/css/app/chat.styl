@@ -45,17 +45,21 @@
       left: 11px
       vertical-align: top
 
+    .name, .call
+      float: left
+
     .name
       margin: 15px
       padding: 0px
       margin-left: 45px
       font-size: 14px
       line-height: 14px
+      max-width: 50%
 
     .tzo:not(:empty)
       position: absolute
       right: 15px
-      top: 25px
+      top: 28px
       height: 20px
       margin-top: -10px
       padding: 0 5px
@@ -66,6 +70,12 @@
       line-height: 20px
       color: lighten($baseText, 30%)
       background: $grayOutline
+
+    .call
+      margin-top: 10px
+      height: 25px
+      line-height: 25px
+      min-width: 60px
 
 .messages
   margin: 0px
