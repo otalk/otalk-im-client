@@ -568,6 +568,9 @@ h3 {
   font-size: 10px;
   color: #5c5c5c;
 }
+#bookmarks .name {
+  padding: 10px 15px 10px 40px;
+}
 @-moz-keyframes pulsate {
   0% {
     opacity: 1;
