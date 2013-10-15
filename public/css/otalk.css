@@ -859,6 +859,7 @@ h3 {
   -o-border-radius: 3px;
   -border-radius: 3px;
   border-radius: 3px;
+  font-size: 12px;
 }
 .uploadRegion {
   padding: 15px;
@@ -878,6 +879,9 @@ h3 {
 }
 .uploadRegion input {
   width: 100%;
+}
+.uploadRegion img {
+  margin: 10px 0;
 }
 .aux {
   background: #f7f7f7;
@@ -909,6 +913,10 @@ h3 {
 }
 .box.connect h2 {
   padding: 0;
+}
+.box.connect .button {
+  float: none;
+  margin-top: 20px;
 }
 .box .head,
 .box .content {
@@ -1019,4 +1027,7 @@ a.button {
 button:hover,
 a.button:hover {
   background: #007aa7;
+}
+.enableAlerts {
+  margin-right: 5px;
 }
