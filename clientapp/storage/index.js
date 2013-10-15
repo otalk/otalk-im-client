@@ -5,7 +5,7 @@ var AvatarStorage = require('./avatars');
 var RosterStorage = require('./roster');
 var DiscoStorage = require('./disco');
 var ArchiveStorage = require('./archive');
-var RosterVerStorage = require('./rosterver');
+var ProfileStorage = require('./profile');
 
 
 function Storage() {
@@ -16,13 +16,13 @@ function Storage() {
     this.roster = new RosterStorage(this);
     this.disco = new DiscoStorage(this);
     this.archive = new ArchiveStorage(this);
-    this.rosterver = new RosterVerStorage(this);
+    this.profiles = new ProfileStorage(this);
 }
 Storage.prototype = {
     constructor: {
         value: Storage
     },
-    version: 2,
+    version: 3,
     open: function (cb) {
         cb = cb || function () {};
 
@@ -38,7 +38,7 @@ Storage.prototype = {
             self.roster.setup(db);
             self.disco.setup(db);
             self.archive.setup(db);
-            self.rosterver.setup(db);
+            self.profiles.setup(db);
         };
         request.onerror = cb;
     }

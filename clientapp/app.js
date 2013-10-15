@@ -32,6 +32,7 @@ module.exports = {
 
         _.extend(this, Backbone.Events);
 
+        var profile = {};
         async.series([
             function (cb) {
                 app.notifications = new Notify();
@@ -40,16 +41,17 @@ module.exports = {
                 app.storage.open(cb);
             },
             function (cb) {
-                app.storage.rosterver.get(config.jid, function (err, ver) {
-                    if (ver) {
-                        config.rosterVer = ver;
+                app.storage.profiles.get(config.jid, function (err, res) {
+                    if (res) {
+                        profile = res;
+                        config.rosterVer = res.rosterVer;
                     }
                     cb();
                 });
             },
             function (cb) {
                 app.state = new AppState();
-                app.me = window.me = new MeModel();
+                app.me = window.me = new MeModel(profile);
 
                 window.onbeforeunload = function () {
                     if (app.api.sessionStarted) {
