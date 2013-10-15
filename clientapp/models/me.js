@@ -11,20 +11,30 @@ var fetchAvatar = require('../helpers/fetchAvatar');
 
 
 module.exports = HumanModel.define({
-    initialize: function () {
-        this.bind('change:jid', this.loadContacts, this);
+    initialize: function (opts) {
+        if (opts.avatarID) {
+            this.setAvatar(opts.avatarID);
+        }
+
+        this.bind('change:jid', this.load, this);
         this.bind('change:hasFocus', function () {
             this.setActiveContact(this._activeContact);
         }, this);
         this.calls.bind('add remove reset', this.updateActiveCalls, this);
+        this.bind('change:avatarID', this.save, this);
+        this.bind('change:status', this.save, this);
+        this.bind('change:rosterVer', this.save, this);
         this.contacts.bind('change:unreadCount', this.updateUnreadCount, this);
         app.state.bind('change:active', this.updateIdlePresence, this);
     },
-    session: {
+    props: {
         jid: ['object', true],
         status: ['string', true, ''],
-        avatar: ['string', true, ''],
         avatarID: ['string', true, ''],
+        rosterVer: ['string', true, '']
+    },
+    session: {
+        avatar: ['string', true, ''],
         connected: ['bool', true, false],
         shouldAskForAlertsPermission: ['bool', true, false],
         hasFocus: ['bool', true, false],
@@ -83,22 +93,30 @@ module.exports = HumanModel.define({
         this.contacts.remove(jid.bare);
         app.storage.roster.remove(jid.bare);
     },
-    loadContacts: function () {
+    load: function () {
         if (!this.jid.bare) return;
 
         var self = this;
-        app.storage.roster.getAll(this.jid.bare, function (err, contacts) {
-            if (err) return;
 
-            contacts.forEach(function (contact) {
-                contact = new Contact(contact);
-                contact.owner = self.jid.bare;
-                contact.inRoster = true;
-                contact.save();
-                self.contacts.add(contact);
+        app.storage.profiles.get(this.jid.bare, function (err, profile) {
+            if (!err) {
+                self.status = profile.status;
+                self.avatarID = profile.avatarID;
+            }
+            self.save();
+            app.storage.roster.getAll(self.jid.bare, function (err, contacts) {
+                if (err) return;
+
+                contacts.forEach(function (contact) {
+                    contact = new Contact(contact);
+                    contact.owner = self.jid.bare;
+                    contact.inRoster = true;
+                    contact.save();
+                    self.contacts.add(contact);
+                });
+
+                self.contacts.trigger('loaded');
             });
-
-            self.contacts.trigger('loaded');
         });
     },
     isMe: function (jid) {
@@ -127,5 +145,14 @@ module.exports = HumanModel.define({
     },
     updateActiveCalls: function () {
         app.state.hasActiveCall = !!this.calls.length;
+    },
+    save: function () {
+        var data = {
+            jid: this.jid.bare,
+            avatarID: this.avatarID,
+            status: this.status,
+            rosterVer: this.rosterVer
+        };
+        app.storage.profiles.set(data);
     }
 });

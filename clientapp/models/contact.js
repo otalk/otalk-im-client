@@ -148,6 +148,12 @@ module.exports = HumanModel.define({
                     return res.supportsJingleMedia;
                 });
             }
+        },
+        callable: {
+            deps: ['jingleResources'],
+            fn: function () {
+                return !!this.jingleResources.length;
+            }
         }
     },
     collections: {

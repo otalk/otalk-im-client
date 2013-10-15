@@ -107,7 +107,7 @@ module.exports = function (client, app) {
         client.getRoster(function (err, resp) {
             resp = resp.toJSON();
 
-            app.storage.rosterver.set(me.jid.bare, resp.roster.ver);
+            me.rosterVer = resp.roster.ver;
 
             _.each(resp.roster.items, function (item) {
                 me.setContact(item, true);
@@ -116,6 +116,7 @@ module.exports = function (client, app) {
             var caps = client.updateCaps();
             app.storage.disco.add(caps.ver, caps.discoInfo, function () {
                 client.sendPresence({
+                    status: me.status,
                     caps: client.disco.caps
                 });
                 client.enableCarbons();
@@ -129,7 +130,7 @@ module.exports = function (client, app) {
         iq = iq.toJSON();
         var items = iq.roster.items;
 
-        app.storage.rosterver.set(me.jid.bare, iq.roster.ver);
+        me.rosterVer = iq.roster.ver;
 
         _.each(items, function (item) {
             var contact = me.getContact(item.jid);

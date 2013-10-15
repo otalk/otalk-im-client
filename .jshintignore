@@ -4,3 +4,4 @@ clientapp/helpers/htmlify.js
 clientapp/libraries
 clientapp/templates.js
 clientapp/.build
+clientapp/helpers/callbar.js
