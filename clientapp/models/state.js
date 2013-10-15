@@ -34,7 +34,8 @@ module.exports = HumanModel.define({
         idleSince: 'date',
         allowAlerts: ['bool', true, false],
         badge: ['string', true, ''],
-        pageTitle: ['string', true, '']
+        pageTitle: ['string', true, ''],
+        hasActiveCall: ['boolean', true, false]
     },
     derived: {
         title: {

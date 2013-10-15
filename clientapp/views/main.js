@@ -19,12 +19,14 @@ module.exports = HumanView.extend({
         'click .reconnect': 'handleReconnect'
     },
     classBindings: {
-        connected: '#connectionOverlay'
+        connected: '#connectionOverlay',
+        hasActiveCall: '#wrapper'
     },
     render: function () {
         $('head').append(templates.head());
         $('body').removeClass('aux');
         this.renderAndBind();
+        console.log('this.model', this.model);
         this.renderCollection(me.contacts, ContactListItem, this.$('#roster nav'));
         this.renderCollection(me.mucs, MUCListItem, this.$('#bookmarks nav'));
         this.renderCollection(me.calls, CallView, this.$('#calls'));

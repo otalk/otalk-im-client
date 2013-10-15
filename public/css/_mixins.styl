@@ -36,17 +36,17 @@ turn($deg)
   -o-transform: rotate($deg)
   transform: rotate($deg)
 
-transform($param)
-  -webkit-transform: $param
-  -moz-transform: $param
-  -ms-transform: $param
-  transform: $param
+transform()
+  -webkit-transform: arguments
+  -moz-transform: arguments
+  -ms-transform: arguments
+  transform: arguments
 
-transition($attr, $dur, $timing, $delay)
-  -webkit-transition: $attr $dur $timing $delay
-  -o-transition: $attr $dur $timing $delay
-  transition: $attr $dur $timing $delay
-  -moz-transition: $attr $dur $timing $delay
+transition()
+  -webkit-transition: arguments
+  -o-transition: arguments
+  transition: arguments
+  -moz-transition: arguments
 
 flip-horizontal()
   -moz-transform: scaleX(-1)

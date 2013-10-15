@@ -9,7 +9,7 @@ var logger = require('andlog');
 module.exports = HumanModel.define({
     type: 'call',
     session: {
-        contactJid: 'object',
+        contact: 'object',
         jingleSession: 'object',
         state: ['string', true, 'inactive'],
         multiUser: ['boolean', true, false]

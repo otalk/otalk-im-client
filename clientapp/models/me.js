@@ -16,7 +16,7 @@ module.exports = HumanModel.define({
         this.bind('change:hasFocus', function () {
             this.setActiveContact(this._activeContact);
         }, this);
-
+        this.calls.bind('add remove reset', this.updateActiveCalls, this);
         this.contacts.bind('change:unreadCount', this.updateUnreadCount, this);
         app.state.bind('change:active', this.updateIdlePresence, this);
     },
@@ -124,5 +124,8 @@ module.exports = HumanModel.define({
             count = '';
         }
         app.state.badge = '' + count;
+    },
+    updateActiveCalls: function () {
+        app.state.hasActiveCall = !!this.calls.length;
     }
 });

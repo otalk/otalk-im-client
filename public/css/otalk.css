@@ -1027,61 +1027,75 @@ button:hover,
 a.button:hover {
   background: #007aa7;
 }
-body {
+#wrapper {
   position: relative !important;
-  -webkit-transition: top 1s;
+  -webkit-transition: all 1s;
+  -o-transition: all 1s;
+  transition: all 1s;
+  -moz-transition: all 1s;
 }
-body.candybarVisible {
-  top: 100px;
+#wrapper.hasActiveCall {
+  -webkit-transform: translateY(80px);
+  -moz-transform: translateY(80px);
+  -ms-transform: translateY(80px);
+  transform: translateY(80px);
 }
 #calls {
   position: fixed;
-  top: -120px;
+  top: 0;
   left: 0px;
-  -webkit-transition: background-color 1s;
-  -webkit-transition: top 1s;
+  -webkit-transition: all 1s;
+  -o-transition: all 1s;
+  transition: all 1s;
+  -moz-transition: all 1s;
   width: 100%;
   height: 80px;
-  padding: 10px;
   z-index: 1000;
+  background: #fff;
 }
-#calls.visible {
-  top: 0px;
+#calls:empty,
+#calls.ending {
+  -webkit-transform: translateY(-80px);
+  -moz-transform: translateY(-80px);
+  -ms-transform: translateY(-80px);
+  transform: translateY(-80px);
 }
-#calls.havatar .callActions {
-  left: 100px;
+#calls .call {
+  height: 80px;
+  padding: 0;
+  margin: 0;
 }
-#calls.havatar .caller {
-  margin-left: 90px;
+#calls .call.incoming {
+  background: #00aeef;
 }
-#calls.incoming {
-  background: #00f;
-}
-#calls.incoming .callTime {
+#calls .call.incoming .callTime {
   display: none;
 }
-#calls.incoming .callerName:before {
+#calls .call.incoming .callerName:before {
   content: "Incoming: ";
 }
-#calls.waiting .spinner div {
+#calls .call.waiting {
+  background: #00aeef;
+}
+#calls .call.waiting .spinner div {
   background-color: #fff;
 }
-#calls.calling .callTime {
+#calls .call.calling .callTime {
   display: none;
 }
-#calls.calling .callerName:before {
+#calls .call.calling .callerName:before {
   content: "Calling: ";
 }
-#calls.active .callerName:before {
+#calls .call.active .callerName:before {
   content: "On Call: ";
 }
-#calls.remote .callTime {
+#calls .call.remote .callTime {
   display: none;
 }
-#calls.ending .callerName:before {
+#calls .call.ending .callerName:before {
   content: "Call ending with: ";
 }
-#calls .callActions {
+#calls .call .callActions {
   position: absolute;
   left: 10px;
   top: 50px;
@@ -1127,10 +1141,15 @@ rgba(0,0,0,0.2)
 }
 #calls .callerAvatar {
   float: left;
-  width: 65px;
-  height: 65px;
-  border: 5px solid #eee;
+  width: 50px;
+  height: 50px;
   margin-right: 10px;
+  -moz-border-radius: 25px;
+  -webkit-border-radius: 25px;
+  -khtml-border-radius: 25px;
+  -o-border-radius: 25px;
+  -border-radius: 25px;
+  border-radius: 25px;
 }
 #calls .callerName,
 #calls .callTime {
@@ -1140,13 +1159,10 @@ rgba(0,0,0,0.7)
   line-height: 1;
 }
 #calls .caller {
+  margin: 0;
   font-size: 20px;
   padding-bottom: 0px;
   border-bottom: 2px groove rgba(255,255,255,0.4);
-}
-#calls .caller margin:top: 0px {
-  right: 30px;
-  left: 0px;
 }
 #calls .callerName {
   display: inline;
