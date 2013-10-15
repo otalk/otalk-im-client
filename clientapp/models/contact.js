@@ -9,6 +9,7 @@ var HumanModel = require('human-model');
 var Resources = require('./resources');
 var Messages = require('./messages');
 var Message = require('./message');
+var logger = require('andlog');
 var fetchAvatar = require('../helpers/fetchAvatar');
 
 
@@ -46,6 +47,7 @@ module.exports = HumanModel.define({
         topResource: 'string',
         unreadCount: ['number', true, 0],
         _forceUpdate: ['number', true, 0],
+        // options: incomingCall, ringing, activeCall, starting
         callState: ['string', true, ''],
         stream: 'object'
     },
@@ -153,7 +155,7 @@ module.exports = HumanModel.define({
         messages: Messages
     },
     call: function () {
-        if (this.jingleResources) {
+        if (this.jingleResources.length) {
             var peer = this.jingleResources[0];
             this.callState = 'starting';
             app.api.jingle.startLocalMedia(null, function (err) {
@@ -161,6 +163,8 @@ module.exports = HumanModel.define({
                     app.api.call(peer.id);
                 }
             });
+        } else {
+            logger.error('no jingle resources for this user');
         }
     },
     setAvatar: function (id, type) {

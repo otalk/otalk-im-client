@@ -38,7 +38,7 @@ var clientApp = new Moonboots({
 });
 
 if (config.isDev) {
-    clientApp.config.beforeBuild = function () {
+    clientApp.config.beforeBuildJS = function () {
         var clientFolder = __dirname + '/clientapp';
         templatizer(clientFolder + '/templates', clientFolder + '/templates.js');
 

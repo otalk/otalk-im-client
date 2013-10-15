@@ -3,6 +3,7 @@
 
 var HumanModel = require('human-model');
 var Contacts = require('./contacts');
+var Calls = require('./calls');
 var Contact = require('./contact');
 var MUCs = require('./mucs');
 var MUC = require('./muc');
@@ -32,7 +33,8 @@ module.exports = HumanModel.define({
     },
     collections: {
         contacts: Contacts,
-        mucs: MUCs
+        mucs: MUCs,
+        calls: Calls
     },
     setActiveContact: function (jid) {
         var prev = this.getContact(this._activeContact);

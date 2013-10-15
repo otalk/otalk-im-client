@@ -1,0 +1,138 @@
+@import _mixins
+@import _variables
+
+body
+  position: relative !important 
+  -webkit-transition: top 1s
+
+  &.candybarVisible
+    top: 100px
+
+#calls
+  position: fixed
+  top: -120px
+  left: 0px
+  -webkit-transition: background-color 1s
+  -webkit-transition: top 1s
+  width: 100%
+  height: 80px
+  padding: 10px
+  z-index: 1000
+
+  &.visible
+    top: 0px
+
+  &.havatar
+    .callActions
+      left: 100px
+    .caller
+      margin-left: 90px
+
+  &.incoming
+    background: blue
+    .callTime
+      display: none
+    .callerName:before
+      content: "Incoming: "
+
+  &.waiting
+    callbar($orange)
+    
+    .spinner div
+      background-color: #fff
+
+  &.calling
+    callbar($blue)
+    .callTime
+      display: none
+    .callerName:before
+      content: "Calling: "
+
+  &.active
+    callbar($green)
+    .callerName:before
+      content: "On Call: "
+
+  &.inactive
+    callbar(#fff)
+
+  &.remote
+    callbar($blue  #333)    
+    .callTime
+      display: none
+
+  &.ending
+    .callerName:before
+      content: "Call ending with: "
+    callbar($grey)
+    
+  .callActions
+    position: absolute
+    left: 10px
+    top: 50px
+    display: block
+    width: 100%
+
+  nav
+    float: left
+
+  button  
+    min-width: auto
+    background-color: rgba(255,255,255,.3)
+    gradient(rgba(255,255,255,.5),rgba(0,0,0,.1))
+    border:
+      top: 1px solid rgba(255,255,255,.6)
+      bottom: 1px solid rgba(0,0,0,.1)
+      left: 1px solid rgba(255,255,255,.2)
+      right: 1px solid rgba(255,255,255,.2)
+    width: 100px
+    margin-right: 10px
+    font-size: 16px
+    color: rgba(0,0,0,.75)
+    text_shadow(rgba(255,255,255,.5),0,1px,0)
+    float: left
+    shadow(rgba(0,0,0,.3), 0, 1px, 3)
+    &:hover
+      background-color: rgba(255,255,255,.4)
+    &:active
+      inner_shadow(rgba(0,0,0,.2),0,1px,3)
+      padding-top: 11px
+      padding-bottom: 9px
+      border:
+        bottom: 1px solid rgba(255,255,255,1)
+        top: 1px solid rgba(0,0,0,.2)
+
+  .callerAvatar
+    float: left
+    width: 65px
+    height: 65px
+    border: 5px solid #eee
+    margin-right: 10px
+
+  .callerName, .callTime
+    font-weight: bold
+    color: #fff
+    text_shadow(rgba(0,0,0,.7),0,1px,0)
+    line-height: 1
+
+  .caller
+    margin:
+      top: 0px
+      right: 30px
+      left: 0px
+    font-size: 20px
+    padding-bottom: 0px
+    border-bottom: 2px groove rgba(255,255,255,.4)
+
+  .callerName
+    display: inline
+  .callerNumber
+    display: inline
+    margin-left: 10px
+
+  .callTime
+    position: absolute
+    top: 12px
+    right: 40px
+    font-size: 20px
+    margin: 0

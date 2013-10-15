@@ -13,7 +13,7 @@
         "express": "3.3.7",
         "getconfig": "0.0.5",
         "jade": "0.35.0",
-        "moonboots": "0.7.0",
+        "moonboots": "1.0.0",
         "helmet": "0.1.0",
         "node-uuid": "1.4.1",
         "semi-static": "0.0.4",
