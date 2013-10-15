@@ -3,7 +3,7 @@
     "version": "0.0.1",
     "description": "Otalk: WebRTC Enabled XMPP Client, in the Browser",
     "repository": {
-        "type": "git", 
+        "type": "git",
         "url": "git@github.com:andyet/otalk.git"
     },
     "dependencies": {
@@ -23,9 +23,12 @@
         "templatizer": "0.1.2",
         "underscore": "1.5.1",
         "raf-component": "1.1.1",
-        "stanza.io": "2.5.7",
+        "stanza.io": "2.5.9",
         "notify.js": "0.0.1",
-        "wildemitter": "0.0.5"
+        "wildemitter": "0.0.5",
+        "attachmediastream": "",
+        "crypto-browserify": "1.0.3",
+        "browserify": "2.25.1"
     },
     "devDependencies": {
         "precommit-hook": "0.3.6"

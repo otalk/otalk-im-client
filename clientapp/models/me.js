@@ -6,7 +6,6 @@ var Contacts = require('./contacts');
 var Contact = require('./contact');
 var MUCs = require('./mucs');
 var MUC = require('./muc');
-var uuid = require('node-uuid');
 var fetchAvatar = require('../helpers/fetchAvatar');
 
 
@@ -74,7 +73,6 @@ module.exports = HumanModel.define({
             contact = new Contact(data);
             contact.inRoster = true;
             contact.owner = this.jid.bare;
-            contact.storageId = uuid.v4();
             contact.save();
             this.contacts.add(contact);
         }

@@ -2,6 +2,7 @@
 "use strict";
 
 var _ = require('underscore');
+var crypto = require('crypto');
 var async = require('async');
 var uuid = require('node-uuid');
 var HumanModel = require('human-model');
@@ -44,7 +45,9 @@ module.exports = HumanModel.define({
         offlineStatus: ['string', true, ''],
         topResource: 'string',
         unreadCount: ['number', true, 0],
-        _forceUpdate: ['number', true, 0]
+        _forceUpdate: ['number', true, 0],
+        callState: 'string',
+        stream: 'object'
     },
     derived: {
         displayName: {
@@ -137,7 +140,7 @@ module.exports = HumanModel.define({
             }
         },
         jingleResources: {
-            cache: false,
+            deps: ['_forceUpdate'],
             fn: function () {
                 return this.resources.filter(function (res) {
                     return res.supportsJingleMedia;
@@ -148,6 +151,17 @@ module.exports = HumanModel.define({
     collections: {
         resources: Resources,
         messages: Messages
+    },
+    call: function () {
+        if (this.jingleResources) {
+            var peer = this.jingleResources[0];
+            this.callState = 'starting';
+            app.api.jingle.startLocalMedia(null, function (err) {
+                if (!err) {
+                    app.api.call(peer.id);
+                }
+            });
+        }
     },
     setAvatar: function (id, type) {
         var self = this;
@@ -254,8 +268,9 @@ module.exports = HumanModel.define({
     save: function () {
         if (!this.inRoster) return;
 
+        var storageId = crypto.createHash('sha1').update(this.owner + '/' + this.id).digest('hex');
         var data = {
-            storageId: this.storageId,
+            storageId: storageId,
             owner: this.owner,
             jid: this.jid,
             name: this.name,

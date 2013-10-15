@@ -28,6 +28,9 @@ var clientApp = new Moonboots({
         __dirname + '/clientapp/libraries/resampler.js',
         __dirname + '/clientapp/libraries/IndexedDBShim.min.js'
     ],
+    browserify: {
+        debug: false
+    },
     stylesheets: [
         __dirname + '/public/css/otalk.css'
     ],

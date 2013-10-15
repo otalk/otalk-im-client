@@ -333,4 +333,50 @@ module.exports = function (client, app) {
             }
         }
     });
+
+    client.on('jingle:incoming', function (session) {
+        var contact = me.getContact(session.peer);
+        contact.callState = 'incoming';
+        contact.jingleCall = session;
+    });
+
+    client.on('jingle:outgoing', function (session) {
+        var contact = me.getContact(session.peer);
+        contact.callState = 'outgoing';
+        contact.jingleCall = session;
+    });
+
+    client.on('jingle:terminated', function (session) {
+        var contact = me.getContact(session.peer);
+        contact.callState = '';
+        contact.jingleCall = null;
+    });
+
+    client.on('jingle:accepted', function (session) {
+        var contact = me.getContact(session.peer);
+        contact.callState = 'active';
+    });
+
+    client.on('jingle:localstream:added', function (stream) {
+        me.stream = stream;
+    });
+
+    client.on('jingle:localstream:removed', function () {
+        me.stream = null;
+    });
+
+    client.on('jingle:remotestream:added', function (session) {
+        var contact = me.getContact(session.peer);
+        contact.stream = session.stream;
+    });
+
+    client.on('jingle:remotestream:removed', function (session) {
+        var contact = me.getContact(session.peer);
+        contact.stream = null;
+    });
+
+    client.on('jingle:ringing', function (session) {
+        var contact = me.getContact(session.peer);
+        contact.callState = 'ringing';
+    });
 };

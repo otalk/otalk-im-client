@@ -7,6 +7,7 @@ var templates = require('../templates');
 var Message = require('../views/message');
 var MessageModel = require('../models/message');
 var chatHelpers = require('../helpers/chatHelpers');
+var attachMediaStream = require('attachmediastream');
 
 
 module.exports = BasePage.extend(chatHelpers).extend({
@@ -21,6 +22,8 @@ module.exports = BasePage.extend(chatHelpers).extend({
         this.listenTo(this.model.messages, 'change:body', this.refreshModel);
         this.listenTo(this.model.messages, 'change:edited', this.refreshModel);
         this.listenTo(this.model.messages, 'change:pending', this.refreshModel);
+
+        this.listenTo(this.model, 'change:stream', this.handleStream);
 
         this.render();
     },
@@ -80,7 +83,8 @@ module.exports = BasePage.extend(chatHelpers).extend({
     handlePageUnloaded: function () {
         this.scrollPageUnload();
     },
-    handleCallClick: function () {
+    handleCallClick: function (e) {
+        e.preventDefault();
         this.model.call();
         return false;
     },
@@ -190,6 +194,11 @@ module.exports = BasePage.extend(chatHelpers).extend({
     handleJingleResourcesChanged: function (model, val) {
         var resources = val || this.model.jingleResources;
         this.$('button.call').prop('disabled', !resources.length);
+    },
+    handleStream: function () {
+        if (this.model.stream) {
+            attachMediaStream(this.model.stream, this.$('.remoteVideo'));
+        }
     },
     appendModel: function (model, preload) {
         var self = this;

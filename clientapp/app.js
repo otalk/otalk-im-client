@@ -28,6 +28,7 @@ module.exports = {
         }
 
         config = JSON.parse(config);
+        config.useStreamManagement = false;
 
         _.extend(this, Backbone.Events);
 
