@@ -26,10 +26,9 @@ module.exports = HumanView.extend({
         $('head').append(templates.head());
         $('body').removeClass('aux');
         this.renderAndBind();
-        console.log('this.model', this.model);
         this.renderCollection(me.contacts, ContactListItem, this.$('#roster nav'));
         this.renderCollection(me.mucs, MUCListItem, this.$('#bookmarks nav'));
-        this.renderCollection(me.calls, CallView, this.$('#calls'));
+        //this.renderCollection(me.calls, CallView, this.$('#calls'));
         return this;
     },
     handleReconnect: function (e) {
