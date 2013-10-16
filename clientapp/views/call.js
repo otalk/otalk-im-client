@@ -1,4 +1,4 @@
-/*global $*/
+/*global $, app*/
 "use strict";
 
 var _ = require('underscore');
@@ -35,23 +35,36 @@ module.exports = HumanView.extend({
         return this;
     },
     handleAnswerClick: function (e) {
-
+        e.preventDefault();
+        var self = this;
+        app.api.jingle.startLocalMedia(null, function () {
+            self.model.jingleSession.accept();
+            self.model.state = 'active';
+        });
         return false;
     },
     handleIgnoreClick: function (e) {
-
+        e.preventDefault();
+        this.model.jingleSession.end({
+            condition: 'decline'
+        });
         return false;
     },
     handleCancelClick: function (e) {
-
+        e.preventDefault();
+        this.model.jingleSession.end({
+            condition: 'cancel'
+        });
         return false;
     },
     handleEndClick: function (e) {
-
+        e.preventDefault();
+        this.model.jingleSession.end({
+            condition: 'success'
+        });
         return false;
     },
     handleMuteClick: function (e) {
-
         return false;
     },
     // we want to make sure we show the appropriate buttons
