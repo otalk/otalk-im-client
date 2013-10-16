@@ -21,9 +21,7 @@ module.exports = HumanModel.define({
         var reason = reasonForEnding || 'success';
         this.contact.onCall = false;
         if (this.jingleSession) {
-            this.jingleSession.end({
-                condition: reason
-            });
+            this.jingleSession.end(reasonForEnding);
         }
         this.collection.remove(this);
     }
