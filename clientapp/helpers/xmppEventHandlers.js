@@ -338,6 +338,12 @@ module.exports = function (client, app) {
 
     client.on('jingle:incoming', function (session) {
         var contact = me.getContact(session.peer);
+        if (!contact) {
+            contact = new Contact({jid: client.JID(session.peer).bare});
+            contact.resources.add({id: session.peer});
+            me.contacts.add(contact);
+        }
+
         var call = new Call({
             contact: contact,
             state: 'incoming',
@@ -381,6 +387,11 @@ module.exports = function (client, app) {
 
     client.on('jingle:remotestream:added', function (session) {
         var contact = me.getContact(session.peer);
+        if (!contact) {
+            contact = new Contact({jid: client.JID(session.peer).bare});
+            contact.resources.add({id: session.peer});
+            me.contacts.add(contact);
+        }
         contact.stream = session.stream;
     });
 
