@@ -23,6 +23,7 @@ module.exports = BasePage.extend(chatHelpers).extend({
         this.listenTo(this.model.messages, 'change:edited', this.refreshModel);
         this.listenTo(this.model.messages, 'change:pending', this.refreshModel);
 
+        this.listenTo(this.model, 'change:onCall', this.handleCall);
         this.listenTo(this.model, 'change:stream', this.handleStream);
 
         this.render();
@@ -30,7 +31,9 @@ module.exports = BasePage.extend(chatHelpers).extend({
     events: {
         'keydown textarea': 'handleKeyDown',
         'keyup textarea': 'handleKeyUp',
-        'click .call': 'handleCallClick'
+        'click .call': 'handleCallClick',
+        'click .end': 'handleEndClick',
+        'click .mute': 'handleMuteClick'
     },
     srcBindings: {
         avatar: 'header .avatar'
@@ -198,12 +201,6 @@ module.exports = BasePage.extend(chatHelpers).extend({
         var resources = val || this.model.jingleResources;
         this.$('button.call').prop('disabled', !resources.length);
     },
-    handleStream: function () {
-        this.attach = attachMediaStream;
-        if (!!this.model.stream) {
-            attachMediaStream(this.model.stream, this.$('.remoteVideo')[0]);
-        }
-    },
     appendModel: function (model, preload) {
         var self = this;
         var isGrouped = model.shouldGroupWith(this.lastModel);
@@ -221,5 +218,27 @@ module.exports = BasePage.extend(chatHelpers).extend({
         this.lastModel = model;
 
         this.scrollIfPinned();
+    },
+    handleCall: function () {
+        if (this.model.onCall) {
+            attachMediaStream(me.stream, this.$('video.local')[0], {
+                mirror: true,
+                muted: true
+            });
+        }
+    },
+    handleStream: function (model, stream) {
+        console.log(arguments);
+        attachMediaStream(stream, this.$('video.remote')[0]);
+    },
+    handleEndClick: function (e) {
+        e.preventDefault();
+        this.model.jingleCall.end({
+            condition: 'success'
+        });
+        return false;
+    },
+    handleMuteClick: function (e) {
+        return false;
     }
 });

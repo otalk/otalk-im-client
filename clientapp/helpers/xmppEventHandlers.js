@@ -9,6 +9,7 @@ var uuid = require('node-uuid');
 var Contact = require('../models/contact');
 var Resource = require('../models/resource');
 var Message = require('../models/message');
+var Call = require('../models/call');
 
 
 var discoCapsQueue = async.queue(function (pres, cb) {
@@ -337,31 +338,37 @@ module.exports = function (client, app) {
 
     client.on('jingle:incoming', function (session) {
         var contact = me.getContact(session.peer);
-        me.calls.add({
+        var call = new Call({
             contact: contact,
             state: 'incoming',
             jingleSession: session
         });
+        contact.jingleCall = call;
+        me.calls.add(call);
     });
 
     client.on('jingle:outgoing', function (session) {
         var contact = me.getContact(session.peer);
-        me.calls.add({
+        var call = new Call({
             contact: contact,
             state: 'outgoing',
             jingleSession: session
         });
+        contact.jingleCall = call;
+        me.calls.add(call);
     });
 
     client.on('jingle:terminated', function (session) {
         var contact = me.getContact(session.peer);
         contact.callState = '';
         contact.jingleCall = null;
+        contact.onCall = false;
     });
 
     client.on('jingle:accepted', function (session) {
         var contact = me.getContact(session.peer);
         contact.callState = 'activeCall';
+        contact.onCall = true;
     });
 
     client.on('jingle:localstream:added', function (stream) {
@@ -375,13 +382,11 @@ module.exports = function (client, app) {
     client.on('jingle:remotestream:added', function (session) {
         var contact = me.getContact(session.peer);
         contact.stream = session.stream;
-        contact.trigger('change:stream');
     });
 
     client.on('jingle:remotestream:removed', function (session) {
         var contact = me.getContact(session.peer);
         contact.stream = null;
-        contact.trigger('change:stream');
     });
 
     client.on('jingle:ringing', function (session) {
