@@ -5,6 +5,8 @@ var crypto = require('crypto');
 var BasePage = require('./base');
 var templates = require('../templates');
 
+var ContactRequestItem = require('../views/contactRequest');
+
 
 module.exports = BasePage.extend({
     template: templates.pages.main,
@@ -20,13 +22,19 @@ module.exports = BasePage.extend({
     events: {
         'click .enableAlerts': 'enableAlerts',
         'click .installFirefox': 'installFirefox',
+        'click .addContact': 'handleAddContact',
         'dragover': 'handleAvatarChangeDragOver',
         'drop': 'handleAvatarChange',
         'change #uploader': 'handleAvatarChange',
         'blur .status': 'handleStatusChange'
     },
     initialize: function (spec) {
+        this.render();
+    },
+    render: function () {
         this.renderAndBind();
+        this.renderCollection(this.model.contactRequests, ContactRequestItem, this.$('#contactrequests'));
+        return this;
     },
     enableAlerts: function () {
         if (app.notifications.permissionNeeded()) {
@@ -92,5 +100,16 @@ module.exports = BasePage.extend({
             status: text,
             caps: client.disco.caps
         });
+    },
+    handleAddContact: function (e) {
+        e.preventDefault();
+
+        var contact = this.$('#addcontact').val();
+        if (contact) {
+            app.api.sendPresence({to: contact, type: 'subscribe'});
+        }
+        this.$('#addcontact').val('');
+
+        return false;
     }
 });

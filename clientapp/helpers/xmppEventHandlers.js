@@ -147,6 +147,12 @@ module.exports = function (client, app) {
         });
     });
 
+    client.on('subscribe', function (pres) {
+        me.contactRequests.add({
+            jid: pres.from.bare
+        });
+    });
+
     client.on('available', function (pres) {
         pres = pres.toJSON();
         var contact = me.getContact(pres.from);

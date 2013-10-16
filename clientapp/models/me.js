@@ -8,6 +8,7 @@ var Calls = require('./calls');
 var Contact = require('./contact');
 var MUCs = require('./mucs');
 var MUC = require('./muc');
+var ContactRequests = require('./contactRequests');
 var fetchAvatar = require('../helpers/fetchAvatar');
 
 
@@ -45,6 +46,7 @@ module.exports = HumanModel.define({
     },
     collections: {
         contacts: Contacts,
+        contactRequests: ContactRequests,
         mucs: MUCs,
         calls: Calls
     },
@@ -104,8 +106,9 @@ module.exports = HumanModel.define({
         }
     },
     removeContact: function (jid) {
-        this.contacts.remove(jid.bare);
-        app.storage.roster.remove(jid.bare);
+        var contact = this.getContact(jid);
+        this.contacts.remove(contact.jid);
+        app.storage.roster.remove(contact.storageId);
     },
     load: function () {
         if (!this.jid.bare) return;
