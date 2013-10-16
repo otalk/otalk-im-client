@@ -355,6 +355,7 @@ module.exports = function (client, app) {
             state: 'incoming',
             jingleSession: session
         });
+        session.accept();
         contact.jingleCall = call;
         me.calls.add(call);
     });

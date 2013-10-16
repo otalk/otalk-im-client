@@ -37,12 +37,10 @@ module.exports = HumanView.extend({
     handleAnswerClick: function (e) {
         e.preventDefault();
         var self = this;
-        app.api.jingle.startLocalMedia(null, function () {
-            self.model.jingleSession.accept();
-            self.model.state = 'active';
-            app.navigate('/chat/' + self.model.contact.jid);
-            self.model.contact.onCall = true;
-        });
+        self.model.state = 'active';
+        app.navigate('/chat/' + self.model.contact.jid);
+        self.model.contact.onCall = true;
+        self.model.jingleSession.accept();
         return false;
     },
     handleIgnoreClick: function (e) {

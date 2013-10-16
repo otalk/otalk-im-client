@@ -62,6 +62,8 @@ module.exports = {
                 self.api = window.client = StanzaIO.createClient(config);
                 xmppEventHandlers(self.api, self);
 
+                self.api.jingle.startLocalMedia();
+
                 self.api.once('session:started', function () {
                     app.state.hasConnected = true;
                     cb();

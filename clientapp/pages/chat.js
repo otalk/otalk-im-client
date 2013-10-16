@@ -23,9 +23,6 @@ module.exports = BasePage.extend(chatHelpers).extend({
         this.listenTo(this.model.messages, 'change:edited', this.refreshModel);
         this.listenTo(this.model.messages, 'change:pending', this.refreshModel);
 
-        this.listenTo(this.model, 'change:onCall', this.handleCall);
-        this.listenTo(this.model, 'change:stream', this.handleStream);
-
         this.render();
     },
     events: {
@@ -225,20 +222,6 @@ module.exports = BasePage.extend(chatHelpers).extend({
         this.lastModel = model;
 
         this.scrollIfPinned();
-    },
-    handleCall: function () {
-        if (this.model.onCall) {
-            /*
-            attachMediaStream(me.stream, this.$('video.local')[0], {
-                mirror: true,
-                muted: true
-            });
-*/
-        }
-    },
-    handleStream: function (model, stream) {
-        console.log(arguments);
-        attachMediaStream(stream, this.$('video.remote')[0]);
     },
     handleEndClick: function (e) {
         e.preventDefault();

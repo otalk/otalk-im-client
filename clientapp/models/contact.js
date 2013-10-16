@@ -176,11 +176,7 @@ module.exports = HumanModel.define({
         if (this.jingleResources.length) {
             var peer = this.jingleResources[0];
             this.callState = 'starting';
-            app.api.jingle.startLocalMedia(null, function (err) {
-                if (!err) {
-                    app.api.call(peer.id);
-                }
-            });
+            app.api.call(peer.id);
         } else {
             logger.error('no jingle resources for this user');
         }
