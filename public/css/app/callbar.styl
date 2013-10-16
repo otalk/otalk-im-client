@@ -7,8 +7,8 @@ $callHeight = 80px
   position: relative !important 
   transition: all 1s
 
-  &.hasActiveCall
-    transform: translateY($callHeight)
+  //&.hasActiveCall
+  //  transform: translateY($callHeight)
 
 #calls
   position: fixed
@@ -18,7 +18,7 @@ $callHeight = 80px
   width: 100%
   height: $callHeight
   z-index: 1000
-  background: white
+  background: #DDD
 
   &:empty, &.ending
     transform: translateY(-($callHeight))

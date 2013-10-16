@@ -1081,12 +1081,6 @@ a.button:hover {
   transition: all 1s;
   -moz-transition: all 1s;
 }
-#wrapper.hasActiveCall {
-  -webkit-transform: translateY(80px);
-  -moz-transform: translateY(80px);
-  -ms-transform: translateY(80px);
-  transform: translateY(80px);
-}
 #calls {
   position: fixed;
   top: 0;
@@ -1098,7 +1092,7 @@ a.button:hover {
   width: 100%;
   height: 80px;
   z-index: 1000;
-  background: #fff;
+  background: #ddd;
 }
 #calls:empty,
 #calls.ending {
