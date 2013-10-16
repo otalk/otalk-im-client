@@ -11,6 +11,13 @@ module.exports = HumanView.extend({
     classBindings: {
         state: ''
     },
+    events: {
+        'click .answer': 'handleAnswerClick',
+        'click .ignore': 'handleIgnoreClick',
+        'click .cancel': 'handleCancelClick',
+        'click .end': 'handleEndClick',
+        'click .mute': 'handleMuteClick'
+    },
     render: function () {
         this.renderAndBind();
         // register bindings for sub model
@@ -22,7 +29,52 @@ module.exports = HumanView.extend({
                 avatar: '.callerAvatar'
             }
         });
+        this.$buttons = this.$('button');
+        this.listenToAndRun(this.model, 'change:state', this.handleCallStateChange);
 
         return this;
+    },
+    handleAnswerClick: function (e) {
+
+        return false;
+    },
+    handleIgnoreClick: function (e) {
+
+        return false;
+    },
+    handleCancelClick: function (e) {
+
+        return false;
+    },
+    handleEndClick: function (e) {
+
+        return false;
+    },
+    handleMuteClick: function (e) {
+
+        return false;
+    },
+    // we want to make sure we show the appropriate buttons
+    // when in various stages of the call
+    handleCallStateChange: function (model, callState) {
+        var state = callState || this.model.state;
+        // hide all
+        this.$buttons.hide();
+
+        var map = {
+            incoming: '.ignore, .answer',
+            outgoing: '.cancel',
+            accepted: '.end, .mute',
+            terminated: '',
+            ringing: '.cancel',
+            mute: '.end, .unmute',
+            unmute: '.end, .mute',
+            //hold: '',
+            //resumed: ''
+        };
+
+        console.log('map[state]', map[state]);
+
+        this.$(map[state]).show();
     }
 });

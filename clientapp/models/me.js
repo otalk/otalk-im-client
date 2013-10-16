@@ -72,7 +72,9 @@ module.exports = HumanModel.define({
         if (this.isMe(jid)) {
             jid = alt || jid;
         }
-        return this.contacts.get(jid.bare) || this.mucs.get(jid.bare) || undefined;
+        return this.contacts.get(jid.bare) ||
+            this.mucs.get(jid.bare) ||
+            this.calls.findWhere('jid', jid);
     },
     setContact: function (data, create) {
         var contact = this.getContact(data.jid);

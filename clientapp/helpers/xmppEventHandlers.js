@@ -337,14 +337,20 @@ module.exports = function (client, app) {
 
     client.on('jingle:incoming', function (session) {
         var contact = me.getContact(session.peer);
-        contact.callState = 'incomingCall';
-        contact.jingleCall = session;
+        me.calls.add({
+            contact: contact,
+            state: 'incoming',
+            jingleSession: session
+        });
     });
 
     client.on('jingle:outgoing', function (session) {
         var contact = me.getContact(session.peer);
-        contact.callState = 'outgoingCall';
-        contact.jingleCall = session;
+        me.calls.add({
+            contact: contact,
+            state: 'outgoing',
+            jingleSession: session
+        });
     });
 
     client.on('jingle:terminated', function (session) {

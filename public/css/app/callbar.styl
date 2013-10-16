@@ -33,7 +33,7 @@ $callHeight = 80px
       .callTime
         display: none
       .callerName:before
-        content: "Incoming: "
+        content: "Incoming Call: "
 
     &.waiting
       background: $activeBlue
@@ -42,34 +42,26 @@ $callHeight = 80px
         background-color: #fff
 
     &.calling
-      callbar($blue)
+      background: $activeBlue
       .callTime
         display: none
       .callerName:before
         content: "Calling: "
 
-    &.active
-      callbar($green)
+    &.accepted
+      background: $sidebarActive
       .callerName:before
         content: "On Call: "
-
-    &.inactive
-      callbar(#fff)
-
-    &.remote
-      callbar($blue  #333)    
-      .callTime
-        display: none
 
     &.ending
       .callerName:before
         content: "Call ending with: "
-      callbar($grey)
+      background: $grayBackground
       
     .callActions
       position: absolute
-      left: 10px
-      top: 50px
+      left: 80px
+      top: 38px
       display: block
       width: 100%
 
@@ -104,10 +96,10 @@ $callHeight = 80px
 
   .callerAvatar
     float: left
-    width: 50px
-    height: 50px
-    margin-right: 10px
-    roundall(25px)
+    width: 60px
+    height: 60px
+    margin: 10px
+    roundall(30px)
     
   .callerName, .callTime  
     font-weight: bold
@@ -117,9 +109,9 @@ $callHeight = 80px
 
   .caller
     margin: 0
+    padding: 5px 0 0 0
     font-size: 20px
     padding-bottom: 0px
-    border-bottom: 2px groove rgba(255,255,255,.4)
 
   .callerName
     display: inline

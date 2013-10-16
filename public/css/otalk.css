@@ -1092,7 +1092,7 @@ a.button:hover {
   display: none;
 }
 #calls .call.incoming .callerName:before {
-  content: "Incoming: ";
+  content: "Incoming Call: ";
 }
 #calls .call.waiting {
   background: #00aeef;
@@ -1100,25 +1100,31 @@ a.button:hover {
 #calls .call.waiting .spinner div {
   background-color: #fff;
 }
+#calls .call.calling {
+  background: #00aeef;
+}
 #calls .call.calling .callTime {
   display: none;
 }
 #calls .call.calling .callerName:before {
   content: "Calling: ";
 }
-#calls .call.active .callerName:before {
+#calls .call.accepted {
+  background: #1f2d49;
+}
+#calls .call.accepted .callerName:before {
   content: "On Call: ";
 }
-#calls .call.remote .callTime {
-  display: none;
+#calls .call.ending {
+  background: #f7f7f7;
 }
 #calls .call.ending .callerName:before {
   content: "Call ending with: ";
 }
 #calls .call .callActions {
   position: absolute;
-  left: 10px;
-  top: 50px;
+  left: 80px;
+  top: 38px;
   display: block;
   width: 100%;
 }
@@ -1161,15 +1167,15 @@ rgba(0,0,0,0.2)
 }
 #calls .callerAvatar {
   float: left;
-  width: 50px;
-  height: 50px;
-  margin-right: 10px;
-  -moz-border-radius: 25px;
-  -webkit-border-radius: 25px;
-  -khtml-border-radius: 25px;
-  -o-border-radius: 25px;
-  -border-radius: 25px;
-  border-radius: 25px;
+  width: 60px;
+  height: 60px;
+  margin: 10px;
+  -moz-border-radius: 30px;
+  -webkit-border-radius: 30px;
+  -khtml-border-radius: 30px;
+  -o-border-radius: 30px;
+  -border-radius: 30px;
+  border-radius: 30px;
 }
 #calls .callerName,
 #calls .callTime {
@@ -1180,9 +1186,9 @@ rgba(0,0,0,0.7)
 }
 #calls .caller {
   margin: 0;
+  padding: 5px 0 0 0;
   font-size: 20px;
   padding-bottom: 0px;
-  border-bottom: 2px groove rgba(255,255,255,0.4);
 }
 #calls .callerName {
   display: inline;
