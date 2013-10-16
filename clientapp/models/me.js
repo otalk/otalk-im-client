@@ -170,11 +170,12 @@ module.exports = HumanModel.define({
         app.storage.profiles.set(data);
     },
     cameraOn: function () {
+        var self = this;
         getUserMedia(function (err, stream) {
             if (err) {
                 console.error(err);
             } else {
-                this.stream = stream;
+                self.stream = stream;
             }
         });
     },
