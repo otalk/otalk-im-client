@@ -169,7 +169,7 @@ exports.misc.growlMessage = function anonymous(locals) {
 exports.pages.chat = function anonymous(locals) {
     var buf = [];
     with (locals || {}) {
-        buf.push('<section class="page chat"><section class="conversation"><header><img class="avatar"/><h1 class="name"></h1><div class="tzo"></div><button class="call">call</button><div class="activeCall"><video class="remote"></video><video class="local"></video><aside class="buttons"><button class="end">End</button><button class="mute">Mute</button><button class="unmute">Unmute</button></aside></div></header><ul class="messages scroll-container"></ul><div class="chatBox"><form><textarea name="chatInput" type="text" placeholder="Send a message..." autocomplete="off"></textarea></form></div></section></section>');
+        buf.push('<section class="page chat"><section class="conversation"><header><img class="avatar"/><h1 class="name"></h1><div class="tzo"></div><button class="call">call</button><div class="activeCall"><video autoplay="autoplay" class="remote"></video><video autoplay="autoplay" muted="muted" class="local"></video><aside class="buttons"><button class="end">End</button><button class="mute">Mute</button><button class="unmute">Unmute</button></aside></div></header><ul class="messages scroll-container"></ul><div class="chatBox"><form><textarea name="chatInput" type="text" placeholder="Send a message..." autocomplete="off"></textarea></form></div></section></section>');
     }
     return buf.join("");
 };

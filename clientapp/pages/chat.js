@@ -36,7 +36,8 @@ module.exports = BasePage.extend(chatHelpers).extend({
         'click .mute': 'handleMuteClick'
     },
     srcBindings: {
-        avatar: 'header .avatar'
+        avatar: 'header .avatar',
+        streamUrl: 'video.remote'
     },
     textBindings: {
         displayName: 'header .name',
@@ -79,6 +80,12 @@ module.exports = BasePage.extend(chatHelpers).extend({
         $(window).on('resize', _.bind(this.handleWindowResize, this));
 
         this.initializeScroll();
+
+        this.registerBindings(me, {
+            srcBindings: {
+                streamUrl: 'video.local'
+            }
+        });
 
         return this;
     },
@@ -221,10 +228,12 @@ module.exports = BasePage.extend(chatHelpers).extend({
     },
     handleCall: function () {
         if (this.model.onCall) {
+            /*
             attachMediaStream(me.stream, this.$('video.local')[0], {
                 mirror: true,
                 muted: true
             });
+*/
         }
     },
     handleStream: function (model, stream) {

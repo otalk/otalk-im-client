@@ -1,7 +1,8 @@
-/*global app, client*/
+/*global app, client, URL, me*/
 "use strict";
 
 var HumanModel = require('human-model');
+var getUserMedia = require('getusermedia');
 var Contacts = require('./contacts');
 var Calls = require('./calls');
 var Contact = require('./contact');
@@ -39,12 +40,23 @@ module.exports = HumanModel.define({
         shouldAskForAlertsPermission: ['bool', true, false],
         hasFocus: ['bool', true, false],
         _activeContact: ['string', true, ''],
-        displayName: ['string', true, 'Me']
+        displayName: ['string', true, 'Me'],
+        stream: 'object'
     },
     collections: {
         contacts: Contacts,
         mucs: MUCs,
         calls: Calls
+    },
+    derived: {
+        streamUrl: {
+            deps: ['stream'],
+            cache: true,
+            fn: function () {
+                if (!this.stream) return '';
+                return URL.createObjectURL(this.stream);
+            }
+        }
     },
     setActiveContact: function (jid) {
         var prev = this.getContact(this._activeContact);
@@ -156,5 +168,20 @@ module.exports = HumanModel.define({
             rosterVer: this.rosterVer
         };
         app.storage.profiles.set(data);
+    },
+    cameraOn: function () {
+        getUserMedia(function (err, stream) {
+            if (err) {
+                console.error(err);
+            } else {
+                this.stream = stream;
+            }
+        });
+    },
+    cameraOff: function () {
+        if (this.stream) {
+            this.stream.stop();
+            this.stream = null;
+        }
     }
 });

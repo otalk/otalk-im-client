@@ -386,6 +386,7 @@ module.exports = function (client, app) {
     });
 
     client.on('jingle:remotestream:added', function (session) {
+        console.log('remote stream', session);
         var contact = me.getContact(session.peer);
         if (!contact) {
             contact = new Contact({jid: client.JID(session.peer).bare});

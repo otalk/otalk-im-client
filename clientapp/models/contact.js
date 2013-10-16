@@ -1,4 +1,4 @@
-/*global app, me, client*/
+/*global app, me, client, URL*/
 "use strict";
 
 var _ = require('underscore');
@@ -51,6 +51,14 @@ module.exports = HumanModel.define({
         stream: 'object'
     },
     derived: {
+        streamUrl: {
+            deps: ['stream'],
+            cache: true,
+            fn: function () {
+                if (!this.stream) return '';
+                return URL.createObjectURL(this.stream);
+            }
+        },
         displayName: {
             deps: ['name', 'jid'],
             fn: function () {
@@ -152,6 +160,11 @@ module.exports = HumanModel.define({
             deps: ['jingleResources'],
             fn: function () {
                 return !!this.jingleResources.length;
+            }
+        },
+        callObject: {
+            fn: function () {
+                return app.calls.where('contact', this);
             }
         }
     },
