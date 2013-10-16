@@ -26,7 +26,8 @@
         "stanza.io": "2.5.12",
         "notify.js": "0.0.3",
         "wildemitter": "0.0.5",
-        "attachmediastream": "",
+        "attachmediastream": "1.0.1",
+        "getusermedia": "0.2.1",
         "crypto-browserify": "1.0.3",
         "browserify": "2.25.1"
     },
