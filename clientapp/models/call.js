@@ -10,6 +10,8 @@ module.exports = HumanModel.define({
     type: 'call',
     initialize: function (attrs) {
         this.contact.onCall = true;
+        // temporary, this won't stay here
+        app.navigate('/chat/' + this.contact.jid);
     },
     session: {
         contact: 'object',
