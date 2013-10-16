@@ -74,6 +74,15 @@ exports.includes.contactListItemResource = function anonymous(locals) {
     return buf.join("");
 };
 
+// contactRequest.jade compiled template
+exports.includes.contactRequest = function anonymous(locals) {
+    var buf = [];
+    with (locals || {}) {
+        buf.push('<li><span class="jid"></span><button class="approve">Approve</button><button class="deny">Deny</button></li>');
+    }
+    return buf.join("");
+};
+
 // message.jade compiled template
 exports.includes.message = function anonymous(locals) {
     var buf = [];
@@ -187,7 +196,7 @@ exports.pages.groupchat = function anonymous(locals) {
 exports.pages.main = function anonymous(locals) {
     var buf = [];
     with (locals || {}) {
-        buf.push('<section class="page main"><div><h3>Current status</h3><div contenteditable="true" class="status"></div></div><div id="avatarChanger"><h3>Change Avatar</h3><div class="uploadRegion"><p>Drag and drop a new avatar here</p><img/><form><input id="uploader" type="file"/></form></div></div><div><h3>Desktop Integration</h3><button class="enableAlerts">Enable alerts</button><button class="installFirefox">Install app</button></div></section>');
+        buf.push('<section class="page main"><div><h3>Current status</h3><div contenteditable="true" class="status"></div></div><div id="avatarChanger"><h3>Change Avatar</h3><div class="uploadRegion"><p>Drag and drop a new avatar here</p><img/><form><input id="uploader" type="file"/></form></div></div><div><h3>Add / Approve Contacts</h3><input id="addcontact"/><button class="addContact">Add</button><ul id="contactrequests"></ul></div><div><h3>Desktop Integration</h3><button class="enableAlerts">Enable alerts</button><button class="installFirefox">Install app</button></div></section>');
     }
     return buf.join("");
 };
