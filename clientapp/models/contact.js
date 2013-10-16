@@ -47,8 +47,7 @@ module.exports = HumanModel.define({
         topResource: 'string',
         unreadCount: ['number', true, 0],
         _forceUpdate: ['number', true, 0],
-        // options: incomingCall, ringing, activeCall, starting
-        callState: ['string', true, ''],
+        onCall: ['boolean', true, false],
         stream: 'object'
     },
     derived: {

@@ -653,13 +653,6 @@ h3 {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
-.conversation .remoteVideo {
-  display: none;
-}
-.conversation.activeCall .remoteVideo {
-  width: 100%;
-  display: block;
-}
 .conversation header {
   padding: 5px;
   border-bottom: 2px solid #e4e4e4;
@@ -724,6 +717,40 @@ h3 {
   height: 25px;
   line-height: 25px;
   min-width: 60px;
+}
+.conversation header .activeCall {
+  -webkit-transition: height 250ms;
+  -o-transition: height 250ms;
+  transition: height 250ms;
+  -moz-transition: height 250ms;
+  height: 0px;
+  position: relative;
+  top: 0px;
+}
+.conversation header .activeCall .remote {
+  position: absolute;
+  top: 60px;
+  left: 10px;
+  height: 50%;
+  border: 2px solid #e4e4e4;
+}
+.conversation header .activeCall .local {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  height: 20%;
+  border: 2px solid #e4e4e4;
+}
+.conversation header .activeCall .buttons {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+}
+.conversation header .activeCall .buttons button {
+  margin-right: 10px;
+}
+.conversation.onCall .activeCall {
+  height: 400px;
 }
 .messages {
   margin: 0px;

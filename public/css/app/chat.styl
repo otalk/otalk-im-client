@@ -13,15 +13,7 @@
   padding: 0px
   width: 100%
   borderbox()
-
-  .remoteVideo
-    display: none
-
-  &.activeCall
-    .remoteVideo
-      width: 100%
-      display: block
-
+  
   header
     padding: 5px
     border-bottom: 2px solid $grayOutline
@@ -71,6 +63,40 @@
       height: 25px
       line-height: 25px
       min-width: 60px
+
+    .activeCall
+      transition(height 250ms)
+      height: 0px
+      position: relative
+      top: 0px
+      
+      .remote
+        position: absolute
+        top: 60px
+        left: 10px
+        height: 50%
+        border: 2px solid $grayOutline
+
+      .local
+        position: absolute
+        bottom: 10px
+        right: 10px
+        height: 20%
+        border: 2px solid $grayOutline
+
+      .buttons
+        position: absolute
+        left: 10px
+        bottom: 10px
+
+        button
+          margin-right: 10px
+
+  // while on video call the parent has
+  // this class so we animate the height
+  &.onCall
+    .activeCall
+      height: 400px
 
 .messages
   margin: 0px
