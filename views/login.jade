@@ -1,6 +1,24 @@
 extends layout
 
 block content
+  a(href="https://github.com/andyet/otalk")
+    img(style="position: absolute; top: 0; left: 0; border: 0;", src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png" alt="Fork me on GitHub")
+  section#signupBox.content.box
+    .head
+        h2 What is Otalk?
+
+    .content
+        p Otalk is an open source chat client powered <a href="http://xmpp.org">XMPP</a>, <a href="https://github.com/legastero/stanza.io">stanza.io</a>, and <a href="http://webrtc.org">WebRTC</a>. You can think of it as an open source alternative to Skype.
+        p There's much work still to be done, keep up-to-date by subscribing to the email list.
+        p You can also track the project on <a href="https://github.com/andyet/otalk">GitHub</a>.
+
+        form(action="http://andyet.createsend.com/t/r/s/trulhji/" method="post")
+            .fieldContainer
+                label(for='fieldEmail') Email
+                input#fieldEmail(type='email', name="cm-trulhji-trulhji", placeholder='you@aweso.me', required)
+            button(type='submit') Subscribe to updates!
+
+
   section#loginbox.content.box
     .head
         h2 
