@@ -68,14 +68,22 @@ app.get('/oauth/callback', function (req, res) {
     res.render('oauthLogin');
 });
 
-app.get('/manifest.webapp', function (req, res) {
-    res.set('Content-Type', 'application/x-web-app-manifest+json');
-    res.send(fs.readFileSync('./public/x-manifest.webapp'));
+app.get('/manifest.webapp', function (req, res, next) {
+    fs.readFile('./public/x-manifest.webapp', function doneReadingManifest(err, manifestContents) {
+        if (err) return next(err);
+
+        res.set('Content-Type', 'application/x-web-app-manifest+json');
+        res.send(manifestContents);
+    });
 });
 
-app.get('/manifest.cache', function (req, res) {
-    res.set('Content-Type', 'text/cache-manifest');
-    res.send(fs.readFileSync('./public/x-manifest.cache'));
+app.get('/manifest.cache', function (req, res, next) {
+    fs.readFile('./public/x-manifest.cache', function doneReadingManifestCache(err, manifestCacheContents) {
+        if (err) return next(err);
+
+        res.set('Content-Type', 'text/cache-manifest');
+        res.send(manifestCacheContents);
+    });
 });
 
 // serves app on every other url
