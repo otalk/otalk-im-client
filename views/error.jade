@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  section#errorBox.content.box
+    .head
+        h2 Oops, something went wrong!
+
+    .content
+        p #{message}
+        if stack
+            pre #{stack}

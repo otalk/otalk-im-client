@@ -91,7 +91,7 @@ app.get('*', clientApp.html());
 
 
 app.use(function handleError(err, req, res, next) {
-    var errorResult = {message: 'something bad happened'};
+    var errorResult = {message: 'Something bad happened :('};
     
     if (config.isDev) {
         if (err instanceof Error) {
@@ -105,7 +105,8 @@ app.use(function handleError(err, req, res, next) {
         }
     }
 
-    return res.send(500, errorResult);
+    res.status(500);
+    res.render('error', errorResult);
 });
 
 //https.createServer({
