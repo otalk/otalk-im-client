@@ -68,19 +68,46 @@ app.get('/oauth/callback', function (req, res) {
     res.render('oauthLogin');
 });
 
-app.get('/manifest.webapp', function (req, res) {
-    res.set('Content-Type', 'application/x-web-app-manifest+json');
-    res.send(fs.readFileSync('./public/x-manifest.webapp'));
+app.get('/manifest.webapp', function (req, res, next) {
+    fs.readFile('./public/x-manifest.webapp', function doneReadingManifest(err, manifestContents) {
+        if (err) return next(err);
+
+        res.set('Content-Type', 'application/x-web-app-manifest+json');
+        res.send(manifestContents);
+    });
 });
 
-app.get('/manifest.cache', function (req, res) {
-    res.set('Content-Type', 'text/cache-manifest');
-    res.send(fs.readFileSync('./public/x-manifest.cache'));
+app.get('/manifest.cache', function (req, res, next) {
+    fs.readFile('./public/x-manifest.cache', function doneReadingManifestCache(err, manifestCacheContents) {
+        if (err) return next(err);
+
+        res.set('Content-Type', 'text/cache-manifest');
+        res.send(manifestCacheContents);
+    });
 });
 
 // serves app on every other url
 app.get('*', clientApp.html());
 
+
+app.use(function handleError(err, req, res, next) {
+    var errorResult = {message: 'Something bad happened :('};
+    
+    if (config.isDev) {
+        if (err instanceof Error) {
+            if (err.message) {
+                errorResult.message = err.message;
+            }
+
+            if (err.stack) {
+                errorResult.stack = err.stack;
+            }
+        }
+    }
+
+    res.status(500);
+    res.render('error', errorResult);
+});
 
 //https.createServer({
 //    key: fs.readFileSync(config.http.key),
