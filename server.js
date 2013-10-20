@@ -82,6 +82,24 @@ app.get('/manifest.cache', function (req, res) {
 app.get('*', clientApp.html());
 
 
+app.use(function handleError(err, req, res, next) {
+    var errorResult = {message: 'something bad happened'};
+    
+    if (config.isDev) {
+        if (err instanceof Error) {
+            if (err.message) {
+                errorResult.message = err.message;
+            }
+
+            if (err.stack) {
+                errorResult.stack = err.stack;
+            }
+        }
+    }
+
+    return res.send(500, errorResult);
+});
+
 //https.createServer({
 //    key: fs.readFileSync(config.http.key),
 //    cert: fs.readFileSync(config.http.cert)
