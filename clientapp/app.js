@@ -28,7 +28,7 @@ module.exports = {
         }
 
         config = JSON.parse(config);
-        config.useStreamManagement = false;
+        //config.useStreamManagement = false;
         config.resource = 'otalk';
 
         _.extend(this, Backbone.Events);
