@@ -395,6 +395,7 @@ h3 {
 #bookmarks li .wrap {
   display: table-cell;
   vertical-align: middle;
+  padding-left: 40px;
 }
 #roster li .unread:not(:empty),
 #bookmarks li .unread:not(:empty) {
@@ -521,9 +522,9 @@ h3 {
 }
 #roster li .user,
 #bookmarks li .user {
-  margin-left: 40px;
   color: #fff;
   width: 70%;
+  line-height: 100%;
 }
 #roster li .name,
 #bookmarks li .name {
@@ -538,7 +539,6 @@ h3 {
   font-weight: 400;
   line-height: 12px;
   margin: 0;
-  margin-left: 40px;
 }
 #roster li .unread,
 #bookmarks li .unread {
