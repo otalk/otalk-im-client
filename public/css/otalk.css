@@ -177,7 +177,7 @@ h4 {
 }
 h3 {
   margin-top: 0;
-  font-size: $fontMedium;
+  font-size: 18px;
 }
 #pages {
   position: absolute;
@@ -278,7 +278,7 @@ h3 {
   background: #2b3f65;
 }
 #menu h1 {
-  font-size: 10px;
+  font-size: 12px;
   margin: 0;
   padding: 20px 10px;
   color: #fff;
@@ -480,7 +480,7 @@ h3 {
 #bookmarks li .idleTime {
   display: inline-block;
   margin-left: 5px;
-  font-size: 10px;
+  font-size: 12px;
   color: #5c5c5c;
 }
 #bookmarks .name {
@@ -621,7 +621,7 @@ h3 {
   -border-radius: 3px;
   border-radius: 3px;
   text-transform: uppercase;
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 800;
   line-height: 20px;
   color: #898989;
@@ -1127,11 +1127,11 @@ rgba(0,0,0,0.2)
   color: #fff;
 rgba(0,0,0,0.7)
   line-height: 1;
+  font-size: 18px;
 }
 #calls .caller {
   margin: 0;
   padding: 5px 0 0 0;
-  font-size: 20px;
   padding-bottom: 0px;
 }
 #calls .callerName {
@@ -1145,6 +1145,5 @@ rgba(0,0,0,0.7)
   position: absolute;
   top: 12px;
   right: 40px;
-  font-size: 20px;
   margin: 0;
 }
