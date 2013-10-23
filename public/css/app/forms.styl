@@ -5,9 +5,9 @@ input[type=text], input[type=email], input[type=search], input[type=password], t
   roundall(3px)
   padding: 0 10px
   background-color: white
-  border: 1px solid $grayOutline
+  border: 1px solid $gray-lighter
   font-size: $font-size-small
-  color: $baseText
+  color: $gray
   borderbox()
   font-family: $font-family-gotham
   -webkit-font-smoothing: antialiased
@@ -30,14 +30,14 @@ input[type=password]:focus,
 textarea:focus,
 .main .status:focus
   outline: none
-  border: 1px solid lighten($activeBlue, 50%)
+  border: 1px solid lighten($blue, 50%)
 
 label
   display: block
   margin-bottom: 5px
   font-size: 13px
   font-weight: $font-weight-bold
-  color: $baseText
+  color: $gray
 
 a.button
   line-height: 35px
@@ -51,7 +51,7 @@ button, a.button
   min-width: 80px
   padding: 0 1em
   color: white
-  background: $activeBlue
+  background: $blue
   font-size: $font-size-small
   font-weight: $font-weight-bold
   text-decoration: none
@@ -62,7 +62,7 @@ button, a.button
     outline: none
 
   &:hover
-    background: darken($activeBlue, 30%)
+    background: darken($blue, 30%)
 
 .installFirefox, .addContact
   margin-left: 5px

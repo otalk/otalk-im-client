@@ -7,7 +7,7 @@
   bottom: 0px
   left: 0px
   width: 200px
-  background-color: $sidebarBg
+  background-color: $blue-saturated-darker
   z-index: 300
   overflow-y: auto;
   overflow-x: hidden;
@@ -36,10 +36,10 @@
         width: 150px
 
       .button
-        background: $sidebarActive
+        background: $blue-saturated
 
         &:hover
-          background: lighten($sidebarActive, 10%)
+          background: $blue-saturated-light
 
   h1
     font-size: $font-size-small
@@ -106,10 +106,10 @@
 
     &.offline:not(:hover)
       .name
-        color: darken($textSecondary, 40%)
+        color: darken($gray-light, 40%)
 
       .status
-        color: darken($textSecondary, 65%)
+        color: darken($gray-light, 65%)
 
       img
         opacity: .25
@@ -119,7 +119,7 @@
       font-weight: $font-weight-bold
 
       .name
-        color: $baseText
+        color: $gray
 
     &.composing
       &:after
@@ -129,12 +129,12 @@
 
     &.paused
       &:after
-        background: $textSecondary
+        background: $gray-light
 
     &.idle
       padding-right: 15px
       .name
-        color: $textSecondary
+        color: $gray-light
         max-width: 60%
 
       .user
@@ -164,7 +164,7 @@
       overflow: hidden
 
     .status
-      color: $textSecondary
+      color: $gray-light
       font-size: $font-size-smaller
       font-weight: 400
       line-height: 12px
@@ -189,7 +189,7 @@
       display: inline-block
       margin-left: 5px
       font-size: $font-size-small
-      color: darken($textSecondary, 50%)
+      color: darken($gray-light, 50%)
 
 #bookmarks
 

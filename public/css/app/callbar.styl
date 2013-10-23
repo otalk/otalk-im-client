@@ -29,20 +29,20 @@ $callHeight = 80px
     margin: 0
 
     &.incoming
-      background: $activeBlue
+      background: $blue
       .callTime
         display: none
       .callerName:before
         content: "Incoming Call: "
 
     &.waiting
-      background: $activeBlue
+      background: $blue
       
       .spinner div
         background-color: #fff
 
     &.calling
-      background: $activeBlue
+      background: $blue
       .callTime
         display: none
       .callerName:before
@@ -56,7 +56,7 @@ $callHeight = 80px
     &.ending
       .callerName:before
         content: "Call ending with: "
-      background: $grayBackground
+      background: lighten($gray-light, 93%)
       
     .callActions
       position: absolute

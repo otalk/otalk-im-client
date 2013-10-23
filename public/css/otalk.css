@@ -272,10 +272,10 @@ h3 {
   width: 150px;
 }
 #menu .main li .button {
-  background: #1f2d49;
+  background: #192a47;
 }
 #menu .main li .button:hover {
-  background: #2b3f65;
+  background: #34465a;
 }
 #menu h1 {
   font-size: 12px;
@@ -318,7 +318,7 @@ h3 {
 }
 #roster li:hover,
 #bookmarks li:hover {
-  background: #1f2d49;
+  background: $sidebarActive;
 }
 #roster li.online:not(.idle):after,
 #bookmarks li.online:not(.idle):after,
@@ -362,11 +362,11 @@ h3 {
 }
 #roster li.offline:not(:hover) .name,
 #bookmarks li.offline:not(:hover) .name {
-  color: #6e6e6e;
+  color: #515151;
 }
 #roster li.offline:not(:hover) .status,
 #bookmarks li.offline:not(:hover) .status {
-  color: #404040;
+  color: #2f2f2f;
 }
 #roster li.offline:not(:hover) img,
 #bookmarks li.offline:not(:hover) img {
@@ -393,7 +393,7 @@ h3 {
 }
 #roster li.paused:after,
 #bookmarks li.paused:after {
-  background: #b7b7b7;
+  background: #878787;
 }
 #roster li.idle,
 #bookmarks li.idle {
@@ -401,7 +401,7 @@ h3 {
 }
 #roster li.idle .name,
 #bookmarks li.idle .name {
-  color: #b7b7b7;
+  color: #878787;
   max-width: 60%;
 }
 #roster li.idle .user,
@@ -449,7 +449,7 @@ h3 {
 }
 #roster li .status,
 #bookmarks li .status {
-  color: #b7b7b7;
+  color: #878787;
   font-size: 10px;
   font-weight: 400;
   line-height: 12px;
@@ -481,7 +481,7 @@ h3 {
   display: inline-block;
   margin-left: 5px;
   font-size: 12px;
-  color: #5c5c5c;
+  color: #444;
 }
 #bookmarks .name {
   padding: 5px 10px 5px 40px;
@@ -570,7 +570,7 @@ h3 {
 }
 .conversation header {
   padding: 5px;
-  border-bottom: 2px solid #e4e4e4;
+  border-bottom: 2px solid #eee;
   position: fixed;
   right: 0px;
   left: 201px;
@@ -625,7 +625,7 @@ h3 {
   font-weight: 800;
   line-height: 20px;
   color: #898989;
-  background: #e4e4e4;
+  background: #eee;
 }
 .conversation header .call {
   margin-top: 10px;
@@ -648,14 +648,14 @@ h3 {
   top: 60px;
   left: 10px;
   height: 50%;
-  border: 2px solid #e4e4e4;
+  border: 2px solid #eee;
 }
 .conversation header .activeCall .local {
   position: absolute;
   bottom: 10px;
   right: 10px;
   height: 20%;
-  border: 2px solid #e4e4e4;
+  border: 2px solid #eee;
   -webkit-transform: scaleX(-1);
   -moz-transform: scaleX(-1);
   -ms-transform: scaleX(-1);
@@ -696,7 +696,7 @@ h3 {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  border-bottom: 1px solid #e4e4e4;
+  border-bottom: 1px solid #eee;
 }
 .messages li:last-of-type {
   border: none;
@@ -739,13 +739,13 @@ h3 {
   box-sizing: border-box;
 }
 .messages .message:not(.mine) {
-  color: #00aeef;
+  color: #12acef;
 }
 .messages .message.mine {
   background: #fff;
 }
 .messages .message.mine .timestamp {
-  color: #b6b6b6;
+  color: #bebebe;
 }
 .messages .message.delayed .timestamp:before {
   content: '@ ';
@@ -763,7 +763,7 @@ h3 {
 .messages .message .timestamp {
   font-size: 10px;
   font-weight: 800;
-  color: #78daff;
+  color: #88d5f7;
   float: right;
   display: block;
 }
@@ -774,7 +774,7 @@ h3 {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  border-top: 1px solid #e4e4e4;
+  border-top: 1px solid #eee;
   bottom: 0px;
   position: fixed;
   right: 0px;
@@ -808,7 +808,7 @@ h3 {
 }
 .main > div {
   padding: 20px;
-  border-bottom: 1px solid #e4e4e4;
+  border-bottom: 1px solid #eee;
 }
 .main > div .status {
   padding: 10px;
@@ -826,7 +826,7 @@ h3 {
   -border-radius: 3px;
   border-radius: 3px;
   margin: 10px 0;
-  color: #b7b7b7;
+  color: #878787;
   background: #f7f7f7;
 }
 .uploadRegion p {
@@ -883,7 +883,7 @@ h3 {
 }
 .box .head {
   margin-bottom: 20px;
-  border-bottom: 1px solid #f2f2f2;
+  border-bottom: 1px solid #f7f7f7;
 }
 .box input {
   width: 100%;
@@ -919,7 +919,7 @@ textarea,
   border-radius: 3px;
   padding: 0 10px;
   background-color: #fff;
-  border: 1px solid #e4e4e4;
+  border: 1px solid #eee;
   font-size: 12px;
   color: #565656;
   -moz-box-sizing: border-box;
@@ -952,7 +952,7 @@ input[type=password]:focus,
 textarea:focus,
 .main .status:focus {
   outline: none;
-  border: 1px solid #78daff;
+  border: 1px solid #88d5f7;
 }
 label {
   display: block;
@@ -978,7 +978,7 @@ a.button {
   min-width: 80px;
   padding: 0 1em;
   color: #fff;
-  background: #00aeef;
+  background: #12acef;
   font-size: 12px;
   font-weight: 800;
   text-decoration: none;
@@ -991,7 +991,7 @@ a.button:focus {
 }
 button:hover,
 a.button:hover {
-  background: #007aa7;
+  background: #0b79a9;
 }
 .installFirefox,
 .addContact {
@@ -1030,7 +1030,7 @@ a.button:hover {
   margin: 0;
 }
 #calls .call.incoming {
-  background: #00aeef;
+  background: #12acef;
 }
 #calls .call.incoming .callTime {
   display: none;
@@ -1039,13 +1039,13 @@ a.button:hover {
   content: "Incoming Call: ";
 }
 #calls .call.waiting {
-  background: #00aeef;
+  background: #12acef;
 }
 #calls .call.waiting .spinner div {
   background-color: #fff;
 }
 #calls .call.calling {
-  background: #00aeef;
+  background: #12acef;
 }
 #calls .call.calling .callTime {
   display: none;
@@ -1054,7 +1054,7 @@ a.button:hover {
   content: "Calling: ";
 }
 #calls .call.accepted {
-  background: #1f2d49;
+  background: $sidebarActive;
 }
 #calls .call.accepted .callerName:before {
   content: "On Call: ";

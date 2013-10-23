@@ -16,13 +16,13 @@
   
   header
     padding: 5px
-    border-bottom: 2px solid $grayOutline
+    border-bottom: 2px solid $gray-lighter
     position: fixed
     right: 0px
     left: 201px
     z-index: 10
     borderbox()
-    background: $grayBackground
+    background: lighten($gray-light, 93%)
 
     .avatar
       margin-right: 5px
@@ -55,8 +55,8 @@
       font-size: $font-size-smaller
       font-weight: $font-weight-bold
       line-height: 20px
-      color: lighten($baseText, 30%)
-      background: $grayOutline
+      color: lighten($gray, 30%)
+      background: $gray-lighter
 
     .call
       margin-top: 10px
@@ -76,14 +76,14 @@
         top: 60px
         left: 10px
         height: 50%
-        border: 2px solid $grayOutline
+        border: 2px solid $gray-lighter
 
       .local
         position: absolute
         bottom: 10px
         right: 10px
         height: 20%
-        border: 2px solid $grayOutline
+        border: 2px solid $gray-lighter
         transform(scaleX(-1))
 
       .buttons
@@ -120,7 +120,7 @@
     min-height: 50px
     display: table
     borderbox()
-    border-bottom: 1px solid $grayOutline
+    border-bottom: 1px solid $gray-lighter
 
     &:last-of-type
       border: none
@@ -154,13 +154,13 @@
     borderbox()
 
     &:not(.mine)
-      color: $activeBlue
+      color: $blue
 
     &.mine
       background: white
 
       .timestamp
-        color: darken($grayOutline, 20%)
+        color: darken($gray-lighter, 20%)
 
     &.delayed
       .timestamp:before
@@ -171,7 +171,7 @@
         content: 'edited '
 
     &.pending
-      color: lighten($baseText, 50%)
+      color: lighten($gray, 50%)
 
     .body
       display: inline
@@ -180,7 +180,7 @@
     .timestamp
       font-size: $font-size-smaller
       font-weight: $font-weight-bold
-      color: lighten($activeBlue, 50%)
+      color: lighten($blue, 50%)
       float: right
       display: block
 
@@ -189,7 +189,7 @@
 
 .chatBox
   borderbox()
-  border-top: 1px solid $grayOutline
+  border-top: 1px solid $gray-lighter
   bottom: 0px
   position: fixed
   right: 0px
@@ -197,7 +197,7 @@
   z-index: 200
 
   form
-    background: $grayBackground
+    background: lighten($gray-light, 93%)
     padding: 11px
 
   .formwrap
