@@ -717,6 +717,8 @@ h3 {
   height: 25px;
   line-height: 25px;
   min-width: 60px;
+  text-transform: capitalize;
+  cursor: pointer;
 }
 .conversation header .activeCall {
   -webkit-transition: height 250ms;
@@ -1072,8 +1074,9 @@ button:hover,
 a.button:hover {
   background: #007aa7;
 }
-.enableAlerts {
-  margin-right: 5px;
+.installFirefox,
+.addContact {
+  margin-left: 5px;
 }
 #wrapper {
   position: relative !important;
