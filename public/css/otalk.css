@@ -894,19 +894,11 @@ h3 {
   padding: 20px;
   border-bottom: 1px solid #e4e4e4;
 }
+.main > div .status {
+  padding: 10px;
+}
 .main > div:last-of-type {
   border: none;
-}
-.main > div .status {
-  padding: 5px;
-  background: #f7f7f7;
-  -moz-border-radius: 3px;
-  -webkit-border-radius: 3px;
-  -khtml-border-radius: 3px;
-  -o-border-radius: 3px;
-  -border-radius: 3px;
-  border-radius: 3px;
-  font-size: 12px;
 }
 .uploadRegion {
   padding: 15px;
@@ -996,7 +988,8 @@ input[type=text],
 input[type=email],
 input[type=search],
 input[type=password],
-textarea {
+textarea,
+.main .status {
   -webkit-appearance: none;
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
@@ -1026,7 +1019,8 @@ textarea {
 input[type=text],
 input[type=email],
 input[type=search],
-input[type=password] {
+input[type=password],
+.main .status {
   height: 35px;
 }
 textarea {
