@@ -771,7 +771,7 @@ h3 {
   padding: 10px 0;
   width: 100%;
   min-height: 50px;
-  display: block;
+  display: table;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -802,7 +802,9 @@ h3 {
   width: 1px;
 }
 .messages .messageWrapper {
-  margin-left: 50px;
+  padding-left: 50px;
+  display: table-cell;
+  vertical-align: middle;
 }
 .messages .message {
   font-size: 12px;
@@ -836,8 +838,6 @@ h3 {
 .messages .message .body {
   display: inline;
   word-break: break-word;
-  padding: 0px;
-  margin: 0px;
 }
 .messages .message .timestamp {
   font-size: 10px;
