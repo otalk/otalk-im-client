@@ -6,10 +6,10 @@ input[type=text], input[type=email], input[type=search], input[type=password], t
   padding: 0 10px
   background-color: white
   border: 1px solid $grayOutline
-  font-size: $fontSmall
+  font-size: $font-size-small
   color: $baseText
   borderbox()
-  gotham()
+  font-family: $font-family-gotham
   -webkit-font-smoothing: antialiased
   -webkit-appearance: none
 
@@ -36,7 +36,7 @@ label
   display: block
   margin-bottom: 5px
   font-size: 13px
-  font-weight: bold
+  font-weight: $font-weight-bold
   color: $baseText
 
 a.button
@@ -52,8 +52,8 @@ button, a.button
   padding: 0 1em
   color: white
   background: $activeBlue
-  font-size: $fontSmall
-  font-weight: bold
+  font-size: $font-size-small
+  font-weight: $font-weight-bold
   text-decoration: none
   text-align: center
   cursor: pointer
