@@ -1,0 +1,114 @@
+// Buttons
+
+button
+  border: none
+
+.button
+  line-height: 35px
+
+.button, button
+  display: inline-block
+  border-radius: 3px
+  padding: 0 15px
+  height: 35px
+  background: $gray-lighter
+  font-size: $font-size-small
+  font-weight: $font-weight-bold
+  text-align: center
+  text-decoration: none
+  color: $gray-light
+  text-overflow: ellipsis
+  vertical-align: middle
+  user-select()
+
+  &:hover:not(:disabled)
+    color: $gray
+    background: darken($gray-lighter, 10%)
+    transition: all .3s ease-in 
+
+  &:disabled
+    cursor: not-allowed
+    color: lighten($gray-light, 40%)
+
+  &.small
+    height: 25px
+    padding: 0 8px
+    font-size: $font-size-small
+    line-height: 25px
+
+  &.large
+    height: 50px
+    line-height: 50px
+    padding: 0 30px
+    font-size: $font-size-large
+
+  &.primary, &.secondary, &.primary:hover, &.secondary:hover
+    color: white
+
+  &.primary
+    background: $pink
+
+    &:hover:not(:disabled)
+      background: darken($pink, 10%)
+
+    &:disabled
+      background: $pink-light
+
+  &.secondary
+    background: $blue
+
+    &:disabled
+      background: $blue-light
+
+    &:hover:not(:disabled)
+      background: darken($blue, 10%)
+
+.button-group
+
+  .button, button
+    border-radius: 0
+    margin-left: -1px
+
+    &:first-child:only-child
+      border-radius: 3px
+
+    &:first-child
+      border-radius: 3px 0 0 3px
+
+    &:last-child
+      border-radius: 0 3px 3px 0
+
+  &.outlined
+    display: inline-block
+    border-radius: 3px
+
+    button, .button
+      border: 1px solid lighten($gray-light, 70%)
+
+    &.primary
+
+      button, .button
+        background: $pink-lighter
+        border: 1px solid $pink-light
+        color: $pink
+
+        &:hover
+          background: lighten($pink-light, 40%)
+
+    &.secondary
+
+      button, .button
+        background: $blue-lighter
+        border: 1px solid $blue-light
+        color: $blue
+
+        &:hover
+          background: lighten($blue-light, 40%)
+
+// Specific buttons styles
+
+.installFirefox, .addContact
+  margin-left: 5px
+
+.addContact
+  margin-top: -2px

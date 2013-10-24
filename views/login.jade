@@ -16,14 +16,14 @@ block content
             .fieldContainer
                 label(for='fieldEmail') Email
                 input#fieldEmail(type='email', name="cm-trulhji-trulhji", placeholder='you@aweso.me', required)
-            button(type='submit') Subscribe to updates!
+            button(type='submit', class="secondary") Subscribe to updates!
 
 
   section#loginbox.content.box
     .head
         h2 
           | Log in
-          a.button(href="/oauth/login") Have an &amp;yet account?
+          a.button(href="/oauth/login", class="secondary") Have an &amp;yet account?
 
     .content
 
@@ -38,7 +38,7 @@ block content
                 label(for='wsURL') WebSocket URL 
                 input(type='text', id='wsURL', name='wsURL', placeholder='wss://aweso.me:5281/xmpp-websocket', tabindex='3')
 
-            button(type='submit', tabindex='3') Go!
+            button(type='submit', tabindex='3', class="primary") Go!
 
 block scripts
     script(src="/js/login.js")

@@ -4,14 +4,15 @@ section.page.chat
       img.avatar
       h1.name
       .tzo
-      button.call call
+      button.primary.small.call call
       .activeCall
         video.remote(autoplay)
         video.local(autoplay, muted)
-        aside.buttons
-          button.end End
-          button.mute Mute
-          button.unmute Unmute
+        aside.button-wrap
+          button.end.primary End
+          .button-group.outlined
+            button.mute Mute
+            button.unmute Unmute
     ul.messages.scroll-container
     .chatBox
       form

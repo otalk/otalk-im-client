@@ -271,12 +271,6 @@ h3 {
   position: relative;
   width: 150px;
 }
-#menu .main li .button {
-  background: #192a47;
-}
-#menu .main li .button:hover {
-  background: #34465a;
-}
 #menu h1 {
   font-size: 12px;
   margin: 0;
@@ -628,10 +622,7 @@ h3 {
   background: #eee;
 }
 .conversation header .call {
-  margin-top: 10px;
-  height: 25px;
-  line-height: 25px;
-  min-width: 60px;
+  margin-top: 9px;
   text-transform: capitalize;
 }
 .conversation header .activeCall {
@@ -661,13 +652,13 @@ h3 {
   -ms-transform: scaleX(-1);
   transform: scaleX(-1);
 }
-.conversation header .activeCall .buttons {
+.conversation header .activeCall .button-wrap {
   position: absolute;
   left: 10px;
   bottom: 10px;
 }
-.conversation header .activeCall .buttons button {
-  margin-right: 10px;
+.conversation header .activeCall .button-wrap .button-group {
+  margin-left: 5px;
 }
 .conversation.onCall .activeCall {
   height: 400px;
@@ -961,41 +952,140 @@ label {
   font-weight: 800;
   color: #565656;
 }
-a.button {
+button {
+  border: none;
+}
+.button {
   line-height: 35px;
 }
-button,
-a.button {
+.button,
+button {
   display: inline-block;
-  -moz-border-radius: 3px;
-  -webkit-border-radius: 3px;
-  -khtml-border-radius: 3px;
-  -o-border-radius: 3px;
-  -border-radius: 3px;
   border-radius: 3px;
-  border: none;
+  padding: 0 15px;
   height: 35px;
-  min-width: 80px;
-  padding: 0 1em;
-  color: #fff;
-  background: #12acef;
+  background: #eee;
   font-size: 12px;
   font-weight: 800;
-  text-decoration: none;
   text-align: center;
-  cursor: pointer;
+  text-decoration: none;
+  color: #878787;
+  text-overflow: ellipsis;
+  vertical-align: middle;
 }
-button:focus,
-a.button:focus {
-  outline: none;
+.button:hover:not(:disabled),
+button:hover:not(:disabled) {
+  color: #565656;
+  background: #d6d6d6;
+  -webkit-transition: all 0.3s ease-in;
+  -o-transition: all 0.3s ease-in;
+  transition: all 0.3s ease-in;
+  -moz-transition: all 0.3s ease-in;
 }
-button:hover,
-a.button:hover {
-  background: #0b79a9;
+.button:disabled,
+button:disabled {
+  cursor: not-allowed;
+  color: #b7b7b7;
+}
+.button.small,
+button.small {
+  height: 25px;
+  padding: 0 8px;
+  font-size: 12px;
+  line-height: 25px;
+}
+.button.large,
+button.large {
+  height: 50px;
+  line-height: 50px;
+  padding: 0 30px;
+  font-size: 16px;
+}
+.button.primary,
+button.primary,
+.button.secondary,
+button.secondary,
+.button.primary:hover,
+button.primary:hover,
+.button.secondary:hover,
+button.secondary:hover {
+  color: #fff;
+}
+.button.primary,
+button.primary {
+  background: #ec008c;
+}
+.button.primary:hover:not(:disabled),
+button.primary:hover:not(:disabled) {
+  background: #d4007e;
+}
+.button.primary:disabled,
+button.primary:disabled {
+  background: #f8bee0;
+}
+.button.secondary,
+button.secondary {
+  background: #12acef;
+}
+.button.secondary:disabled,
+button.secondary:disabled {
+  background: #88d5f7;
+}
+.button.secondary:hover:not(:disabled),
+button.secondary:hover:not(:disabled) {
+  background: #0f9bd9;
+}
+.button-group .button,
+.button-group button {
+  border-radius: 0;
+  margin-left: -1px;
+}
+.button-group .button:first-child:only-child,
+.button-group button:first-child:only-child {
+  border-radius: 3px;
+}
+.button-group .button:first-child,
+.button-group button:first-child {
+  border-radius: 3px 0 0 3px;
+}
+.button-group .button:last-child,
+.button-group button:last-child {
+  border-radius: 0 3px 3px 0;
+}
+.button-group.outlined {
+  display: inline-block;
+  border-radius: 3px;
+}
+.button-group.outlined button,
+.button-group.outlined .button {
+  border: 1px solid #dbdbdb;
+}
+.button-group.outlined.primary button,
+.button-group.outlined.primary .button {
+  background: #fce8f1;
+  border: 1px solid #f8bee0;
+  color: #ec008c;
+}
+.button-group.outlined.primary button:hover,
+.button-group.outlined.primary .button:hover {
+  background: #fbd8ec;
+}
+.button-group.outlined.secondary button,
+.button-group.outlined.secondary .button {
+  background: #e7f7fd;
+  border: 1px solid #88d5f7;
+  color: #12acef;
+}
+.button-group.outlined.secondary button:hover,
+.button-group.outlined.secondary .button:hover {
+  background: #b8e6fa;
 }
 .installFirefox,
 .addContact {
   margin-left: 5px;
+}
+.addContact {
+  margin-top: -2px;
 }
 #wrapper {
   position: relative !important;

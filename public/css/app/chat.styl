@@ -59,10 +59,7 @@
       background: $gray-lighter
 
     .call
-      margin-top: 10px
-      height: 25px
-      line-height: 25px
-      min-width: 60px
+      margin-top: 9px
       text-transform: capitalize
 
     .activeCall
@@ -86,13 +83,13 @@
         border: 2px solid $gray-lighter
         transform(scaleX(-1))
 
-      .buttons
+      .button-wrap
         position: absolute
         left: 10px
         bottom: 10px
 
-        button
-          margin-right: 10px
+        .button-group
+          margin-left: 5px
 
   // while on video call the parent has
   // this class so we animate the height
