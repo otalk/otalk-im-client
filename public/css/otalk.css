@@ -179,6 +179,15 @@ h3 {
   margin-top: 0;
   font-size: 18px;
 }
+a {
+  color: #12acef;
+  font-weight: 800;
+  text-decoration: none;
+}
+a:hover,
+a:active {
+  color: #34465a;
+}
 #pages {
   position: absolute;
   top: 0px;
