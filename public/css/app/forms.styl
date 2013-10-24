@@ -1,40 +1,98 @@
-// Forms and Buttons
+// Forms
 
-input[type=text], input[type=email], input[type=search], input[type=password], textarea, .main .status
-  -webkit-appearance: none
-  roundall(3px)
-  padding: 0 10px
-  background-color: white
-  border: 1px solid $gray-lighter
-  font-size: $font-size-small
-  color: $gray
+input[type=text], input[type=email], input[type=password], input[type=search], input[type=date], input[type=url], input[type=file], textarea, .main .status
+  width: 100%
   borderbox()
-  font-family: $font-family-gotham
-  -webkit-font-smoothing: antialiased
-  -webkit-appearance: none
 
-  transition: border .2s ease-in 0
-  -webkit-transition: border .2s ease-in 0
-  -moz-transition: border .2s ease-in 0
+  &.inline
+    display: inline-block
+    width: auto
 
-input[type=text], input[type=email], input[type=search], input[type=password], .main .status
+input[type=text], input[type=email], input[type=password], input[type=search], 
+input[type=date], input[type=url], input[type=file], textarea, select, input[type=checkbox], input[type=radio]
+
+  &:disabled
+    cursor: not-allowed
+
+.invalid
+
+  label
+    color: $red
+
+  input[type=text], input[type=email], input[type=password], input[type=search], input[type=date], input[type=url], input[type=file], textarea
+    background: $red-lighter
+    border: 1px solid $red-light
+    color: $red-light
+
+    &:focus
+      border: 1px solid $red-light
+      box-shadow: 0 0 5px $red-light
+
+.valid
+
+  label
+    color: $green
+
+  input[type=text], input[type=email], input[type=password], input[type=search], input[type=date], input[type=url], input[type=file], textarea
+    background: $green-lighter
+    border: 1px solid $green-light
+    color: $green-light
+
+    &:focus
+      border: 1px solid $green-light
+      box-shadow: 0 0 5px $green-light
+
+input[type=text], input[type=email], input[type=password], input[type=search], input[type=date], input[type=url], input[type=file], textarea, select, .main .status
+  display: block
+  border-radius: 3px
+  border: 1px solid $gray-lighter
+
+  &:focus
+    outline: none
+    border: 1px solid $blue-light
+    box-shadow: 0 0 5px $blue-light
+    transition: all .3s ease-in
+    -webkit-transition: all .3s ease-in
+
+  &:disabled
+    background: lighten($gray-lighter, 60%)
+
+input[type=text], input[type=email], input[type=password], input[type=search], input[type=date], input[type=url], .main .status
   height: 35px
+  padding: 5px 10px
 
 textarea
+  padding: 10px
   resize: none
+  font-size: $font-size-small
 
-input[type=text]:focus, 
-input[type=email]:focus, 
-input[type=search]:focus,
-input[type=password]:focus,
-textarea:focus,
-.main .status:focus
-  outline: none
-  border: 1px solid lighten($blue, 50%)
+input[type=file]
+  padding: 15px
+  background: lighten($gray-lighter, 70%)
+  font-size: $font-size-small
+  color: $gray-light
 
 label
   display: block
   margin-bottom: 5px
-  font-size: 13px
   font-weight: $font-weight-bold
-  color: $gray
+  font-size: $font-size-small
+
+.has-icon
+  position: relative
+
+  .ss-icon
+    position: absolute
+    top: 31px
+    right: 10px
+    font-size: $font-size-small
+    transition: all .3s ease-in
+
+    &.ss-delete
+      color: $red-light
+
+    &.ss-check
+      color: $green-light
+
+    &.ss-search
+      color: $gray-lighter

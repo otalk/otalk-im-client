@@ -785,12 +785,8 @@ h3 {
   position: relative;
 }
 .chatBox textarea {
-  width: 100%;
-  position: relative;
   height: 30px;
-  line-height: 18px;
-  padding: 5px;
-  background: #fff;
+  padding: 6px 10px;
 }
 .chatBox textarea.editing {
   background-color: #fffcea;
@@ -801,15 +797,11 @@ h3 {
   padding: 20px;
   border-bottom: 1px solid #eee;
 }
-.main > div .status {
-  padding: 10px;
-}
 .main > div:last-of-type {
   border: none;
 }
 .uploadRegion {
   padding: 15px;
-  font-size: 12px;
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
   -khtml-border-radius: 3px;
@@ -817,8 +809,7 @@ h3 {
   -border-radius: 3px;
   border-radius: 3px;
   margin: 10px 0;
-  color: #878787;
-  background: #f7f7f7;
+  border: 1px solid #eee;
 }
 .uploadRegion p {
   margin: 0;
@@ -897,60 +888,188 @@ h3 {
 }
 input[type=text],
 input[type=email],
-input[type=search],
 input[type=password],
+input[type=search],
+input[type=date],
+input[type=url],
+input[type=file],
 textarea,
 .main .status {
-  -webkit-appearance: none;
-  -moz-border-radius: 3px;
-  -webkit-border-radius: 3px;
-  -khtml-border-radius: 3px;
-  -o-border-radius: 3px;
-  -border-radius: 3px;
-  border-radius: 3px;
-  padding: 0 10px;
-  background-color: #fff;
-  border: 1px solid #eee;
-  font-size: 12px;
-  color: #565656;
+  width: 100%;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  font-family: 'Gotham SSm A', 'Gotham SSm B', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -webkit-appearance: none;
-  -webkit-transition: border 0.2s ease-in 0;
-  -o-transition: border 0.2s ease-in 0;
-  transition: border 0.2s ease-in 0;
-  -moz-transition: border 0.2s ease-in 0;
-  -webkit-transition: border 0.2s ease-in 0;
-  -moz-transition: border 0.2s ease-in 0;
+}
+input[type=text].inline,
+input[type=email].inline,
+input[type=password].inline,
+input[type=search].inline,
+input[type=date].inline,
+input[type=url].inline,
+input[type=file].inline,
+textarea.inline,
+.main .status.inline {
+  display: inline-block;
+  width: auto;
+}
+input[type=text]:disabled,
+input[type=email]:disabled,
+input[type=password]:disabled,
+input[type=search]:disabled,
+input[type=date]:disabled,
+input[type=url]:disabled,
+input[type=file]:disabled,
+textarea:disabled,
+select:disabled,
+input[type=checkbox]:disabled,
+input[type=radio]:disabled {
+  cursor: not-allowed;
+}
+.invalid label {
+  color: #de0a32;
+}
+.invalid input[type=text],
+.invalid input[type=email],
+.invalid input[type=password],
+.invalid input[type=search],
+.invalid input[type=date],
+.invalid input[type=url],
+.invalid input[type=file],
+.invalid textarea {
+  background: #fff7f8;
+  border: 1px solid #fdcad3;
+  color: #fdcad3;
+}
+.invalid input[type=text]:focus,
+.invalid input[type=email]:focus,
+.invalid input[type=password]:focus,
+.invalid input[type=search]:focus,
+.invalid input[type=date]:focus,
+.invalid input[type=url]:focus,
+.invalid input[type=file]:focus,
+.invalid textarea:focus {
+  border: 1px solid #fdcad3;
+  box-shadow: 0 0 5px #fdcad3;
+}
+.valid label {
+  color: #43bb6e;
+}
+.valid input[type=text],
+.valid input[type=email],
+.valid input[type=password],
+.valid input[type=search],
+.valid input[type=date],
+.valid input[type=url],
+.valid input[type=file],
+.valid textarea {
+  background: #f4fbf6;
+  border: 1px solid #c6ebd3;
+  color: #c6ebd3;
+}
+.valid input[type=text]:focus,
+.valid input[type=email]:focus,
+.valid input[type=password]:focus,
+.valid input[type=search]:focus,
+.valid input[type=date]:focus,
+.valid input[type=url]:focus,
+.valid input[type=file]:focus,
+.valid textarea:focus {
+  border: 1px solid #c6ebd3;
+  box-shadow: 0 0 5px #c6ebd3;
 }
 input[type=text],
 input[type=email],
-input[type=search],
 input[type=password],
+input[type=search],
+input[type=date],
+input[type=url],
+input[type=file],
+textarea,
+select,
 .main .status {
-  height: 35px;
-}
-textarea {
-  resize: none;
+  display: block;
+  border-radius: 3px;
+  border: 1px solid #eee;
 }
 input[type=text]:focus,
 input[type=email]:focus,
-input[type=search]:focus,
 input[type=password]:focus,
+input[type=search]:focus,
+input[type=date]:focus,
+input[type=url]:focus,
+input[type=file]:focus,
 textarea:focus,
+select:focus,
 .main .status:focus {
   outline: none;
   border: 1px solid #88d5f7;
+  box-shadow: 0 0 5px #88d5f7;
+  -webkit-transition: all 0.3s ease-in;
+  -o-transition: all 0.3s ease-in;
+  transition: all 0.3s ease-in;
+  -moz-transition: all 0.3s ease-in;
+  -webkit-transition: all 0.3s ease-in;
+}
+input[type=text]:disabled,
+input[type=email]:disabled,
+input[type=password]:disabled,
+input[type=search]:disabled,
+input[type=date]:disabled,
+input[type=url]:disabled,
+input[type=file]:disabled,
+textarea:disabled,
+select:disabled,
+.main .status:disabled {
+  background: #f8f8f8;
+}
+input[type=text],
+input[type=email],
+input[type=password],
+input[type=search],
+input[type=date],
+input[type=url],
+.main .status {
+  height: 35px;
+  padding: 5px 10px;
+}
+textarea {
+  padding: 10px;
+  resize: none;
+  font-size: 12px;
+}
+input[type=file] {
+  padding: 15px;
+  background: #fafafa;
+  font-size: 12px;
+  color: #878787;
 }
 label {
   display: block;
   margin-bottom: 5px;
-  font-size: 13px;
   font-weight: 800;
-  color: #565656;
+  font-size: 12px;
+}
+.has-icon {
+  position: relative;
+}
+.has-icon .ss-icon {
+  position: absolute;
+  top: 31px;
+  right: 10px;
+  font-size: 12px;
+  -webkit-transition: all 0.3s ease-in;
+  -o-transition: all 0.3s ease-in;
+  transition: all 0.3s ease-in;
+  -moz-transition: all 0.3s ease-in;
+}
+.has-icon .ss-icon.ss-delete {
+  color: #fdcad3;
+}
+.has-icon .ss-icon.ss-check {
+  color: #c6ebd3;
+}
+.has-icon .ss-icon.ss-search {
+  color: #eee;
 }
 button {
   border: none;
