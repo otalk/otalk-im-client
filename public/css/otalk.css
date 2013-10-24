@@ -321,7 +321,7 @@ a:active {
 }
 #roster li:hover,
 #bookmarks li:hover {
-  background: $sidebarActive;
+  background: #192a47;
 }
 #roster li.online:not(.idle):after,
 #bookmarks li.online:not(.idle):after,
