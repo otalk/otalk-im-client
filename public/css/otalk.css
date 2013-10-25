@@ -203,6 +203,330 @@ a:active {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
+input[type=text],
+input[type=email],
+input[type=password],
+input[type=search],
+input[type=date],
+input[type=url],
+input[type=file],
+textarea,
+.main .status {
+  width: 100%;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+input[type=text].inline,
+input[type=email].inline,
+input[type=password].inline,
+input[type=search].inline,
+input[type=date].inline,
+input[type=url].inline,
+input[type=file].inline,
+textarea.inline,
+.main .status.inline {
+  display: inline-block;
+  width: auto;
+}
+input[type=text]:disabled,
+input[type=email]:disabled,
+input[type=password]:disabled,
+input[type=search]:disabled,
+input[type=date]:disabled,
+input[type=url]:disabled,
+input[type=file]:disabled,
+textarea:disabled,
+select:disabled,
+input[type=checkbox]:disabled,
+input[type=radio]:disabled {
+  cursor: not-allowed;
+}
+.invalid label {
+  color: #de0a32;
+}
+.invalid input[type=text],
+.invalid input[type=email],
+.invalid input[type=password],
+.invalid input[type=search],
+.invalid input[type=date],
+.invalid input[type=url],
+.invalid input[type=file],
+.invalid textarea {
+  background: #fff7f8;
+  border: 1px solid #fdcad3;
+  color: #fdcad3;
+}
+.invalid input[type=text]:focus,
+.invalid input[type=email]:focus,
+.invalid input[type=password]:focus,
+.invalid input[type=search]:focus,
+.invalid input[type=date]:focus,
+.invalid input[type=url]:focus,
+.invalid input[type=file]:focus,
+.invalid textarea:focus {
+  border: 1px solid #fdcad3;
+  box-shadow: 0 0 5px #fdcad3;
+}
+.valid label {
+  color: #43bb6e;
+}
+.valid input[type=text],
+.valid input[type=email],
+.valid input[type=password],
+.valid input[type=search],
+.valid input[type=date],
+.valid input[type=url],
+.valid input[type=file],
+.valid textarea {
+  background: #f4fbf6;
+  border: 1px solid #c6ebd3;
+  color: #c6ebd3;
+}
+.valid input[type=text]:focus,
+.valid input[type=email]:focus,
+.valid input[type=password]:focus,
+.valid input[type=search]:focus,
+.valid input[type=date]:focus,
+.valid input[type=url]:focus,
+.valid input[type=file]:focus,
+.valid textarea:focus {
+  border: 1px solid #c6ebd3;
+  box-shadow: 0 0 5px #c6ebd3;
+}
+input[type=text],
+input[type=email],
+input[type=password],
+input[type=search],
+input[type=date],
+input[type=url],
+input[type=file],
+textarea,
+select,
+.main .status {
+  display: block;
+  border-radius: 3px;
+  border: 1px solid #eee;
+}
+input[type=text]:focus,
+input[type=email]:focus,
+input[type=password]:focus,
+input[type=search]:focus,
+input[type=date]:focus,
+input[type=url]:focus,
+input[type=file]:focus,
+textarea:focus,
+select:focus,
+.main .status:focus {
+  outline: none;
+  border: 1px solid #88d5f7;
+  box-shadow: 0 0 5px #88d5f7;
+  -webkit-transition: all 0.3s ease-in;
+  -o-transition: all 0.3s ease-in;
+  transition: all 0.3s ease-in;
+  -moz-transition: all 0.3s ease-in;
+  -webkit-transition: all 0.3s ease-in;
+}
+input[type=text]:disabled,
+input[type=email]:disabled,
+input[type=password]:disabled,
+input[type=search]:disabled,
+input[type=date]:disabled,
+input[type=url]:disabled,
+input[type=file]:disabled,
+textarea:disabled,
+select:disabled,
+.main .status:disabled {
+  background: #f8f8f8;
+}
+input[type=text],
+input[type=email],
+input[type=password],
+input[type=search],
+input[type=date],
+input[type=url],
+.main .status {
+  height: 35px;
+  padding: 7px 10px;
+}
+textarea {
+  padding: 10px;
+  resize: none;
+  font-size: 12px;
+}
+input[type=file] {
+  padding: 15px;
+  background: #fafafa;
+  font-size: 12px;
+  color: #878787;
+}
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 800;
+  font-size: 12px;
+}
+.has-icon {
+  position: relative;
+}
+.has-icon .ss-icon {
+  position: absolute;
+  top: 31px;
+  right: 10px;
+  font-size: 12px;
+  -webkit-transition: all 0.3s ease-in;
+  -o-transition: all 0.3s ease-in;
+  transition: all 0.3s ease-in;
+  -moz-transition: all 0.3s ease-in;
+}
+.has-icon .ss-icon.ss-delete {
+  color: #fdcad3;
+}
+.has-icon .ss-icon.ss-check {
+  color: #c6ebd3;
+}
+.has-icon .ss-icon.ss-search {
+  color: #eee;
+}
+button {
+  border: none;
+}
+.button {
+  line-height: 35px;
+}
+.button,
+button {
+  display: inline-block;
+  border-radius: 3px;
+  padding: 0 15px;
+  height: 35px;
+  background: #eee;
+  font-size: 12px;
+  font-weight: 800;
+  text-align: center;
+  text-decoration: none;
+  color: #878787;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+}
+.button:focus,
+button:focus {
+  outline: none;
+}
+.button:hover:not(:disabled),
+button:hover:not(:disabled) {
+  color: #565656;
+  background: #d6d6d6;
+  -webkit-transition: all 0.3s ease-in;
+  -o-transition: all 0.3s ease-in;
+  transition: all 0.3s ease-in;
+  -moz-transition: all 0.3s ease-in;
+}
+.button:disabled,
+button:disabled {
+  cursor: not-allowed;
+  color: #b7b7b7;
+}
+.button.small,
+button.small {
+  height: 25px;
+  padding: 0 8px;
+  font-size: 12px;
+  line-height: 25px;
+}
+.button.large,
+button.large {
+  height: 50px;
+  line-height: 50px;
+  padding: 0 30px;
+  font-size: 16px;
+}
+.button.primary,
+button.primary,
+.button.secondary,
+button.secondary,
+.button.primary:hover,
+button.primary:hover,
+.button.secondary:hover,
+button.secondary:hover {
+  color: #fff;
+}
+.button.primary,
+button.primary {
+  background: #ec008c;
+}
+.button.primary:hover:not(:disabled),
+button.primary:hover:not(:disabled) {
+  background: #d4007e;
+}
+.button.primary:disabled,
+button.primary:disabled {
+  background: #f8bee0;
+}
+.button.secondary,
+button.secondary {
+  background: #12acef;
+}
+.button.secondary:disabled,
+button.secondary:disabled {
+  background: #88d5f7;
+}
+.button.secondary:hover:not(:disabled),
+button.secondary:hover:not(:disabled) {
+  background: #0f9bd9;
+}
+.button-group .button,
+.button-group button {
+  border-radius: 0;
+  margin-left: -1px;
+}
+.button-group .button:first-child:only-child,
+.button-group button:first-child:only-child {
+  border-radius: 3px;
+}
+.button-group .button:first-child,
+.button-group button:first-child {
+  border-radius: 3px 0 0 3px;
+}
+.button-group .button:last-child,
+.button-group button:last-child {
+  border-radius: 0 3px 3px 0;
+}
+.button-group.outlined {
+  display: inline-block;
+  border-radius: 3px;
+}
+.button-group.outlined button,
+.button-group.outlined .button {
+  border: 1px solid #dbdbdb;
+}
+.button-group.outlined.primary button,
+.button-group.outlined.primary .button {
+  background: #fce8f1;
+  border: 1px solid #f8bee0;
+  color: #ec008c;
+}
+.button-group.outlined.primary button:hover,
+.button-group.outlined.primary .button:hover {
+  background: #fbd8ec;
+}
+.button-group.outlined.secondary button,
+.button-group.outlined.secondary .button {
+  background: #e7f7fd;
+  border: 1px solid #88d5f7;
+  color: #12acef;
+}
+.button-group.outlined.secondary button:hover,
+.button-group.outlined.secondary .button:hover {
+  background: #b8e6fa;
+}
+.installFirefox,
+.addContact {
+  margin-left: 5px;
+}
+.addContact {
+  margin-top: -2px;
+}
 #connectionOverlay {
   position: fixed;
   top: 0px;
@@ -894,330 +1218,6 @@ a:active {
   .box {
     width: 50%;
   }
-}
-input[type=text],
-input[type=email],
-input[type=password],
-input[type=search],
-input[type=date],
-input[type=url],
-input[type=file],
-textarea,
-.main .status {
-  width: 100%;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-}
-input[type=text].inline,
-input[type=email].inline,
-input[type=password].inline,
-input[type=search].inline,
-input[type=date].inline,
-input[type=url].inline,
-input[type=file].inline,
-textarea.inline,
-.main .status.inline {
-  display: inline-block;
-  width: auto;
-}
-input[type=text]:disabled,
-input[type=email]:disabled,
-input[type=password]:disabled,
-input[type=search]:disabled,
-input[type=date]:disabled,
-input[type=url]:disabled,
-input[type=file]:disabled,
-textarea:disabled,
-select:disabled,
-input[type=checkbox]:disabled,
-input[type=radio]:disabled {
-  cursor: not-allowed;
-}
-.invalid label {
-  color: #de0a32;
-}
-.invalid input[type=text],
-.invalid input[type=email],
-.invalid input[type=password],
-.invalid input[type=search],
-.invalid input[type=date],
-.invalid input[type=url],
-.invalid input[type=file],
-.invalid textarea {
-  background: #fff7f8;
-  border: 1px solid #fdcad3;
-  color: #fdcad3;
-}
-.invalid input[type=text]:focus,
-.invalid input[type=email]:focus,
-.invalid input[type=password]:focus,
-.invalid input[type=search]:focus,
-.invalid input[type=date]:focus,
-.invalid input[type=url]:focus,
-.invalid input[type=file]:focus,
-.invalid textarea:focus {
-  border: 1px solid #fdcad3;
-  box-shadow: 0 0 5px #fdcad3;
-}
-.valid label {
-  color: #43bb6e;
-}
-.valid input[type=text],
-.valid input[type=email],
-.valid input[type=password],
-.valid input[type=search],
-.valid input[type=date],
-.valid input[type=url],
-.valid input[type=file],
-.valid textarea {
-  background: #f4fbf6;
-  border: 1px solid #c6ebd3;
-  color: #c6ebd3;
-}
-.valid input[type=text]:focus,
-.valid input[type=email]:focus,
-.valid input[type=password]:focus,
-.valid input[type=search]:focus,
-.valid input[type=date]:focus,
-.valid input[type=url]:focus,
-.valid input[type=file]:focus,
-.valid textarea:focus {
-  border: 1px solid #c6ebd3;
-  box-shadow: 0 0 5px #c6ebd3;
-}
-input[type=text],
-input[type=email],
-input[type=password],
-input[type=search],
-input[type=date],
-input[type=url],
-input[type=file],
-textarea,
-select,
-.main .status {
-  display: block;
-  border-radius: 3px;
-  border: 1px solid #eee;
-}
-input[type=text]:focus,
-input[type=email]:focus,
-input[type=password]:focus,
-input[type=search]:focus,
-input[type=date]:focus,
-input[type=url]:focus,
-input[type=file]:focus,
-textarea:focus,
-select:focus,
-.main .status:focus {
-  outline: none;
-  border: 1px solid #88d5f7;
-  box-shadow: 0 0 5px #88d5f7;
-  -webkit-transition: all 0.3s ease-in;
-  -o-transition: all 0.3s ease-in;
-  transition: all 0.3s ease-in;
-  -moz-transition: all 0.3s ease-in;
-  -webkit-transition: all 0.3s ease-in;
-}
-input[type=text]:disabled,
-input[type=email]:disabled,
-input[type=password]:disabled,
-input[type=search]:disabled,
-input[type=date]:disabled,
-input[type=url]:disabled,
-input[type=file]:disabled,
-textarea:disabled,
-select:disabled,
-.main .status:disabled {
-  background: #f8f8f8;
-}
-input[type=text],
-input[type=email],
-input[type=password],
-input[type=search],
-input[type=date],
-input[type=url],
-.main .status {
-  height: 35px;
-  padding: 7px 10px;
-}
-textarea {
-  padding: 10px;
-  resize: none;
-  font-size: 12px;
-}
-input[type=file] {
-  padding: 15px;
-  background: #fafafa;
-  font-size: 12px;
-  color: #878787;
-}
-label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: 800;
-  font-size: 12px;
-}
-.has-icon {
-  position: relative;
-}
-.has-icon .ss-icon {
-  position: absolute;
-  top: 31px;
-  right: 10px;
-  font-size: 12px;
-  -webkit-transition: all 0.3s ease-in;
-  -o-transition: all 0.3s ease-in;
-  transition: all 0.3s ease-in;
-  -moz-transition: all 0.3s ease-in;
-}
-.has-icon .ss-icon.ss-delete {
-  color: #fdcad3;
-}
-.has-icon .ss-icon.ss-check {
-  color: #c6ebd3;
-}
-.has-icon .ss-icon.ss-search {
-  color: #eee;
-}
-button {
-  border: none;
-}
-.button {
-  line-height: 35px;
-}
-.button,
-button {
-  display: inline-block;
-  border-radius: 3px;
-  padding: 0 15px;
-  height: 35px;
-  background: #eee;
-  font-size: 12px;
-  font-weight: 800;
-  text-align: center;
-  text-decoration: none;
-  color: #878787;
-  text-overflow: ellipsis;
-  vertical-align: middle;
-}
-.button:focus,
-button:focus {
-  outline: none;
-}
-.button:hover:not(:disabled),
-button:hover:not(:disabled) {
-  color: #565656;
-  background: #d6d6d6;
-  -webkit-transition: all 0.3s ease-in;
-  -o-transition: all 0.3s ease-in;
-  transition: all 0.3s ease-in;
-  -moz-transition: all 0.3s ease-in;
-}
-.button:disabled,
-button:disabled {
-  cursor: not-allowed;
-  color: #b7b7b7;
-}
-.button.small,
-button.small {
-  height: 25px;
-  padding: 0 8px;
-  font-size: 12px;
-  line-height: 25px;
-}
-.button.large,
-button.large {
-  height: 50px;
-  line-height: 50px;
-  padding: 0 30px;
-  font-size: 16px;
-}
-.button.primary,
-button.primary,
-.button.secondary,
-button.secondary,
-.button.primary:hover,
-button.primary:hover,
-.button.secondary:hover,
-button.secondary:hover {
-  color: #fff;
-}
-.button.primary,
-button.primary {
-  background: #ec008c;
-}
-.button.primary:hover:not(:disabled),
-button.primary:hover:not(:disabled) {
-  background: #d4007e;
-}
-.button.primary:disabled,
-button.primary:disabled {
-  background: #f8bee0;
-}
-.button.secondary,
-button.secondary {
-  background: #12acef;
-}
-.button.secondary:disabled,
-button.secondary:disabled {
-  background: #88d5f7;
-}
-.button.secondary:hover:not(:disabled),
-button.secondary:hover:not(:disabled) {
-  background: #0f9bd9;
-}
-.button-group .button,
-.button-group button {
-  border-radius: 0;
-  margin-left: -1px;
-}
-.button-group .button:first-child:only-child,
-.button-group button:first-child:only-child {
-  border-radius: 3px;
-}
-.button-group .button:first-child,
-.button-group button:first-child {
-  border-radius: 3px 0 0 3px;
-}
-.button-group .button:last-child,
-.button-group button:last-child {
-  border-radius: 0 3px 3px 0;
-}
-.button-group.outlined {
-  display: inline-block;
-  border-radius: 3px;
-}
-.button-group.outlined button,
-.button-group.outlined .button {
-  border: 1px solid #dbdbdb;
-}
-.button-group.outlined.primary button,
-.button-group.outlined.primary .button {
-  background: #fce8f1;
-  border: 1px solid #f8bee0;
-  color: #ec008c;
-}
-.button-group.outlined.primary button:hover,
-.button-group.outlined.primary .button:hover {
-  background: #fbd8ec;
-}
-.button-group.outlined.secondary button,
-.button-group.outlined.secondary .button {
-  background: #e7f7fd;
-  border: 1px solid #88d5f7;
-  color: #12acef;
-}
-.button-group.outlined.secondary button:hover,
-.button-group.outlined.secondary .button:hover {
-  background: #b8e6fa;
-}
-.installFirefox,
-.addContact {
-  margin-left: 5px;
-}
-.addContact {
-  margin-top: -2px;
 }
 #wrapper {
   position: relative !important;
