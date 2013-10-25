@@ -660,17 +660,17 @@ button.secondary:hover:not(:disabled) {
 #bookmarks li.online:after,
 #roster li.chat:after,
 #bookmarks li.chat:after {
-  background: #427a00;
+  background: #43bb6e;
 }
 #roster li.dnd:after,
 #bookmarks li.dnd:after {
-  background: #c50041;
+  background: #de0a32;
 }
 #roster li.away:after,
 #bookmarks li.away:after,
 #roster li.xa:after,
 #bookmarks li.xa:after {
-  background: #f57900;
+  background: #f18902;
 }
 #roster li.offline:not(:hover) .name,
 #bookmarks li.offline:not(:hover) .name {
