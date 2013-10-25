@@ -571,26 +571,25 @@ button.secondary:hover:not(:disabled) {
   user-select: none;
 }
 #menu .main {
-  margin-bottom: 10px;
-}
-#menu .main li {
-  list-style-type: none;
-  margin: 10px 0 5px 0;
+  margin: 10px 0 0 0;
   text-align: center;
 }
-#menu .main li:last-child {
-  margin: 0;
+#menu .main li {
+  display: inline-block;
+}
+#menu .main li:last-of-type a {
+  margin-left: 5px;
+  padding-left: 30px;
 }
 #menu .main li svg {
   position: absolute;
   top: 50%;
-  left: 10px;
+  left: 5px;
   margin-top: -13px;
   fill: #fff;
 }
 #menu .main li a {
   position: relative;
-  width: 150px;
 }
 #menu h1 {
   font-size: 12px;

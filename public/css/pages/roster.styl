@@ -15,25 +15,25 @@
   noselect()
 
   .main
-    margin-bottom: 10px
+    margin: 10px 0 0 0
+    text-align: center
     li
-      list-style-type: none
-      margin: 10px 0 5px 0
-      text-align: center
+      display: inline-block
 
-      &:last-child
-        margin: 0
+      &:last-of-type
+        a
+          margin-left: 5px
+          padding-left: 30px
 
       svg
         position: absolute
         top: 50%
-        left: 10px
+        left: 5px
         margin-top: -13px
         fill: white
 
       a
         position: relative
-        width: 150px
 
   h1
     font-size: $font-size-small
