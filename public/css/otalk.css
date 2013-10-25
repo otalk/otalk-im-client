@@ -1114,6 +1114,12 @@ button.secondary:hover:not(:disabled) {
 .main > div:last-of-type {
   border: none;
 }
+.main > div .status {
+  overflow: hidden;
+  min-height: 35px;
+  max-height: 50px;
+  height: auto;
+}
 .uploadRegion {
   padding: 15px;
   -moz-border-radius: 3px;
@@ -1127,13 +1133,6 @@ button.secondary:hover:not(:disabled) {
 }
 .uploadRegion p {
   margin: 0;
-}
-.uploadRegion input {
-  width: 100%;
-  padding: 5px;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
 }
 .uploadRegion img {
   margin: 10px 0;
