@@ -321,10 +321,7 @@ select:focus,
   outline: none;
   border: 1px solid #88d5f7;
   box-shadow: 0 0 5px #88d5f7;
-  -webkit-transition: all 0.3s ease-in;
-  -o-transition: all 0.3s ease-in;
   transition: all 0.3s ease-in;
-  -moz-transition: all 0.3s ease-in;
   -webkit-transition: all 0.3s ease-in;
 }
 input[type=text]:disabled,
@@ -374,10 +371,7 @@ label {
   top: 31px;
   right: 10px;
   font-size: 12px;
-  -webkit-transition: all 0.3s ease-in;
-  -o-transition: all 0.3s ease-in;
   transition: all 0.3s ease-in;
-  -moz-transition: all 0.3s ease-in;
 }
 .has-icon .ss-icon.ss-delete {
   color: #fdcad3;
@@ -417,10 +411,7 @@ button:focus {
 button:hover:not(:disabled) {
   color: #565656;
   background: #d6d6d6;
-  -webkit-transition: all 0.3s ease-in;
-  -o-transition: all 0.3s ease-in;
   transition: all 0.3s ease-in;
-  -moz-transition: all 0.3s ease-in;
 }
 .button:disabled,
 button:disabled {
@@ -535,10 +526,7 @@ button.secondary:hover:not(:disabled) {
   height: 100%;
   background: rgba(0,0,0,0.5);
   z-index: 1000;
-  -webkit-transition: all 0.25s linear 0;
-  -o-transition: all 0.25s linear 0;
   transition: all 0.25s linear 0;
-  -moz-transition: all 0.25s linear 0;
 }
 #connectionOverlay.connected {
   height: 0px;
@@ -622,10 +610,7 @@ button.secondary:hover:not(:disabled) {
   font-size: 12px;
   color: #fff;
   cursor: pointer;
-  -webkit-transition: all 0.3s ease-in 0;
-  -o-transition: all 0.3s ease-in 0;
   transition: all 0.3s ease-in 0;
-  -moz-transition: all 0.3s ease-in 0;
   -webkit-transition: all 0.3s ease-in 0;
   -moz-transition: all 0.3s ease-in 0;
   width: 100%;
@@ -959,10 +944,6 @@ button.secondary:hover:not(:disabled) {
   text-transform: capitalize;
 }
 .conversation header .activeCall {
-  -webkit-transition: height 250ms;
-  -o-transition: height 250ms;
-  transition: height 250ms;
-  -moz-transition: height 250ms;
   height: 0px;
   position: relative;
   top: 0px;
@@ -980,10 +961,6 @@ button.secondary:hover:not(:disabled) {
   right: 10px;
   height: 20%;
   border: 2px solid #eee;
-  -webkit-transform: scaleX(-1);
-  -moz-transform: scaleX(-1);
-  -ms-transform: scaleX(-1);
-  transform: scaleX(-1);
 }
 .conversation header .activeCall .button-wrap {
   position: absolute;
@@ -1221,19 +1198,13 @@ button.secondary:hover:not(:disabled) {
 }
 #wrapper {
   position: relative !important;
-  -webkit-transition: all 1s;
-  -o-transition: all 1s;
   transition: all 1s;
-  -moz-transition: all 1s;
 }
 #calls {
   position: fixed;
   top: 0;
   left: 0px;
-  -webkit-transition: all 1s;
-  -o-transition: all 1s;
   transition: all 1s;
-  -moz-transition: all 1s;
   width: 100%;
   height: 80px;
   z-index: 1000;
@@ -1241,9 +1212,6 @@ button.secondary:hover:not(:disabled) {
 }
 #calls:empty,
 #calls.ending {
-  -webkit-transform: translateY(-80px);
-  -moz-transform: translateY(-80px);
-  -ms-transform: translateY(-80px);
   transform: translateY(-80px);
 }
 #calls .call {
