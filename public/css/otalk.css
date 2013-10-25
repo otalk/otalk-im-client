@@ -175,9 +175,9 @@ h3,
 h4 {
   color: #3c3c3c;
 }
-h3 {
+h4 {
   margin-top: 0;
-  font-size: 18px;
+  font-size: 12px;
 }
 a {
   color: #12acef;
@@ -1345,7 +1345,7 @@ rgba(0,0,0,0.2)
   color: #fff;
 rgba(0,0,0,0.7)
   line-height: 1;
-  font-size: 18px;
+  font-size: 16px;
 }
 #calls .caller {
   margin: 0;

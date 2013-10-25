@@ -196,7 +196,7 @@ exports.pages.groupchat = function anonymous(locals) {
 exports.pages.main = function anonymous(locals) {
     var buf = [];
     with (locals || {}) {
-        buf.push('<section class="page main"><div><h3>Current status</h3><div contenteditable="true" class="status"></div></div><div id="avatarChanger"><h3>Change Avatar</h3><div class="uploadRegion"><p>Drag and drop a new avatar here</p><img/><form><input id="uploader" type="file"/></form></div></div><div><h3>Add / Approve Contacts</h3><input type="text" id="addcontact" class="inline"/><button class="addContact">Add</button><ul id="contactrequests"></ul></div><div><h3>Desktop Integration</h3><button class="enableAlerts">Enable alerts</button><button class="primary installFirefox">Install app</button></div></section>');
+        buf.push('<section class="page main"><div><h4>Current status</h4><div contenteditable="true" class="status"></div></div><div id="avatarChanger"><h4>Change Avatar</h4><div class="uploadRegion"><p>Drag and drop a new avatar here</p><img/><form><input id="uploader" type="file"/></form></div></div><div><h4>Add / Approve Contacts</h4><input type="text" id="addcontact" class="inline"/><button class="addContact">Add</button><ul id="contactrequests"></ul></div><div><h4>Desktop Integration</h4><button class="enableAlerts">Enable alerts</button><button class="primary installFirefox">Install app</button></div></section>');
     }
     return buf.join("");
 };
