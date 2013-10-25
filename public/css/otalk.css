@@ -953,7 +953,6 @@ button.secondary:hover:not(:disabled) {
   top: 60px;
   left: 10px;
   height: 50%;
-  border: 2px solid #eee;
 }
 .conversation header .activeCall .local {
   position: absolute;
@@ -1130,6 +1129,7 @@ button.secondary:hover:not(:disabled) {
   border-radius: 3px;
   margin: 10px 0;
   border: 1px solid #eee;
+  background: #fcfcfc;
 }
 .uploadRegion p {
   margin: 0;
