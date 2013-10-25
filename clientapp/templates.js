@@ -187,7 +187,7 @@ exports.pages.chat = function anonymous(locals) {
 exports.pages.groupchat = function anonymous(locals) {
     var buf = [];
     with (locals || {}) {
-        buf.push('<section class="page chat"><section class="conversation"><header><img class="avatar"/><h1 class="name"></h1><button class="primary joinRoom">Join</button><button class="secondary leaveRoom">Leave</button></header><ul class="messages"></ul><div class="chatBox"><form><textarea name="chatInput" type="text" placeholder="Send a message..." autocomplete="off"></textarea></form></div></section></section>');
+        buf.push('<section class="page chat"><section class="conversation"><header><img class="avatar"/><h1 class="name"></h1><div class="controls"><button class="primary joinRoom">Join</button><button class="secondary leaveRoom">Leave</button></div></header><ul class="messages"></ul><div class="chatBox"><form><textarea name="chatInput" type="text" placeholder="Send a message..." autocomplete="off"></textarea></form></div></section></section>');
     }
     return buf.join("");
 };

@@ -518,6 +518,10 @@ button.secondary:hover:not(:disabled) {
 .addContact {
   margin-top: -2px;
 }
+.joinRoom,
+.leaveRoom {
+  margin: 3px 5px 0 0;
+}
 #connectionOverlay {
   position: fixed;
   top: 0px;
@@ -601,7 +605,6 @@ button.secondary:hover:not(:disabled) {
 #roster li,
 #bookmarks li {
   display: table;
-  list-style-type: none;
   padding: 7px 35px 7px 10px;
   margin: 0px;
   position: relative;
@@ -891,6 +894,9 @@ button.secondary:hover:not(:disabled) {
   box-sizing: border-box;
   background: #f7f7f7;
 }
+.conversation header .controls {
+  float: right;
+}
 .conversation header .avatar {
   margin-right: 5px;
   width: 30px;
@@ -1064,8 +1070,7 @@ button.secondary:hover:not(:disabled) {
   word-break: break-word;
 }
 .messages .message .timestamp {
-  font-size: 12px;
-  font-weight: 800;
+  font-size: 10px;
   color: #88d5f7;
   float: right;
   display: block;
