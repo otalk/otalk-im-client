@@ -23,9 +23,9 @@ module.exports = HumanModel.define({
     },
     derived: {
         mine: {
-            deps: ['from'],
+            deps: ['from', '_mucMine'],
             fn: function () {
-                return me.isMe(this.from);
+                return this._mucMine || me.isMe(this.from);
             }
         },
         sender: {
@@ -81,15 +81,11 @@ module.exports = HumanModel.define({
         nick: {
             deps: ['mine', 'type'],
             fn: function () {
-                if (this.mine) {
-                    if (this.type === 'groupchat') {
-                        return me.mucs.get(this.to.bare).nick;
-                    } else {
-                        return 'me';
-                    }
-                }
                 if (this.type === 'groupchat') {
                     return this.from.resource;
+                }
+                if (this.mine) {
+                    return 'me';
                 }
                 return me.getContact(this.from.bare).displayName;
             }
@@ -104,12 +100,20 @@ module.exports = HumanModel.define({
             deps: ['edited', 'pending', 'body'],
             cache: false,
             fn: function () {
-                return templates.includes.bareMessage({message: this});
+                if (this.type === 'groupchat') {
+                    return templates.includes.mucBareMessage({message: this});
+                } else {
+                    return templates.includes.bareMessage({message: this});
+                }
             }
         },
         templateHtml: {
             fn: function () {
-                return templates.includes.wrappedMessage({message: this});
+                if (this.type === 'groupchat') {
+                    return templates.includes.mucWrappedMessage({message: this});
+                } else {
+                    return templates.includes.wrappedMessage({message: this});
+                }
             }
         },
         classList: {
@@ -128,6 +132,7 @@ module.exports = HumanModel.define({
     },
     session: {
         _created: 'date',
+        _mucMine: 'bool',
         receiptReceived: ['bool', true, false],
         edited: ['bool', true, false],
         delay: 'object'
@@ -160,6 +165,10 @@ module.exports = HumanModel.define({
         app.storage.archive.add(data);
     },
     shouldGroupWith: function (previous) {
-        return previous && previous.from.bare === this.from.bare;
+        if (this.type === 'groupchat') {
+            return previous && previous.from.full === this.from.full;
+        } else {
+            return previous && previous.from.bare === this.from.bare;
+        }
     }
 });

@@ -108,6 +108,7 @@
   position: relative
   bottom: 75px
   width: 100%
+  display: table
   borderbox()
 
   li
@@ -120,15 +121,13 @@
     display: table
     borderbox()
     border-bottom: 1px solid $gray-lighter
+    display: table-row
 
     &:last-of-type
       border: none
 
     .messageAvatar
-      position: absolute
-      top: 50%
-      left: 10px
-      margin-top: -15px
+      display: inline-block
 
       img
         avatar()
@@ -138,10 +137,25 @@
         position: absolute
         width: 1px
 
+  .sender
+    display: table-cell
+    font-size: 12px
+    font-weight: bold
+    color: $gray
+    padding: 10px
+    text-align: right
+    background-color: #f7f7f7
+    border-top: 1px solid #e1e1e1
+
+    .name
+      padding-left: 10px
+
   .messageWrapper
     padding-left: 50px
     display: table-cell
     vertical-align: middle
+    padding: 10px
+    border-top: 1px solid #eee
 
   .message
     font-size: $font-size-small

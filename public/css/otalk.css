@@ -990,6 +990,7 @@ button.secondary:hover:not(:disabled) {
   position: relative;
   bottom: 75px;
   width: 100%;
+  display: table;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -1006,15 +1007,13 @@ button.secondary:hover:not(:disabled) {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
   border-bottom: 1px solid #eee;
+  display: table-row;
 }
 .messages li:last-of-type {
   border: none;
 }
 .messages li .messageAvatar {
-  position: absolute;
-  top: 50%;
-  left: 10px;
-  margin-top: -15px;
+  display: inline-block;
 }
 .messages li .messageAvatar img {
   width: 30px;
@@ -1031,10 +1030,25 @@ button.secondary:hover:not(:disabled) {
   position: absolute;
   width: 1px;
 }
+.messages .sender {
+  display: table-cell;
+  font-size: 12px;
+  font-weight: bold;
+  color: #565656;
+  padding: 10px;
+  text-align: right;
+  background-color: #f7f7f7;
+  border-top: 1px solid #e1e1e1;
+}
+.messages .sender .name {
+  padding-left: 10px;
+}
 .messages .messageWrapper {
   padding-left: 50px;
   display: table-cell;
   vertical-align: middle;
+  padding: 10px;
+  border-top: 1px solid #eee;
 }
 .messages .message {
   font-size: 12px;

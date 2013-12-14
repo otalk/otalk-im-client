@@ -1,16 +1,27 @@
 /*global $, app, me, client*/
 "use strict";
 
+var _ = require('underscore');
 var BasePage = require('./base');
 var templates = require('../templates');
 var Message = require('../views/mucMessage');
 var MessageModel = require('../models/message');
+var chatHelpers = require('../helpers/chatHelpers');
 
 
-module.exports = BasePage.extend({
+module.exports = BasePage.extend(chatHelpers).extend({
     template: templates.pages.groupchat,
     initialize: function (spec) {
         this.editMode = false;
+
+        this.listenTo(this, 'pageloaded', this.handlePageLoaded);
+        this.listenTo(this, 'pageunloaded', this.handlePageUnloaded);
+
+        this.listenTo(this.model.messages, 'change:body', this.refreshModel);
+        this.listenTo(this.model.messages, 'change:edited', this.refreshModel);
+        this.listenTo(this.model.messages, 'change:pending', this.refreshModel);
+        this.listenTo(this.model.messages, 'change:mine', this.refreshModel);
+
         this.render();
     },
     events: {
@@ -42,13 +53,50 @@ module.exports = BasePage.extend({
         });
     },
     render: function () {
+        if (this.rendered) return this;
+        this.rendered = true;
+
         this.renderAndBind();
         this.typingTimer = null;
         this.$chatInput = this.$('.chatBox textarea');
+        this.$chatBox = this.$('.chatBox');
         this.$messageList = this.$('.messages');
-        this.renderCollection(this.model.messages, Message, this.$('.messages'));
+        this.$scrollContainer = this.$messageList;
+
+        this.listenTo(this.model.messages, 'add', this.handleChatAdded);
+
+        this.renderCollection();
+
+        $(window).on('resize', _.bind(this.handleWindowResize, this));
+
+        this.initializeScroll();
+
         this.registerBindings();
+
         return this;
+    },
+    renderCollection: function () {
+        var self = this;
+        var previous;
+        var bottom = this.isBottom() || this.$messageList.is(':empty');
+        this.model.messages.each(function (model, i) {
+            self.appendModel(model);
+        });
+        this.scrollIfPinned();
+    },
+    handleChatAdded: function (model) {
+        this.appendModel(model, true);
+    },
+    handlePageLoaded: function () {
+        this.scrollPageLoad();
+        this.handleWindowResize();
+    },
+    handlePageUnloaded: function () {
+        this.scrollPageUnload();
+    },
+    handleWindowResize: function () {
+        this.scrollIfPinned();
+        this.resizeInput();
     },
     handleKeyDown: function (e) {
         clearTimeout(this.typingTimer);
@@ -140,7 +188,7 @@ module.exports = BasePage.extend({
 
             var id = client.sendMessage(message);
             message.id = id;
-            message.from = me.jid;
+            message.from = client.JID(this.model.jid.bare + '/' + this.model.nick);
 
             if (this.editMode) {
                 this.model.lastSentMessage.correct(message);
@@ -161,5 +209,27 @@ module.exports = BasePage.extend({
     },
     handleLeave: function () {
         this.model.leave();
+    },
+    appendModel: function (model, preload) {
+        var self = this;
+        var isGrouped = model.shouldGroupWith(this.lastModel);
+        var newEl, first, last;
+
+        if (isGrouped) {
+            newEl = $(model.partialTemplateHtml);
+            last = this.$messageList.find('li').last();
+            last.find('.messageWrapper').append(newEl);
+            last.addClass('chatGroup');
+        } else {
+            newEl = $(model.templateHtml);
+            this.$messageList.append(newEl);
+        }
+        this.lastModel = model;
+
+        this.scrollIfPinned();
+    },
+    refreshModel: function (model) {
+        var existing = this.$('#chat' + model.cid);
+        existing.replaceWith(model.partialTemplateHtml);
     }
 });
