@@ -16,7 +16,8 @@ module.exports = HumanView.extend({
         receiptReceived: '.message',
         pending: '.message',
         delayed: '.message',
-        edited: '.message'
+        edited: '.message',
+        meAction: '.message'
     },
     textBindings: {
         body: '.body',

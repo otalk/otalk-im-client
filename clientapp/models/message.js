@@ -91,9 +91,13 @@ module.exports = HumanModel.define({
             }
         },
         processedBody: {
-            deps: ['body'],
+            deps: ['body', 'meAction'],
             fn: function () {
-                return htmlify.toHTML(this.body);
+                var body = this.body;
+                if (this.meAction) {
+                    body = body.substr(4);
+                }
+                return htmlify.toHTML(body);
             }
         },
         partialTemplateHtml: {
@@ -125,8 +129,15 @@ module.exports = HumanModel.define({
                 if (this.pending) res.push('pending');
                 if (this.delayed) res.push('delayed');
                 if (this.edited) res.push('edited');
+                if (this.meAction) res.push('meAction');
 
                 return res.join(' ');
+            }
+        },
+        meAction: {
+            deps: ['body'],
+            fn: function () {
+                return this.body.indexOf('/me') === 0;
             }
         }
     },

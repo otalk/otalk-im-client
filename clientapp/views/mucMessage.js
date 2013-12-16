@@ -13,9 +13,10 @@ module.exports = HumanView.extend({
     },
     classBindings: {
         mine: '.message',
-        acked: '.message',
+        pending: '.message',
         delayed: '.message',
-        edited: '.message'
+        edited: '.message',
+        meAction: '.message'
     },
     textBindings: {
         body: '.body',

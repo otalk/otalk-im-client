@@ -30,7 +30,7 @@ module.exports = HumanModel.define({
             deps: ['discoInfo'],
             fn: function () {
                 if (!this.discoInfo) return false;
-                var features = this.discoInfo.features;
+                var features = this.discoInfo.features || [];
                 if (features.indexOf('urn:xmpp:jingle:1') === -1) {
                     return false;
                 }

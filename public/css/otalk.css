@@ -1064,7 +1064,7 @@ button.secondary:hover:not(:disabled) {
 }
 .messages .message {
   font-size: 12px;
-  margin: 0px;
+  margin: 2px;
   display: inline-block;
   padding-right: 11px;
   min-width: 20px;
@@ -1074,7 +1074,7 @@ button.secondary:hover:not(:disabled) {
   box-sizing: border-box;
 }
 .messages .message:not(.mine) {
-  color: #12acef;
+  color: #2d2d2d;
 }
 .messages .message.mine {
   background: #fff;
@@ -1090,6 +1090,24 @@ button.secondary:hover:not(:disabled) {
 }
 .messages .message.pending {
   color: #ababab;
+}
+.messages .message.meAction {
+  font-style: italic;
+  color: #ec008c;
+  background-color: #fce8f1;
+  padding: 2px;
+  padding-left: 8px;
+  border-radius: 2px;
+}
+.messages .message.meAction:before {
+  content: '\2022  ';
+  font-style: normal;
+}
+.messages .message.meAction .timestamp {
+  position: relative;
+  left: -10px;
+  font-style: normal;
+  color: #f8bee0;
 }
 .messages .message .body {
   display: inline;

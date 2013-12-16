@@ -172,7 +172,7 @@
 
   .message
     font-size: $font-size-small
-    margin: 0px
+    margin: 2px
     display: inline-block
     padding-right: 11px
     min-width: 20px
@@ -180,7 +180,7 @@
     borderbox()
 
     &:not(.mine)
-      color: $blue
+      color: $gray-dark
 
     &.mine
       background: white
@@ -198,6 +198,24 @@
 
     &.pending
       color: lighten($gray, 50%)
+
+    &.meAction
+      font-style: italic
+      color: $pink
+      background-color: $pink-lighter
+      padding: 2px
+      padding-left: 8px
+      border-radius: 2px
+
+      &:before
+        content: '\2022  '
+        font-style: normal
+
+      .timestamp
+        position: relative
+        left: -10px
+        font-style: normal
+        color: $pink-light
 
     .body
       display: inline

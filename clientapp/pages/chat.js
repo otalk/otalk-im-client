@@ -20,6 +20,7 @@ module.exports = BasePage.extend(chatHelpers).extend({
         this.listenTo(this, 'pageunloaded', this.handlePageUnloaded);
 
         this.listenTo(this.model.messages, 'change:body', this.refreshModel);
+        this.listenTo(this.model.messages, 'change:meAction', this.refreshModel);
         this.listenTo(this.model.messages, 'change:edited', this.refreshModel);
         this.listenTo(this.model.messages, 'change:pending', this.refreshModel);
 
