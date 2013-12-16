@@ -22,7 +22,7 @@ module.exports = HumanModel.define({
             deps: ['discoInfo'],
             fn: function () {
                 if (!this.discoInfo) return false;
-                var features = this.discoInfo.features;
+                var features = this.discoInfo.features || [];
                 return features.indexOf('http://jabber.org/protocol/chatstate') >= 0;
             }
         },

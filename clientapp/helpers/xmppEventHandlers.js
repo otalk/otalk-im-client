@@ -176,6 +176,11 @@ module.exports = function (client, app) {
                 }
                 resource.fetchTimezone();
             }
+
+            var muc = pres.muc || {};
+            if (muc.codes && muc.codes.indexOf('110') >= 0) {
+                contact.joined = true;
+            }
         }
     });
 
@@ -195,6 +200,10 @@ module.exports = function (client, app) {
                 contact.resources.remove(resource);
             }
 
+            var muc = pres.muc || {};
+            if (muc.codes && muc.codes.indexOf('110') >= 0) {
+                contact.joined = false;
+            }
         }
     });
 
@@ -223,7 +232,6 @@ module.exports = function (client, app) {
             var resource = contact.resources.get(info.from.full);
             if (resource) {
                 resource.chatState = info.chatState;
-                console.log(info.chatState);
                 if (info.chatState === 'gone') {
                     contact.lockedResource = undefined;
                 } else {
@@ -393,7 +401,6 @@ module.exports = function (client, app) {
     });
 
     client.on('jingle:remotestream:added', function (session) {
-        console.log('remote stream', session);
         var contact = me.getContact(session.peer);
         if (!contact) {
             contact = new Contact({jid: client.JID(session.peer).bare});

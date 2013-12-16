@@ -13,7 +13,7 @@
   padding: 0px
   width: 100%
   borderbox()
-  
+
   header
     padding: 5px
     border-bottom: 2px solid $gray-lighter
@@ -26,6 +26,19 @@
 
     .controls
       float: right
+
+      .leaveRoom
+        display: none
+
+      .joinRoom
+        display: block
+
+    .joined
+      .joinRoom
+        display: none
+
+      .leaveRoom
+        display: block
 
     .avatar
       margin-right: 5px

@@ -30,6 +30,9 @@ module.exports = BasePage.extend(chatHelpers).extend({
         'click .joinRoom': 'handleJoin',
         'click .leaveRoom': 'handleLeave'
     },
+    classBindings: {
+        joined: '.controls'
+    },
     srcBindings: {
         avatar: 'header .avatar'
     },

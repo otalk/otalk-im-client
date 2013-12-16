@@ -897,6 +897,18 @@ button.secondary:hover:not(:disabled) {
 .conversation header .controls {
   float: right;
 }
+.conversation header .controls .leaveRoom {
+  display: none;
+}
+.conversation header .controls .joinRoom {
+  display: block;
+}
+.conversation header .joined .joinRoom {
+  display: none;
+}
+.conversation header .joined .leaveRoom {
+  display: block;
+}
 .conversation header .avatar {
   margin-right: 5px;
   width: 30px;
