@@ -1050,6 +1050,7 @@ button.secondary:hover:not(:disabled) {
   text-align: right;
   background-color: #f7f7f7;
   border-top: 1px solid #e1e1e1;
+  white-space: nowrap;
 }
 .messages .sender .name {
   padding-left: 10px;
@@ -1060,6 +1061,7 @@ button.secondary:hover:not(:disabled) {
   vertical-align: middle;
   padding: 10px;
   border-top: 1px solid #eee;
+  width: 99%;
 }
 .messages .message {
   font-size: 12px;
