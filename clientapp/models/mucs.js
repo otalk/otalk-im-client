@@ -32,6 +32,9 @@ module.exports = BaseCollection.extend({
                 var mucs = res.privateStorage.bookmarks.conferences;
                 mucs.forEach(function (muc) {
                     self.add(muc);
+                    if (muc.autoJoin) {
+                        self.get(muc.jid).join();
+                    }
                 });
             });
         });
