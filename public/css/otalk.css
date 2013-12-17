@@ -1060,6 +1060,7 @@ button.secondary:hover:not(:disabled) {
   padding: 5px;
   border-top: 1px solid #eee;
   width: 99%;
+  vertical-align: top;
 }
 .messages .message {
   font-size: 12px;
