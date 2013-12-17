@@ -155,7 +155,7 @@
     font-size: 12px
     font-weight: bold
     color: $gray
-    padding: 10px
+    padding: 5px
     text-align: right
     background-color: #f7f7f7
     border-top: 1px solid #e1e1e1
@@ -165,10 +165,8 @@
       padding-left: 10px
 
   .messageWrapper
-    padding-left: 50px
     display: table-cell
-    vertical-align: middle
-    padding: 10px
+    padding: 5px
     border-top: 1px solid #eee
     width: 99%
 
@@ -203,8 +201,8 @@
 
     &.meAction
       font-style: italic
-      color: $pink
-      background-color: $pink-lighter
+      color: $blue
+      background-color: $blue-lighter
       padding: 2px
       padding-left: 8px
       border-radius: 2px
@@ -217,11 +215,19 @@
         position: relative
         left: -10px
         font-style: normal
-        color: $pink-light
+        color: $blue-light
 
     .body
       display: inline
       word-break: break-word
+
+      .mention
+        color: $pink
+        background-color: $pink-lighter
+        padding: 1px
+        font-weight: bold
+        border-radius: 4px
+        border: 1px solid darken($pink-lighter, 25%)
 
     .timestamp
       font-size: $font-size-smaller

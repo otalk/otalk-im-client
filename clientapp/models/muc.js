@@ -61,22 +61,33 @@ module.exports = HumanModel.define({
     addMessage: function (message, notify) {
         message.owner = me.jid.bare;
 
-        if (notify && (!this.activeContact || (this.activeContact && !app.state.focused)) && message.from.resource !== this.nick) {
+        var mine = message.from.resource === this.nick;
+
+        if (mine) {
+            message._mucMine = true;
+        }
+        if (!mine && message.body.toLowerCase().indexOf(this.nick.toLowerCase()) >= 0) {
+            message.mentions = this.nick;
+        }
+
+        if (notify && (!this.activeContact || (this.activeContact && !app.state.focused)) && !mine) {
             this.unreadCount++;
-            app.notifications.create(this.displayName, {
-                body: message.body,
-                icon: this.avatar,
-                tag: this.id,
-                onclick: _.bind(app.navigate, app, '/groupchat/' + this.jid)
-            });
+            if (message.mentions) {
+                app.notifications.create(this.displayName, {
+                    body: message.body,
+                    icon: this.avatar,
+                    tag: this.id,
+                    onclick: _.bind(app.navigate, app, '/groupchat/' + this.jid)
+                });
+            }
         }
 
         message.acked = true;
 
         this.messages.add(message);
-        if (message.from.resource === this.nick) {
-            message = this.messages.get(message.id); // Grab the existing message object that was updated
-            message._mucMine = true;
+        if (mine) {
+            // Grab and save the existing message object that was updated
+            message = this.messages.get(message.id);
             this.lastSentMessage = message;
         }
 

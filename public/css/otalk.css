@@ -1046,7 +1046,7 @@ button.secondary:hover:not(:disabled) {
   font-size: 12px;
   font-weight: bold;
   color: #565656;
-  padding: 10px;
+  padding: 5px;
   text-align: right;
   background-color: #f7f7f7;
   border-top: 1px solid #e1e1e1;
@@ -1056,10 +1056,8 @@ button.secondary:hover:not(:disabled) {
   padding-left: 10px;
 }
 .messages .messageWrapper {
-  padding-left: 50px;
   display: table-cell;
-  vertical-align: middle;
-  padding: 10px;
+  padding: 5px;
   border-top: 1px solid #eee;
   width: 99%;
 }
@@ -1094,8 +1092,8 @@ button.secondary:hover:not(:disabled) {
 }
 .messages .message.meAction {
   font-style: italic;
-  color: #ec008c;
-  background-color: #fce8f1;
+  color: #12acef;
+  background-color: #e7f7fd;
   padding: 2px;
   padding-left: 8px;
   border-radius: 2px;
@@ -1108,11 +1106,19 @@ button.secondary:hover:not(:disabled) {
   position: relative;
   left: -10px;
   font-style: normal;
-  color: #f8bee0;
+  color: #88d5f7;
 }
 .messages .message .body {
   display: inline;
   word-break: break-word;
+}
+.messages .message .body .mention {
+  color: #ec008c;
+  background-color: #fce8f1;
+  padding: 1px;
+  font-weight: bold;
+  border-radius: 4px;
+  border: 1px solid #ee7db0;
 }
 .messages .message .timestamp {
   font-size: 10px;

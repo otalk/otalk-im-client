@@ -120,12 +120,7 @@ exports.includes.mucBareMessage = function anonymous(locals) {
 exports.includes.mucListItem = function anonymous(locals) {
     var buf = [];
     with (locals || {}) {
-        buf.push('<li class="contact"><img' + jade.attrs({
-            src: contact.avatar,
-            "class": "avatar"
-        }, {
-            src: true
-        }) + '/><div class="name">' + jade.escape(null == (jade.interp = contact.displayName) ? "" : jade.interp) + '</div><div class="unread">' + jade.escape(null == (jade.interp = contact.unreadCount) ? "" : jade.interp) + "</div></li>");
+        buf.push('<li class="contact"><div class="name">' + jade.escape(null == (jade.interp = contact.displayName) ? "" : jade.interp) + '</div><div class="unread">' + jade.escape(null == (jade.interp = contact.unreadCount) ? "" : jade.interp) + "</div></li>");
     }
     return buf.join("");
 };
@@ -208,7 +203,7 @@ exports.pages.chat = function anonymous(locals) {
 exports.pages.groupchat = function anonymous(locals) {
     var buf = [];
     with (locals || {}) {
-        buf.push('<section class="page chat"><section class="conversation"><header><img class="avatar"/><h1 class="name"></h1><div class="controls"><button class="primary joinRoom">Join</button><button class="secondary leaveRoom">Leave</button></div></header><ul class="messages"></ul><div class="chatBox"><form><textarea name="chatInput" type="text" placeholder="Send a message..." autocomplete="off"></textarea></form></div></section></section>');
+        buf.push('<section class="page chat"><section class="conversation"><header><h1 class="name"></h1><div class="controls"><button class="primary joinRoom">Join</button><button class="secondary leaveRoom">Leave</button></div></header><ul class="messages"></ul><div class="chatBox"><form><textarea name="chatInput" type="text" placeholder="Send a message..." autocomplete="off"></textarea></form></div></section></section>');
     }
     return buf.join("");
 };

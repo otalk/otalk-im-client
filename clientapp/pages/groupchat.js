@@ -20,7 +20,6 @@ module.exports = BasePage.extend(chatHelpers).extend({
         this.listenTo(this.model.messages, 'change:body', this.refreshModel);
         this.listenTo(this.model.messages, 'change:edited', this.refreshModel);
         this.listenTo(this.model.messages, 'change:pending', this.refreshModel);
-        this.listenTo(this.model.messages, 'change:mine', this.refreshModel);
 
         this.render();
     },
@@ -32,9 +31,6 @@ module.exports = BasePage.extend(chatHelpers).extend({
     },
     classBindings: {
         joined: '.controls'
-    },
-    srcBindings: {
-        avatar: 'header .avatar'
     },
     textBindings: {
         displayName: 'header .name'

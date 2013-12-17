@@ -91,13 +91,18 @@ module.exports = HumanModel.define({
             }
         },
         processedBody: {
-            deps: ['body', 'meAction'],
+            deps: ['body', 'meAction', 'mentions'],
             fn: function () {
                 var body = this.body;
                 if (this.meAction) {
                     body = body.substr(4);
                 }
-                return htmlify.toHTML(body);
+                body = htmlify.toHTML(body);
+                if (this.mentions) {
+                    var existing = htmlify.toHTML(this.mentions);
+                    body = body.replace(existing, '<span class="mention">' + existing + '</span>');
+                }
+                return body;
             }
         },
         partialTemplateHtml: {
@@ -146,7 +151,8 @@ module.exports = HumanModel.define({
         _mucMine: 'bool',
         receiptReceived: ['bool', true, false],
         edited: ['bool', true, false],
-        delay: 'object'
+        delay: 'object',
+        mentions: ['string', false, '']
     },
     correct: function (msg) {
         if (this.from.full !== msg.from.full) return false;
