@@ -182,11 +182,11 @@ module.exports = BasePage.extend(chatHelpers).extend({
                 chatState: 'active'
             };
             if (this.editMode) {
-                message.replace = this.model.lastSentMessage.id || this.model.lastSentMessage.cid;
+                message.replace = this.model.lastSentMessage.mid || this.model.lastSentMessage.cid;
             }
 
             var id = client.sendMessage(message);
-            message.id = id;
+            message.mid = id;
             message.from = client.JID(this.model.jid.bare + '/' + this.model.nick);
 
             if (this.editMode) {

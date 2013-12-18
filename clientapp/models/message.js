@@ -1,6 +1,7 @@
 /*global app, me*/
 "use strict";
 
+var uuid = require('node-uuid');
 var HumanModel = require('human-model');
 var templates = require('../templates');
 var htmlify = require('../helpers/htmlify');
@@ -9,11 +10,14 @@ var htmlify = require('../helpers/htmlify');
 module.exports = HumanModel.define({
     initialize: function (attrs) {
         this._created = new Date(Date.now());
+        if (attrs.mid) {
+            HumanModel.registry._getCache('messages')['message' + attrs.mid] = this;
+        }
     },
     type: 'message',
     props: {
+        mid: ['string', true],
         owner: 'string',
-        id: ['string', true, ''],
         to: ['object', true],
         from: ['object', true],
         body: ['string', true, ''],

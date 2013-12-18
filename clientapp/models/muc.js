@@ -86,8 +86,6 @@ module.exports = HumanModel.define({
 
         this.messages.add(message);
         if (mine) {
-            // Grab and save the existing message object that was updated
-            message = this.messages.get(message.id);
             this.lastSentMessage = message;
         }
 

@@ -6,6 +6,7 @@ var async = require('async');
 var crypto = require('crypto');
 var log = require('andlog');
 var uuid = require('node-uuid');
+var HumanModel = require('human-model');
 var Contact = require('../models/contact');
 var Resource = require('../models/resource');
 var Message = require('../models/message');
@@ -250,12 +251,11 @@ module.exports = function (client, app) {
 
     client.on('chat', function (msg) {
         msg = msg.toJSON();
+        msg.mid = msg.id || uuid.v4();
+        delete msg.id;
+
         var contact = me.getContact(msg.from, msg.to);
         if (contact && !msg.replace) {
-            if (!msg.id) {
-                msg.id = uuid.v4();
-            }
-
             var message = new Message(msg);
 
             if (msg.archived) {
@@ -268,18 +268,19 @@ module.exports = function (client, app) {
 
             message.acked = true;
             contact.addMessage(message, true);
-            contact.lockedResource = msg.from.full;
+            if (msg.from.bare == contact.jid.bare) {
+                contact.lockedResource = msg.from.full;
+            }
         }
     });
 
     client.on('groupchat', function (msg) {
         msg = msg.toJSON();
+        msg.mid = msg.id || uuid.v4();
+        delete msg.id;
+
         var contact = me.getContact(msg.from, msg.to);
         if (contact && !msg.replace) {
-            if (!msg.id) {
-                msg.id = uuid.v4();
-            }
-
             var message = new Message(msg);
             message.acked = true;
             contact.addMessage(message, true);
@@ -292,7 +293,7 @@ module.exports = function (client, app) {
         if (!contact) return;
 
         var id = msg.replace;
-        var original = contact.messages.get(id);
+        var original = HumanModel.registry.lookup('message', id, 'messages');
 
         if (!original) return;
 
@@ -342,7 +343,7 @@ module.exports = function (client, app) {
         if (stanza.body) {
             var contact = me.getContact(stanza.to, stanza.from);
             if (contact) {
-                var msg = contact.messages.get(stanza.id);
+                var msg = HumanModel.registry.lookup('message', stanza.id, 'messages');
                 if (msg) {
                     msg.acked = true;
                 }

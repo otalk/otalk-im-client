@@ -178,7 +178,7 @@ module.exports = BasePage.extend(chatHelpers).extend({
             }
 
             var id = client.sendMessage(message);
-            message.id = id;
+            message.mid = id;
             message.from = me.jid;
 
             if (this.editMode) {
