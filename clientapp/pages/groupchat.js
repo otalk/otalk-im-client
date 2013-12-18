@@ -54,7 +54,6 @@ module.exports = BasePage.extend(chatHelpers).extend({
         this.rendered = true;
 
         this.renderAndBind();
-        this.typingTimer = null;
         this.$chatInput = this.$('.chatBox textarea');
         this.$chatBox = this.$('.chatBox');
         this.$messageList = this.$('.messages');
@@ -96,7 +95,6 @@ module.exports = BasePage.extend(chatHelpers).extend({
         this.resizeInput();
     },
     handleKeyDown: function (e) {
-        clearTimeout(this.typingTimer);
         if (e.which === 13 && !e.shiftKey) {
             this.sendChat();
             e.preventDefault();
@@ -113,8 +111,9 @@ module.exports = BasePage.extend(chatHelpers).extend({
             e.preventDefault();
             return false;
         } else if (!e.ctrlKey && !e.metaKey) {
-            if (!this.typing) {
+            if (!this.typing || this.paused) {
                 this.typing = true;
+                this.paused = false;
                 client.sendMessage({
                     type: 'groupchat',
                     to: this.model.jid,
@@ -125,14 +124,16 @@ module.exports = BasePage.extend(chatHelpers).extend({
     },
     handleKeyUp: function (e) {
         this.resizeInput();
-        this.typingTimer = setTimeout(this.pausedTyping.bind(this), 3000);
         if (this.typing && this.$chatInput.val().length === 0) {
             this.typing = false;
+            this.paused = false;
             client.sendMessage({
                 type: 'groupchat',
                 to: this.model.jid,
                 chatState: 'active'
             });
+        } else if (this.typing) {
+            this.pausedTyping();
         }
     },
     resizeInput: function () {
@@ -158,16 +159,16 @@ module.exports = BasePage.extend(chatHelpers).extend({
             }
         }
     },
-    pausedTyping: function () {
-        if (this.typing) {
-            this.typing = false;
+    pausedTyping: _.debounce(function () {
+        if (this.typing && !this.paused) {
+            this.paused = true;
             client.sendMessage({
                 type: 'groupchat',
                 to: this.model.jid,
                 chatState: 'paused'
             });
         }
-    },
+    }, 5000),
     sendChat: function () {
         var message;
         var val = this.$chatInput.val();
@@ -197,6 +198,7 @@ module.exports = BasePage.extend(chatHelpers).extend({
         }
         this.editMode = false;
         this.typing = false;
+        this.paused = false;
         this.$chatInput.removeClass('editing');
         this.$chatInput.val('');
     },

@@ -61,7 +61,6 @@ module.exports = BasePage.extend(chatHelpers).extend({
 
         this.renderAndBind();
 
-        this.typingTimer = null;
         this.$chatInput = this.$('.chatBox textarea');
         this.$chatBox = this.$('.chatBox');
         this.$messageList = this.$('.messages');
@@ -110,8 +109,6 @@ module.exports = BasePage.extend(chatHelpers).extend({
         this.resizeInput();
     },
     handleKeyDown: function (e) {
-        clearTimeout(this.typingTimer);
-
         if (e.which === 13 && !e.shiftKey) {
             this.sendChat();
             e.preventDefault();
@@ -128,8 +125,9 @@ module.exports = BasePage.extend(chatHelpers).extend({
             e.preventDefault();
             return false;
         } else if (!e.ctrlKey && !e.metaKey) {
-            if (!this.typing) {
+            if (!this.typing || this.paused) {
                 this.typing = true;
+                this.paused = false;
                 client.sendMessage({
                     to: this.model.lockedResource || this.model.jid,
                     chatState: 'composing'
@@ -139,25 +137,25 @@ module.exports = BasePage.extend(chatHelpers).extend({
     },
     handleKeyUp: function (e) {
         this.resizeInput();
-        clearTimeout(this.typingTimer);
-        this.typingTimer = setTimeout(this.pausedTyping.bind(this), 5000);
         if (this.typing && this.$chatInput.val().length === 0) {
             this.typing = false;
             client.sendMessage({
                 to: this.model.lockedResource || this.model.jid,
                 chatState: 'active'
             });
+        } else if (this.typing) {
+            this.pausedTyping();
         }
     },
-    pausedTyping: function () {
-        if (this.typing) {
-            this.typing = false;
+    pausedTyping: _.debounce(function () {
+        if (this.typing && !this.paused) {
+            this.paused = true;
             client.sendMessage({
                 to: this.model.lockedResource || this.model.jid,
                 chatState: 'paused'
             });
         }
-    },
+    }, 5000),
     sendChat: function () {
         var message;
         var val = this.$chatInput.val();
@@ -189,6 +187,7 @@ module.exports = BasePage.extend(chatHelpers).extend({
         }
         this.editMode = false;
         this.typing = false;
+        this.paused = false;
         this.$chatInput.removeClass('editing');
         this.$chatInput.val('');
     },
