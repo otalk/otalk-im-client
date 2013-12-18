@@ -168,7 +168,7 @@ module.exports = BasePage.extend(chatHelpers).extend({
                 chatState: 'paused'
             });
         }
-    }, 5000),
+    }, 3000),
     sendChat: function () {
         var message;
         var val = this.$chatInput.val();
