@@ -222,9 +222,14 @@ module.exports = HumanModel.define({
             });
         }
 
-        this.messages.add(message);
-
-        message.save();
+        var existing = Message.idLookup(message.from[message.type == 'groupchat' ? 'full' : 'bare'], message.mid);
+        if (existing) {
+            existing.set(message);
+            existing.save();
+        } else {
+            this.messages.add(message);
+            message.save();
+        }
 
         var newInteraction = new Date(message.created);
         if (!this.lastInteraction || this.lastInteraction < newInteraction) {
@@ -257,22 +262,20 @@ module.exports = HumanModel.define({
                     result = result.toJSON();
                     var msg = result.mam.forwarded.message;
 
-                    if (!msg.id) {
-                        msg.id = uuid.v4();
-                    }
+                    msg.mid = msg.id;
+                    delete msg.id;
 
                     if (!msg.delay) {
                         msg.delay = result.mam.forwarded.delay;
                     }
 
                     if (msg.replace) {
-                        var original = self.messages.get(msg.replace);
+                        var original = Message.idLookup(msg.from[msg.type == 'groupchat' ? 'full' : 'bare'], msg.replace);
                         // Drop the message if editing a previous, but
                         // keep it if it didn't actually change an
                         // existing message.
                         if (original && original.correct(msg)) return;
                     }
-
 
                     var message = new Message(msg);
                     message.archivedId = result.mam.id;

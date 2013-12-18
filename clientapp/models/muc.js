@@ -83,11 +83,13 @@ module.exports = HumanModel.define({
         }
 
         message.acked = true;
+        message.save();
 
-        this.messages.add(message);
         if (mine) {
             this.lastSentMessage = message;
         }
+
+        this.messages.add(message);
 
         var newInteraction = new Date(message.created);
         if (!this.lastInteraction || this.lastInteraction < newInteraction) {

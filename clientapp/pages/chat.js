@@ -19,9 +19,7 @@ module.exports = BasePage.extend(chatHelpers).extend({
         this.listenTo(this, 'pageloaded', this.handlePageLoaded);
         this.listenTo(this, 'pageunloaded', this.handlePageUnloaded);
 
-        this.listenTo(this.model.messages, 'change:body', this.refreshModel);
-        this.listenTo(this.model.messages, 'change:edited', this.refreshModel);
-        this.listenTo(this.model.messages, 'change:pending', this.refreshModel);
+        this.listenTo(this.model.messages, 'change', this.refreshModel);
 
         this.render();
     },
@@ -185,7 +183,7 @@ module.exports = BasePage.extend(chatHelpers).extend({
                 this.model.lastSentMessage.correct(message);
             } else {
                 var msgModel = new MessageModel(message);
-                this.model.messages.add(msgModel);
+                this.model.addMessage(msgModel);
                 this.model.lastSentMessage = msgModel;
             }
         }

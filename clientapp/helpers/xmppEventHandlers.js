@@ -251,7 +251,7 @@ module.exports = function (client, app) {
 
     client.on('chat', function (msg) {
         msg = msg.toJSON();
-        msg.mid = msg.id || uuid.v4();
+        msg.mid = msg.id;
         delete msg.id;
 
         var contact = me.getContact(msg.from, msg.to);
@@ -276,7 +276,7 @@ module.exports = function (client, app) {
 
     client.on('groupchat', function (msg) {
         msg = msg.toJSON();
-        msg.mid = msg.id || uuid.v4();
+        msg.mid = msg.id;
         delete msg.id;
 
         var contact = me.getContact(msg.from, msg.to);
@@ -289,11 +289,13 @@ module.exports = function (client, app) {
 
     client.on('replace', function (msg) {
         msg = msg.toJSON();
+        msg.mid = msg.id;
+        delete msg.id;
+
         var contact = me.getContact(msg.from, msg.to);
         if (!contact) return;
 
-        var id = msg.replace;
-        var original = HumanModel.registry.lookup('message', id, 'messages');
+        var original = Message.idLookup(msg.from[msg.type === 'groupchat' ? 'full' : 'bare'], msg.replace);
 
         if (!original) return;
 
@@ -343,7 +345,7 @@ module.exports = function (client, app) {
         if (stanza.body) {
             var contact = me.getContact(stanza.to, stanza.from);
             if (contact) {
-                var msg = HumanModel.registry.lookup('message', stanza.id, 'messages');
+                var msg = Message.idLookup(me.jid.bare, stanza.id);
                 if (msg) {
                     msg.acked = true;
                 }

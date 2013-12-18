@@ -6,13 +6,11 @@ var HumanModel = require('human-model');
 var templates = require('../templates');
 var htmlify = require('../helpers/htmlify');
 
+var ID_CACHE = {};
 
-module.exports = HumanModel.define({
+var Message = module.exports = HumanModel.define({
     initialize: function (attrs) {
         this._created = new Date(Date.now());
-        if (attrs.mid) {
-            HumanModel.registry._getCache('messages')['message' + attrs.mid] = this;
-        }
     },
     type: 'message',
     props: {
@@ -172,6 +170,11 @@ module.exports = HumanModel.define({
         return true;
     },
     save: function () {
+        if (this.mid) {
+            var from = this.type == 'groupchat' ? this.from.full : this.from.bare;
+            Message.idStore(from, this.mid, this);
+        }
+
         var data = {
             archivedId: this.archivedId,
             owner: this.owner,
@@ -193,3 +196,13 @@ module.exports = HumanModel.define({
         }
     }
 });
+
+Message.idLookup = function (jid, mid) {
+    var cache = ID_CACHE[jid] || (ID_CACHE[jid] = {});
+    return cache[mid];
+};
+
+Message.idStore = function (jid, mid, msg) {
+    var cache = ID_CACHE[jid] || (ID_CACHE[jid] = {});
+    cache[mid] = msg;
+};
