@@ -102,7 +102,8 @@ var Message = module.exports = HumanModel.define({
                 body = htmlify.toHTML(body);
                 if (this.mentions) {
                     var existing = htmlify.toHTML(this.mentions);
-                    body = body.replace(existing, '<span class="mention">' + existing + '</span>');
+                    var parts = body.split(existing);
+                    body = parts.join('<span class="mention">' + existing + '</span>');
                 }
                 return body;
             }

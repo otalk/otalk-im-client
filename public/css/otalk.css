@@ -1157,6 +1157,10 @@ button.secondary:hover:not(:disabled) {
   height: 30px;
   padding: 6px 10px;
 }
+.chatBox textarea:focus {
+  transition: none;
+  -webkit-transition: none;
+}
 .chatBox textarea.editing {
   background-color: #fffcea;
   border: 1px solid #efe391;
