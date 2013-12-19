@@ -9,6 +9,7 @@ module.exports = {
         var self = this;
         this.pinnedToBottom = true;
         this.lastScrollTop = 0;
+        this.$scrollContainer.on('scroll', this.handleScroll.bind(this));
     },
     scrollPageLoad: function () {
         if (typeof this.lastScrollPosition === 'number') {
