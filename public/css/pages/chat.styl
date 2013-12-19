@@ -4,9 +4,10 @@
 .page.chat
   padding-top: 0px
   borderbox()
+  overflow-y: auto
+  overflow-x: hidden
 
 .conversation
-  position: relative
   bottom: 0px
   left: 0px
   right: 0px
@@ -115,14 +116,16 @@
 .messages
   margin: 0px
   padding: 0px
-  padding-top: 130px
   overflow-y: auto
   overflow-x: hidden
-  position: relative
-  bottom: 75px
+  position: absolute
+  top: 0px
+  bottom: 0px
+  padding-top: 55px
+  padding-bottom: 55px
   width: 100%
-  display: table
   borderbox()
+  -webkit-overflow-scrolling: touch
 
   li
     position: relative
@@ -157,19 +160,20 @@
     color: $gray
     padding: 5px
     text-align: right
-    background-color: #f7f7f7
-    border-top: 1px solid #e1e1e1
+    border-top: 1px solid #eee
     white-space: nowrap
+    vertical-align: middle
 
     .name
       padding-left: 10px
+      vertical-align: middle
 
   .messageWrapper
     display: table-cell
     padding: 5px
     border-top: 1px solid #eee
     width: 99%
-    vertical-align: top
+    vertical-align: middle
 
   .message
     font-size: $font-size-small

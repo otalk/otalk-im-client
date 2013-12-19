@@ -2,20 +2,11 @@
 "use strict";
 
 var _ = require('underscore');
-var raf = require('raf-component');
 
 
 module.exports = {
     initializeScroll: function () {
-        var check = _.bind(_.throttle(this.handleScroll, 100), this);
         var self = this;
-
-        function animate() {
-            self.rafID = raf(animate);
-            check();
-        }
-        animate();
-
         this.pinnedToBottom = true;
         this.lastScrollTop = 0;
     },
@@ -29,7 +20,6 @@ module.exports = {
     scrollPageUnload: function () {
         this.savePosition();
         this.trimOldChats();
-        raf.cancel(this.rafID);
     },
     savePosition: function () {
         this.lastScrollPosition = this.pinnedToBottom ? '' : this.$scrollContainer.scrollTop();
@@ -46,7 +36,7 @@ module.exports = {
             }, 500);
         }
     },
-    handleScroll: function (e) {
+    handleScroll: _.debounce(function (e) {
         var scrollTop = this.$scrollContainer[0].scrollTop;
         var direction = scrollTop >= this.lastScrollTop ? 'down' : 'up';
         if (direction === 'up' && !this.isBottom()) {
@@ -55,7 +45,7 @@ module.exports = {
             this.handleAtBottom();
         }
         this.lastScrollTop = scrollTop;
-    },
+    }, 500),
     scrollIfPinned: function (animate) {
         if (this.pinnedToBottom) this.scrollToBottom(animate);
     },

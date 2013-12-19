@@ -129,7 +129,7 @@ exports.includes.mucListItem = function anonymous(locals) {
 exports.includes.mucWrappedMessage = function anonymous(locals) {
     var buf = [];
     with (locals || {}) {
-        buf.push('<li><div class="sender"><div class="name">' + jade.escape(null == (jade.interp = message.from.resource) ? "" : jade.interp) + '</div><a href="#" class="messageAvatar"><!--img(src=message.sender.avatar, alt=message.sender.displayName, data-placement="below")--></a></div><div class="messageWrapper"><div' + jade.attrs({
+        buf.push('<li><div class="sender"><div class="name">' + jade.escape(null == (jade.interp = message.from.resource) ? "" : jade.interp) + '</div></div><div class="messageWrapper"><div' + jade.attrs({
             id: "chat" + message.cid,
             "class": "message" + " " + message.classList
         }, {

@@ -39,7 +39,7 @@ module.exports = BasePage.extend(chatHelpers).extend({
         formattedTZO: 'header .tzo'
     },
     classBindings: {
-        onCall: '.conversation'
+        onCall: '.messages'
     },
     show: function (animation) {
         BasePage.prototype.show.apply(this, [animation]);

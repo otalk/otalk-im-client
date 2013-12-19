@@ -198,11 +198,6 @@ a:active {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
-#pages .scroll-container {
-  height: 100%;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-}
 input[type=text],
 input[type=email],
 input[type=password],
@@ -869,9 +864,10 @@ button.secondary:hover:not(:disabled) {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 .conversation {
-  position: relative;
   bottom: 0px;
   left: 0px;
   right: 0px;
@@ -995,16 +991,18 @@ button.secondary:hover:not(:disabled) {
 .messages {
   margin: 0px;
   padding: 0px;
-  padding-top: 130px;
   overflow-y: auto;
   overflow-x: hidden;
-  position: relative;
-  bottom: 75px;
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  padding-top: 55px;
+  padding-bottom: 55px;
   width: 100%;
-  display: table;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
+  -webkit-overflow-scrolling: touch;
 }
 .messages li {
   position: relative;
@@ -1048,19 +1046,20 @@ button.secondary:hover:not(:disabled) {
   color: #565656;
   padding: 5px;
   text-align: right;
-  background-color: #f7f7f7;
-  border-top: 1px solid #e1e1e1;
+  border-top: 1px solid #eee;
   white-space: nowrap;
+  vertical-align: middle;
 }
 .messages .sender .name {
   padding-left: 10px;
+  vertical-align: middle;
 }
 .messages .messageWrapper {
   display: table-cell;
   padding: 5px;
   border-top: 1px solid #eee;
   width: 99%;
-  vertical-align: top;
+  vertical-align: middle;
 }
 .messages .message {
   font-size: 12px;
@@ -1260,7 +1259,6 @@ button.secondary:hover:not(:disabled) {
   }
 }
 #wrapper {
-  position: relative !important;
   transition: all 1s;
 }
 #calls {
