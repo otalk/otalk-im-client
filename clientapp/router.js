@@ -11,6 +11,7 @@ module.exports = Backbone.Router.extend({
     routes: {
         '': 'main',
         'chat/:jid': 'chat',
+        'chat/:jid/:resource': 'chat',
         'groupchat/:jid': 'groupchat',
         'logout': 'logout'
     },

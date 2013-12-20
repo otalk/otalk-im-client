@@ -8,74 +8,55 @@
   overflow-x: hidden
 
 .conversation
-  bottom: 0px
-  left: 0px
-  right: 0px
   padding: 0px
-  width: 100%
+  overflow: hidden
   borderbox()
 
   header
     padding: 0px
     padding-left: 6px
-    border-bottom: 2px solid $gray-lighter
+    border-bottom: 1px solid darken($gray-lighter, 10%)
     position: fixed
+    top: 40px
     right: 0px
     left: 201px
     z-index: 10
     borderbox()
     background: lighten($gray-light, 93%)
 
-    &.online:not(.idle), &.chat, &.dnd, &.away, &.xa
-      &:before
-        content: ''
-        position: absolute
-        top: 50%
-        left: 5px
-        height: 6px
-        width: 6px
-        margin-top: -3px
-        roundall(10px)
+    &:before
+      content: ''
+      position: absolute
+      top: 50%
+      left: 5px
+      height: 6px
+      width: 6px
+      margin-top: -3px
+      roundall(10px)
 
     &.online,
     &.chat
       &:before
         background: $green
 
-    &.dnd
-      &:before
-        background: $red
+    &.dnd:before
+      background: $red
 
-    &.away,
-    &.xa
-      &:before
-        background: $orange
+    &.away:before,
+    &.xa:before
+      background: $orange
 
-    &.offline:not(:hover)
-      .name
-        color: darken($gray-light, 40%)
+    &.offline:before
+      background: $gray-dark
 
-      .status
-        color: darken($gray-light, 65%)
+    &.composing:before
+      animation: pulsate 1.5s infinite ease-in
+      -webkit-animation: pulsate 1.5s infinite ease-in
+      -moz-animation: pulsate 1.5s infinite ease-in
 
-      .avatar
-        opacity: .25
-
-    &.composing
-      &:before
-        animation: pulsate 1.5s infinite ease-in
-        -webkit-animation: pulsate 1.5s infinite ease-in
-        -moz-animation: pulsate 1.5s infinite ease-in
-
-    &.paused
-      &:before
-        background: $gray-light
-
-    &.idle
-      padding-right: 15px
-      .name
-        color: $gray-light
-        max-width: 60%
+    &.paused:before,
+    &.idle:before
+      background: lighten($gray-light, 30%)
 
     .controls
       float: right
@@ -192,11 +173,10 @@
   padding: 0px
   overflow-y: auto
   overflow-x: hidden
-  position: absolute
+  position: fixed
   top: 0px
   bottom: 55px
-  padding-top: 35px
-  width: 100%
+  padding-top: 75px
   borderbox()
   -webkit-overflow-scrolling: touch
 
@@ -317,7 +297,6 @@
 
 .chatBox
   borderbox()
-  border-top: 1px solid $gray-lighter
   bottom: 0px
   position: fixed
   right: 0px
@@ -338,7 +317,8 @@
     height: 30px
     padding: 6px 10px
 
-    &:focus
+    &.typing:focus,
+    &.editing:focus
       transition: none
       -webkit-transition: none
 

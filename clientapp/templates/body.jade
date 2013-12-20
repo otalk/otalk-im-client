@@ -5,7 +5,6 @@ body
         | You're currently 
         strong disconnected
       button.primary.reconnect Reconnect
-  header#calls
   #wrapper
     aside#menu
       nav.main
@@ -24,4 +23,9 @@ body
       section#bookmarks
         h1 Bookmarks
         nav
-    main#pages
+    header#me
+      h1
+        img.avatar
+        span.name
+        span.status(contenteditable="true")
+   main#pages

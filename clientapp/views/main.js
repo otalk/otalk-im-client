@@ -16,7 +16,8 @@ module.exports = HumanView.extend({
     },
     events: {
         'click a[href]': 'handleLinkClick',
-        'click .reconnect': 'handleReconnect'
+        'click .reconnect': 'handleReconnect',
+        'blur #me .status': 'handleStatusChange'
     },
     classBindings: {
         connected: '#connectionOverlay',
@@ -28,7 +29,16 @@ module.exports = HumanView.extend({
         this.renderAndBind();
         this.renderCollection(me.contacts, ContactListItem, this.$('#roster nav'));
         this.renderCollection(me.mucs, MUCListItem, this.$('#bookmarks nav'));
-        //this.renderCollection(me.calls, CallView, this.$('#calls'));
+
+        this.registerBindings(me, {
+            textBindings: {
+                displayName: '#me .name',
+                status: '#me .status'
+            },
+            srcBindings: {
+                avatar: '#me .avatar'
+            }
+        });
         return this;
     },
     handleReconnect: function (e) {
@@ -49,5 +59,13 @@ module.exports = HumanView.extend({
     handleTitle: function (e) {
         document.title = app.state.title;
         app.desktop.updateBadge(app.state.badge);
+    },
+    handleStatusChange: function (e) {
+        var text = e.target.textContent;
+        me.status = text;
+        client.sendPresence({
+            status: text,
+            caps: client.disco.caps
+        });
     }
 });

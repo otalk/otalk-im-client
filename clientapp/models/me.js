@@ -31,9 +31,10 @@ module.exports = HumanModel.define({
     },
     props: {
         jid: ['object', true],
-        status: ['string', true, ''],
-        avatarID: ['string', true, ''],
-        rosterVer: ['string', true, '']
+        status: 'string',
+        avatarID: 'string',
+        rosterVer: 'string',
+        nick: 'string'
     },
     session: {
         avatar: ['string', true, ''],
@@ -41,7 +42,6 @@ module.exports = HumanModel.define({
         shouldAskForAlertsPermission: ['bool', true, false],
         hasFocus: ['bool', true, false],
         _activeContact: ['string', true, ''],
-        displayName: ['string', true, 'Me'],
         stream: 'object'
     },
     collections: {
@@ -51,9 +51,14 @@ module.exports = HumanModel.define({
         calls: Calls
     },
     derived: {
+        displayName: {
+            deps: ['nick', 'jid'],
+            fn: function () {
+                return this.nick || this.jid.bare;
+            }
+        },
         streamUrl: {
             deps: ['stream'],
-            cache: true,
             fn: function () {
                 if (!this.stream) return '';
                 return URL.createObjectURL(this.stream);

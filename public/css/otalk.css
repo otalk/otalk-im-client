@@ -701,7 +701,7 @@ button.secondary:hover:not(:disabled) {
 }
 #roster li.paused:after,
 #bookmarks li.paused:after {
-  background: #878787;
+  background: #ababab;
 }
 #roster li.idle,
 #bookmarks li.idle {
@@ -868,11 +868,8 @@ button.secondary:hover:not(:disabled) {
   overflow-x: hidden;
 }
 .conversation {
-  bottom: 0px;
-  left: 0px;
-  right: 0px;
   padding: 0px;
-  width: 100%;
+  overflow: hidden;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -880,8 +877,9 @@ button.secondary:hover:not(:disabled) {
 .conversation header {
   padding: 0px;
   padding-left: 6px;
-  border-bottom: 2px solid #eee;
+  border-bottom: 1px solid #d6d6d6;
   position: fixed;
+  top: 40px;
   right: 0px;
   left: 201px;
   z-index: 10;
@@ -890,11 +888,7 @@ button.secondary:hover:not(:disabled) {
   box-sizing: border-box;
   background: #f7f7f7;
 }
-.conversation header.online:not(.idle):before,
-.conversation header.chat:before,
-.conversation header.dnd:before,
-.conversation header.away:before,
-.conversation header.xa:before {
+.conversation header:before {
   content: '';
   position: absolute;
   top: 50%;
@@ -920,29 +914,17 @@ button.secondary:hover:not(:disabled) {
 .conversation header.xa:before {
   background: #f18902;
 }
-.conversation header.offline:not(:hover) .name {
-  color: #515151;
-}
-.conversation header.offline:not(:hover) .status {
-  color: #2f2f2f;
-}
-.conversation header.offline:not(:hover) .avatar {
-  opacity: 0.25;
+.conversation header.offline:before {
+  background: #2d2d2d;
 }
 .conversation header.composing:before {
   animation: pulsate 1.5s infinite ease-in;
   -webkit-animation: pulsate 1.5s infinite ease-in;
   -moz-animation: pulsate 1.5s infinite ease-in;
 }
-.conversation header.paused:before {
-  background: #878787;
-}
-.conversation header.idle {
-  padding-right: 15px;
-}
-.conversation header.idle .name {
-  color: #878787;
-  max-width: 60%;
+.conversation header.paused:before,
+.conversation header.idle:before {
+  background: #ababab;
 }
 .conversation header .controls {
   float: right;
@@ -1070,11 +1052,10 @@ button.secondary:hover:not(:disabled) {
   padding: 0px;
   overflow-y: auto;
   overflow-x: hidden;
-  position: absolute;
+  position: fixed;
   top: 0px;
   bottom: 55px;
-  padding-top: 35px;
-  width: 100%;
+  padding-top: 75px;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -1208,7 +1189,6 @@ button.secondary:hover:not(:disabled) {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  border-top: 1px solid #eee;
   bottom: 0px;
   position: fixed;
   right: 0px;
@@ -1231,7 +1211,8 @@ button.secondary:hover:not(:disabled) {
   height: 30px;
   padding: 6px 10px;
 }
-.chatBox textarea:focus {
+.chatBox textarea.typing:focus,
+.chatBox textarea.editing:focus {
   transition: none;
   -webkit-transition: none;
 }
@@ -1475,4 +1456,66 @@ rgba(0,0,0,0.7)
   top: 12px;
   right: 40px;
   margin: 0;
+}
+#me {
+  position: fixed;
+  left: 200px;
+  top: 0px;
+  height: 40px;
+  width: 100%;
+  background-color: #fff;
+  border-bottom: 1px solid #d6d6d6;
+  z-index: 100;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #fff;
+}
+#me .avatar {
+  width: 30px;
+  height: 30px;
+  vertical-align: middle;
+  margin-right: 5px;
+  -moz-border-radius: 15px;
+  -webkit-border-radius: 15px;
+  -khtml-border-radius: 15px;
+  -o-border-radius: 15px;
+  -border-radius: 15px;
+  border-radius: 15px;
+}
+#me h1 {
+  font-size: 13px;
+  line-height: 12px;
+  margin: 5px;
+  padding: 0px;
+  white-space: nowrap;
+  max-width: 75%;
+}
+#me .status {
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 12px;
+  border-width: 0px;
+  margin: 0px;
+  padding: 0px;
+  line-height: 20px;
+  height: 20px;
+  max-width: 75%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#me .status:before {
+  content: '-';
+  padding-left: 5px;
+  padding-right: 5px;
+}
+#me .name:focus,
+#me .status:focus {
+  background-color: #fffcea;
+  border: 1px solid #efe391;
+  color: #d2bd2d;
 }

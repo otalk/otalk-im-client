@@ -132,6 +132,7 @@ module.exports = BasePage.extend(chatHelpers).extend({
             if (!this.typing || this.paused) {
                 this.typing = true;
                 this.paused = false;
+                this.$chatInput.addClass('typing');
                 client.sendMessage({
                     to: this.model.lockedResource || this.model.jid,
                     chatState: 'composing'
@@ -143,6 +144,7 @@ module.exports = BasePage.extend(chatHelpers).extend({
         this.resizeInput();
         if (this.typing && this.$chatInput.val().length === 0) {
             this.typing = false;
+            this.$chatInput.removeClass('typing');
             client.sendMessage({
                 to: this.model.lockedResource || this.model.jid,
                 chatState: 'active'
@@ -192,6 +194,7 @@ module.exports = BasePage.extend(chatHelpers).extend({
         this.editMode = false;
         this.typing = false;
         this.paused = false;
+        this.$chatInput.removeClass('typing');
         this.$chatInput.removeClass('editing');
         this.$chatInput.val('');
     },
