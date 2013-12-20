@@ -986,7 +986,8 @@ button.secondary:hover:not(:disabled) {
   margin-left: 10px;
   margin-right: 5px;
   padding: 0px;
-  font-size: 14px;
+  font-size: 12px;
+  font-weight: bold;
   max-width: 50%;
 }
 .conversation header .status {
