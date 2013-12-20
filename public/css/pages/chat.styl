@@ -101,6 +101,7 @@
       border-width: 0px
       padding: 0px
       display: inline-block
+      overflow: hidden
 
     .status
       font-weight: normal
@@ -138,9 +139,10 @@
         font-weight: bold
 
     .call
-      margin-top: -2px
       text-transform: capitalize
       display: inline-block
+      margin-left: 10px
+      float: right
 
     .activeCall
       transition(height 250ms)
@@ -172,8 +174,11 @@
 
   // while on video call the parent has
   // this class so we animate the height
+  .activeCall
+    display: none
   &.onCall
     .activeCall
+      display: block
       height: 400px
 
 .messages
