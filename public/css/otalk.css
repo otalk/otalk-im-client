@@ -747,8 +747,10 @@ button.secondary:hover:not(:disabled) {
 #roster li .user,
 #bookmarks li .user {
   color: #fff;
-  width: 70%;
+  width: 100%;
   line-height: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 #roster li .name,
 #bookmarks li .name {
@@ -1527,4 +1529,30 @@ rgba(0,0,0,0.7)
   background-color: #fffcea;
   border: 1px solid #efe391;
   color: #d2bd2d;
+}
+#me .settings {
+  position: fixed;
+  padding-left: 30px;
+  line-height: 30px;
+  height: 30px;
+  right: 5px;
+  top: 5px;
+  background-color: #fff;
+  color: #12acef;
+  transition: none;
+}
+#me .settings svg {
+  position: absolute;
+  top: 50%;
+  left: 5px;
+  margin: 0px;
+  margin-top: -13px;
+  fill: #12acef;
+}
+#me .settings:hover {
+  background-color: #12acef;
+  color: #fff;
+}
+#me .settings:hover svg {
+  fill: #fff;
 }
