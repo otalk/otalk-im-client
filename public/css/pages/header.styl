@@ -43,10 +43,18 @@
     overflow: hidden
     text-overflow: ellipsis
 
+    transition: all .25s
+
     &:before
       content: '-'
       padding-left: 5px
       padding-right: 5px
+
+    &:empty
+      font-style: italic
+
+      &:before
+        content: '- Update your status'
 
   .name,
   .status
