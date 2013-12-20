@@ -16,7 +16,8 @@
   borderbox()
 
   header
-    padding: 5px
+    padding: 0px
+    padding-left: 8px
     border-bottom: 2px solid $gray-lighter
     position: fixed
     right: 0px
@@ -24,6 +25,56 @@
     z-index: 10
     borderbox()
     background: lighten($gray-light, 93%)
+
+    &.online:not(.idle), &.chat, &.dnd, &.away, &.xa
+      &:before
+        content: ''
+        position: absolute
+        top: 50%
+        height: 8px
+        width: 8px
+        margin-top: -4px
+        roundall(10px)
+
+    &.online,
+    &.chat
+      &:before
+        background: $green
+
+    &.dnd
+      &:before
+        background: $red
+
+    &.away,
+    &.xa
+      &:before
+        background: $orange
+
+    &.offline:not(:hover)
+      .name
+        color: darken($gray-light, 40%)
+
+      .status
+        color: darken($gray-light, 65%)
+
+      .avatar
+        opacity: .25
+
+    &.composing
+      &:before
+        animation: pulsate 1.5s infinite ease-in
+        -webkit-animation: pulsate 1.5s infinite ease-in
+        -moz-animation: pulsate 1.5s infinite ease-in
+
+    &.paused
+      &:before
+        background: $gray-light
+
+    &.idle
+      padding-right: 15px
+      .name
+        color: $gray-light
+        max-width: 60%
 
     .controls
       float: right
@@ -34,12 +85,15 @@
       .joinRoom
         display: block
 
-    .joined
-      .joinRoom
-        display: none
+      button
+        margin-top: 4px
 
-      .leaveRoom
-        display: block
+      &.joined
+        .joinRoom
+          display: none
+
+        .leaveRoom
+          display: block
 
     .avatar
       margin-right: 5px
@@ -53,30 +107,49 @@
       float: left
 
     .name
-      margin: 15px
+      margin: 10px
+      margin-left: 15px
+      margin-right: 5px
       padding: 0px
-      margin-left: 45px
       font-size: $font-size-base
       line-height: 14px
       max-width: 50%
 
+    .status
+      margin: 10px
+      margin-left: 0px
+      padding: 0px
+      font-size: $font-size-base
+      line-height: 14px
+      max-width: 75%
+      float: left
+      overflow: hidden
+      text-overflow: ellipsis
+      white-space: nowrap
+
+      &:not(:empty):before
+        content: '- '
+
     .tzo:not(:empty)
       position: absolute
       right: 15px
-      top: 28px
+      top: 18px
       height: 20px
       margin-top: -10px
       padding: 0 5px
       roundall(3px)
-      text-transform: uppercase
       font-size: $font-size-small
       font-weight: $font-weight-bold
       line-height: 20px
       color: lighten($gray, 30%)
       background: $gray-lighter
 
+      &:before
+        content: 'Current Time: '
+        font-weight: bold
+
     .call
-      margin-top: 9px
+      margin-top: 4px
       text-transform: capitalize
 
     .activeCall
@@ -84,7 +157,7 @@
       height: 0px
       position: relative
       top: 0px
-      
+
       .remote
         position: absolute
         top: 60px
@@ -121,7 +194,7 @@
   position: absolute
   top: 0px
   bottom: 0px
-  padding-top: 55px
+  padding-top: 35px
   padding-bottom: 55px
   width: 100%
   borderbox()

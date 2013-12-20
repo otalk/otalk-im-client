@@ -4,7 +4,7 @@
 var _ = require('underscore');
 var async = require('async');
 var crypto = require('crypto');
-var log = require('andlog');
+var bows = require('bows');
 var uuid = require('node-uuid');
 var HumanModel = require('human-model');
 var Contact = require('../models/contact');
@@ -13,11 +13,16 @@ var Message = require('../models/message');
 var Call = require('../models/call');
 
 
+var log = bows('Otalk');
+var ioLogIn = bows('<< in');
+var ioLogOut = bows('>> out');
+
+
 var discoCapsQueue = async.queue(function (pres, cb) {
     var jid = pres.from;
     var caps = pres.caps;
 
-    log.debug('Checking storage for ' + caps.ver);
+    log.info('Checking storage for ' + caps.ver);
 
     var contact = me.getContact(jid);
     var resource = null;
@@ -26,28 +31,26 @@ var discoCapsQueue = async.queue(function (pres, cb) {
     }
 
     app.storage.disco.get(caps.ver, function (err, existing) {
-        log.debug(err, existing);
         if (existing) {
-            log.debug('Already found info for ' + caps.ver);
+            log.info('Already found info for ' + caps.ver);
             if (resource) resource.discoInfo = existing;
             return cb();
         }
-        log.debug('getting info for ' + caps.ver + ' from ' + jid);
+        log.info('getting info for ' + caps.ver + ' from ' + jid);
         client.getDiscoInfo(jid, caps.node + '#' + caps.ver, function (err, result) {
-            log.debug(caps.ver, err, result);
             if (err) {
-                log.debug('Couldnt get info for ' + caps.ver);
+                log.error('Couldnt get info for ' + caps.ver);
                 return cb();
             }
             if (client.verifyVerString(result.discoInfo, caps.hash, caps.ver)) {
-                log.debug('Saving info for ' + caps.ver);
+                log.info('Saving info for ' + caps.ver);
                 var data = result.discoInfo.toJSON();
                 app.storage.disco.add(caps.ver, data, function () {
                     if (resource) resource.discoInfo = existing;
                     cb();
                 });
             } else {
-                log.debug('Couldnt verify info for ' + caps.ver + ' from ' + jid);
+                log.info('Couldnt verify info for ' + caps.ver + ' from ' + jid);
                 cb();
             }
         });
@@ -58,9 +61,10 @@ var discoCapsQueue = async.queue(function (pres, cb) {
 module.exports = function (client, app) {
 
     client.on('*', function (name, data) {
-        log.debug(name, data);
-        if (name === 'raw:outgoing') {
-            log.debug(data.toString());
+        if (name === 'raw:incoming') {
+            ioLogIn.debug(data.toString());
+        } else if (name === 'raw:outgoing') {
+            ioLogOut.debug(data.toString());
         }
     });
 
@@ -93,7 +97,7 @@ module.exports = function (client, app) {
     });
 
     client.on('auth:failed', function () {
-        log.debug('auth failed');
+        log.warning('auth failed');
         window.location = '/login';
     });
 
@@ -287,6 +291,13 @@ module.exports = function (client, app) {
         }
     });
 
+    client.on('groupchat:subject', function (msg) {
+        var contact = me.getContact(msg.from, msg.to);
+        if (contact) {
+            contact.subject = msg.subject;
+        }
+    });
+
     client.on('replace', function (msg) {
         msg = msg.toJSON();
         msg.mid = msg.id;
@@ -336,7 +347,7 @@ module.exports = function (client, app) {
 
     client.on('disco:caps', function (pres) {
         if (pres.caps.hash) {
-            log.debug('Caps from ' + pres.from + ' ver: ' + pres.caps.ver);
+            log.info('Caps from ' + pres.from + ' ver: ' + pres.caps.ver);
             discoCapsQueue.push(pres);
         }
     });

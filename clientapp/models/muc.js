@@ -4,6 +4,7 @@
 var _ = require('underscore');
 var async = require('async');
 var uuid = require('node-uuid');
+var htmlify = require('../helpers/htmlify');
 var HumanModel = require('human-model');
 var Resources = require('./resources');
 var Messages = require('./messages');
@@ -25,6 +26,7 @@ module.exports = HumanModel.define({
         jid: 'object'
     },
     session: {
+        subject: 'string',
         activeContact: ['bool', true, false],
         lastInteraction: 'data',
         lastSentMessage: 'object',
@@ -45,6 +47,12 @@ module.exports = HumanModel.define({
                     return this.unreadCount.toString();
                 }
                 return '';
+            }
+        },
+        displaySubject: {
+            deps: ['subject'],
+            fn: function () {
+                return htmlify.toHTML(this.subject);
             }
         },
         hasUnread: {

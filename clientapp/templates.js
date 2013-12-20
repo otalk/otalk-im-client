@@ -194,7 +194,7 @@ exports.misc.growlMessage = function anonymous(locals) {
 exports.pages.chat = function anonymous(locals) {
     var buf = [];
     with (locals || {}) {
-        buf.push('<section class="page chat"><section class="conversation"><header><img class="avatar"/><h1 class="name"></h1><div class="tzo"></div><button class="primary small call">call</button><div class="activeCall"><video autoplay="autoplay" class="remote"></video><video autoplay="autoplay" muted="muted" class="local"></video><aside class="button-wrap"><button class="end primary">End</button><div class="button-group outlined"><button class="mute">Mute</button><button class="unmute">Unmute</button></div></aside></div></header><ul class="messages scroll-container"></ul><div class="chatBox"><form><textarea name="chatInput" type="text" placeholder="Send a message..." autocomplete="off"></textarea></form></div></section></section>');
+        buf.push('<section class="page chat"><section class="conversation"><header><h1 class="name"></h1><div class="status"></div><div class="idleTime"></div><div class="tzo"></div><button class="primary small call">call</button><div class="activeCall"><video autoplay="autoplay" class="remote"></video><video autoplay="autoplay" muted="muted" class="local"></video><aside class="button-wrap"><button class="end primary">End</button><div class="button-group outlined"><button class="mute">Mute</button><button class="unmute">Unmute</button></div></aside></div></header><ul class="messages scroll-container"></ul><div class="chatBox"><form><textarea name="chatInput" type="text" placeholder="Send a message..." autocomplete="off"></textarea></form></div></section></section>');
     }
     return buf.join("");
 };
@@ -203,7 +203,7 @@ exports.pages.chat = function anonymous(locals) {
 exports.pages.groupchat = function anonymous(locals) {
     var buf = [];
     with (locals || {}) {
-        buf.push('<section class="page chat"><section class="conversation"><header><h1 class="name"></h1><div class="controls"><button class="primary joinRoom">Join</button><button class="secondary leaveRoom">Leave</button></div></header><ul class="messages"></ul><div class="chatBox"><form><textarea name="chatInput" type="text" placeholder="Send a message..." autocomplete="off"></textarea></form></div></section></section>');
+        buf.push('<section class="page chat"><section class="conversation"><header class="online"><h1 class="name"></h1><div class="status"></div><div class="controls"><button class="primary small joinRoom">Join</button><button class="secondary small leaveRoom">Leave</button></div></header><ul class="messages"></ul><div class="chatBox"><form><textarea name="chatInput" type="text" placeholder="Send a message..." autocomplete="off"></textarea></form></div></section></section>');
     }
     return buf.join("");
 };

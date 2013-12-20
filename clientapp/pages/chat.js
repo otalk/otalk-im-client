@@ -36,10 +36,14 @@ module.exports = BasePage.extend(chatHelpers).extend({
     },
     textBindings: {
         displayName: 'header .name',
-        formattedTZO: 'header .tzo'
+        formattedTZO: 'header .tzo',
+        status: 'header .status'
     },
     classBindings: {
-        onCall: '.messages'
+        chatState: 'header',
+        idle: 'header',
+        show: 'header',
+        onCall: '.conversation'
     },
     show: function (animation) {
         BasePage.prototype.show.apply(this, [animation]);
@@ -104,10 +108,10 @@ module.exports = BasePage.extend(chatHelpers).extend({
         });
         this.scrollIfPinned();
     },
-    handleWindowResize: function () {
+    handleWindowResize: _.debounce(function () {
         this.scrollIfPinned();
         this.resizeInput();
-    },
+    }),
     handleKeyDown: function (e) {
         if (e.which === 13 && !e.shiftKey) {
             this.sendChat();

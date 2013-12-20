@@ -878,7 +878,8 @@ button.secondary:hover:not(:disabled) {
   box-sizing: border-box;
 }
 .conversation header {
-  padding: 5px;
+  padding: 0px;
+  padding-left: 8px;
   border-bottom: 2px solid #eee;
   position: fixed;
   right: 0px;
@@ -889,6 +890,59 @@ button.secondary:hover:not(:disabled) {
   box-sizing: border-box;
   background: #f7f7f7;
 }
+.conversation header.online:not(.idle):before,
+.conversation header.chat:before,
+.conversation header.dnd:before,
+.conversation header.away:before,
+.conversation header.xa:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  height: 8px;
+  width: 8px;
+  margin-top: -4px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -khtml-border-radius: 10px;
+  -o-border-radius: 10px;
+  -border-radius: 10px;
+  border-radius: 10px;
+}
+.conversation header.online:before,
+.conversation header.chat:before {
+  background: #43bb6e;
+}
+.conversation header.dnd:before {
+  background: #de0a32;
+}
+.conversation header.away:before,
+.conversation header.xa:before {
+  background: #f18902;
+}
+.conversation header.offline:not(:hover) .name {
+  color: #515151;
+}
+.conversation header.offline:not(:hover) .status {
+  color: #2f2f2f;
+}
+.conversation header.offline:not(:hover) .avatar {
+  opacity: 0.25;
+}
+.conversation header.composing:before {
+  animation: pulsate 1.5s infinite ease-in;
+  -webkit-animation: pulsate 1.5s infinite ease-in;
+  -moz-animation: pulsate 1.5s infinite ease-in;
+}
+.conversation header.paused:before {
+  background: #878787;
+}
+.conversation header.idle {
+  padding-right: 15px;
+}
+.conversation header.idle .name {
+  color: #878787;
+  max-width: 60%;
+}
 .conversation header .controls {
   float: right;
 }
@@ -898,10 +952,13 @@ button.secondary:hover:not(:disabled) {
 .conversation header .controls .joinRoom {
   display: block;
 }
-.conversation header .joined .joinRoom {
+.conversation header .controls button {
+  margin-top: 4px;
+}
+.conversation header .controls.joined .joinRoom {
   display: none;
 }
-.conversation header .joined .leaveRoom {
+.conversation header .controls.joined .leaveRoom {
   display: block;
 }
 .conversation header .avatar {
@@ -924,17 +981,33 @@ button.secondary:hover:not(:disabled) {
   float: left;
 }
 .conversation header .name {
-  margin: 15px;
+  margin: 10px;
+  margin-left: 15px;
+  margin-right: 5px;
   padding: 0px;
-  margin-left: 45px;
   font-size: 14px;
   line-height: 14px;
   max-width: 50%;
 }
+.conversation header .status {
+  margin: 10px;
+  margin-left: 0px;
+  padding: 0px;
+  font-size: 14px;
+  line-height: 14px;
+  max-width: 75%;
+  float: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.conversation header .status:not(:empty):before {
+  content: '- ';
+}
 .conversation header .tzo:not(:empty) {
   position: absolute;
   right: 15px;
-  top: 28px;
+  top: 18px;
   height: 20px;
   margin-top: -10px;
   padding: 0 5px;
@@ -944,15 +1017,18 @@ button.secondary:hover:not(:disabled) {
   -o-border-radius: 3px;
   -border-radius: 3px;
   border-radius: 3px;
-  text-transform: uppercase;
   font-size: 12px;
   font-weight: 800;
   line-height: 20px;
   color: #898989;
   background: #eee;
 }
+.conversation header .tzo:not(:empty):before {
+  content: 'Current Time: ';
+  font-weight: bold;
+}
 .conversation header .call {
-  margin-top: 9px;
+  margin-top: 4px;
   text-transform: capitalize;
 }
 .conversation header .activeCall {
@@ -996,7 +1072,7 @@ button.secondary:hover:not(:disabled) {
   position: absolute;
   top: 0px;
   bottom: 0px;
-  padding-top: 55px;
+  padding-top: 35px;
   padding-bottom: 55px;
   width: 100%;
   -moz-box-sizing: border-box;

@@ -31,7 +31,8 @@ module.exports = BasePage.extend(chatHelpers).extend({
         joined: '.controls'
     },
     textBindings: {
-        displayName: 'header .name'
+        displayName: 'header .name',
+        subject: 'header .status'
     },
     show: function (animation) {
         BasePage.prototype.show.apply(this, [animation]);
