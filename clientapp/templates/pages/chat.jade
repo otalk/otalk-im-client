@@ -1,12 +1,12 @@
 section.page.chat
   section.conversation
     header
-      h1.name
-      .status
-      .idleTime
-      .tzo
+      h1
+        span.name
+        span.status
       button.primary.small.call call
-      .activeCall
+      .tzo
+      //.activeCall
         video.remote(autoplay)
         video.local(autoplay, muted)
         aside.button-wrap

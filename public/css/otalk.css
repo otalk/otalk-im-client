@@ -894,8 +894,8 @@ button.secondary:hover:not(:disabled) {
 .conversation header:before {
   content: '';
   position: absolute;
-  top: 50%;
   left: 5px;
+  top: 18px;
   height: 6px;
   width: 6px;
   margin-top: -3px;
@@ -962,29 +962,35 @@ button.secondary:hover:not(:disabled) {
   left: 11px;
   vertical-align: top;
 }
-.conversation header .name,
-.conversation header .call {
-  float: left;
+.conversation header h1 {
+  font-size: 12px;
+  margin: 5px;
+  margin-left: 10px;
+  padding: 0px;
+  white-space: nowrap;
+  max-width: 80%;
+  display: inline-block;
+  height: 25px;
+  line-height: 25px;
 }
 .conversation header .name {
-  margin: 10px;
-  margin-left: 10px;
-  margin-right: 5px;
-  padding: 0px;
   font-size: 12px;
-  font-weight: bold;
-  max-width: 50%;
+  border-width: 0px;
+  padding: 0px;
+  display: inline-block;
 }
 .conversation header .status {
-  margin: 10px;
-  margin-left: 0px;
-  padding: 0px;
+  font-weight: normal;
   font-size: 12px;
-  max-width: 75%;
-  float: left;
+  border-width: 0px;
+  padding: 0px;
+  max-width: 80%;
+  padding-left: 5px;
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
+  transition: all 0.25s;
+  display: inline-block;
 }
 .conversation header .status:not(:empty):before {
   content: '- ';
@@ -1014,8 +1020,9 @@ button.secondary:hover:not(:disabled) {
   font-weight: bold;
 }
 .conversation header .call {
-  margin-top: 5px;
+  margin-top: -2px;
   text-transform: capitalize;
+  display: inline-block;
 }
 .conversation header .activeCall {
   height: 0px;
