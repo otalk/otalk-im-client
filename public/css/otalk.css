@@ -558,6 +558,7 @@ button.secondary:hover:not(:disabled) {
   left: 0px;
   width: 200px;
   background-color: #0b1316;
+  border-right: 1px solid #eee;
   z-index: 300;
   overflow-y: auto;
   overflow-x: hidden;
@@ -1052,7 +1053,8 @@ button.secondary:hover:not(:disabled) {
   padding: 0px;
   overflow-y: auto;
   overflow-x: hidden;
-  position: fixed;
+  position: absolute;
+  width: 100%;
   top: 0px;
   bottom: 55px;
   padding-top: 75px;
@@ -1507,11 +1509,18 @@ rgba(0,0,0,0.7)
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  transition: all 0.25s;
 }
 #me .status:before {
   content: '-';
   padding-left: 5px;
   padding-right: 5px;
+}
+#me .status:empty {
+  font-style: italic;
+}
+#me .status:empty:before {
+  content: '- Update your status';
 }
 #me .name:focus,
 #me .status:focus {
