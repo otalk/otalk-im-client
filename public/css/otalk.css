@@ -879,7 +879,7 @@ button.secondary:hover:not(:disabled) {
 }
 .conversation header {
   padding: 0px;
-  padding-left: 8px;
+  padding-left: 6px;
   border-bottom: 2px solid #eee;
   position: fixed;
   right: 0px;
@@ -898,9 +898,9 @@ button.secondary:hover:not(:disabled) {
   content: '';
   position: absolute;
   top: 50%;
-  height: 8px;
-  width: 8px;
-  margin-top: -4px;
+  height: 6px;
+  width: 6px;
+  margin-top: -3px;
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
   -khtml-border-radius: 10px;
@@ -953,7 +953,7 @@ button.secondary:hover:not(:disabled) {
   display: block;
 }
 .conversation header .controls button {
-  margin-top: 4px;
+  margin-top: 5px;
 }
 .conversation header .controls.joined .joinRoom {
   display: none;
@@ -982,19 +982,17 @@ button.secondary:hover:not(:disabled) {
 }
 .conversation header .name {
   margin: 10px;
-  margin-left: 15px;
+  margin-left: 10px;
   margin-right: 5px;
   padding: 0px;
   font-size: 14px;
-  line-height: 14px;
   max-width: 50%;
 }
 .conversation header .status {
   margin: 10px;
   margin-left: 0px;
   padding: 0px;
-  font-size: 14px;
-  line-height: 14px;
+  font-size: 12px;
   max-width: 75%;
   float: left;
   overflow: hidden;
@@ -1022,13 +1020,14 @@ button.secondary:hover:not(:disabled) {
   line-height: 20px;
   color: #898989;
   background: #eee;
+  border: 1px solid #d6d6d6;
 }
 .conversation header .tzo:not(:empty):before {
   content: 'Current Time: ';
   font-weight: bold;
 }
 .conversation header .call {
-  margin-top: 4px;
+  margin-top: 5px;
   text-transform: capitalize;
 }
 .conversation header .activeCall {

@@ -75,18 +75,40 @@ module.exports = HumanModel.define({
             }
         },
         formattedTZO: {
-            deps: ['timezoneOffset', 'displayName'],
+            deps: ['timezoneOffset'],
             fn: function () {
-                if (this.timezoneOffset !== undefined) {
-                    var localTZO = (new Date()).getTimezoneOffset();
-                    var diff = Math.abs(localTZO  % (24 * 60) - this.timezoneOffset % (24 * 60)) / 60;
-                    if (diff === 0) {
-                        return this.displayName + ' is in the same timezone as you';
-                    }
-                    var dir = (localTZO > this.timezoneOffset) ? 'ahead of' : 'behind';
-                    return this.displayName + ' is ' + diff + 'hrs ' + dir + ' you';
+                if (!this.timezoneOffset) return '';
+
+                var localTime = new Date();
+                var localTZO = localTime.getTimezoneOffset();
+                var diff = Math.abs(localTZO  % (24 * 60) - this.timezoneOffset % (24 * 60));
+                var remoteTime = new Date(Date.now() + diff * 60000);
+
+
+                var day = remoteTime.getDate();
+                var hour = remoteTime.getHours();
+                var minutes = remoteTime.getMinutes();
+
+                var days = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+
+                var dow = days[remoteTime.getDay()];
+                var localDow = days[localTime.getDay()];
+
+                var m = (hour >= 12) ? ' PM' : ' AM';
+
+                hour = hour % 12;
+                if (hour === 0) {
+                    hour = 12;
+                }
+
+                var strDay = (day < 10) ? '0' + day : day;
+                var strHour = (hour < 10) ? '0' + hour : hour;
+                var strMin = (minutes < 10) ? '0' + minutes: minutes;
+
+                if (localDow == dow) {
+                    return strHour + ':' + strMin + m;
                 } else {
-                    return '';
+                    return dow + ' ' + strHour + ':' + strMin + m;
                 }
             }
         },
