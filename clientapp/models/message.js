@@ -177,7 +177,7 @@ var Message = module.exports = HumanModel.define({
         }
 
         var data = {
-            archivedId: this.archivedId,
+            archivedId: this.archivedId || uuid.v4(),
             owner: this.owner,
             to: this.to,
             from: this.from,
