@@ -97,7 +97,7 @@ module.exports = function (client, app) {
     });
 
     client.on('auth:failed', function () {
-        log.warning('auth failed');
+        log.warn('auth failed');
         window.location = '/login';
     });
 
