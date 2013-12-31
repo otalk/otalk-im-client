@@ -1211,9 +1211,9 @@ button.secondary:hover:not(:disabled) {
   right: 0px;
   left: 201px;
   z-index: 200;
-  border-top: 1px solid #eee;
 }
 .chatBox form {
+  border-top: 1px solid #eee;
   background: #f7f7f7;
   padding: 11px;
 }
