@@ -5,6 +5,17 @@ Otalk is an open source chat client powered by [XMPP](http://xmpp.org), [stanza.
 
 While we have a version hosted at https://otalk.im, you can still run your own private instance.
 
+## Installing
+
+    git clone https://github.com/andyet/otalk.git
+    cd otalk
+    npm install
+    node server
+
+You can also run your own [XMPP server](https://github.com/andyet/otalk-server).
+
+*Note:* If you're running your own XMPP server, and aren't using something like HAProxy to terminate SSL, then you might get errors in certain browsers trying to establish a WebSocket connection because the XMPP server is requesting an optional client certificate which makes the browser terminate the socket. To resolve that, visit the XMPP over Websocket URL directly (eg, example.com:5281/xmpp-websocket for Prosody) so that a client cert choice can be made. After that, the Otalk client should connect fine.
+
 ## What's included?
 
 Otalk comes with support for:
