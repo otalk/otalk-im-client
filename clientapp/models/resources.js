@@ -18,7 +18,7 @@ module.exports = BaseCollection.extend({
             if (!!res1.idleSince && !!res2.idleSince) {
                 return 0;
             }
-            if (res1.idleSince && !res2.idleSince) {
+            if (res1.idleSince && !!res2.idleSince) {
                 return 1;
             }
             return -1;
