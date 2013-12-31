@@ -1211,6 +1211,7 @@ button.secondary:hover:not(:disabled) {
   right: 0px;
   left: 201px;
   z-index: 200;
+  border-top: 1px solid #eee;
 }
 .chatBox form {
   background: #f7f7f7;
@@ -1258,7 +1259,7 @@ button.secondary:hover:not(:disabled) {
   box-sizing: border-box;
   -webkit-overflow-scrolling: touch;
   background: #f7f7f7;
-  border-left: 1px solid #d6d6d6;
+  border-left: 1px solid #eee;
 }
 .group.conversation .groupRoster li {
   padding: 3px;
