@@ -1069,8 +1069,8 @@ button.secondary:hover:not(:disabled) {
   overflow-y: auto;
   overflow-x: hidden;
   position: absolute;
-  width: 100%;
   top: 0px;
+  right: 0px;
   bottom: 55px;
   padding-top: 75px;
   -moz-box-sizing: border-box;
@@ -1237,6 +1237,75 @@ button.secondary:hover:not(:disabled) {
   background-color: #fffcea;
   border: 1px solid #efe391;
   color: #d2bd2d;
+}
+.group.conversation .messages {
+  right: 150px;
+}
+.group.conversation .groupRoster {
+  width: 150px;
+  margin: 0px;
+  padding: 0px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 50px;
+  padding-top: 80px;
+  padding-bottom: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-overflow-scrolling: touch;
+  background: #f7f7f7;
+  border-left: 1px solid #d6d6d6;
+}
+.group.conversation .groupRoster li {
+  padding: 3px;
+  margin: 0px;
+  font-size: 12px;
+  position: relative;
+}
+.group.conversation .groupRoster li .name {
+  padding-left: 10px;
+}
+.group.conversation .groupRoster li:before {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 11px;
+  height: 6px;
+  width: 6px;
+  margin-top: -3px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -khtml-border-radius: 10px;
+  -o-border-radius: 10px;
+  -border-radius: 10px;
+  border-radius: 10px;
+}
+.group.conversation .groupRoster li.online:before,
+.group.conversation .groupRoster li.chat:before {
+  background: #43bb6e;
+}
+.group.conversation .groupRoster li.dnd:before {
+  background: #de0a32;
+}
+.group.conversation .groupRoster li.away:before,
+.group.conversation .groupRoster li.xa:before {
+  background: #f18902;
+}
+.group.conversation .groupRoster li.offline:before {
+  background: #2d2d2d;
+}
+.group.conversation .groupRoster li.composing:before {
+  animation: pulsate 1.5s infinite ease-in;
+  -webkit-animation: pulsate 1.5s infinite ease-in;
+  -moz-animation: pulsate 1.5s infinite ease-in;
+}
+.group.conversation .groupRoster li.paused:before,
+.group.conversation .groupRoster li.idle:before {
+  background: #ababab;
 }
 .main > div {
   padding: 20px;

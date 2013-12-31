@@ -4,6 +4,7 @@
 var _ = require('underscore');
 var BasePage = require('./base');
 var templates = require('../templates');
+var MUCRosterItem = require('../views/mucRosterItem');
 var Message = require('../views/mucMessage');
 var MessageModel = require('../models/message');
 var chatHelpers = require('../helpers/chatHelpers');
@@ -62,7 +63,8 @@ module.exports = BasePage.extend(chatHelpers).extend({
 
         this.listenTo(this.model.messages, 'add', this.handleChatAdded);
 
-        this.renderCollection();
+        this.renderMessages();
+        this.renderCollection(this.model.resources, MUCRosterItem, this.$('.groupRoster'));
 
         $(window).on('resize', _.bind(this.handleWindowResize, this));
 
@@ -72,7 +74,7 @@ module.exports = BasePage.extend(chatHelpers).extend({
 
         return this;
     },
-    renderCollection: function () {
+    renderMessages: function () {
         var self = this;
         var previous;
         var bottom = this.isBottom() || this.$messageList.is(':empty');

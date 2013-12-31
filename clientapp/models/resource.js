@@ -18,6 +18,18 @@ module.exports = HumanModel.define({
         timezoneOffset: 'number'
     },
     derived: {
+        mucDisplayName: {
+            deps: ['id'],
+            fn: function () {
+                return this.id.split('/')[1] || '';
+            }
+        },
+        idle: {
+            deps: ['idleSince'],
+            fn: function () {
+                return !!this.idleSince;
+            }
+        },
         supportsChatStates: {
             deps: ['discoInfo'],
             fn: function () {

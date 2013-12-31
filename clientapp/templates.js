@@ -125,6 +125,15 @@ exports.includes.mucListItem = function anonymous(locals) {
     return buf.join("");
 };
 
+// mucRosterItem.jade compiled template
+exports.includes.mucRosterItem = function anonymous(locals) {
+    var buf = [];
+    with (locals || {}) {
+        buf.push('<li class="online"><div class="name"></div></li>');
+    }
+    return buf.join("");
+};
+
 // mucWrappedMessage.jade compiled template
 exports.includes.mucWrappedMessage = function anonymous(locals) {
     var buf = [];
@@ -203,7 +212,7 @@ exports.pages.chat = function anonymous(locals) {
 exports.pages.groupchat = function anonymous(locals) {
     var buf = [];
     with (locals || {}) {
-        buf.push('<section class="page chat"><section class="conversation"><header class="online"><h1><span class="name"></span><span class="status"></span></h1><div class="controls"><button class="primary small joinRoom">Join</button><button class="secondary small leaveRoom">Leave</button></div></header><ul class="messages"></ul><div class="chatBox"><form><textarea name="chatInput" type="text" placeholder="Send a message..." autocomplete="off"></textarea></form></div></section></section>');
+        buf.push('<section class="page chat"><section class="group conversation"><header class="online"><h1><span class="name"></span><span class="status"></span></h1><div class="controls"><button class="primary small joinRoom">Join</button><button class="secondary small leaveRoom">Leave</button></div></header><ul class="messages"></ul><ul class="groupRoster"></ul><div class="chatBox"><form><textarea name="chatInput" type="text" placeholder="Send a message..." autocomplete="off"></textarea></form></div></section></section>');
     }
     return buf.join("");
 };

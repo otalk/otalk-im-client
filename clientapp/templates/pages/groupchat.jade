@@ -1,5 +1,5 @@
 section.page.chat
-  section.conversation
+  section.group.conversation
     header.online
       h1
         span.name
@@ -8,6 +8,7 @@ section.page.chat
         button.primary.small.joinRoom Join
         button.secondary.small.leaveRoom Leave
     ul.messages
+    ul.groupRoster
     .chatBox
       form
         textarea(name='chatInput', type='text', placeholder='Send a message...', autocomplete='off')

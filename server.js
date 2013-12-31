@@ -92,7 +92,7 @@ app.get('*', clientApp.html());
 
 app.use(function handleError(err, req, res, next) {
     var errorResult = {message: 'Something bad happened :('};
-    
+
     if (config.isDev) {
         if (err instanceof Error) {
             if (err.message) {

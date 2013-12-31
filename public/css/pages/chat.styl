@@ -187,8 +187,8 @@
   overflow-y: auto
   overflow-x: hidden
   position: absolute
-  width: 100%
   top: 0px
+  right: 0px
   bottom: 55px
   padding-top: 75px
   borderbox()
@@ -340,3 +340,69 @@
       background-color: #fffcea
       border: 1px solid #efe391
       color: #d2bd2d
+
+
+.group.conversation
+
+  .messages
+    right: 150px
+
+  .groupRoster
+    width: 150px
+    margin: 0px
+    padding: 0px
+    overflow-y: auto
+    overflow-x: hidden
+    position: absolute
+    top: 0px
+    right: 0px
+    bottom: 50px
+    padding-top: 80px
+    padding-bottom: 10px
+    borderbox()
+    -webkit-overflow-scrolling: touch
+    background: lighten($gray, 95%)
+    border-left: 1px solid darken($gray-lighter, 10%)
+
+    li
+      padding: 3px
+      margin: 0px
+      font-size: 12px
+      position: relative
+
+      .name
+        padding-left: 10px
+
+      &:before
+        content: ''
+        position: absolute
+        left: 4px
+        top: 11px
+        height: 6px
+        width: 6px
+        margin-top: -3px
+        roundall(10px)
+
+      &.online,
+      &.chat
+        &:before
+          background: $green
+
+      &.dnd:before
+        background: $red
+
+      &.away:before,
+      &.xa:before
+        background: $orange
+
+      &.offline:before
+        background: $gray-dark
+
+      &.composing:before
+        animation: pulsate 1.5s infinite ease-in
+        -webkit-animation: pulsate 1.5s infinite ease-in
+        -moz-animation: pulsate 1.5s infinite ease-in
+
+      &.paused:before,
+      &.idle:before
+        background: lighten($gray-light, 30%)
