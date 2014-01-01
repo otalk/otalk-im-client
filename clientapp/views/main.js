@@ -17,6 +17,7 @@ module.exports = HumanView.extend({
     events: {
         'click a[href]': 'handleLinkClick',
         'click .reconnect': 'handleReconnect',
+        'click .logout': 'handleLogout',
         'blur #me .status': 'handleStatusChange'
     },
     classBindings: {
@@ -67,5 +68,8 @@ module.exports = HumanView.extend({
             status: text,
             caps: client.disco.caps
         });
+    },
+    handleLogout: function (e) {
+        app.navigate('/logout');
     }
 });
