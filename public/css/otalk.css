@@ -1310,6 +1310,7 @@ button.secondary:hover:not(:disabled) {
 }
 .main > div {
   padding: 20px;
+  padding-top: 50px;
   border-bottom: 1px solid #eee;
 }
 .main > div:last-of-type {
