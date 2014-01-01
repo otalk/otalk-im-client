@@ -1211,11 +1211,15 @@ button.secondary:hover:not(:disabled) {
   right: 0px;
   left: 201px;
   z-index: 200;
+  transition: none;
+  -webkit-transition: none;
 }
 .chatBox form {
   border-top: 1px solid #eee;
   background: #f7f7f7;
   padding: 11px;
+  transition: none;
+  -webkit-transition: none;
 }
 .chatBox .formwrap {
   -moz-box-sizing: border-box;
@@ -1228,9 +1232,6 @@ button.secondary:hover:not(:disabled) {
 .chatBox textarea {
   height: 30px;
   padding: 6px 10px;
-}
-.chatBox textarea.typing:focus,
-.chatBox textarea.editing:focus {
   transition: none;
   -webkit-transition: none;
 }

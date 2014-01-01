@@ -2,15 +2,15 @@
 "use strict";
 
 var _ = require('underscore');
+var StayDown = require('staydown');
 var BasePage = require('./base');
 var templates = require('../templates');
 var MUCRosterItem = require('../views/mucRosterItem');
 var Message = require('../views/mucMessage');
 var MessageModel = require('../models/message');
-var chatHelpers = require('../helpers/chatHelpers');
 
 
-module.exports = BasePage.extend(chatHelpers).extend({
+module.exports = BasePage.extend({
     template: templates.pages.groupchat,
     initialize: function (spec) {
         this.editMode = false;
@@ -59,16 +59,15 @@ module.exports = BasePage.extend(chatHelpers).extend({
         this.$chatInput = this.$('.chatBox textarea');
         this.$chatBox = this.$('.chatBox');
         this.$messageList = this.$('.messages');
-        this.$scrollContainer = this.$messageList;
 
-        this.listenTo(this.model.messages, 'add', this.handleChatAdded);
+        this.staydown = new StayDown(this.$messageList[0], 500);
 
         this.renderMessages();
         this.renderCollection(this.model.resources, MUCRosterItem, this.$('.groupRoster'));
 
-        $(window).on('resize', _.bind(this.handleWindowResize, this));
+        this.listenTo(this.model.messages, 'add', this.handleChatAdded);
 
-        this.initializeScroll();
+        $(window).on('resize', _.bind(this.resizeInput, this));
 
         this.registerBindings();
 
@@ -76,25 +75,16 @@ module.exports = BasePage.extend(chatHelpers).extend({
     },
     renderMessages: function () {
         var self = this;
-        var previous;
-        var bottom = this.isBottom() || this.$messageList.is(':empty');
         this.model.messages.each(function (model, i) {
             self.appendModel(model);
         });
-        this.scrollIfPinned();
+        this.staydown.checkdown();
     },
     handleChatAdded: function (model) {
         this.appendModel(model, true);
     },
     handlePageLoaded: function () {
-        this.scrollPageLoad();
-        this.handleWindowResize();
-    },
-    handlePageUnloaded: function () {
-        this.scrollPageUnload();
-    },
-    handleWindowResize: function () {
-        this.scrollIfPinned();
+        this.staydown.checkdown();
         this.resizeInput();
     },
     handleKeyDown: function (e) {
@@ -139,7 +129,7 @@ module.exports = BasePage.extend(chatHelpers).extend({
             this.pausedTyping();
         }
     },
-    resizeInput: function () {
+    resizeInput: _.throttle(function () {
         var height;
         var scrollHeight;
         var newHeight;
@@ -161,7 +151,7 @@ module.exports = BasePage.extend(chatHelpers).extend({
                 this.$messageList.css('paddingBottom', newPadding);
             }
         }
-    },
+    }, 300),
     pausedTyping: _.debounce(function () {
         if (this.typing && !this.paused) {
             this.paused = true;
@@ -177,6 +167,8 @@ module.exports = BasePage.extend(chatHelpers).extend({
         var val = this.$chatInput.val();
 
         if (val) {
+            this.staydown.intend_down = true;
+
             message = {
                 to: this.model.jid,
                 type: 'groupchat',
@@ -223,11 +215,9 @@ module.exports = BasePage.extend(chatHelpers).extend({
             last.addClass('chatGroup');
         } else {
             newEl = $(model.templateHtml);
-            this.$messageList.append(newEl);
+            this.staydown.append(newEl[0]);
         }
         this.lastModel = model;
-
-        this.scrollIfPinned();
     },
     refreshModel: function (model) {
         var existing = this.$('#chat' + model.cid);

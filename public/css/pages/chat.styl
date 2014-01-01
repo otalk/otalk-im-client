@@ -316,11 +316,15 @@
   right: 0px
   left: 201px
   z-index: 200
+  transition: none
+  -webkit-transition: none
 
   form
     border-top: 1px solid #eee
     background: lighten($gray-light, 93%)
     padding: 11px
+    transition: none
+    -webkit-transition: none
 
   .formwrap
     borderbox()
@@ -331,11 +335,8 @@
   textarea
     height: 30px
     padding: 6px 10px
-
-    &.typing:focus,
-    &.editing:focus
-      transition: none
-      -webkit-transition: none
+    transition: none
+    -webkit-transition: none
 
     &.editing
       background-color: #fffcea

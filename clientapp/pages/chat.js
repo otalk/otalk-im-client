@@ -2,15 +2,15 @@
 "use strict";
 
 var _ = require('underscore');
+var StayDown = require('staydown');
 var BasePage = require('./base');
 var templates = require('../templates');
 var Message = require('../views/message');
 var MessageModel = require('../models/message');
-var chatHelpers = require('../helpers/chatHelpers');
 var attachMediaStream = require('attachmediastream');
 
 
-module.exports = BasePage.extend(chatHelpers).extend({
+module.exports = BasePage.extend({
     template: templates.pages.chat,
     initialize: function (spec) {
         this.editMode = false;
@@ -61,6 +61,8 @@ module.exports = BasePage.extend(chatHelpers).extend({
     },
     render: function () {
         if (this.rendered) return this;
+        var self = this;
+
         this.rendered = true;
 
         this.renderAndBind();
@@ -68,16 +70,14 @@ module.exports = BasePage.extend(chatHelpers).extend({
         this.$chatInput = this.$('.chatBox textarea');
         this.$chatBox = this.$('.chatBox');
         this.$messageList = this.$('.messages');
-        this.$scrollContainer = this.$messageList;
+
+        this.staydown = new StayDown(this.$messageList[0], 500);
+        this.renderCollection();
 
         this.listenTo(this.model.messages, 'add', this.handleChatAdded);
         this.listenToAndRun(this.model, 'change:jingleResources', this.handleJingleResourcesChanged);
 
-        this.renderCollection();
-
-        $(window).on('resize', _.bind(this.handleWindowResize, this));
-
-        this.initializeScroll();
+        $(window).on('resize', _.bind(this.resizeInput, this));
 
         this.registerBindings(me, {
             srcBindings: {
@@ -88,11 +88,8 @@ module.exports = BasePage.extend(chatHelpers).extend({
         return this;
     },
     handlePageLoaded: function () {
-        this.scrollPageLoad();
-        this.handleWindowResize();
-    },
-    handlePageUnloaded: function () {
-        this.scrollPageUnload();
+        this.staydown.checkdown();
+        this.resizeInput();
     },
     handleCallClick: function (e) {
         e.preventDefault();
@@ -101,17 +98,11 @@ module.exports = BasePage.extend(chatHelpers).extend({
     },
     renderCollection: function () {
         var self = this;
-        var previous;
-        var bottom = this.isBottom() || this.$messageList.is(':empty');
         this.model.messages.each(function (model, i) {
             self.appendModel(model);
         });
-        this.scrollIfPinned();
+        this.staydown.checkdown();
     },
-    handleWindowResize: _.debounce(function () {
-        this.scrollIfPinned();
-        this.resizeInput();
-    }),
     handleKeyDown: function (e) {
         if (e.which === 13 && !e.shiftKey) {
             this.sendChat();
@@ -166,9 +157,9 @@ module.exports = BasePage.extend(chatHelpers).extend({
         var message;
         var val = this.$chatInput.val();
 
-        this.scrollToBottom(true);
-
         if (val) {
+            this.staydown.intend_down = true;
+
             message = {
                 to: this.model.lockedResource || this.model.jid,
                 type: 'chat',
@@ -221,11 +212,9 @@ module.exports = BasePage.extend(chatHelpers).extend({
             last.addClass('chatGroup');
         } else {
             newEl = $(model.templateHtml);
-            this.$messageList.append(newEl);
+            this.staydown.append(newEl[0]);
         }
         this.lastModel = model;
-
-        this.scrollIfPinned();
     },
     handleEndClick: function (e) {
         e.preventDefault();
@@ -236,5 +225,28 @@ module.exports = BasePage.extend(chatHelpers).extend({
     },
     handleMuteClick: function (e) {
         return false;
-    }
+    },
+    resizeInput: _.throttle(function () {
+        var height;
+        var scrollHeight;
+        var newHeight;
+        var newPadding;
+        var paddingDelta;
+        var maxHeight = 102;
+
+        this.$chatInput.removeAttr('style');
+        height = this.$chatInput.height() + 10;
+        scrollHeight = this.$chatInput.get(0).scrollHeight;
+        newHeight = scrollHeight + 2;
+
+        if (newHeight > maxHeight) newHeight = maxHeight;
+        if (newHeight > height) {
+            this.$chatInput.css('height', newHeight);
+            newPadding = newHeight + 21;
+            paddingDelta = newPadding - parseInt(this.$messageList.css('paddingBottom'), 10);
+            if (!!paddingDelta) {
+                this.$messageList.css('paddingBottom', newPadding);
+            }
+        }
+    }, 300)
 });

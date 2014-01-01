@@ -7,7 +7,7 @@
         "url": "git@github.com:andyet/otalk.git"
     },
     "dependencies": {
-        "bows": "",
+        "bows": "0.3.0",
         "async": "0.2.9",
         "backbone": "1.0.0",
         "express": "3.3.7",
@@ -28,7 +28,8 @@
         "attachmediastream": "1.0.1",
         "getusermedia": "0.2.1",
         "crypto-browserify": "1.0.3",
-        "browserify": "2.25.1"
+        "browserify": "2.25.1",
+        "staydown": "1.0.2"
     },
     "devDependencies": {
         "precommit-hook": "0.3.6"
