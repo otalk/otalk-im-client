@@ -120,6 +120,8 @@ var Message = module.exports = HumanModel.define({
             }
         },
         templateHtml: {
+            deps: ['edited', 'pending', 'body'],
+            cache: false,
             fn: function () {
                 if (this.type === 'groupchat') {
                     return templates.includes.mucWrappedMessage({message: this});
