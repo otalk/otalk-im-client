@@ -11,7 +11,7 @@ function fallback(jid) {
 }
 
 
-module.exports = function (jid, id, type, cb) {
+module.exports = function (jid, id, type, source, cb) {
     if (!id) {
         return cb(fallback(jid));
     }
@@ -26,24 +26,48 @@ module.exports = function (jid, id, type, cb) {
         }
 
         app.whenConnected(function () {
-            app.api.getAvatar(jid, id, function (err, resp) {
-                if (err) {
-                    return cb(fallback(jid));
-                }
+            if (source == 'vcard') {
+                app.api.getVCard(jid, function (err, resp) {
+                    if (err) {
+                        return cb(fallback(jid));
+                    }
 
-                resp = resp.toJSON();
-                var data = resp.pubsub.retrieve.item.avatarData;
-                var uri = 'data:' + type + ';base64,' + data;
+                    resp = resp.toJSON();
+                    console.log(JSON.stringify(resp));
+                    type = resp.vCardTemp.photo.type || type;
 
-                avatar = {
-                    id: id,
-                    type: type,
-                    uri: uri
-                };
+                    var data = resp.vCardTemp.photo.data;
+                    var uri = 'data:' + type + ';base64,' + data;
 
-                app.storage.avatars.add(avatar);
-                return cb(avatar);
-            });
+                    avatar = {
+                        id: id,
+                        type: type,
+                        uri: uri
+                    };
+
+                    app.storage.avatars.add(avatar);
+                    return cb(avatar);
+                });
+            } else {
+                app.api.getAvatar(jid, id, function (err, resp) {
+                    if (err) {
+                        return cb(fallback(jid));
+                    }
+
+                    resp = resp.toJSON();
+                    var data = resp.pubsub.retrieve.item.avatarData;
+                    var uri = 'data:' + type + ';base64,' + data;
+
+                    avatar = {
+                        id: id,
+                        type: type,
+                        uri: uri
+                    };
+
+                    app.storage.avatars.add(avatar);
+                    return cb(avatar);
+                });
+            }
         });
     });
 };

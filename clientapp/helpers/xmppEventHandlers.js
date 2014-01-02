@@ -228,7 +228,10 @@ module.exports = function (client, app) {
             id = info.avatars[0].id;
             type = info.avatars[0].type || 'image/png';
         }
-        contact.setAvatar(id, type);
+
+        if (contact.setAvatar) {
+            contact.setAvatar(id, type, info.source);
+        }
     });
 
     client.on('chatState', function (info) {

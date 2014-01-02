@@ -77,9 +77,9 @@ module.exports = HumanModel.define({
         }
         this._activeContact = jid;
     },
-    setAvatar: function (id, type) {
+    setAvatar: function (id, type, source) {
         var self = this;
-        fetchAvatar('', id, type, function (avatar) {
+        fetchAvatar('', id, type, source, function (avatar) {
             self.avatarID = avatar.id;
             self.avatar = avatar.uri;
         });

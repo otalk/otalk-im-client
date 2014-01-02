@@ -40,6 +40,7 @@ module.exports = HumanModel.define({
     session: {
         activeContact: ['bool', true, false],
         avatar: 'string',
+        avatarSource: 'string',
         lastInteraction: 'date',
         lastSentMessage: 'object',
         lockedResource: 'string',
@@ -203,11 +204,14 @@ module.exports = HumanModel.define({
             logger.error('no jingle resources for this user');
         }
     },
-    setAvatar: function (id, type) {
+    setAvatar: function (id, type, source) {
         var self = this;
-        fetchAvatar(this.jid, id, type, function (avatar) {
+        console.log('setAvatar', this.jid, id, type, source);
+        fetchAvatar(this.jid, id, type, source, function (avatar) {
+            if (source == 'vcard' && self.avatarSource == 'pubsub') return;
             self.avatarID = avatar.id;
             self.avatar = avatar.uri;
+            self.avaarSource = source;
             self.save();
         });
     },
