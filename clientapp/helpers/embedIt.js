@@ -3,20 +3,22 @@ var _ = require('underscore');
 var async = require('async');
 var templates = require('../templates');
 
-var embedQueue = async.cargo(function (links, cb) {
+var embedQueue = window.embedQueue = async.cargo(function (embeds, cb) {
     var urls = [];
-    _.each(links, function (link) {
+    _.each(embeds, function (embed) {
+        var url = embed.find('a.source')[0].href;
         urls.push({
-            value: link.href,
-            el: link
+            value: url,
+            el: embed[0]
         });
     });
+    cb();
     $.ajax({
         // We have to massage the data into the URL ourselves because
         // jQuery won't let us have unencoded commas between encoded URLs
         url: '/oembed?' + $.param({
             maxwidth: 500
-        }) + '&urls=' + _.map(urls, function (item) { return encodeURIComponent(item.value); }).join(','),
+        }) + '&urls=' +  _.map(urls, function (item) { return encodeURIComponent(item.value); }).join(','),
         dataType: 'jsonp',
         success: function (data) {
             var maxWidth = 500;
@@ -41,15 +43,13 @@ module.exports = function ($html, cb) {
     cb = cb || function () {};
 
     //if (!app.settings.chatEmbeds) return cb();
-    if (!$html.jquery) cb('$html is not a jQuery collection.');
     var $links;
     var batches = [];
     var allUrls = [];
-    var selector = 'a[target="_blank"]:not(".original")';
-    $links = $html.find(selector);
-    if (!$links.length) $links = $html.filter(selector);
+    var embeds = $html.find('.embed');
+    if (!embeds.length) embeds = $html.filter('.embed');
 
-    $links.each(function (idx, link) {
-        embedQueue.push(link);
+    _.each(embeds, function (embed) {
+        embedQueue.push(embeds);
     });
 };

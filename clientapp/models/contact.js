@@ -206,7 +206,6 @@ module.exports = HumanModel.define({
     },
     setAvatar: function (id, type, source) {
         var self = this;
-        console.log('setAvatar', this.jid, id, type, source);
         fetchAvatar(this.jid, id, type, source, function (avatar) {
             if (source == 'vcard' && self.avatarSource == 'pubsub') return;
             self.avatarID = avatar.id;

@@ -16,7 +16,7 @@ module.exports = HumanView.extend({
     },
     events: {
         'click a[href]': 'handleLinkClick',
-        'click a.embed img': 'handleEmbedClick',
+        'click .embed': 'handleEmbedClick',
         'click .reconnect': 'handleReconnect',
         'click .logout': 'handleLogout',
         'blur #me .status': 'handleStatusChange'
@@ -61,7 +61,8 @@ module.exports = HumanView.extend({
     handleEmbedClick: function (e) {
         if (e.shiftKey) {
             e.preventDefault();
-            $(e.target).hide();
+            console.log(e);
+            $(e.currentTarget).toggleClass('collapsed');
         }
     },
     handleTitle: function (e) {

@@ -1,6 +1,7 @@
 /*global app, me*/
 "use strict";
 
+var _ = require('underscore');
 var uuid = require('node-uuid');
 var HumanModel = require('human-model');
 var templates = require('../templates');
@@ -21,7 +22,8 @@ var Message = module.exports = HumanModel.define({
         body: ['string', true, ''],
         type: ['string', true, 'normal'],
         acked: ['bool', true, false],
-        archivedId: ['string', true, '']
+        archivedId: ['string', true, ''],
+        oobURIs: ['array', false, []]
     },
     derived: {
         mine: {
@@ -109,7 +111,7 @@ var Message = module.exports = HumanModel.define({
             }
         },
         partialTemplateHtml: {
-            deps: ['edited', 'pending', 'body'],
+            deps: ['edited', 'pending', 'body', 'urls'],
             cache: false,
             fn: function () {
                 if (this.type === 'groupchat') {
@@ -120,7 +122,7 @@ var Message = module.exports = HumanModel.define({
             }
         },
         templateHtml: {
-            deps: ['edited', 'pending', 'body'],
+            deps: ['edited', 'pending', 'body', 'urls'],
             cache: false,
             fn: function () {
                 if (this.type === 'groupchat') {
@@ -148,6 +150,35 @@ var Message = module.exports = HumanModel.define({
             deps: ['body'],
             fn: function () {
                 return this.body.indexOf('/me') === 0;
+            }
+        },
+        urls: {
+            deps: ['body', 'oobURIs'],
+            fn: function () {
+                var self = this;
+                var result = [];
+                var urls = htmlify.collectLinks(this.body);
+                var oobURIs = _.pluck(this.oobURIs || [], 'url');
+                var uniqueURIs = _.unique(result.concat(urls).concat(oobURIs));
+
+                _.each(uniqueURIs, function (url) {
+                    var oidx = oobURIs.indexOf(url);
+                    if (oidx >= 0) {
+                        result.push({
+                            href: url,
+                            desc: self.oobURIs[oidx].desc,
+                            source: 'oob'
+                        });
+                    } else {
+                        result.push({
+                            href: url,
+                            desc: url,
+                            source: 'body'
+                        });
+                    }
+                });
+
+                return result;
             }
         }
     },

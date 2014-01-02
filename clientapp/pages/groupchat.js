@@ -9,6 +9,7 @@ var MUCRosterItem = require('../views/mucRosterItem');
 var Message = require('../views/mucMessage');
 var MessageModel = require('../models/message');
 var embedIt = require('../helpers/embedIt');
+var htmlify = require('../helpers/htmlify');
 
 
 module.exports = BasePage.extend({
@@ -171,11 +172,16 @@ module.exports = BasePage.extend({
         if (val) {
             this.staydown.intend_down = true;
 
+            var links = _.map(htmlify.collectLinks(val), function (link) {
+                return {url: link};
+            });
+
             message = {
                 to: this.model.jid,
                 type: 'groupchat',
                 body: val,
-                chatState: 'active'
+                chatState: 'active',
+                oobURIs: links
             };
             if (this.editMode) {
                 message.replace = this.model.lastSentMessage.mid || this.model.lastSentMessage.cid;

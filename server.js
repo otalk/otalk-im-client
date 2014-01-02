@@ -19,7 +19,7 @@ if (!config.isDev) {
 app.use(helmet.iexss());
 app.use(helmet.contentTypeOptions());
 
-oembed.EMBEDLY_URL = config.embedly.url;
+oembed.EMBEDLY_URL = config.embedly.url || 'https://api.embed.ly/1/oembed';
 oembed.EMBEDLY_KEY = config.embedly.key;
 
 var clientApp = new Moonboots({

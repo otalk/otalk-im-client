@@ -8,6 +8,7 @@ var templates = require('../templates');
 var Message = require('../views/message');
 var MessageModel = require('../models/message');
 var embedIt = require('../helpers/embedIt');
+var htmlify = require('../helpers/htmlify');
 var attachMediaStream = require('attachmediastream');
 
 
@@ -161,11 +162,16 @@ module.exports = BasePage.extend({
         if (val) {
             this.staydown.intend_down = true;
 
+            var links = _.map(htmlify.collectLinks(val), function (link) {
+                return {url: link};
+            });
+
             message = {
                 to: this.model.lockedResource || this.model.jid,
                 type: 'chat',
                 body: val,
-                chatState: 'active'
+                chatState: 'active',
+                oobURIs: links
             };
             if (this.editMode) {
                 message.replace = this.model.lastSentMessage.id;

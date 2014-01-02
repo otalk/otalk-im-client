@@ -37,7 +37,56 @@ exports.includes.bareMessage = function anonymous(locals) {
         }, {
             "class": true,
             id: true
-        }) + '><span class="timestamp">' + jade.escape(null == (jade.interp = message.formattedTime) ? "" : jade.interp) + '</span><p class="body">' + ((jade.interp = message.processedBody) == null ? "" : jade.interp) + "</p></div>");
+        }) + '><span class="timestamp">' + jade.escape(null == (jade.interp = message.formattedTime) ? "" : jade.interp) + '</span><p class="body">' + ((jade.interp = message.processedBody) == null ? "" : jade.interp) + "</p>");
+        var urls = message.urls;
+        buf.push('<section class="embeds">');
+        (function() {
+            var $$obj = urls;
+            if ("number" == typeof $$obj.length) {
+                for (var $index = 0, $$l = $$obj.length; $index < $$l; $index++) {
+                    var item = $$obj[$index];
+                    if (item.source == "body") {
+                        buf.push('<section class="embed hidden"><a' + jade.attrs({
+                            href: item.href,
+                            "class": "source"
+                        }, {
+                            href: true
+                        }) + ">" + jade.escape(null == (jade.interp = item.desc) ? "" : jade.interp) + "</a></section>");
+                    } else {
+                        buf.push('<section class="embed"><a' + jade.attrs({
+                            href: item.href,
+                            "class": "source"
+                        }, {
+                            href: true
+                        }) + ">" + jade.escape(null == (jade.interp = item.desc) ? "" : jade.interp) + "</a></section>");
+                    }
+                }
+            } else {
+                var $$l = 0;
+                for (var $index in $$obj) {
+                    $$l++;
+                    if ($$obj.hasOwnProperty($index)) {
+                        var item = $$obj[$index];
+                        if (item.source == "body") {
+                            buf.push('<section class="embed hidden"><a' + jade.attrs({
+                                href: item.href,
+                                "class": "source"
+                            }, {
+                                href: true
+                            }) + ">" + jade.escape(null == (jade.interp = item.desc) ? "" : jade.interp) + "</a></section>");
+                        } else {
+                            buf.push('<section class="embed"><a' + jade.attrs({
+                                href: item.href,
+                                "class": "source"
+                            }, {
+                                href: true
+                            }) + ">" + jade.escape(null == (jade.interp = item.desc) ? "" : jade.interp) + "</a></section>");
+                        }
+                    }
+                }
+            }
+        }).call(this);
+        buf.push("</section></div>");
     }
     return buf.join("");
 };
@@ -87,11 +136,12 @@ exports.includes.contactRequest = function anonymous(locals) {
 exports.includes.embeds = function anonymous(locals) {
     var buf = [];
     with (locals || {}) {
+        buf.push('<section class="embed active">');
         if (locals.type === "photo") {
             buf.push("<a" + jade.attrs({
                 href: locals.original,
                 target: "_blank",
-                "class": "embed" + " " + "photo"
+                "class": "photo"
             }, {
                 href: true,
                 target: true
@@ -106,14 +156,18 @@ exports.includes.embeds = function anonymous(locals) {
                 height: true,
                 src: true,
                 alt: true
-            }) + "/></a><br/><a" + jade.attrs({
-                href: locals.original,
-                target: "_blank",
-                "class": "embed" + " " + "original"
-            }, {
-                href: true,
-                target: true
-            }) + ">" + jade.escape(null == (jade.interp = locals.original) ? "" : jade.interp) + "</a>");
+            }) + "/>");
+            if (locals.title || locals.description) {
+                buf.push('<div class="description">');
+                if (locals.title) {
+                    buf.push("<h3>" + jade.escape(null == (jade.interp = locals.title) ? "" : jade.interp) + "</h3>");
+                }
+                if (locals.description) {
+                    buf.push("<p>" + jade.escape(null == (jade.interp = locals.description) ? "" : jade.interp) + "</p>");
+                }
+                buf.push("</div>");
+            }
+            buf.push("</a>");
         } else if (locals.type === "video" && locals.thumbnail_url) {
             buf.push("<a" + jade.attrs({
                 href: locals.original,
@@ -133,15 +187,20 @@ exports.includes.embeds = function anonymous(locals) {
                 height: true,
                 src: true,
                 alt: true
-            }) + "/></a><br/><a" + jade.attrs({
-                href: locals.original,
-                target: "_blank",
-                "class": "embed" + " " + "original"
-            }, {
-                href: true,
-                target: true
-            }) + ">" + jade.escape(null == (jade.interp = locals.original) ? "" : jade.interp) + "</a>");
+            }) + "/>");
+            if (locals.title || locals.description) {
+                buf.push('<div class="description">');
+                if (locals.title) {
+                    buf.push("<h3>" + jade.escape(null == (jade.interp = locals.title) ? "" : jade.interp) + "</h3>");
+                }
+                if (locals.description) {
+                    buf.push("<p>" + jade.escape(null == (jade.interp = locals.description) ? "" : jade.interp) + "</p>");
+                }
+                buf.push("</div>");
+            }
+            buf.push("</a>");
         }
+        buf.push("</section>");
     }
     return buf.join("");
 };
@@ -230,7 +289,56 @@ exports.includes.wrappedMessage = function anonymous(locals) {
         }, {
             "class": true,
             id: true
-        }) + '><span class="timestamp">' + jade.escape(null == (jade.interp = message.formattedTime) ? "" : jade.interp) + '</span><p class="body">' + ((jade.interp = message.processedBody) == null ? "" : jade.interp) + "</p></div></div></li>");
+        }) + '><span class="timestamp">' + jade.escape(null == (jade.interp = message.formattedTime) ? "" : jade.interp) + '</span><p class="body">' + ((jade.interp = message.processedBody) == null ? "" : jade.interp) + "</p>");
+        var urls = message.urls;
+        buf.push('<section class="embeds">');
+        (function() {
+            var $$obj = urls;
+            if ("number" == typeof $$obj.length) {
+                for (var $index = 0, $$l = $$obj.length; $index < $$l; $index++) {
+                    var item = $$obj[$index];
+                    if (item.source == "body") {
+                        buf.push('<section class="embed hidden"><a' + jade.attrs({
+                            href: item.href,
+                            "class": "source"
+                        }, {
+                            href: true
+                        }) + ">" + jade.escape(null == (jade.interp = item.desc) ? "" : jade.interp) + "</a></section>");
+                    } else {
+                        buf.push('<section class="embed"><a' + jade.attrs({
+                            href: item.href,
+                            "class": "source"
+                        }, {
+                            href: true
+                        }) + ">" + jade.escape(null == (jade.interp = item.desc) ? "" : jade.interp) + "</a></section>");
+                    }
+                }
+            } else {
+                var $$l = 0;
+                for (var $index in $$obj) {
+                    $$l++;
+                    if ($$obj.hasOwnProperty($index)) {
+                        var item = $$obj[$index];
+                        if (item.source == "body") {
+                            buf.push('<section class="embed hidden"><a' + jade.attrs({
+                                href: item.href,
+                                "class": "source"
+                            }, {
+                                href: true
+                            }) + ">" + jade.escape(null == (jade.interp = item.desc) ? "" : jade.interp) + "</a></section>");
+                        } else {
+                            buf.push('<section class="embed"><a' + jade.attrs({
+                                href: item.href,
+                                "class": "source"
+                            }, {
+                                href: true
+                            }) + ">" + jade.escape(null == (jade.interp = item.desc) ? "" : jade.interp) + "</a></section>");
+                        }
+                    }
+                }
+            }
+        }).call(this);
+        buf.push("</section></div></div></li>");
     }
     return buf.join("");
 };

@@ -1,10 +1,19 @@
-- if (locals.type === 'photo')
-  a.embed.photo(href=locals.original, target="_blank")
-    img.embedded(width=locals.width, height=locals.height, src=locals.url, alt=locals.title)
-  br
-  a.embed.original(href=locals.original, target="_blank")= locals.original
-- else if (locals.type === 'video' && locals.thumbnail_url)
-  a.embed.preview(href=locals.original, target="_blank")
-    img.embedded(width=locals.width, height=locals.height, src=locals.thumbnail_url, alt=locals.title);
-  br
-  a.embed.original(href=locals.original, target="_blank")= locals.original
+section.embed.active
+  - if (locals.type === 'photo')
+    a.photo(href=locals.original, target="_blank")
+      img.embedded(width=locals.width, height=locals.height, src=locals.url, alt=locals.title)
+      -if (locals.title || locals.description)
+        .description
+          -if (locals.title)
+            h3= locals.title
+          -if (locals.description)
+            p= locals.description
+  - else if (locals.type === 'video' && locals.thumbnail_url)
+    a.embed.preview(href=locals.original, target="_blank")
+      img.embedded(width=locals.width, height=locals.height, src=locals.thumbnail_url, alt=locals.title);
+      -if (locals.title || locals.description)
+        .description
+          -if (locals.title)
+            h3= locals.title
+          -if (locals.description)
+            p= locals.description

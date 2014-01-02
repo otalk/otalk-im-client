@@ -1319,6 +1319,44 @@ button.secondary:hover:not(:disabled) {
 .group.conversation .groupRoster li.idle:before {
   background: #ababab;
 }
+.embeds {
+  margin: 0px;
+  padding: 0px;
+}
+.embed.active {
+  display: inline-block;
+  margin: 5px;
+  padding: 10px;
+  border: 1px solid #eee;
+  background-color: #f7f7f7;
+  text-align: center;
+}
+.embed.active .description {
+  border: 1px solid #eee;
+  background-color: #fff;
+  margin: 0px;
+  margin-top: 5px;
+  padding: 10px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: normal;
+}
+.embed.active .description h3 {
+  font-size: 12px;
+  margin: 3px;
+  padding: 2px;
+  border-bottom: 1px solid #eee;
+}
+.embed.active .description p {
+  margin: 3px;
+  padding: 2px;
+}
+.embed.collapsed img {
+  display: none;
+}
+.embed.hidden {
+  display: none;
+}
 .main > div {
   padding: 20px;
   padding-top: 50px;
