@@ -424,6 +424,11 @@
   padding: 0px
 
 .embed
+  max-width: 500px
+
+  a, a:hover
+    color: #34465a
+
   &.active
     display: inline-block
     margin: 5px
@@ -452,6 +457,17 @@
 
       p
         margin: 3px
+        padding: 2px
+
+    a.link, a.twitter
+      img
+        float: left
+      img + .description
+        margin-left: 110px
+        font-size: 12px
+      h4
+        font-size: 14px
+        margin: 0px
         padding: 2px
 
   &.collapsed

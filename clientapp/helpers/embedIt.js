@@ -4,6 +4,7 @@ var async = require('async');
 var templates = require('../templates');
 
 var embedQueue = window.embedQueue = async.cargo(function (embeds, cb) {
+    cb();
     var urls = [];
     _.each(embeds, function (embed) {
         var url = embed.find('a.source')[0].href;
@@ -12,7 +13,6 @@ var embedQueue = window.embedQueue = async.cargo(function (embeds, cb) {
             el: embed[0]
         });
     });
-    cb();
     $.ajax({
         // We have to massage the data into the URL ourselves because
         // jQuery won't let us have unencoded commas between encoded URLs
@@ -22,10 +22,11 @@ var embedQueue = window.embedQueue = async.cargo(function (embeds, cb) {
         dataType: 'jsonp',
         success: function (data) {
             var maxWidth = 500;
+            var maxTbWidth = 100;
             data = _.filter(data, function (item, i) {
                 item.original = urls[i].value;
                 item.el = urls[i].el;
-                return item.type === 'video' || item.type === 'photo';
+                return item.type === 'video' || item.type === 'photo' || item.type === 'link' || item.type === 'rich';
             });
             data.forEach(function (item) {
                 if (item.width && item.height && item.width > maxWidth) {
@@ -33,11 +34,16 @@ var embedQueue = window.embedQueue = async.cargo(function (embeds, cb) {
                     item.width = maxWidth;
                     item.height = parseInt(item.height * ratio, 10);
                 }
+                if (item.thumbnail_width && item.thumbnail_height && item.thumbnail_width > maxTbWidth) {
+                    var tbratio = maxTbWidth / item.thumbnail_width;
+                    item.thumbnail_width = maxTbWidth;
+                    item.thumbnail_height = parseInt(item.thumbnail_height * tbratio, 10);
+                }
                 $(item.el).replaceWith(templates.includes.embeds(item));
             });
         }
     });
-}, 10);
+}, 5);
 
 module.exports = function ($html, cb) {
     cb = cb || function () {};

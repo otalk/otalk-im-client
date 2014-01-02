@@ -136,9 +136,8 @@ exports.includes.contactRequest = function anonymous(locals) {
 exports.includes.embeds = function anonymous(locals) {
     var buf = [];
     with (locals || {}) {
-        buf.push('<section class="embed active">');
         if (locals.type === "photo") {
-            buf.push("<a" + jade.attrs({
+            buf.push('<section class="embed active"><a' + jade.attrs({
                 href: locals.original,
                 target: "_blank",
                 "class": "photo"
@@ -167,12 +166,12 @@ exports.includes.embeds = function anonymous(locals) {
                 }
                 buf.push("</div>");
             }
-            buf.push("</a>");
+            buf.push("</a></section>");
         } else if (locals.type === "video" && locals.thumbnail_url) {
-            buf.push("<a" + jade.attrs({
+            buf.push('<section class="embed active"><a' + jade.attrs({
                 href: locals.original,
                 target: "_blank",
-                "class": "embed" + " " + "preview"
+                "class": "preview"
             }, {
                 href: true,
                 target: true
@@ -198,9 +197,8 @@ exports.includes.embeds = function anonymous(locals) {
                 }
                 buf.push("</div>");
             }
-            buf.push("</a>");
+            buf.push("</a></section>");
         }
-        buf.push("</section>");
     }
     return buf.join("");
 };

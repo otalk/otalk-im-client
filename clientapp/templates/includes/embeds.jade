@@ -1,5 +1,5 @@
-section.embed.active
-  - if (locals.type === 'photo')
+- if (locals.type === 'photo')
+  section.embed.active
     a.photo(href=locals.original, target="_blank")
       img.embedded(width=locals.width, height=locals.height, src=locals.url, alt=locals.title)
       -if (locals.title || locals.description)
@@ -8,8 +8,9 @@ section.embed.active
             h3= locals.title
           -if (locals.description)
             p= locals.description
-  - else if (locals.type === 'video' && locals.thumbnail_url)
-    a.embed.preview(href=locals.original, target="_blank")
+- else if (locals.type === 'video' && locals.thumbnail_url)
+  section.embed.active
+    a.preview(href=locals.original, target="_blank")
       img.embedded(width=locals.width, height=locals.height, src=locals.thumbnail_url, alt=locals.title);
       -if (locals.title || locals.description)
         .description
@@ -17,3 +18,26 @@ section.embed.active
             h3= locals.title
           -if (locals.description)
             p= locals.description
+//- else if (locals.type === 'link' && locals.provider_name === 'Twitter')
+  section.embed.active
+    a.twitter(href=locals.original, target="_blank")
+      -if (locals.thumbnail_url)
+        img.embedded(width=100, src=locals.thumbnail_url, alt=locals.title)
+      -if (locals.title || locals.description)
+        .description
+          h4= '@' + locals.author_name
+          p= locals.description
+//- else if (locals.type === 'link' && locals.description && locals.thumbnail_url)
+  section.embed.active
+    a.link(href=locals.original, target="_blank")
+      -if (locals.thumbnail_url)
+        img.embedded(width=locals.thumbnail_width, height=locals.thumbnail_height, src=locals.thumbnail_url, alt=locals.title)
+      -if (locals.title || locals.description)
+        .description
+          -if (locals.title)
+            h3= locals.title
+          -if (locals.description)
+            p= locals.description
+//- else if (locals.type === 'rich')
+  section.embed.active
+    iframe(width=locals.width, height=300, seamless="seamless", frameborder="no", scolling="no", srcdoc=locals.html, sandbox="allow-scripts allow-same-origin allow-forms")
