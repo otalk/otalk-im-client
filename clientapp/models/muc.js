@@ -108,6 +108,8 @@ module.exports = HumanModel.define({
         if (!this.nick) {
             this.nick = me.jid.local;
         }
+        this.messages.reset();
+        this.resources.reset();
         client.joinRoom(this.jid, this.nick, {
             history: {
                 maxstanzas: 50
@@ -116,6 +118,7 @@ module.exports = HumanModel.define({
         });
     },
     leave: function () {
+        this.resources.reset();
         client.leaveRoom(this.jid, this.nick);
     }
 });

@@ -20,6 +20,7 @@ module.exports = BasePage.extend({
         this.listenTo(this, 'pageunloaded', this.handlePageUnloaded);
 
         this.listenTo(this.model.messages, 'change', this.refreshModel);
+        this.listenTo(this.model.messages, 'reset', this.resetMessages);
 
         this.render();
     },
@@ -225,5 +226,8 @@ module.exports = BasePage.extend({
     refreshModel: function (model) {
         var existing = this.$('#chat' + model.cid);
         existing.replaceWith(model.partialTemplateHtml);
+    },
+    resetMessages: function () {
+        this.$messageList.empty();
     }
 });
