@@ -1,3 +1,12 @@
 .message(id='chat'+message.cid, class=message.classList)
   span.timestamp=message.formattedTime
   p.body !{message.processedBody}
+  - var urls = message.urls
+  section.embeds
+    each item in urls
+      if item.source == 'body'
+        section.embed.hidden
+          a.source(href=item.href)= item.desc
+      else
+        section.embed
+          a.source(href=item.href)= item.desc
