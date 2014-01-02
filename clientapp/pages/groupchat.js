@@ -8,6 +8,7 @@ var templates = require('../templates');
 var MUCRosterItem = require('../views/mucRosterItem');
 var Message = require('../views/mucMessage');
 var MessageModel = require('../models/message');
+var embedIt = require('../helpers/embedIt');
 
 
 module.exports = BasePage.extend({
@@ -213,10 +214,12 @@ module.exports = BasePage.extend({
             last = this.$messageList.find('li').last();
             last.find('.messageWrapper').append(newEl);
             last.addClass('chatGroup');
+            this.staydown.checkdown();
         } else {
             newEl = $(model.templateHtml);
             this.staydown.append(newEl[0]);
         }
+        embedIt(newEl);
         this.lastModel = model;
     },
     refreshModel: function (model) {

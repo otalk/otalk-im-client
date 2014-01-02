@@ -7,6 +7,7 @@ var BasePage = require('./base');
 var templates = require('../templates');
 var Message = require('../views/message');
 var MessageModel = require('../models/message');
+var embedIt = require('../helpers/embedIt');
 var attachMediaStream = require('attachmediastream');
 
 
@@ -210,10 +211,12 @@ module.exports = BasePage.extend({
             last = this.$messageList.find('li').last();
             last.find('.messageWrapper').append(newEl);
             last.addClass('chatGroup');
+            this.staydown.checkdown();
         } else {
             newEl = $(model.templateHtml);
             this.staydown.append(newEl[0]);
         }
+        embedIt(newEl);
         this.lastModel = model;
     },
     handleEndClick: function (e) {

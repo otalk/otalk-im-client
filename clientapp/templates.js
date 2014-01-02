@@ -83,6 +83,69 @@ exports.includes.contactRequest = function anonymous(locals) {
     return buf.join("");
 };
 
+// embeds.jade compiled template
+exports.includes.embeds = function anonymous(locals) {
+    var buf = [];
+    with (locals || {}) {
+        if (locals.type === "photo") {
+            buf.push("<a" + jade.attrs({
+                href: locals.original,
+                target: "_blank",
+                "class": "embed" + " " + "photo"
+            }, {
+                href: true,
+                target: true
+            }) + "><img" + jade.attrs({
+                width: locals.width,
+                height: locals.height,
+                src: locals.url,
+                alt: locals.title,
+                "class": "embedded"
+            }, {
+                width: true,
+                height: true,
+                src: true,
+                alt: true
+            }) + "/></a><br/><a" + jade.attrs({
+                href: locals.original,
+                target: "_blank",
+                "class": "embed" + " " + "original"
+            }, {
+                href: true,
+                target: true
+            }) + ">" + jade.escape(null == (jade.interp = locals.original) ? "" : jade.interp) + "</a>");
+        } else if (locals.type === "video" && locals.thumbnail_url) {
+            buf.push("<a" + jade.attrs({
+                href: locals.original,
+                target: "_blank",
+                "class": "embed" + " " + "preview"
+            }, {
+                href: true,
+                target: true
+            }) + "><img" + jade.attrs({
+                width: locals.width,
+                height: locals.height,
+                src: locals.thumbnail_url,
+                alt: locals.title,
+                "class": "embedded"
+            }, {
+                width: true,
+                height: true,
+                src: true,
+                alt: true
+            }) + "/></a><br/><a" + jade.attrs({
+                href: locals.original,
+                target: "_blank",
+                "class": "embed" + " " + "original"
+            }, {
+                href: true,
+                target: true
+            }) + ">" + jade.escape(null == (jade.interp = locals.original) ? "" : jade.interp) + "</a>");
+        }
+    }
+    return buf.join("");
+};
+
 // message.jade compiled template
 exports.includes.message = function anonymous(locals) {
     var buf = [];
