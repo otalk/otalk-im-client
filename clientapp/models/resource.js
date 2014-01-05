@@ -9,11 +9,11 @@ module.exports = HumanModel.define({
     type: 'resource',
     session: {
         id: ['string', true],
-        status: ['string', true, ''],
-        show: ['string', true, ''],
-        priority: ['number', true, 0],
-        chatState: ['string', true, 'gone'],
-        idleSince: ['date', false, undefined],
+        status: 'string',
+        show: 'string',
+        priority: ['number', false, 0],
+        chatState: ['string', false, 'gone'],
+        idleSince: 'date',
         discoInfo: 'object',
         timezoneOffset: 'number'
     },
@@ -27,7 +27,7 @@ module.exports = HumanModel.define({
         idle: {
             deps: ['idleSince'],
             fn: function () {
-                return !!this.idleSince;
+                return this.idleSince && !isNaN(this.idleSince.valueOf());
             }
         },
         supportsReceipts: {

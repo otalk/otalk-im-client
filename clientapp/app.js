@@ -45,6 +45,7 @@ module.exports = {
                 app.storage.profiles.get(config.jid, function (err, res) {
                     if (res) {
                         profile = res;
+                        profile.jid = {full: config.jid, bare: config.jid};
                         config.rosterVer = res.rosterVer;
                     }
                     cb();

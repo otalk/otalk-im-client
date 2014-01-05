@@ -26,16 +26,16 @@ module.exports = HumanModel.define({
         this.markActive();
     },
     session: {
-        focused: ['bool', true, true],
-        active: ['bool', true, false],
-        connected: ['bool', true, false],
-        hasConnected: ['bool', true, false],
-        idleTimeout: ['number', true, 600000],
+        focused: ['bool', false, true],
+        active: ['bool', false, false],
+        connected: ['bool', false, false],
+        hasConnected: ['bool', false, false],
+        idleTimeout: ['number', false, 600000],
         idleSince: 'date',
-        allowAlerts: ['bool', true, false],
-        badge: ['string', true, ''],
-        pageTitle: ['string', true, ''],
-        hasActiveCall: ['boolean', true, false]
+        allowAlerts: ['bool', false, false],
+        badge: 'string',
+        pageTitle: 'string',
+        hasActiveCall: ['boolean', false, false]
     },
     derived: {
         title: {

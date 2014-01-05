@@ -15,17 +15,17 @@ var Message = module.exports = HumanModel.define({
     },
     type: 'message',
     props: {
-        mid: ['string', true],
+        mid: 'string',
         owner: 'string',
-        to: ['object', true],
-        from: ['object', true],
-        body: ['string', true, ''],
-        type: ['string', true, 'normal'],
-        acked: ['bool', true, false],
-        requestReceipt: ['boo', true, false],
-        receipt: ['bool', true, false],
-        archivedId: ['string', true, ''],
-        oobURIs: ['array', false, []]
+        to: 'object',
+        from: 'object',
+        body: 'string',
+        type: ['string', false, 'normal'],
+        acked: ['bool', false, false],
+        requestReceipt: ['bool', false, false],
+        receipt: ['bool', false, false],
+        archivedId: 'string',
+        oobURIs: 'array'
     },
     derived: {
         mine: {

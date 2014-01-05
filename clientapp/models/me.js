@@ -37,11 +37,11 @@ module.exports = HumanModel.define({
         nick: 'string'
     },
     session: {
-        avatar: ['string', true, ''],
-        connected: ['bool', true, false],
-        shouldAskForAlertsPermission: ['bool', true, false],
-        hasFocus: ['bool', true, false],
-        _activeContact: ['string', true, ''],
+        avatar: 'string',
+        connected: ['bool', false, false],
+        shouldAskForAlertsPermission: ['bool', false, false],
+        hasFocus: ['bool', false, false],
+        _activeContact: 'string',
         stream: 'object'
     },
     collections: {
@@ -74,8 +74,8 @@ module.exports = HumanModel.define({
         if (curr) {
             curr.activeContact = true;
             curr.unreadCount = 0;
+            this._activeContact = curr.id;
         }
-        this._activeContact = jid;
     },
     setAvatar: function (id, type, source) {
         var self = this;
@@ -91,6 +91,9 @@ module.exports = HumanModel.define({
         if (this.isMe(jid)) {
             jid = alt || jid;
         }
+
+        if (!jid) return;
+
         return this.contacts.get(jid.bare) ||
             this.mucs.get(jid.bare) ||
             this.calls.findWhere('jid', jid);
@@ -142,7 +145,7 @@ module.exports = HumanModel.define({
         });
     },
     isMe: function (jid) {
-        return jid.bare === this.jid.bare;
+        return jid && (jid.bare === this.jid.bare);
     },
     updateIdlePresence: function () {
         var update = {

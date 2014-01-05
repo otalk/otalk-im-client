@@ -28,27 +28,27 @@ module.exports = HumanModel.define({
     type: 'contact',
     props: {
         id: ['string', true, false],
-        avatarID: ['string', true, ''],
-        groups: ['array', true, []],
+        avatarID: ['string', false, ''],
+        groups: ['array', false, []],
         inRoster: ['bool', true, false],
         jid: ['string', true],
-        name: ['string', true, ''],
+        name: ['string', false, ''],
         owner: ['string', true, ''],
         storageId: ['string', true, ''],
-        subscription: ['string', true, 'none']
+        subscription: ['string', false, 'none']
     },
     session: {
-        activeContact: ['bool', true, false],
+        activeContact: ['bool', false, false],
         avatar: 'string',
         avatarSource: 'string',
         lastInteraction: 'date',
         lastSentMessage: 'object',
         lockedResource: 'string',
-        offlineStatus: ['string', true, ''],
+        offlineStatus: ['string', false, ''],
         topResource: 'string',
-        unreadCount: ['number', true, 0],
-        _forceUpdate: ['number', true, 0],
-        onCall: ['boolean', true, false],
+        unreadCount: ['number', false, 0],
+        _forceUpdate: ['number', false, 0],
+        onCall: ['boolean', false, false],
         stream: 'object'
     },
     derived: {
@@ -147,7 +147,7 @@ module.exports = HumanModel.define({
         idle: {
             deps: ['idleSince'],
             fn: function () {
-                return !!this.idleSince;
+                return this.idleSince && !isNaN(this.idleSince.valueOf());
             }
         },
         chatState: {

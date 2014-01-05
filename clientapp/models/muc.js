@@ -19,18 +19,18 @@ module.exports = HumanModel.define({
     },
     type: 'muc',
     props: {
-        id: ['string', true, false],
+        id: ['string', true],
         name: 'string',
-        autoJoin: ['bool', true, false],
+        autoJoin: ['bool', false, false],
         nick: 'string',
         jid: 'object'
     },
     session: {
         subject: 'string',
-        activeContact: ['bool', true, false],
-        lastInteraction: 'data',
+        activeContact: ['bool', false, false],
+        lastInteraction: 'date',
         lastSentMessage: 'object',
-        unreadCount: ['number', true, 0],
+        unreadCount: ['number', false, 0],
         joined: ['bool', true, false]
     },
     derived: {

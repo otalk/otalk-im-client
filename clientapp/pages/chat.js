@@ -159,7 +159,7 @@ module.exports = BasePage.extend({
             });
 
             message = {
-                to: this.model.lockedResource || this.model.jid,
+                to: client.JID(this.model.lockedResource || this.model.jid),
                 type: 'chat',
                 body: val,
                 requestReceipt: true,
