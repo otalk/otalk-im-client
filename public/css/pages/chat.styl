@@ -29,22 +29,26 @@
       position: absolute
       left: 5px
       top: 18px
-      height: 6px
-      width: 6px
+      height: 4px
+      width: 4px
       margin-top: -3px
+      border: 1px solid transparent
       roundall(10px)
 
     &.online,
     &.chat
       &:before
         background: $green
+        border-color: $green
 
     &.dnd:before
       background: $red
+      border-color: $red
 
     &.away:before,
     &.xa:before
       background: $orange
+      border-color: $orange
 
     &.offline:before
       background: $gray-dark
@@ -54,9 +58,12 @@
       -webkit-animation: pulsate 1.5s infinite ease-in
       -moz-animation: pulsate 1.5s infinite ease-in
 
-    &.paused:before,
-    &.idle:before
+    &.paused:before
       background: lighten($gray-light, 30%)
+      border-color: lighten($gray-light, 30%)
+
+    &.idle:before
+      background: transparent
 
     .controls
       float: right
@@ -267,7 +274,7 @@
       .timestamp
         color: darken($gray-lighter, 20%)
 
-    &.mine:not(.delayed):not(.delivered)
+    &.mine.pendingReceipt:not(.delayed)
       .timestamp:after
         content: '\26A0'
         color: $orange
@@ -280,10 +287,10 @@
       .timestamp:before
         content: 'edited '
 
-    &.delivered
+    &.mine.delivered
       .timestamp:after
-        content: '\2713'
-        color: $green
+        content: '\2713' !important
+        color: $green !important
 
     &.pending
       color: lighten($gray, 50%)
@@ -324,10 +331,10 @@
       display: block
 
       &:after
-        width: 15px
+        width: 12px
         content: ''
         display: inline-block
-        text-align: right
+        text-align: center
 
     .sender
       display: block
@@ -403,34 +410,42 @@
         position: absolute
         left: 4px
         top: 11px
-        height: 6px
-        width: 6px
+        height: 4px
+        width: 4px
         margin-top: -3px
+        border: 1px solid transparent
         roundall(10px)
 
       &.online,
       &.chat
         &:before
           background: $green
+          border-color: $green
 
       &.dnd:before
         background: $red
+        border-color: $red
 
       &.away:before,
       &.xa:before
         background: $orange
+        border-color: $orange
 
       &.offline:before
         background: $gray-dark
+        border-color: $gray-dark
 
       &.composing:before
         animation: pulsate 1.5s infinite ease-in
         -webkit-animation: pulsate 1.5s infinite ease-in
         -moz-animation: pulsate 1.5s infinite ease-in
 
-      &.paused:before,
-      &.idle:before
+      &.paused:before
         background: lighten($gray-light, 30%)
+        border-color: lighten($gray-light, 30%)
+
+      &.idle:before
+        background: transparent
 
 .embeds
   margin: 0px

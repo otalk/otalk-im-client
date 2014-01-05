@@ -629,8 +629,8 @@ button.secondary:hover:not(:disabled) {
 #bookmarks li:hover {
   background: #192a47;
 }
-#roster li.online:not(.idle):after,
-#bookmarks li.online:not(.idle):after,
+#roster li.online:after,
+#bookmarks li.online:after,
 #roster li.chat:after,
 #bookmarks li.chat:after,
 #roster li.dnd:after,
@@ -643,9 +643,10 @@ button.secondary:hover:not(:disabled) {
   position: absolute;
   top: 50%;
   right: 15px;
-  height: 8px;
-  width: 8px;
+  height: 6px;
+  width: 6px;
   margin-top: -4px;
+  border: 1px solid transparent;
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
   -khtml-border-radius: 10px;
@@ -658,16 +659,19 @@ button.secondary:hover:not(:disabled) {
 #roster li.chat:after,
 #bookmarks li.chat:after {
   background: #43bb6e;
+  border-color: #43bb6e;
 }
 #roster li.dnd:after,
 #bookmarks li.dnd:after {
   background: #de0a32;
+  border-color: #de0a32;
 }
 #roster li.away:after,
 #bookmarks li.away:after,
 #roster li.xa:after,
 #bookmarks li.xa:after {
   background: #f18902;
+  border-color: #f18902;
 }
 #roster li.offline:not(:hover) .name,
 #bookmarks li.offline:not(:hover) .name {
@@ -703,10 +707,15 @@ button.secondary:hover:not(:disabled) {
 #roster li.paused:after,
 #bookmarks li.paused:after {
   background: #ababab;
+  border-color: #ababab;
 }
 #roster li.idle,
 #bookmarks li.idle {
   padding-right: 15px;
+}
+#roster li.idle:after,
+#bookmarks li.idle:after {
+  background: transparent;
 }
 #roster li.idle .name,
 #bookmarks li.idle .name {
@@ -896,9 +905,10 @@ button.secondary:hover:not(:disabled) {
   position: absolute;
   left: 5px;
   top: 18px;
-  height: 6px;
-  width: 6px;
+  height: 4px;
+  width: 4px;
   margin-top: -3px;
+  border: 1px solid transparent;
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
   -khtml-border-radius: 10px;
@@ -909,13 +919,16 @@ button.secondary:hover:not(:disabled) {
 .conversation header.online:before,
 .conversation header.chat:before {
   background: #43bb6e;
+  border-color: #43bb6e;
 }
 .conversation header.dnd:before {
   background: #de0a32;
+  border-color: #de0a32;
 }
 .conversation header.away:before,
 .conversation header.xa:before {
   background: #f18902;
+  border-color: #f18902;
 }
 .conversation header.offline:before {
   background: #2d2d2d;
@@ -925,9 +938,12 @@ button.secondary:hover:not(:disabled) {
   -webkit-animation: pulsate 1.5s infinite ease-in;
   -moz-animation: pulsate 1.5s infinite ease-in;
 }
-.conversation header.paused:before,
-.conversation header.idle:before {
+.conversation header.paused:before {
   background: #ababab;
+  border-color: #ababab;
+}
+.conversation header.idle:before {
+  background: transparent;
 }
 .conversation header .controls {
   float: right;
@@ -1161,7 +1177,7 @@ button.secondary:hover:not(:disabled) {
 .messages .message.mine .timestamp {
   color: #bebebe;
 }
-.messages .message.mine:not(.delayed):not(.delivered) .timestamp:after {
+.messages .message.mine.pendingReceipt:not(.delayed) .timestamp:after {
   content: '\26A0';
   color: #f18902;
 }
@@ -1171,9 +1187,9 @@ button.secondary:hover:not(:disabled) {
 .messages .message.edited .timestamp:before {
   content: 'edited ';
 }
-.messages .message.delivered .timestamp:after {
-  content: '\2713';
-  color: #43bb6e;
+.messages .message.mine.delivered .timestamp:after {
+  content: '\2713' !important;
+  color: #43bb6e !important;
 }
 .messages .message.pending {
   color: #ababab;
@@ -1214,10 +1230,10 @@ button.secondary:hover:not(:disabled) {
   display: block;
 }
 .messages .message .timestamp:after {
-  width: 15px;
+  width: 12px;
   content: '';
   display: inline-block;
-  text-align: right;
+  text-align: center;
 }
 .messages .message .sender {
   display: block;
@@ -1296,9 +1312,10 @@ button.secondary:hover:not(:disabled) {
   position: absolute;
   left: 4px;
   top: 11px;
-  height: 6px;
-  width: 6px;
+  height: 4px;
+  width: 4px;
   margin-top: -3px;
+  border: 1px solid transparent;
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
   -khtml-border-radius: 10px;
@@ -1309,25 +1326,32 @@ button.secondary:hover:not(:disabled) {
 .group.conversation .groupRoster li.online:before,
 .group.conversation .groupRoster li.chat:before {
   background: #43bb6e;
+  border-color: #43bb6e;
 }
 .group.conversation .groupRoster li.dnd:before {
   background: #de0a32;
+  border-color: #de0a32;
 }
 .group.conversation .groupRoster li.away:before,
 .group.conversation .groupRoster li.xa:before {
   background: #f18902;
+  border-color: #f18902;
 }
 .group.conversation .groupRoster li.offline:before {
   background: #2d2d2d;
+  border-color: #2d2d2d;
 }
 .group.conversation .groupRoster li.composing:before {
   animation: pulsate 1.5s infinite ease-in;
   -webkit-animation: pulsate 1.5s infinite ease-in;
   -moz-animation: pulsate 1.5s infinite ease-in;
 }
-.group.conversation .groupRoster li.paused:before,
-.group.conversation .groupRoster li.idle:before {
+.group.conversation .groupRoster li.paused:before {
   background: #ababab;
+  border-color: #ababab;
+}
+.group.conversation .groupRoster li.idle:before {
+  background: transparent;
 }
 .embeds {
   margin: 0px;

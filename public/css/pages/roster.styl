@@ -71,31 +71,34 @@
     &:hover
       background: $blue-saturated
 
-    &.online:not(.idle), &.chat, &.dnd, &.away, &.xa
-
+    &.online, &.chat, &.dnd, &.away, &.xa
       &:after
         content: ''
         position: absolute
         top: 50%
         right: 15px
-        height: 8px
-        width: 8px
+        height: 6px
+        width: 6px
         margin-top: -4px
+        border: 1px solid transparent
         roundall(10px)
 
     &.online,
     &.chat
       &:after
         background: $green
+        border-color: $green
 
     &.dnd
       &:after
         background: $red
+        border-color: $red
 
     &.away,
     &.xa
       &:after
         background: $orange
+        border-color: $orange
 
     &.offline:not(:hover)
       .name
@@ -123,9 +126,14 @@
     &.paused
       &:after
         background: lighten($gray-light, 30%)
+        border-color: lighten($gray-light, 30%)
 
     &.idle
       padding-right: 15px
+
+      &:after
+        background: transparent
+
       .name
         color: $gray-light
         max-width: 60%
