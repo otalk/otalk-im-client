@@ -316,6 +316,22 @@ module.exports = function (client, app) {
         original.correct(msg);
     });
 
+    client.on('receipt', function (msg) {
+        msg = msg.toJSON();
+        console.log(msg);
+
+        var contact = me.getContact(msg.from, msg.to);
+        console.log(contact);
+        if (!contact) return;
+
+        var original = Message.idLookup(msg.to[msg.type === 'groupchat' ? 'full' : 'bare'], msg.receipt);
+        console.log(original);
+
+        if (!original) return;
+
+        original.receiptReceived = true;
+    });
+
     client.on('carbon:received', function (carbon) {
         if (!me.isMe(carbon.from)) return;
 

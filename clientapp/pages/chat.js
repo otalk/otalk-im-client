@@ -49,17 +49,11 @@ module.exports = BasePage.extend({
     },
     show: function (animation) {
         BasePage.prototype.show.apply(this, [animation]);
-        client.sendMessage({
-            to: this.model.lockedResource || this.model.jid,
-            chatState: 'active'
-        });
+        this.sendChatState('active');
     },
     hide: function () {
         BasePage.prototype.hide.apply(this);
-        client.sendMessage({
-            to: this.model.lockedResource || this.model.jid,
-            chatState: 'inactive'
-        });
+        this.sendChatState('inactive');
     },
     render: function () {
         if (this.rendered) return this;
@@ -126,10 +120,7 @@ module.exports = BasePage.extend({
                 this.typing = true;
                 this.paused = false;
                 this.$chatInput.addClass('typing');
-                client.sendMessage({
-                    to: this.model.lockedResource || this.model.jid,
-                    chatState: 'composing'
-                });
+                this.sendChatState('composing');
             }
         }
     },
@@ -138,10 +129,7 @@ module.exports = BasePage.extend({
         if (this.typing && this.$chatInput.val().length === 0) {
             this.typing = false;
             this.$chatInput.removeClass('typing');
-            client.sendMessage({
-                to: this.model.lockedResource || this.model.jid,
-                chatState: 'active'
-            });
+            this.sendChatState('active');
         } else if (this.typing) {
             this.pausedTyping();
         }
@@ -149,12 +137,16 @@ module.exports = BasePage.extend({
     pausedTyping: _.debounce(function () {
         if (this.typing && !this.paused) {
             this.paused = true;
-            client.sendMessage({
-                to: this.model.lockedResource || this.model.jid,
-                chatState: 'paused'
-            });
+            this.sendChatState('paused');
         }
     }, 3000),
+    sendChatState: function (state) {
+        if (!this.model.supportsChatStates) return;
+        client.sendMessage({
+            to: this.model.lockedResource || this.model.jid,
+            chatState: state
+        });
+    },
     sendChat: function () {
         var message;
         var val = this.$chatInput.val();
@@ -170,9 +162,12 @@ module.exports = BasePage.extend({
                 to: this.model.lockedResource || this.model.jid,
                 type: 'chat',
                 body: val,
-                chatState: 'active',
+                requestReceipt: true,
                 oobURIs: links
             };
+            if (this.model.supportsChatStates) {
+                message.chatState = 'active';
+            }
             if (this.editMode) {
                 message.replace = this.model.lastSentMessage.id;
             }

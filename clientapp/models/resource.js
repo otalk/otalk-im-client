@@ -30,6 +30,14 @@ module.exports = HumanModel.define({
                 return !!this.idleSince;
             }
         },
+        supportsReceipts: {
+            deps: ['discoInfo'],
+            fn: function () {
+                if (!this.discoInfo) return false;
+                var features = this.discoInfo.features || [];
+                return features.indexOf('urn:xmpp:receipts') >= 0;
+            }
+        },
         supportsChatStates: {
             deps: ['discoInfo'],
             fn: function () {

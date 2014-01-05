@@ -1148,7 +1148,7 @@ button.secondary:hover:not(:disabled) {
   font-size: 12px;
   margin: 2px;
   display: inline-block;
-  padding-right: 11px;
+  padding-right: 3px;
   min-width: 20px;
   width: 100%;
   -moz-box-sizing: border-box;
@@ -1158,17 +1158,22 @@ button.secondary:hover:not(:disabled) {
 .messages .message:not(.mine) {
   color: #2d2d2d;
 }
-.messages .message.mine {
-  background: #fff;
-}
 .messages .message.mine .timestamp {
   color: #bebebe;
+}
+.messages .message.mine:not(.delayed):not(.delivered) .timestamp:after {
+  content: '\26A0';
+  color: #f18902;
 }
 .messages .message.delayed .timestamp:before {
   content: '@ ';
 }
 .messages .message.edited .timestamp:before {
   content: 'edited ';
+}
+.messages .message.delivered .timestamp:after {
+  content: '\2713';
+  color: #43bb6e;
 }
 .messages .message.pending {
   color: #ababab;
@@ -1179,6 +1184,7 @@ button.secondary:hover:not(:disabled) {
   background-color: #e7f7fd;
   padding: 2px;
   padding-left: 8px;
+  padding-right: 3px;
   border-radius: 2px;
 }
 .messages .message.meAction:before {
@@ -1186,8 +1192,6 @@ button.secondary:hover:not(:disabled) {
   font-style: normal;
 }
 .messages .message.meAction .timestamp {
-  position: relative;
-  left: -10px;
   font-style: normal;
   color: #88d5f7;
 }
@@ -1208,6 +1212,12 @@ button.secondary:hover:not(:disabled) {
   color: #88d5f7;
   float: right;
   display: block;
+}
+.messages .message .timestamp:after {
+  width: 15px;
+  content: '';
+  display: inline-block;
+  text-align: right;
 }
 .messages .message .sender {
   display: block;

@@ -255,7 +255,7 @@
     font-size: $font-size-small
     margin: 2px
     display: inline-block
-    padding-right: 11px
+    padding-right: 3px
     min-width: 20px
     width: 100%
     borderbox()
@@ -264,10 +264,13 @@
       color: $gray-dark
 
     &.mine
-      background: white
-
       .timestamp
         color: darken($gray-lighter, 20%)
+
+    &.mine:not(.delayed):not(.delivered)
+      .timestamp:after
+        content: '\26A0'
+        color: $orange
 
     &.delayed
       .timestamp:before
@@ -276,6 +279,11 @@
     &.edited
       .timestamp:before
         content: 'edited '
+
+    &.delivered
+      .timestamp:after
+        content: '\2713'
+        color: $green
 
     &.pending
       color: lighten($gray, 50%)
@@ -286,6 +294,7 @@
       background-color: $blue-lighter
       padding: 2px
       padding-left: 8px
+      padding-right: 3px
       border-radius: 2px
 
       &:before
@@ -293,8 +302,6 @@
         font-style: normal
 
       .timestamp
-        position: relative
-        left: -10px
         font-style: normal
         color: $blue-light
 
@@ -315,6 +322,12 @@
       color: lighten($blue, 50%)
       float: right
       display: block
+
+      &:after
+        width: 15px
+        content: ''
+        display: inline-block
+        text-align: right
 
     .sender
       display: block

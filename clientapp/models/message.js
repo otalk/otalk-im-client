@@ -22,6 +22,7 @@ var Message = module.exports = HumanModel.define({
         body: ['string', true, ''],
         type: ['string', true, 'normal'],
         acked: ['bool', true, false],
+        receipt: ['bool', true, false],
         archivedId: ['string', true, ''],
         oobURIs: ['array', false, []]
     },
@@ -141,6 +142,7 @@ var Message = module.exports = HumanModel.define({
                 if (this.pending) res.push('pending');
                 if (this.delayed) res.push('delayed');
                 if (this.edited) res.push('edited');
+                if (this.receiptReceived) res.push('delivered');
                 if (this.meAction) res.push('meAction');
 
                 return res.join(' ');

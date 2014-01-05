@@ -165,6 +165,22 @@ module.exports = HumanModel.define({
                 return 'gone';
             }
         },
+        supportsReceipts: {
+            deps: ['lockedResource', '_forceUpdate'],
+            fn: function () {
+                if (!this.lockedResource) return false;
+                var res = this.resources.get(this.lockedResource);
+                return res.supportsReceipts;
+            }
+        },
+        supportsChatStates: {
+            deps: ['lockedResource', '_forceUpdate'],
+            fn: function () {
+                if (!this.lockedResource) return false;
+                var res = this.resources.get(this.lockedResource);
+                return res.supportsChatStates;
+            }
+        },
         hasUnread: {
             deps: ['unreadCount'],
             fn: function () {
