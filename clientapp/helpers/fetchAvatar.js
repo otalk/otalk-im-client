@@ -33,7 +33,6 @@ module.exports = function (jid, id, type, source, cb) {
                     }
 
                     resp = resp.toJSON();
-                    console.log(JSON.stringify(resp));
                     type = resp.vCardTemp.photo.type || type;
 
                     var data = resp.vCardTemp.photo.data;

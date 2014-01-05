@@ -61,7 +61,6 @@ module.exports = HumanView.extend({
     handleEmbedClick: function (e) {
         if (e.shiftKey) {
             e.preventDefault();
-            console.log(e);
             $(e.currentTarget).toggleClass('collapsed');
         }
     },

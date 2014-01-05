@@ -167,9 +167,15 @@ module.exports = function (client, app) {
             pres.status = pres.status || '';
             pres.priority = pres.priority || 0;
 
+
             var resource = contact.resources.get(pres.from);
             if (resource) {
                 pres.from = pres.from.full;
+                // Explicitly set idleSince to null to clear
+                // the model's value.
+                if (!pres.idleSince) {
+                    pres.idleSince = null;
+                }
                 resource.set(pres);
             } else {
                 resource = new Resource(pres);
@@ -318,14 +324,11 @@ module.exports = function (client, app) {
 
     client.on('receipt', function (msg) {
         msg = msg.toJSON();
-        console.log(msg);
 
         var contact = me.getContact(msg.from, msg.to);
-        console.log(contact);
         if (!contact) return;
 
         var original = Message.idLookup(msg.to[msg.type === 'groupchat' ? 'full' : 'bare'], msg.receipt);
-        console.log(original);
 
         if (!original) return;
 
