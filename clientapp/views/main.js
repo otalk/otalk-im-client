@@ -23,6 +23,7 @@ module.exports = HumanView.extend({
     },
     classBindings: {
         connected: '#connectionOverlay',
+        cacheStatus: '#updateBar',
         hasActiveCall: '#wrapper'
     },
     render: function () {

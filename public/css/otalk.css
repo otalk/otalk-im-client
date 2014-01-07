@@ -551,6 +551,19 @@ button.secondary:hover:not(:disabled) {
   position: relative;
   top: -1px;
 }
+#updateBar {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 30px;
+  background: rgba(0,0,0,0.8);
+  z-index: 900;
+  transition: all 0.25s linear 0;
+  border-bottom: 1px solid #222;
+  text-align: center;
+  display: none;
+}
 #menu {
   position: fixed;
   top: 0px;

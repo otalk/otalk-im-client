@@ -23,6 +23,11 @@ module.exports = HumanModel.define({
             self.markInactive();
         });
 
+        self.cacheStatus = app.cache.state;
+        app.cache.on('change', function (state) {
+            self.cacheStatus = state;
+        });
+
         this.markActive();
     },
     session: {
@@ -35,7 +40,8 @@ module.exports = HumanModel.define({
         allowAlerts: ['bool', false, false],
         badge: 'string',
         pageTitle: 'string',
-        hasActiveCall: ['boolean', false, false]
+        hasActiveCall: ['boolean', false, false],
+        cacheStatus: 'string'
     },
     derived: {
         title: {

@@ -55,7 +55,7 @@ clientApp.on('ready', function () {
 
     var manifestTemplate = fs.readFileSync(__dirname + '/clientapp/templates/misc/manifest.cache', 'utf-8');
     var cacheManifest = manifestTemplate
-          .replace('#{version}', pkginfo.version)
+          .replace('#{version}', pkginfo.version + config.isDev ? ' ' + Date.now() : '')
           .replace('#{jsFileName}', clientApp.jsFileName())
           .replace('#{cssFileName}', clientApp.cssFileName());
     console.log('Cache manifest generated');

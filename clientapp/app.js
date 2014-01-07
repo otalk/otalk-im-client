@@ -14,6 +14,7 @@ var Storage = require('./storage');
 var xmppEventHandlers = require('./helpers/xmppEventHandlers');
 var Notify = require('notify.js');
 var Desktop = require('./helpers/desktop');
+var AppCache = require('./helpers/cache');
 
 
 module.exports = {
@@ -38,6 +39,7 @@ module.exports = {
             function (cb) {
                 app.notifications = new Notify();
                 app.desktop = new Desktop();
+                app.cache = new AppCache();
                 app.storage = new Storage();
                 app.storage.open(cb);
             },
