@@ -50,6 +50,7 @@ if (config.isDev) {
 }
 
 clientApp.on('ready', function () {
+    console.log('READY!');
     var pkginfo = JSON.parse(fs.readFileSync('./package.json'));
 
     var manifestTemplate = fs.readFileSync('./clientapp/templates/misc/manifest.cache', 'utf-8');
@@ -64,6 +65,9 @@ clientApp.on('ready', function () {
         res.set('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
         res.send(cacheManifest);
     });
+
+    // serves app on every other url
+    app.get('*', clientApp.html());
 });
 
 var webappManifest = fs.readFileSync('./public/x-manifest.webapp');
@@ -136,9 +140,6 @@ app.get('/oembed', function (req, res) {
         res.status(400).send();
     }
 });
-
-// serves app on every other url
-app.get('*', clientApp.html());
 
 
 app.use(function handleError(err, req, res, next) {
