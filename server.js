@@ -26,6 +26,7 @@ var clientApp = new Moonboots({
     main: __dirname + '/clientapp/app.js',
     templateFile: __dirname + '/clientapp/templates/main.html',
     developmentMode: config.isDev,
+    cachePeriod: 0,
     libraries: [
         __dirname + '/clientapp/libraries/jquery.js',
         __dirname + '/clientapp/libraries/ui.js',
