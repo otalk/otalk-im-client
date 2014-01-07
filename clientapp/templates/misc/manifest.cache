@@ -5,12 +5,12 @@ CACHE:
 #{jsFileName}
 #{cssFileName}
 
-images/logo.png
-images/icon_128x128.png
+/images/logo.png
+/images/icon_128x128.png
 
-js/zepto.js
+/js/zepto.js
 js/login.js
-js/logout.js
+/js/logout.js
 
 NETWORK:
 *

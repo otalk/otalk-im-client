@@ -45,17 +45,20 @@ if (config.isDev) {
     clientApp.config.beforeBuildJS = function () {
         var clientFolder = __dirname + '/clientapp';
         templatizer(clientFolder + '/templates', clientFolder + '/templates.js');
-
-        var pkginfo = JSON.parse(fs.readFileSync('./package.json'));
-        var cacheManifest = fs.readFileSync('clientapp/templates/misc/manifest.cache', 'utf-8');
-        cacheManifest = cacheManifest
-            .replace('#{version}', pkginfo.version + ' ' + Date.now())
-            .replace('#{jsFileName}', '/' + clientApp.jsFileName())
-            .replace('#{cssFileName}', '/' + clientApp.cssFileName());
-
-        fs.writeFileSync('./public/x-manifest.cache', cacheManifest);
     };
 }
+
+
+var pkginfo = JSON.parse(fs.readFileSync('./package.json'));
+
+var manifestTemplate = fs.readFileSync('./clientapp/templates/misc/manifest.cache', 'utf-8');
+var cacheManifest = manifestTemplate
+      .replace('#{version}', pkginfo.version)
+      .replace('#{jsFileName}', '/' + clientApp.jsFileName())
+      .replace('#{cssFileName}', '/' + clientApp.cssFileName());
+
+var webappManifest = fs.readFileSync('./public/x-manifest.webapp');
+
 
 app.set('view engine', 'jade');
 
@@ -73,21 +76,14 @@ app.get('/oauth/callback', function (req, res) {
 });
 
 app.get('/manifest.webapp', function (req, res, next) {
-    fs.readFile('./public/x-manifest.webapp', function doneReadingManifest(err, manifestContents) {
-        if (err) return next(err);
-
-        res.set('Content-Type', 'application/x-web-app-manifest+json');
-        res.send(manifestContents);
-    });
+    res.set('Content-Type', 'application/x-web-app-manifest+json');
+    res.send(webappManifest);
 });
 
 app.get('/manifest.cache', function (req, res, next) {
-    fs.readFile('./public/x-manifest.cache', function doneReadingManifestCache(err, manifestCacheContents) {
-        if (err) return next(err);
-
-        res.set('Content-Type', 'text/cache-manifest');
-        res.send(manifestCacheContents);
-    });
+    res.set('Content-Type', 'text/cache-manifest');
+    res.set('Cache-Control', 'public, max-age=0');
+    res.send(cacheManifest);
 });
 
 app.get('/oembed', function (req, res) {
