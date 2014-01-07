@@ -50,14 +50,15 @@ if (config.isDev) {
 }
 
 clientApp.on('ready', function () {
-    console.log('READY!');
-    var pkginfo = JSON.parse(fs.readFileSync('./package.json'));
+    console.log('Client app ready');
+    var pkginfo = JSON.parse(fs.readFileSync(__dirname + '/package.json'));
 
-    var manifestTemplate = fs.readFileSync('./clientapp/templates/misc/manifest.cache', 'utf-8');
+    var manifestTemplate = fs.readFileSync(__dirname + '/clientapp/templates/misc/manifest.cache', 'utf-8');
     var cacheManifest = manifestTemplate
           .replace('#{version}', pkginfo.version)
           .replace('#{jsFileName}', clientApp.jsFileName())
           .replace('#{cssFileName}', clientApp.cssFileName());
+    console.log('Cache manifest generated');
 
 
     app.get('/manifest.cache', function (req, res, next) {
