@@ -2,14 +2,14 @@ CACHE MANIFEST
 # #{version}
 
 CACHE:
-#{jsFileName}
-#{cssFileName}
+/#{jsFileName}
+/#{cssFileName}
 
 /images/logo.png
 /images/icon_128x128.png
 
 /js/zepto.js
-js/login.js
+/js/login.js
 /js/logout.js
 
 NETWORK:

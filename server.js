@@ -55,13 +55,13 @@ clientApp.on('ready', function () {
     var manifestTemplate = fs.readFileSync('./clientapp/templates/misc/manifest.cache', 'utf-8');
     var cacheManifest = manifestTemplate
           .replace('#{version}', pkginfo.version)
-          .replace('#{jsFileName}', '/' + clientApp.jsFileName())
-          .replace('#{cssFileName}', '/' + clientApp.cssFileName());
+          .replace('#{jsFileName}', clientApp.jsFileName())
+          .replace('#{cssFileName}', clientApp.cssFileName());
 
 
     app.get('/manifest.cache', function (req, res, next) {
         res.set('Content-Type', 'text/cache-manifest');
-        res.set('Cache-Control', 'public, max-age=0');
+        res.set('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
         res.send(cacheManifest);
     });
 });
