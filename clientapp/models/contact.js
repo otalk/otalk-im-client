@@ -42,6 +42,7 @@ module.exports = HumanModel.define({
         avatar: 'string',
         avatarSource: 'string',
         lastInteraction: 'date',
+        lastHistoryFetch: 'date',
         lastSentMessage: 'object',
         lockedResource: 'string',
         offlineStatus: ['string', false, ''],
@@ -281,21 +282,32 @@ module.exports = HumanModel.define({
         var self = this;
         app.whenConnected(function () {
             var filter = {
-                count: 20,
-                before: true,
+                'with': self.jid,
+                rsm: {
+                    count: 20,
+                    before: true
+                }
             };
 
             var lastMessage = self.messages.last();
             if (lastMessage && lastMessage.archivedId) {
-                filter.after = lastMessage.archivedId;
+                filter.rsm.after = lastMessage.archivedId;
             }
 
-            client.getHistory({
-                with: self.jid,
-                start: self.lastInteraction,
-                rsm: filter
-            }, function (err, res) {
+            if (self.lastHistoryFetch && !isNaN(self.lastHistoryFetch.valueOf())) {
+                if (self.lastInteraction > self.lastHistoryFetch) {
+                    filter.start = self.lastInteraction;
+                } else {
+                    filter.start = self.lastHistoryFetch;
+                }
+            } else {
+                filter.end = new Date(Date.now());
+            }
+
+            client.getHistory(filter, function (err, res) {
                 if (err) return;
+
+                self.lastHistoryFetch = new Date(Date.now());
 
                 var results = res.mamQuery.results || [];
                 results.reverse();
