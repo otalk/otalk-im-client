@@ -22,6 +22,7 @@ module.exports = BasePage.extend({
         this.listenTo(this, 'pageunloaded', this.handlePageUnloaded);
 
         this.listenTo(this.model.messages, 'change', this.refreshModel);
+        this.listenTo(this.model.messages, 'sort', this.renderCollection);
 
         this.render();
     },
@@ -94,6 +95,7 @@ module.exports = BasePage.extend({
     },
     renderCollection: function () {
         var self = this;
+        this.$messageList.empty();
         this.model.messages.each(function (model, i) {
             self.appendModel(model);
         });

@@ -6,5 +6,6 @@ var Message = require('./message');
 
 module.exports = BaseCollection.extend({
     type: 'messages',
-    model: Message
+    model: Message,
+    comparator: 'created'
 });

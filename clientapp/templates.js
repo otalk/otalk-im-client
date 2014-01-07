@@ -207,7 +207,7 @@ exports.includes.embeds = function anonymous(locals) {
 exports.includes.message = function anonymous(locals) {
     var buf = [];
     with (locals || {}) {
-        buf.push('<li><div class="message"><span class="timestamp">' + jade.escape(null == (jade.interp = message.created) ? "" : jade.interp) + '</span><p class="body">' + jade.escape(null == (jade.interp = message.body) ? "" : jade.interp) + "</p></div></li>");
+        buf.push('<li><div class="message"><span class="timestamp">' + jade.escape(null == (jade.interp = message.timestamp) ? "" : jade.interp) + '</span><p class="body">' + jade.escape(null == (jade.interp = message.body) ? "" : jade.interp) + "</p></div></li>");
     }
     return buf.join("");
 };

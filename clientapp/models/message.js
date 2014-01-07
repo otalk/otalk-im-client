@@ -51,12 +51,21 @@ var Message = module.exports = HumanModel.define({
             }
         },
         created: {
-            deps: ['delay', '_created'],
+            deps: ['delay', '_created', '_edited'],
             fn: function () {
                 if (this.delay && this.delay.stamp) {
                     return this.delay.stamp;
                 }
                 return this._created;
+            }
+        },
+        timestamp: {
+            deps: ['created', '_edited'],
+            fn: function () {
+                if (this._edited && !isNaN(this._edited.valueOf())) {
+                    return this._edited;
+                }
+                return this.created;
             }
         },
         formattedTime: {
@@ -188,6 +197,7 @@ var Message = module.exports = HumanModel.define({
     },
     session: {
         _created: 'date',
+        _edited: 'date',
         _mucMine: 'bool',
         receiptReceived: ['bool', true, false],
         edited: ['bool', true, false],
@@ -200,7 +210,7 @@ var Message = module.exports = HumanModel.define({
         delete msg.id;
 
         this.set(msg);
-        this._created = new Date(Date.now());
+        this._edited = new Date(Date.now());
         this.edited = true;
 
         this.save();
