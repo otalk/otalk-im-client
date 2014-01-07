@@ -49,29 +49,39 @@ if (config.isDev) {
     };
 }
 
+clientApp.on('ready', function () {
+    var pkginfo = JSON.parse(fs.readFileSync('./package.json'));
 
-var pkginfo = JSON.parse(fs.readFileSync('./package.json'));
+    var manifestTemplate = fs.readFileSync('./clientapp/templates/misc/manifest.cache', 'utf-8');
+    var cacheManifest = manifestTemplate
+          .replace('#{version}', pkginfo.version)
+          .replace('#{jsFileName}', '/' + clientApp.jsFileName())
+          .replace('#{cssFileName}', '/' + clientApp.cssFileName());
 
-var manifestTemplate = fs.readFileSync('./clientapp/templates/misc/manifest.cache', 'utf-8');
-var cacheManifest = manifestTemplate
-      .replace('#{version}', pkginfo.version)
-      .replace('#{jsFileName}', '/' + clientApp.jsFileName())
-      .replace('#{cssFileName}', '/' + clientApp.cssFileName());
+
+    app.get('/manifest.cache', function (req, res, next) {
+        res.set('Content-Type', 'text/cache-manifest');
+        res.set('Cache-Control', 'public, max-age=0');
+        res.send(cacheManifest);
+    });
+});
 
 var webappManifest = fs.readFileSync('./public/x-manifest.webapp');
-
 
 app.set('view engine', 'jade');
 
 app.get('/login', function (req, res) {
     res.render('login');
 });
+
 app.get('/logout', function (req, res) {
     res.render('logout');
 });
+
 app.get('/oauth/login', function (req, res) {
     res.redirect('https://apps.andyet.com/oauth/authorize?client_id=' + config.andyetAuth.id + '&response_type=token');
 });
+
 app.get('/oauth/callback', function (req, res) {
     res.render('oauthLogin');
 });
@@ -79,12 +89,6 @@ app.get('/oauth/callback', function (req, res) {
 app.get('/manifest.webapp', function (req, res, next) {
     res.set('Content-Type', 'application/x-web-app-manifest+json');
     res.send(webappManifest);
-});
-
-app.get('/manifest.cache', function (req, res, next) {
-    res.set('Content-Type', 'text/cache-manifest');
-    res.set('Cache-Control', 'public, max-age=0');
-    res.send(cacheManifest);
 });
 
 app.get('/oembed', function (req, res) {
