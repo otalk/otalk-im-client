@@ -161,6 +161,7 @@ module.exports = BasePage.extend({
             });
 
             message = {
+                id: client.nextId(),
                 to: client.JID(this.model.lockedResource || this.model.jid),
                 type: 'chat',
                 body: val,
@@ -174,9 +175,12 @@ module.exports = BasePage.extend({
                 message.replace = this.model.lastSentMessage.id;
             }
 
-            var id = client.sendMessage(message);
-            message.mid = id;
+            client.sendMessage(message);
+
+            // Prep message to create a Message model
             message.from = me.jid;
+            message.mid = message.id;
+            delete message.id;
 
             if (this.editMode) {
                 this.model.lastSentMessage.correct(message);
