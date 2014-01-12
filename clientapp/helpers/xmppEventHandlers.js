@@ -46,7 +46,7 @@ var discoCapsQueue = async.queue(function (pres, cb) {
                 log.info('Saving info for ' + caps.ver);
                 var data = result.discoInfo.toJSON();
                 app.storage.disco.add(caps.ver, data, function () {
-                    if (resource) resource.discoInfo = existing;
+                    if (resource) resource.discoInfo = data;
                     cb();
                 });
             } else {
