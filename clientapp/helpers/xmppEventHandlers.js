@@ -109,6 +109,7 @@ module.exports = function (client, app) {
         me.jid = jid;
 
         app.state.connected = true;
+        window.readyForDeviceID = true;
 
         client.getRoster(function (err, resp) {
             resp = resp.toJSON();

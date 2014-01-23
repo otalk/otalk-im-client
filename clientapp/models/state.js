@@ -28,6 +28,10 @@ module.exports = HumanModel.define({
             self.cacheStatus = state;
         });
 
+        document.addEventListener('deviceid', function (event) {
+            self.deviceID = event.deviceid;
+        });
+
         this.markActive();
     },
     session: {
@@ -41,7 +45,8 @@ module.exports = HumanModel.define({
         badge: 'string',
         pageTitle: 'string',
         hasActiveCall: ['boolean', false, false],
-        cacheStatus: 'string'
+        cacheStatus: 'string',
+        deviceID: 'string'
     },
     derived: {
         title: {
@@ -52,6 +57,12 @@ module.exports = HumanModel.define({
                     return this.badge + ' • ' + base;
                 }
                 return base;
+            }
+        },
+        deviceIDReady: {
+            deps: ['connected', 'deviceID'],
+            fn: function () {
+                return (this.connected && this.deviceID);
             }
         }
     },

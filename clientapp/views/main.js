@@ -13,6 +13,9 @@ module.exports = HumanView.extend({
     initialize: function () {
         this.listenTo(app.state, 'change:title', this.handleTitle);
         app.desktop.updateBadge('');
+        app.state.on('change:deviceID', function () {
+            console.log('DEVICE ID>>>', app.state.deviceID);
+        });
     },
     events: {
         'click a[href]': 'handleLinkClick',
