@@ -12,6 +12,7 @@ var MainView = require('./views/main');
 var Router = require('./router');
 var Storage = require('./storage');
 var xmppEventHandlers = require('./helpers/xmppEventHandlers');
+var pushNotifications = require('./helpers/pushNotifications');
 var Notify = require('notify.js');
 var Desktop = require('./helpers/desktop');
 var AppCache = require('./helpers/cache');
@@ -64,6 +65,7 @@ module.exports = {
                 };
 
                 self.api = window.client = StanzaIO.createClient(config);
+                client.use(pushNotifications);
                 xmppEventHandlers(self.api, self);
 
                 if (self.api.jingle.capabilities.length > 1) {

@@ -28,6 +28,7 @@ module.exports = HumanModel.define({
         this.bind('change:rosterVer', this.save, this);
         this.contacts.bind('change:unreadCount', this.updateUnreadCount, this);
         app.state.bind('change:active', this.updateIdlePresence, this);
+        app.state.bind('change:deviceIDReady', this.registerDevice, this);
     },
     props: {
         jid: ['object', true],
@@ -195,5 +196,13 @@ module.exports = HumanModel.define({
             this.stream.stop();
             this.stream = null;
         }
+    },
+    registerDevice: function () {
+        var deviceID = app.state.deviceID;
+        client.otalkRegister(deviceID).then(function () {
+            client.registerPush('push@push.otalk.im/prod');
+        }).catch(function (err) {
+            console.log('Could not enable push notifications');
+        });
     }
 });

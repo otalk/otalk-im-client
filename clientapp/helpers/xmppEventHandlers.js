@@ -79,7 +79,7 @@ module.exports = function (client, app) {
         }
 
         localStorage.config = JSON.stringify({
-            jid: client.config.jid,
+            jid: client.config.jid.bare,
             server: client.config.server,
             wsURL: client.config.wsURL,
             credentials: creds

@@ -1,6 +1,6 @@
 {
     "name": "otalk.im",
-    "version": "0.0.16",
+    "version": "0.0.17",
     "description": "Otalk: WebRTC Enabled XMPP Client, in the Browser",
     "repository": {
         "type": "git",
@@ -21,6 +21,7 @@
         "human-model": "2.6.0",
         "human-view": "1.5.0",
         "jade": "0.35.0",
+        "jxt": "0.5.1",
         "moonboots": "1.0.0",
         "node-uuid": "1.4.1",
         "notify.js": "0.0.3",
