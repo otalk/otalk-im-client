@@ -199,7 +199,7 @@ module.exports = HumanModel.define({
     },
     registerDevice: function () {
         var deviceID = app.state.deviceID;
-        if (!!deviceID) {
+        if (!!deviceID && deviceID !== undefined && deviceID !== 'undefined') {
             client.otalkRegister(deviceID).then(function () {
                 client.registerPush('push@push.otalk.im/prod');
             }).catch(function (err) {

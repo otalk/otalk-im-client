@@ -62,7 +62,7 @@ module.exports = HumanModel.define({
         deviceIDReady: {
             deps: ['connected', 'deviceID'],
             fn: function () {
-                return (this.connected && this.deviceID);
+                return (this.connected && !!this.deviceID);
             }
         }
     },
