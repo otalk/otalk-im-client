@@ -150,7 +150,7 @@ module.exports = function (client, app) {
 
             if (item.subscription === 'remove') {
                 if (contact) {
-                    me.removeContact(contact);
+                    me.removeContact(item.jid);
                 }
                 return;
             }
