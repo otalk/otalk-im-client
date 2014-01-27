@@ -114,8 +114,7 @@ module.exports = function (client, app) {
         client.getRoster(function (err, resp) {
             resp = resp.toJSON();
 
-            var resultVer = resp.roster.ver;
-            if (me.rosterVer && resultVer && me.rosterVer !== resultVer) {
+            if (resp.roster && resp.roster.items && resp.roster.items.length) {
                 app.storage.roster.clear(function () {
                     me.contacts.reset();
                     me.rosterVer = resp.roster.ver;
