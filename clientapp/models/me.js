@@ -199,10 +199,12 @@ module.exports = HumanModel.define({
     },
     registerDevice: function () {
         var deviceID = app.state.deviceID;
-        client.otalkRegister(deviceID).then(function () {
-            client.registerPush('push@push.otalk.im/prod');
-        }).catch(function (err) {
-            console.log('Could not enable push notifications');
-        });
+        if (!!deviceID) {
+            client.otalkRegister(deviceID).then(function () {
+                client.registerPush('push@push.otalk.im/prod');
+            }).catch(function (err) {
+                console.log('Could not enable push notifications');
+            });
+        }
     }
 });
