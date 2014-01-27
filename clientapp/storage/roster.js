@@ -77,6 +77,14 @@ RosterStorage.prototype = {
             cb(false, request.result);
         };
         request.onerror = cb;
+    },
+    clear: function (cb) {
+        cb = cb || function () {};
+        var request = this.transaction('readwrite').clear();
+        request.onsuccess = function () {
+            cb(false, request.result);
+        };
+        request.onerror = cb;
     }
 };
 

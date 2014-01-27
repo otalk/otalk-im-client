@@ -114,11 +114,17 @@ module.exports = function (client, app) {
         client.getRoster(function (err, resp) {
             resp = resp.toJSON();
 
-            me.rosterVer = resp.roster.ver;
+            var resultVer = resp.roster.ver;
+            if (me.rosterVer && resultVer && me.rosterVer !== resultVer) {
+                app.storage.roster.clear(function () {
+                    me.contacts.reset();
+                    me.rosterVer = resp.roster.ver;
 
-            _.each(resp.roster.items, function (item) {
-                me.setContact(item, true);
-            });
+                    _.each(resp.roster.items, function (item) {
+                        me.setContact(item, true);
+                    });
+                });
+            }
 
             var caps = client.updateCaps();
             app.storage.disco.add(caps.ver, caps.discoInfo, function () {

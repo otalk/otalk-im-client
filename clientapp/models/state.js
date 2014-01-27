@@ -46,7 +46,7 @@ module.exports = HumanModel.define({
         pageTitle: 'string',
         hasActiveCall: ['boolean', false, false],
         cacheStatus: 'string',
-        deviceID: 'string'
+        deviceID: ['string', false, '']
     },
     derived: {
         title: {
