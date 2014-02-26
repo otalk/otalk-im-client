@@ -9,7 +9,7 @@ $('#loginbox form').on('submit', function (e) {
     if (connURL.indexOf('http') === 0) {
         boshURL = connURL;
         transport = 'bosh';
-    } else {
+    } else if (connURL.indexOf('ws') === 0) {
         wsURL = connURL;
         transport = 'websocket';
     }
