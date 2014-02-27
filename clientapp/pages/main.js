@@ -23,6 +23,7 @@ module.exports = BasePage.extend({
         'click .enableAlerts': 'enableAlerts',
         'click .installFirefox': 'installFirefox',
         'click .addContact': 'handleAddContact',
+        'click .joinMUC': 'handleJoinMUC',
         'dragover': 'handleAvatarChangeDragOver',
         'drop': 'handleAvatarChange',
         'change #uploader': 'handleAvatarChange',
@@ -111,5 +112,18 @@ module.exports = BasePage.extend({
         this.$('#addcontact').val('');
 
         return false;
+    },
+    handleJoinMUC: function (e) {
+        e.preventDefault();
+
+        var mucjid = this.$('#joinmuc').val();
+        me.mucs.add({
+            id: mucjid,
+            name: mucjid,
+            jid: new client.JID(mucjid),
+            nick: me.nick,
+            autoJoin: false
+        });
+        me.mucs.get(mucjid).join();
     }
 });
