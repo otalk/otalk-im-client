@@ -15,6 +15,7 @@ parts.forEach(function (value) {
                     jid: user.username.toLowerCase() + "@otalk.im",
                     server: "otalk.im",
                     wsURL: "wss://otalk.im/xmpp-websocket",
+                    transport: "websocket",
                     credentials: {
                         username: user.username.toLowerCase(),
                         password: token

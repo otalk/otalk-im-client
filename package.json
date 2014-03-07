@@ -1,7 +1,7 @@
 {
   "name": "otalk.im",
   "description": "Otalk: WebRTC Enabled XMPP Client, in the Browser",
-  "version": "0.0.38",
+  "version": "0.0.39",
   "dependencies": {
     "andlog": "0.0.4",
     "async": "0.2.9",
