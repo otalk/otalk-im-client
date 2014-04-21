@@ -409,7 +409,13 @@ module.exports = function (client, app) {
             state: 'incoming',
             jingleSession: session
         });
-        session.accept();
+        if (!client.jingle.localStream) {
+            client.jingle.startLocalMedia(null, function (err) {
+                session.accept();
+            });
+        } else {
+            session.accept();
+        }
         contact.jingleCall = call;
         me.calls.add(call);
     });
@@ -449,11 +455,10 @@ module.exports = function (client, app) {
     client.on('jingle:remotestream:added', function (session) {
         var contact = me.getContact(session.peer);
         if (!contact) {
-            contact = new Contact({jid: client.JID(session.peer).bare});
             contact.resources.add({id: session.peer});
             me.contacts.add(contact);
         }
-        contact.stream = session.stream;
+        contact.stream = session.streams[0];
     });
 
     client.on('jingle:remotestream:removed', function (session) {

@@ -67,10 +67,6 @@ module.exports = {
                 client.use(pushNotifications);
                 xmppEventHandlers(self.api, self);
 
-                if (self.api.jingle.capabilities.length > 1) {
-                    self.api.jingle.startLocalMedia();
-                }
-
                 self.api.once('session:started', function () {
                     app.state.hasConnected = true;
                     cb();
