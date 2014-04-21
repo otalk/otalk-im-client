@@ -227,7 +227,7 @@ module.exports = HumanModel.define({
             if (source == 'vcard' && self.avatarSource == 'pubsub') return;
             self.avatarID = avatar.id;
             self.avatar = avatar.uri;
-            self.avaarSource = source;
+            self.avatarSource = source;
             self.save();
         });
     },
