@@ -231,20 +231,21 @@ module.exports = BasePage.extend({
         e.preventDefault();
         var self = this;
 
-        //if (!(this.model.jingleCall && this.model.jingleCall.jingleSession)) return;
         this.$('button.accept').prop('disabled', true);
         if (this.model.jingleCall.jingleSession.state == 'pending') {
             if (!client.jingle.localStream) {
                 client.jingle.startLocalMedia(null, function (err) {
                     if (err) {
-                        this.model.jingleCall.end({
+                        self.model.jingleCall.end({
                             condition: 'decline'
                         });
                     } else {
+                        client.sendPresence({to: client.JID(self.model.jingleCall.jingleSession.peer) });
                         self.model.jingleCall.jingleSession.accept();
                     }
                 });
             } else {
+                client.sendPresence({to: client.JID(this.model.jingleCall.jingleSession.peer) });
                 this.model.jingleCall.jingleSession.accept();
             }
         }
@@ -253,13 +254,14 @@ module.exports = BasePage.extend({
     handleEndClick: function (e) {
         e.preventDefault();
         var condition = 'success';
-        if (this.model.jingleCall && this.model.jingleCall.jingleSession &&
-                this.model.jingleCall.jingleSession.state == 'pending') {
-            condition = 'decline';
+        if (this.model.jingleCall) {
+            if (this.model.jingleCall.jingleSession && this.model.jingleCall.jingleSession.state == 'pending') {
+                condition = 'decline';
+            }
+            this.model.jingleCall.end({
+                condition: condition
+            });
         }
-        this.model.jingleCall.end({
-            condition: condition
-        });
         return false;
     },
     handleMuteClick: function (e) {

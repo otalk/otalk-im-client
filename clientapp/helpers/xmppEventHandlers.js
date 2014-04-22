@@ -431,12 +431,15 @@ module.exports = function (client, app) {
         contact.callState = '';
         contact.jingleCall = null;
         contact.onCall = false;
+        if (me.calls.length == 1) { // this is the last call
+            client.jingle.stopLocalMedia();
+            client.jingle.localStream = null;
+        }
     });
 
     client.on('jingle:accepted', function (session) {
         var contact = me.getContact(session.peer);
         contact.callState = 'activeCall';
-        console.log('jingle accepted...');
         contact.onCall = true;
     });
 
