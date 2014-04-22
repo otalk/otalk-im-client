@@ -409,9 +409,10 @@ module.exports = function (client, app) {
             state: 'incoming',
             jingleSession: session
         });
-        session.accept();
         contact.jingleCall = call;
+        contact.callState = 'incoming';
         me.calls.add(call);
+        // FIXME: send directed presence if not on roster
     });
 
     client.on('jingle:outgoing', function (session) {
@@ -430,6 +431,10 @@ module.exports = function (client, app) {
         contact.callState = '';
         contact.jingleCall = null;
         contact.onCall = false;
+        if (me.calls.length == 1) { // this is the last call
+            client.jingle.stopLocalMedia();
+            client.jingle.localStream = null;
+        }
     });
 
     client.on('jingle:accepted', function (session) {
@@ -449,11 +454,10 @@ module.exports = function (client, app) {
     client.on('jingle:remotestream:added', function (session) {
         var contact = me.getContact(session.peer);
         if (!contact) {
-            contact = new Contact({jid: client.JID(session.peer).bare});
             contact.resources.add({id: session.peer});
             me.contacts.add(contact);
         }
-        contact.stream = session.stream;
+        contact.stream = session.streams[0];
     });
 
     client.on('jingle:remotestream:removed', function (session) {
