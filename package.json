@@ -25,7 +25,7 @@
     "oembed": "0.1.0",
     "semi-static": "0.0.4",
     "sound-effect-manager": "0.0.5",
-    "stanza.io": "3.2.4",
+    "stanza.io": "3.6.x",
     "staydown": "1.0.3",
     "templatizer": "0.1.2",
     "underscore": "1.5.1",
