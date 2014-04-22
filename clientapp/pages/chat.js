@@ -30,6 +30,7 @@ module.exports = BasePage.extend({
         'keydown textarea': 'handleKeyDown',
         'keyup textarea': 'handleKeyUp',
         'click .call': 'handleCallClick',
+        'click .accept': 'handleAcceptClick',
         'click .end': 'handleEndClick',
         'click .mute': 'handleMuteClick'
     },
@@ -226,10 +227,38 @@ module.exports = BasePage.extend({
         embedIt(newEl);
         this.lastModel = model;
     },
+    handleAcceptClick: function (e) {
+        e.preventDefault();
+        var self = this;
+
+        //if (!(this.model.jingleCall && this.model.jingleCall.jingleSession)) return;
+        this.$('button.accept').prop('disabled', true);
+        if (this.model.jingleCall.jingleSession.state == 'pending') {
+            if (!client.jingle.localStream) {
+                client.jingle.startLocalMedia(null, function (err) {
+                    if (err) {
+                        this.model.jingleCall.end({
+                            condition: 'decline'
+                        });
+                    } else {
+                        self.model.jingleCall.jingleSession.accept();
+                    }
+                });
+            } else {
+                this.model.jingleCall.jingleSession.accept();
+            }
+        }
+        return false;
+    },
     handleEndClick: function (e) {
         e.preventDefault();
+        var condition = 'success';
+        if (this.model.jingleCall && this.model.jingleCall.jingleSession &&
+                this.model.jingleCall.jingleSession.state == 'pending') {
+            condition = 'decline';
+        }
         this.model.jingleCall.end({
-            condition: 'success'
+            condition: condition
         });
         return false;
     },

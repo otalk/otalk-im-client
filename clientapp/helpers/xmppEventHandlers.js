@@ -409,15 +409,10 @@ module.exports = function (client, app) {
             state: 'incoming',
             jingleSession: session
         });
-        if (!client.jingle.localStream) {
-            client.jingle.startLocalMedia(null, function (err) {
-                session.accept();
-            });
-        } else {
-            session.accept();
-        }
         contact.jingleCall = call;
+        contact.callState = 'incoming';
         me.calls.add(call);
+        // FIXME: send directed presence if not on roster
     });
 
     client.on('jingle:outgoing', function (session) {
@@ -441,6 +436,7 @@ module.exports = function (client, app) {
     client.on('jingle:accepted', function (session) {
         var contact = me.getContact(session.peer);
         contact.callState = 'activeCall';
+        console.log('jingle accepted...');
         contact.onCall = true;
     });
 
