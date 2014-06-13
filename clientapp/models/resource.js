@@ -69,6 +69,30 @@ module.exports = HumanModel.define({
 
                 return true;
             }
+        },
+        supportsJingleFiletransfer: {
+            deps: ['discoInfo'],
+            fn: function () {
+                if (!this.discoInfo) return false;
+                var features = this.discoInfo.features || [];
+                if (features.indexOf('urn:xmpp:jingle:1') === -1) {
+                    return false;
+                }
+
+                if (features.indexOf('urn:xmpp:jingle:apps:file-transfer:3') === -1) {
+                    return false;
+                }
+
+                if (features.indexOf('urn:xmpp:jingle:transports:ice-udp:1') === -1) {
+                    return false;
+                }
+
+                if (features.indexOf('urn:xmpp:jingle:transports:dtls-sctp:1') === -1) {
+                    return false;
+                }
+
+                return true;
+            }
         }
     },
     fetchTimezone: function () {
