@@ -26,7 +26,7 @@ Using Message Archive Management (MAM, [XEP-0313](http://xmpp.org/extension/xep-
 
 ### Active Chat Syncing
 
-Ever used multiple IM clients at once, or swapped clients, and end up with disjointed conversations? Using Message Carbons ([XEP-0280])(http://xmpp.org/extensions/xep-0280.html) all of your active conversations will be synced to your Otalk client (and vice versa if you other clients support carbons too).
+Ever used multiple IM clients at once, or swapped clients, and end up with disjointed conversations? Using Message Carbons [(XEP-0280)](http://xmpp.org/extensions/xep-0280.html) all of your active conversations will be synced to your Otalk client (and vice versa if you other clients support carbons too).
 
 ### Reliable Connections
 
