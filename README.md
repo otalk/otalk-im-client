@@ -1,5 +1,7 @@
 # Otalk
 
+Note: See also https://github.com/otalk for more code
+
 ## What is it?
 Otalk is an open source chat client powered by [XMPP](http://xmpp.org), [stanza.io](https://github.com/legastero/stanza.io), and [WebRTC](http://webrtc.org). You can think of it as an open source alternative to Skype.
 
