@@ -28,7 +28,8 @@ module.exports = HumanView.extend({
         'keydown #addcontact': 'keyDownAddContact',
         'click .joinMUC': 'handleJoinMUC',
         'keydown #joinmuc': 'keyDownJoinMUC',
-        'blur #me .status': 'handleStatusChange'
+        'blur #me .status': 'handleStatusChange',
+        'keydown .status': 'keyDownStatus'
     },
     classBindings: {
         connected: '#connectionOverlay',
@@ -86,6 +87,12 @@ module.exports = HumanView.extend({
             status: text,
             caps: client.disco.caps
         });
+    },
+    keyDownStatus: function (e) {
+        if (e.which === 13 && !e.shiftKey) {
+            e.target.blur();
+            return false;
+        }
     },
     handleLogout: function (e) {
         app.navigate('/logout');
