@@ -10,7 +10,7 @@ var Message = require('../views/mucMessage');
 var MessageModel = require('../models/message');
 var embedIt = require('../helpers/embedIt');
 var htmlify = require('../helpers/htmlify');
-
+var tempSubject = '';
 
 module.exports = BasePage.extend({
     template: templates.pages.groupchat,
@@ -29,7 +29,10 @@ module.exports = BasePage.extend({
         'keydown textarea': 'handleKeyDown',
         'keyup textarea': 'handleKeyUp',
         'click .joinRoom': 'handleJoin',
-        'click .leaveRoom': 'handleLeave'
+        'click .leaveRoom': 'handleLeave',
+        'click .status': 'clickStatusChange',
+        'blur .status': 'blurStatusChange',
+        'keydown .status': 'keyDownStatusChange'
     },
     classBindings: {
         joined: '.controls'
@@ -210,6 +213,22 @@ module.exports = BasePage.extend({
     },
     handleLeave: function () {
         this.model.leave();
+    },
+    clickStatusChange: function (e) {
+        tempSubject = e.target.textContent;
+    },
+    blurStatusChange: function (e) {
+        var subject = e.target.textContent;
+        if (subject == '')
+            subject = true;
+        client.setSubject(this.model.jid, subject);
+        e.target.textContent = tempSubject;
+    },
+    keyDownStatusChange: function (e) {
+        if (e.which === 13 && !e.shiftKey) {
+            e.target.blur();
+            return false;
+        }
     },
     appendModel: function (model, preload) {
         var self = this;

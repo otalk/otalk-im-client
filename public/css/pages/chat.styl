@@ -122,9 +122,19 @@
       text-overflow: ellipsis
       transition: all .25s
       display: inline-block
+      allowselect()
+
+      &:empty:before
+        content: '- No subject'
 
       &:not(:empty):before
         content: '- '
+
+      &:before,
+      &:empty:focus:before
+        content: '-'
+        padding-left: 5px
+        padding-right: 5px
 
     .tzo:not(:empty)
       position: absolute
