@@ -25,7 +25,9 @@ module.exports = HumanView.extend({
         'click .reconnect': 'handleReconnect',
         'click .logout': 'handleLogout',
         'click .addContact': 'handleAddContact',
+        'keydown #addcontact': 'keyDownAddContact',
         'click .joinMUC': 'handleJoinMUC',
+        'keydown #joinmuc': 'keyDownJoinMUC',
         'blur #me .status': 'handleStatusChange'
     },
     classBindings: {
@@ -101,6 +103,12 @@ module.exports = HumanView.extend({
 
         return false;
     },
+    keyDownAddContact: function (e) {
+        if (e.which === 13 && !e.shiftKey) {
+            this.handleAddContact(e);
+            return false;
+        }
+    },
     handleJoinMUC: function (e) {
         e.preventDefault();
 
@@ -117,5 +125,11 @@ module.exports = HumanView.extend({
         });
         me.mucs.save();
         me.mucs.get(mucjid).join();
+    },
+    keyDownJoinMUC: function (e) {
+        if (e.which === 13 && !e.shiftKey) {
+            this.handleJoinMUC(e);
+            return false;
+        }
     }
 });
