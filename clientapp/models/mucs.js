@@ -10,7 +10,6 @@ module.exports = BaseCollection.extend({
     type: 'mucs',
     model: MUC,
     comparator: function (model1, model2) {
-        return 0;
         var name1 = model1.displayName.toLowerCase();
         var name2 = model2.displayName.toLowerCase();
         if (name1 === name2) {

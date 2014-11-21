@@ -40,7 +40,7 @@ module.exports = HumanModel.define({
             fn: function () {
                 var disp = this.name;
                 if (!disp) disp = this.jid.jid;
-              return disp.split('@')[0];
+                return disp.split('@')[0];
             }
         },
         displayUnreadCount: {
