@@ -1,7 +1,9 @@
 $('#loginbox form').on('submit', function (e) {
-    var jid = $('#jid').val() + "@" + SERVER_CONFIG.domain;
+    var jid = $('#jid').val();
+    if (SERVER_CONFIG.domain && jid.indexOf('@') == -1)
+         jid += "@" + SERVER_CONFIG.domain;
     var password = $('#password').val();
-    var connURL = SERVER_CONFIG.wss;
+    var connURL = SERVER_CONFIG.wss ? SERVER_CONFIG.wss : $('#connURL').val();
 
     var transport;
     var wsURL = '';

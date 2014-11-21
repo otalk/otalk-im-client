@@ -1559,6 +1559,9 @@ button.secondary:hover:not(:disabled) {
 #loginbox {
   margin-bottom: 120px;
 }
+.fieldContainerWSS {
+  display: none;
+}
 @media screen and (min-width: 768px) {
   .box {
     width: 50%;

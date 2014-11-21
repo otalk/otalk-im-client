@@ -15,9 +15,15 @@ block content
             .fieldContainer
                 label(for='password') Password
                 input(type='password', id='password', name='password', placeholder='•••••••••••••', tabindex='2')
+            .fieldContainer.fieldContainerWSS
+                label(for='wsURL') WebSocket or BOSH URL
+                input(type='text', id='connURL', name='connURL', placeholder='wss://aweso.me:5281/xmpp-websocket', tabindex='3')
 
             button(type='submit', tabindex='3', class="primary") Go!
 
 block scripts
     script(src="/config.js")
     script(src="/js/login.js")
+    script.
+        if ("#{config.wss}".length == 0)
+            $('.fieldContainerWSS').show();
