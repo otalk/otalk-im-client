@@ -1143,7 +1143,8 @@ button.secondary:hover:not(:disabled) {
   top: 0px;
   right: 0px;
   bottom: 55px;
-  padding-top: 75px;
+  margin-top: 75px;
+  width: 100%;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -1330,9 +1331,6 @@ button.secondary:hover:not(:disabled) {
   background-color: #fffcea;
   border: 1px solid #efe391;
   color: #d2bd2d;
-}
-.group.conversation .messages {
-  right: 150px;
 }
 .group.conversation .groupRoster {
   width: 150px;
