@@ -85,6 +85,7 @@ app.get('/logout', function (req, res) {
 });
 
 app.get('/config.js', function (req, res) {
+    res.type('application/javascript');
     res.send("var SERVER_CONFIG = " + JSON.stringify(config.server) + ";");
 });
 
