@@ -11,7 +11,7 @@ module.exports = HumanModel.define({
     initialize: function (attrs) {
         this.contact.onCall = true;
         // temporary, this won't stay here
-        app.navigate('/chat/' + this.contact.jid);
+        app.navigate('/chat/' + encodeURIComponent(this.contact.jid));
     },
     session: {
         contact: 'object',

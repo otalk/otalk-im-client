@@ -96,7 +96,7 @@ module.exports = HumanModel.define({
                     body: message.body,
                     icon: this.avatar,
                     tag: this.id,
-                    onclick: _.bind(app.navigate, app, '/groupchat/' + this.jid)
+                    onclick: _.bind(app.navigate, app, '/groupchat/' + encodeURIComponent(this.jid))
                 });
             }
         }

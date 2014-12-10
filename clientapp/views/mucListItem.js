@@ -28,7 +28,7 @@ module.exports = HumanView.extend({
         return this;
     },
     handleClick: function (e) {
-        app.navigate('groupchat/' + this.model.jid);
+        app.navigate('groupchat/' + encodeURIComponent(this.model.jid));
     },
     handleJoinRoom: function (e) {
         this.model.join();

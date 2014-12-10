@@ -261,7 +261,7 @@ module.exports = HumanModel.define({
                 body: message.body,
                 icon: this.avatar,
                 tag: this.jid,
-                onclick: _.bind(app.navigate, app, '/chat/' + this.jid)
+                onclick: _.bind(app.navigate, app, '/chat/' + encodeURIComponent(this.jid))
             });
         }
 

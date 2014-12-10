@@ -22,7 +22,7 @@ module.exports = Backbone.Router.extend({
         }));
     },
     chat: function (jid) {
-        var contact = me.contacts.get(jid);
+        var contact = me.contacts.get(decodeURIComponent(jid));
         if (contact) {
             app.renderPage(new ChatPage({
                 model: contact
@@ -32,7 +32,7 @@ module.exports = Backbone.Router.extend({
         }
     },
     groupchat: function (jid) {
-        var contact = me.mucs.get(jid);
+        var contact = me.mucs.get(decodeURIComponent(jid));
         if (contact) {
             app.renderPage(new GroupChatPage({
                 model: contact

@@ -33,12 +33,12 @@ module.exports = HumanView.extend({
     },
     handleClick: function () {
         if (me.contacts.get(this.model.jid)) {
-            app.navigate('chat/' + this.model.jid);
+            app.navigate('chat/' + encodeURIComponent(this.model.jid));
         }
     },
     handleRemoveContact: function() {
         me.removeContact(this.model.jid);
-        if (app.history.fragment === 'chat/' + this.model.jid) {
+        if (app.history.fragment === 'chat/' + encodeURIComponent(this.model.jid)) {
             app.navigate('/');
         }
     }
