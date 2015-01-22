@@ -1126,7 +1126,7 @@ button.secondary:hover:not(:disabled) {
   font-weight: bold;
 }
 .conversation .call {
-  display: block;
+  display: none;
   width: 50px;
   height: 38px;
   position: absolute;
@@ -1201,7 +1201,7 @@ button.secondary:hover:not(:disabled) {
   position: relative;
   height: 38px;
   left: 24px;
-  margin-right: 93px;
+  margin-right: 50px;
 }
 .chatBox textarea {
   display: inline-block;
@@ -1426,10 +1426,7 @@ button.secondary:hover:not(:disabled) {
 .group.conversation h1 .status:empty:before {
   content: 'No subject';
 }
-.group.conversation .chatBox .formwrap {
-  margin-right: 35px;
-}
-.group.conversation #members_toggle {
+#members_toggle {
   position: absolute;
   top: 60px;
   right: 20px;
@@ -1437,13 +1434,13 @@ button.secondary:hover:not(:disabled) {
   color: #9e9ea6;
   font-size: 16px;
 }
-.group.conversation #members_toggle:hover {
+#members_toggle:hover {
   color: #439fe0;
 }
-.group.conversation #members_toggle #members_toggle_count {
+#members_toggle #members_toggle_count {
   margin-left: 5px;
 }
-.group.conversation .groupRoster {
+.groupRoster {
   width: 150px;
   margin: 0px;
   padding: 0px;
@@ -1464,26 +1461,26 @@ button.secondary:hover:not(:disabled) {
   visibility: hidden;
   padding: 5px 30px 5px 5px;
 }
-.group.conversation .groupRoster li {
+.groupRoster li {
   padding: 3px;
   margin: 0px;
   border-radius: 0.25rem;
   position: relative;
   cursor: pointer;
 }
-.group.conversation .groupRoster li:hover {
+.groupRoster li:hover {
   background-color: #439fe0;
 }
-.group.conversation .groupRoster li:hover .name {
+.groupRoster li:hover .name {
   color: #fff;
 }
-.group.conversation .groupRoster li .name {
+.groupRoster li .name {
   padding-left: 14px;
   color: #9e9ea6;
   font-size: 14px;
   font-weight: bold;
 }
-.group.conversation .groupRoster li:before {
+.groupRoster li:before {
   content: '';
   position: absolute;
   left: 4px;
@@ -1499,42 +1496,42 @@ button.secondary:hover:not(:disabled) {
   -border-radius: 10px;
   border-radius: 10px;
 }
-.group.conversation .groupRoster li.online:before,
-.group.conversation .groupRoster li.chat:before {
+.groupRoster li.online:before,
+.groupRoster li.chat:before {
   background: #4c9689;
   border-color: #4c9689;
 }
-.group.conversation .groupRoster li.online:not(:hover) .name,
-.group.conversation .groupRoster li.chat:not(:hover) .name {
+.groupRoster li.online:not(:hover) .name,
+.groupRoster li.chat:not(:hover) .name {
   color: #555459;
 }
-.group.conversation .groupRoster li.online:not(:hover).active .name,
-.group.conversation .groupRoster li.chat:not(:hover).active .name {
+.groupRoster li.online:not(:hover).active .name,
+.groupRoster li.chat:not(:hover).active .name {
   color: #de0a32;
 }
-.group.conversation .groupRoster li.dnd:before {
+.groupRoster li.dnd:before {
   background: #de0a32;
   border-color: #de0a32;
 }
-.group.conversation .groupRoster li.away:before,
-.group.conversation .groupRoster li.xa:before {
+.groupRoster li.away:before,
+.groupRoster li.xa:before {
   background: #f18902;
   border-color: #f18902;
 }
-.group.conversation .groupRoster li.offline:before {
+.groupRoster li.offline:before {
   background: #555459;
   border-color: #555459;
 }
-.group.conversation .groupRoster li.composing:before {
+.groupRoster li.composing:before {
   animation: pulsate 1.5s infinite ease-in;
   -webkit-animation: pulsate 1.5s infinite ease-in;
   -moz-animation: pulsate 1.5s infinite ease-in;
 }
-.group.conversation .groupRoster li.paused:before {
+.groupRoster li.paused:before {
   background: #cfcfd2;
   border-color: #cfcfd2;
 }
-.group.conversation .groupRoster li.idle:before {
+.groupRoster li.idle:before {
   background: transparent;
 }
 .embeds {
