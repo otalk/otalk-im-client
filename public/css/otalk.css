@@ -785,10 +785,6 @@ button.secondary:hover:not(:disabled) {
   background: #cfcfd2;
   border-color: #cfcfd2;
 }
-#roster li.idle,
-#bookmarks li.idle {
-  padding-right: 15px;
-}
 #roster li.idle:after,
 #bookmarks li.idle:after {
   background: transparent;
@@ -796,11 +792,7 @@ button.secondary:hover:not(:disabled) {
 #roster li.idle .name,
 #bookmarks li.idle .name {
   color: #c1dcec;
-  max-width: 60%;
-}
-#roster li.idle .user,
-#bookmarks li.idle .user {
-  width: 95%;
+  font-style: italic;
 }
 #roster li .presence,
 #bookmarks li .presence {
