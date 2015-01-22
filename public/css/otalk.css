@@ -1537,63 +1537,24 @@ button.secondary:hover:not(:disabled) {
 .embeds {
   margin: 0px;
   padding: 0px;
+  display: none;
 }
 .embed {
+  width: 500px;
   max-width: 500px;
+  margin-bottom: 20px;
+}
+.embed p,
+.embed p:hover {
+  margin: 0px;
+  padding: 6px;
+  background-color: #e6eaef;
 }
 .embed a,
 .embed a:hover {
   color: #34465a;
 }
-.embed.active {
-  display: inline-block;
-  margin: 5px;
-  padding: 10px;
-  border: 1px solid #eee;
-  background-color: #f0f0f0;
-  text-align: center;
-}
-.embed.active img {
-  margin-bottom: 5px;
-}
-.embed.active .description {
-  border: 1px solid #eee;
-  background-color: #fff;
-  margin: 0px;
-  padding: 10px;
-  text-align: left;
-  font-size: 11px;
-  font-weight: normal;
-}
-.embed.active .description h3 {
-  font-size: 12px;
-  margin: 0px;
-  padding: 2px;
-  border-bottom: 1px solid #eee;
-}
-.embed.active .description p {
-  margin: 3px;
-  padding: 2px;
-}
-.embed.active a.link img,
-.embed.active a.twitter img {
-  float: left;
-}
-.embed.active a.link img + .description,
-.embed.active a.twitter img + .description {
-  margin-left: 110px;
-  font-size: 12px;
-}
-.embed.active a.link h4,
-.embed.active a.twitter h4 {
-  font-size: 14px;
-  margin: 0px;
-  padding: 2px;
-}
-.embed.collapsed img {
-  display: none;
-}
-.embed.hidden {
+.embed a.source {
   display: none;
 }
 .main > div {

@@ -26,7 +26,6 @@
     "moonboots-express": "2.x",
     "node-uuid": "^1.4.1",
     "notify.js": "0.0.3",
-    "oembed": "0.1.0",
     "semi-static": "0.0.4",
     "serve-static": "1.7.1",
     "sound-effect-manager": "0.0.5",

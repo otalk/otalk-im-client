@@ -541,56 +541,20 @@
 .embeds
   margin: 0px
   padding: 0px
+  display: none
 
 .embed
+  width: 500px
   max-width: 500px
+  margin-bottom: 20px
+
+  p, p:hover
+    margin: 0px
+    padding: 6px
+    background-color: #E6EAEF
 
   a, a:hover
     color: #34465a
 
-  &.active
-    display: inline-block
-    margin: 5px
-    padding: 10px
-    border: 1px solid #eee
-    background-color: lighten($gray-lighter, 50%)
-    text-align: center
-
-    img
-      margin-bottom: 5px
-
-    .description
-      border: 1px solid #eee
-      background-color: #fff
-      margin: 0px
-      padding: 10px
-      text-align: left
-      font-size: 11px
-      font-weight: normal
-
-      h3
-        font-size: 12px
-        margin: 0px
-        padding: 2px
-        border-bottom: 1px solid #eee
-
-      p
-        margin: 3px
-        padding: 2px
-
-    a.link, a.twitter
-      img
-        float: left
-      img + .description
-        margin-left: 110px
-        font-size: 12px
-      h4
-        font-size: 14px
-        margin: 0px
-        padding: 2px
-
-  &.collapsed
-    img
-      display: none
-  &.hidden
+  a.source
     display: none

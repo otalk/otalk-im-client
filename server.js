@@ -5,7 +5,6 @@ var helmet = require('helmet');
 var Moonboots = require('moonboots-express');
 var config = require('getconfig');
 var templatizer = require('templatizer');
-var oembed = require('oembed');
 var async = require('async');
 
 var app = express();
@@ -19,9 +18,6 @@ if (!config.isDev) {
 }
 app.use(helmet.iexss());
 app.use(helmet.contentTypeOptions());
-
-oembed.EMBEDLY_URL = config.embedly.url || 'https://api.embed.ly/1/oembed';
-oembed.EMBEDLY_KEY = config.embedly.key;
 
 var webappManifest = fs.readFileSync('./public/x-manifest.webapp');
 
@@ -54,53 +50,6 @@ app.get('/manifest.webapp', function (req, res, next) {
     res.send(webappManifest);
 });
 
-app.get('/oembed', function (req, res) {
-    var callback = req.query.callback;
-    if (req.query.url) {
-        oembed.fetch(req.query.url, req.query, function (err, result) {
-            if (err || !result) {
-                return res.status(500).send();
-            }
-            res.status(200);
-            res.set('Content-Type', oembed.MIME_OEMBED_JSON);
-            if (callback) {
-                res.send(callback + '(' + JSON.stringify(result) + ')');
-            } else {
-                res.send(JSON.stringify(result));
-            }
-        });
-    } else if (req.query.urls) {
-        var cache = {};
-        var urls = req.query.urls.split(',');
-        delete req.query.urls;
-        async.forEach(urls, function (url, cb) {
-            oembed.fetch(url, req.query, function (err, result) {
-                if (err || !result) {
-                    result = {type: 'error'};
-                }
-                cache[url] = result;
-                cb();
-            });
-        }, function () {
-            res.status(200);
-            var results = [];
-            urls.forEach(function (url) {
-                results.push(cache[url]);
-            });
-            if (callback) {
-                res.set('Content-Type', 'application/javascript');
-                res.send(callback + '(' + JSON.stringify(results) + ')');
-            } else {
-                res.set('Content-Type', 'application/json');
-                res.send(JSON.stringify(results));
-            }
-        });
-    } else {
-        res.status(400).send();
-    }
-});
-
-
 app.use(function handleError(err, req, res, next) {
     var errorResult = {message: 'Something bad happened :('};
 
@@ -129,13 +78,15 @@ var clientApp = new Moonboots({
             __dirname + '/clientapp/libraries/ui.js',
             __dirname + '/clientapp/libraries/resampler.js',
             __dirname + '/clientapp/libraries/IndexedDBShim.min.js',
-            __dirname + '/clientapp/libraries/sugar-1.2.1-dates.js'
+            __dirname + '/clientapp/libraries/sugar-1.2.1-dates.js',
+            __dirname + '/clientapp/libraries/jquery.oembed.js'
         ],
         browserify: {
             debug: false
         },
         stylesheets: [
-            __dirname + '/public/css/otalk.css'
+            __dirname + '/public/css/otalk.css',
+            __dirname + '/public/css/jquery.oembed.css'
         ],
         beforeBuildJS: function () {
             if (config.isDev) {

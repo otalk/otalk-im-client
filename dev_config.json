@@ -6,9 +6,6 @@
         "key": "./fakekeys/privatekey.pem",
         "cert": "./fakekeys/certificate.pem"
     },
-    "embedly": {
-        "key": ""
-    },
     "session": {
         "secret": "shhhhhh don't tell anyone ok?"
     },
