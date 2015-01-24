@@ -19,7 +19,7 @@ module.exports = HumanView.extend({
         displayUnreadCount: '.unread'
     },
     events: {
-        'click .name': 'handleClick',
+        'click': 'handleClick',
         'click .join': 'handleJoinRoom',
         'click .remove': 'handleLeaveRoom'
     },
