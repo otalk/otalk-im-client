@@ -385,8 +385,8 @@ button {
   font-weight: 700;
   text-align: center;
   text-decoration: none;
-  color: #9e9ea6;
-  border: 1px solid #babbbf;
+  color: #34465a;
+  border: 1px solid #6c7f95;
   border-radius: 3px;
   text-overflow: ellipsis;
   vertical-align: middle;
@@ -1561,6 +1561,9 @@ button.secondary:hover:not(:disabled) {
   padding: 20px;
   padding-top: 64px;
   border-bottom: 1px solid #e0e0e0;
+}
+.main > div h4 {
+  color: #192a47;
 }
 .main > div:last-of-type {
   border: none;
