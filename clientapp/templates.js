@@ -491,7 +491,7 @@ exports.pages.chat = function anonymous(locals) {
 exports.pages.groupchat = function anonymous(locals) {
     var buf = [];
     with (locals || {}) {
-        buf.push('<section class="page chat"><section class="group conversation"><header class="online"><h1><span class="prefix">#</span><span class="name"></span><i class="channel_actions fa fa-chevron-down"></i><span contenteditable="true" spellcheck="false" class="status"></span></h1></header><ul class="messages"></ul><a id="members_toggle"><i class="fa fa-user"></i><span id="members_toggle_count"></span></a><ul class="groupRoster"></ul><div class="chatBox"><form class="formwrap"><textarea name="chatInput" type="text" placeholder="Send a message..." autocomplete="off"></textarea></form></div></section></section>');
+        buf.push('<section class="page chat"><section class="group conversation"><header class="online"><h1><span class="prefix">#</span><span class="name"></span><i class="channel_actions fa fa-comments-o"></i><span contenteditable="true" spellcheck="false" class="status"></span></h1></header><ul class="messages"></ul><a id="members_toggle"><i class="fa fa-user"></i><span id="members_toggle_count"></span></a><ul class="groupRoster"></ul><div class="chatBox"><form class="formwrap"><textarea name="chatInput" type="text" placeholder="Send a message..." autocomplete="off"></textarea></form></div></section></section>');
     }
     return buf.join("");
 };

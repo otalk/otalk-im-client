@@ -38,9 +38,6 @@
       display: inline-block
       height: 53px
 
-      &:hover .prefix
-        color: $gray-dark
-
     .prefix, .name, .user_presence, .channel_actions, .status
       display: inline-block
       color: $gray-dark
@@ -55,7 +52,7 @@
       font-weight: $font-weight-classic
       margin-left: 25px
       line-height: 53px
-      cursor: pointer
+      cursor: default
 
     .name
       font-size: $font-size-h2
@@ -64,17 +61,17 @@
       text-overflow: ellipsis
       padding-left: 3px
       line-height: 53px
-      cursor: pointer
+      cursor: default
 
     .user_presence, .channel_actions
-      font-size: $font-size-small
       color: $gray
       padding-left: 8px
       line-height: 53px
-      cursor: pointer
+      cursor: default
 
     .user_presence
       padding-top: 5px
+      font-size: $font-size-small
 
         &.online
           color: $green
@@ -103,6 +100,7 @@
 
     .channel_actions
       opacity: 1
+      font-size: 20px
 
     .status
       color: $gray

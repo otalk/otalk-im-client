@@ -1002,9 +1002,6 @@ button.secondary:hover:not(:disabled) {
   display: inline-block;
   height: 53px;
 }
-.conversation header h1:hover .prefix {
-  color: #555459;
-}
 .conversation header .prefix,
 .conversation header .name,
 .conversation header .user_presence,
@@ -1023,7 +1020,7 @@ button.secondary:hover:not(:disabled) {
   font-weight: 500;
   margin-left: 25px;
   line-height: 53px;
-  cursor: pointer;
+  cursor: default;
 }
 .conversation header .name {
   font-size: 22px;
@@ -1032,18 +1029,18 @@ button.secondary:hover:not(:disabled) {
   text-overflow: ellipsis;
   padding-left: 3px;
   line-height: 53px;
-  cursor: pointer;
+  cursor: default;
 }
 .conversation header .user_presence,
 .conversation header .channel_actions {
-  font-size: 12px;
   color: #9e9ea6;
   padding-left: 8px;
   line-height: 53px;
-  cursor: pointer;
+  cursor: default;
 }
 .conversation header .user_presence {
   padding-top: 5px;
+  font-size: 12px;
 }
 .conversation header .user_presence.online {
   color: #4c9689;
@@ -1073,6 +1070,7 @@ button.secondary:hover:not(:disabled) {
 }
 .conversation .channel_actions {
   opacity: 1;
+  font-size: 20px;
 }
 .conversation .status {
   color: #9e9ea6;
