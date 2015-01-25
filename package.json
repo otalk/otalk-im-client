@@ -22,7 +22,7 @@
     "human-model": "2.6.0",
     "human-view": "1.8.0",
     "jade": "1.8.2",
-    "jxt": "^2.6.1",
+    "jxt": "^2.7.0",
     "moonboots-express": "2.x",
     "node-uuid": "^1.4.1",
     "notify.js": "0.0.3",
