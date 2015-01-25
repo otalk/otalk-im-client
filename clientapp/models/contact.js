@@ -263,6 +263,8 @@ module.exports = HumanModel.define({
                 tag: this.jid,
                 onclick: _.bind(app.navigate, app, '/chat/' + encodeURIComponent(this.jid))
             });
+            if (me.soundEnabled)
+                app.soundManager.play('ding');
         }
 
         var existing = Message.idLookup(message.from[message.type == 'groupchat' ? 'full' : 'bare'], message.mid);

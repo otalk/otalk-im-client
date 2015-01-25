@@ -98,6 +98,13 @@ module.exports = HumanModel.define({
                     tag: this.id,
                     onclick: _.bind(app.navigate, app, '/groupchat/' + encodeURIComponent(this.jid))
                 });
+                if (me.soundEnabled)
+                    app.soundManager.play('threetone-alert');
+            }
+            else
+            {
+                if (me.soundEnabled)
+                    app.soundManager.play('ding');
             }
         }
 

@@ -2,22 +2,29 @@
 @import '../_mixins'
 
 // Settings
-.main > div
-  padding: 20px
-  padding-top: 64px
-  border-bottom: 1px solid $gray-lighter
+.main
 
-  h4
+  h1
+    padding: 34px 20px 0 20px
     color: $blue-saturated
 
-  &:last-of-type
-    border: none
+  > div
+    padding: 20px
+    border-bottom: 1px solid $gray-lighter
+    h4
+      color: $blue-saturated
 
-  .status
-    overflow: hidden
-    min-height: 35px
-    max-height: 50px
-    height: auto
+    &:last-of-type
+      border: none
+
+    .status
+      overflow: hidden
+      min-height: 35px
+      max-height: 50px
+      height: auto
+
+    .installFirefox, .soundNotifs
+      margin-left: 5px
 
 .uploadRegion
   padding: 15px

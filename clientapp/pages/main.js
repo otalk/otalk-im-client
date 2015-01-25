@@ -9,7 +9,8 @@ var templates = require('../templates');
 module.exports = BasePage.extend({
     template: templates.pages.main,
     classBindings: {
-        shouldAskForAlertsPermission: '.enableAlerts'
+        shouldAskForAlertsPermission: '.enableAlerts',
+        soundEnabledClass: '.soundNotifs'
     },
     srcBindings: {
         avatar: '#avatarChanger img'
@@ -20,6 +21,7 @@ module.exports = BasePage.extend({
     events: {
         'click .enableAlerts': 'enableAlerts',
         'click .installFirefox': 'installFirefox',
+        'click .soundNotifs': 'handleSoundNotifs',
         'dragover': 'handleAvatarChangeDragOver',
         'drop': 'handleAvatarChange',
         'change #uploader': 'handleAvatarChange'
@@ -87,5 +89,8 @@ module.exports = BasePage.extend({
             };
             fileTracker.readAsDataURL(file);
         }
-    }
+    },
+    handleSoundNotifs: function (e) {
+        this.model.setSoundNotification(!this.model.soundEnabled);
+    },
 });

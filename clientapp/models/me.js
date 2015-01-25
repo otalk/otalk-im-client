@@ -25,6 +25,7 @@ module.exports = HumanModel.define({
         this.bind('change:avatarID', this.save, this);
         this.bind('change:status', this.save, this);
         this.bind('change:rosterVer', this.save, this);
+        this.bind('change:soundEnabled', this.save, this);
         this.contacts.bind('change:unreadCount', this.updateUnreadCount, this);
         app.state.bind('change:active', this.updateIdlePresence, this);
         app.state.bind('change:deviceIDReady', this.registerDevice, this);
@@ -42,7 +43,8 @@ module.exports = HumanModel.define({
         shouldAskForAlertsPermission: ['bool', false, false],
         hasFocus: ['bool', false, false],
         _activeContact: 'string',
-        stream: 'object'
+        stream: 'object',
+        soundEnabled: ['bool', false, true],
     },
     collections: {
         contacts: Contacts,
@@ -70,6 +72,12 @@ module.exports = HumanModel.define({
                 return app.serverConfig().name || 'Otalk';
             }
         },
+        soundEnabledClass: {
+            deps: ['soundEnabled'],
+            fn: function () {
+                return this.soundEnabled ? "primary" : "secondary";
+            }
+        },
     },
     setActiveContact: function (jid) {
         var prev = this.getContact(this._activeContact);
@@ -89,6 +97,9 @@ module.exports = HumanModel.define({
             self.avatarID = avatar.id;
             self.avatar = avatar.uri;
         });
+    },
+    setSoundNotification: function(enable) {
+        this.soundEnabled = enable;
     },
     getContact: function (jid, alt) {
         if (typeof jid === 'string') jid = new client.JID(jid);
@@ -134,6 +145,7 @@ module.exports = HumanModel.define({
                 self.nick = self.jid.local;
                 self.status = profile.status;
                 self.avatarID = profile.avatarID;
+                self.soundEnabled = profile.soundEnabled;
             }
             self.save();
             app.storage.roster.getAll(self.jid.bare, function (err, contacts) {
@@ -187,7 +199,8 @@ module.exports = HumanModel.define({
             jid: this.jid.bare,
             avatarID: this.avatarID,
             status: this.status,
-            rosterVer: this.rosterVer
+            rosterVer: this.rosterVer,
+            soundEnabled: this.soundEnabled
         };
         app.storage.profiles.set(data);
     },

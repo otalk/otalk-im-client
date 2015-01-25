@@ -499,9 +499,6 @@ button.secondary:hover:not(:disabled) {
 .button-group.outlined.secondary .button:hover {
   background: #b8e6fa;
 }
-.installFirefox {
-  margin-left: 5px;
-}
 #connectionOverlay {
   position: fixed;
   top: 0px;
@@ -1555,9 +1552,12 @@ button.secondary:hover:not(:disabled) {
 .embed a.source {
   display: none;
 }
+.main h1 {
+  padding: 34px 20px 0 20px;
+  color: #192a47;
+}
 .main > div {
   padding: 20px;
-  padding-top: 64px;
   border-bottom: 1px solid #e0e0e0;
 }
 .main > div h4 {
@@ -1571,6 +1571,10 @@ button.secondary:hover:not(:disabled) {
   min-height: 35px;
   max-height: 50px;
   height: auto;
+}
+.main > div .installFirefox,
+.main > div .soundNotifs {
+  margin-left: 5px;
 }
 .uploadRegion {
   padding: 15px;

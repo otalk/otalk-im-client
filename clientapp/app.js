@@ -18,6 +18,8 @@ var Notify = require('notify.js');
 var Desktop = require('./helpers/desktop');
 var AppCache = require('./helpers/cache');
 
+var SoundEffectManager = require('sound-effect-manager');
+
 module.exports = {
     launch: function () {
 
@@ -39,6 +41,7 @@ module.exports = {
         async.series([
             function (cb) {
                 app.notifications = new Notify();
+                app.soundManager = new SoundEffectManager();
                 app.desktop = new Desktop();
                 app.cache = new AppCache();
                 app.storage = new Storage();
@@ -74,6 +77,11 @@ module.exports = {
                     cb();
                 });
                 self.api.connect();
+            },
+            function (cb) {
+                app.soundManager.loadFile('/sounds/ding.wav', 'ding');
+                app.soundManager.loadFile('/sounds/threetone-alert.wav', 'threetone-alert');
+                cb();
             },
             function (cb) {
                 function start() {
