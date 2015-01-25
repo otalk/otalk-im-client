@@ -303,10 +303,10 @@ module.exports = function (client, app) {
         }
     });
 
-    client.on('groupchat:subject', function (msg) {
+    client.on('muc:subject', function (msg) {
         var contact = me.getContact(msg.from, msg.to);
         if (contact) {
-            contact.subject = msg.subject;
+            contact.subject = msg.subject === 'true' ? '' : msg.subject;
         }
     });
 
