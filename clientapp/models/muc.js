@@ -89,7 +89,8 @@ module.exports = HumanModel.define({
             message.mentions = this.nick;
         }
 
-        if (notify && (!this.activeContact || (this.activeContact && !app.state.focused)) && !mine) {
+        var localTime = new Date();
+        if (Math.round((localTime - message.created) / 1000) < 5 && notify && (!this.activeContact || (this.activeContact && !app.state.focused)) && !mine) {
             this.unreadCount++;
             if (message.mentions) {
                 app.notifications.create(this.displayName, {
