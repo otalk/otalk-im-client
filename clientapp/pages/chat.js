@@ -231,9 +231,9 @@ module.exports = BasePage.extend({
         } else {
             newEl = $(model.templateHtml);
             this.staydown.append(newEl[0]);
+            this.lastModel = model;
         }
         embedIt(newEl);
-        this.lastModel = model;
     },
     handleAcceptClick: function (e) {
         e.preventDefault();

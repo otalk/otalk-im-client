@@ -252,9 +252,9 @@ module.exports = BasePage.extend({
         } else {
             newEl = $(model.templateHtml);
             this.staydown.append(newEl[0]);
+            this.lastModel = model;
         }
         embedIt(newEl);
-        this.lastModel = model;
     },
     refreshModel: function (model) {
         var existing = this.$('#chat' + model.cid);

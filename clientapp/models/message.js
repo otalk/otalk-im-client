@@ -238,9 +238,9 @@ var Message = module.exports = HumanModel.define({
     },
     shouldGroupWith: function (previous) {
         if (this.type === 'groupchat') {
-            return previous && previous.from.full === this.from.full;
+            return previous && previous.from.full === this.from.full && Math.round((this.created - previous.created) / 1000) <= 300 && previous.created.toLocaleDateString() === this.created.toLocaleDateString();
         } else {
-            return previous && previous.from.bare === this.from.bare;
+            return previous && previous.from.bare === this.from.bare && Math.round((this.created - previous.created) / 1000) <= 300 && previous.created.toLocaleDateString() === this.created.toLocaleDateString();
         }
     }
 });
