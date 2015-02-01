@@ -85,14 +85,21 @@ module.exports = HumanModel.define({
         if (mine) {
             message._mucMine = true;
         }
-        if (!mine && message.body.toLowerCase().indexOf(this.nick.toLowerCase()) >= 0) {
-            message.mentions = this.nick;
+        else {
+            var mentions = [];
+            if (message.body.toLowerCase().indexOf('@' + this.nick.toLowerCase()) >= 0) {
+                mentions.push('@' + this.nick);
+            }
+            if (message.body.toLowerCase().indexOf('@all') >= 0) {
+                mentions.push('@all');
+            }
+            message.mentions = mentions;
         }
 
         var localTime = new Date();
         if (Math.round((localTime - message.created) / 1000) < 5 && notify && (!this.activeContact || (this.activeContact && !app.state.focused)) && !mine) {
             this.unreadCount++;
-            if (message.mentions) {
+            if (message.mentions.length) {
                 app.notifications.create(this.displayName, {
                     body: message.body,
                     icon: this.avatar,

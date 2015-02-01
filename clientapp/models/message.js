@@ -113,8 +113,8 @@ var Message = module.exports = HumanModel.define({
                     body = body.substr(4);
                 }
                 body = htmlify.toHTML(body);
-                if (this.mentions) {
-                    var existing = htmlify.toHTML(this.mentions);
+                for (var i = 0; i < this.mentions.length; i++) {
+                    var existing = htmlify.toHTML(this.mentions[i]);
                     var parts = body.split(existing);
                     body = parts.join('<span class="mention">' + existing + '</span>');
                 }
@@ -202,7 +202,7 @@ var Message = module.exports = HumanModel.define({
         receiptReceived: ['bool', true, false],
         edited: ['bool', true, false],
         delay: 'object',
-        mentions: ['string', false, '']
+        mentions: ['array', false, []]
     },
     correct: function (msg) {
         if (this.from.full !== msg.from.full) return false;
