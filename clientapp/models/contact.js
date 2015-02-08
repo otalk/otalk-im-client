@@ -281,30 +281,37 @@ module.exports = HumanModel.define({
             this.lastInteraction = newInteraction;
         }
     },
-    fetchHistory: function () {
+    fetchHistory: function (old) {
         var self = this;
         app.whenConnected(function () {
             var filter = {
                 'with': self.jid,
                 rsm: {
-                    count: 20,
+                    max: old ? 40 : 50,
                     before: true
                 }
             };
 
-            var lastMessage = self.messages.last();
-            if (lastMessage && lastMessage.archivedId) {
-                filter.rsm.after = lastMessage.archivedId;
-            }
-
-            if (self.lastHistoryFetch && !isNaN(self.lastHistoryFetch.valueOf())) {
-                if (self.lastInteraction > self.lastHistoryFetch) {
-                    filter.start = self.lastInteraction;
-                } else {
-                    filter.start = self.lastHistoryFetch;
-                }
+            if (old) {
+              var firstMessage = self.messages.first();
+              if (firstMessage && firstMessage.archivedId) {
+                  filter.rsm.before = firstMessage.archivedId;
+              }
             } else {
-                filter.end = new Date(Date.now());
+              var lastMessage = self.messages.last();
+              if (lastMessage && lastMessage.archivedId) {
+                  filter.rsm.after = lastMessage.archivedId;
+              }
+
+              if (self.lastHistoryFetch && !isNaN(self.lastHistoryFetch.valueOf())) {
+                  if (self.lastInteraction > self.lastHistoryFetch) {
+                      filter.start = self.lastInteraction;
+                  } else {
+                      filter.start = self.lastHistoryFetch;
+                  }
+              } else {
+                  filter.end = new Date(Date.now());
+              }
             }
 
             client.getHistory(filter, function (err, res) {
@@ -313,7 +320,7 @@ module.exports = HumanModel.define({
                 self.lastHistoryFetch = new Date(Date.now());
 
                 var results = res.mamQuery.results || [];
-                results.reverse();
+                if (!old) results.reverse();
                 results.forEach(function (result) {
                     var msg = result.mam.forwarded.message;
 

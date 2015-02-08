@@ -48,6 +48,16 @@ module.exports = BasePage.extend({
             to: this.model.jid,
             chatState: 'active'
         });
+
+        this.firstChanged = true;
+        var self = this;
+        $('.messages').scroll(function() {
+            if (self.firstChanged && $(".messages li:first-child").offset().top > 0) {
+                self.firstChanged = false;
+                self.model.fetchHistory();
+            }
+        });
+
         this.$chatInput.focus();
     },
     hide: function () {
@@ -83,6 +93,7 @@ module.exports = BasePage.extend({
     },
     renderMessages: function () {
         var self = this;
+        this.firstDate = '';
         this.lastDate = '';
         this.model.messages.each(function (model, i) {
             self.appendModel(model);
@@ -238,27 +249,62 @@ module.exports = BasePage.extend({
     },
     appendModel: function (model, preload) {
         var newEl, first, last;
+        var msgDate = Date.create(model.timestamp);
+        var messageDay = msgDate.format('{month} {ord}, {yyyy}');
 
-        var messageDay = Date.create(model.timestamp).format('{month} {ord}, {yyyy}');
-        if (messageDay !== this.lastDate) {
-            var dayDivider = $(templates.includes.dayDivider({day_name: messageDay}));
-            this.staydown.append(dayDivider[0]);
-            this.lastDate = messageDay;
-        }
+        if (this.firstModel === undefined || msgDate > Date.create(this.firstModel.timestamp)) {
+            if (this.firstModel === undefined) {
+                this.firstModel = model;
+                this.firstDate = messageDay;
+            }
 
-        var isGrouped = model.shouldGroupWith(this.lastModel);
-        if (isGrouped) {
-            newEl = $(model.partialTemplateHtml);
-            last = this.$messageList.find('li').last();
-            last.find('.messageWrapper').append(newEl);
-            last.addClass('chatGroup');
-            this.staydown.checkdown();
-        } else {
-            newEl = $(model.templateHtml);
-            this.staydown.append(newEl[0]);
-            this.lastModel = model;
+            if (messageDay !== this.lastDate) {
+                var dayDivider = $(templates.includes.dayDivider({day_name: messageDay}));
+                this.staydown.append(dayDivider[0]);
+                this.lastDate = messageDay;
+            }
+
+            var isGrouped = model.shouldGroupWith(this.lastModel);
+            if (isGrouped) {
+                newEl = $(model.partialTemplateHtml);
+                last = this.$messageList.find('li').last();
+                last.find('.messageWrapper').append(newEl);
+                last.addClass('chatGroup');
+                this.staydown.checkdown();
+            } else {
+                newEl = $(model.templateHtml);
+                this.staydown.append(newEl[0]);
+                this.lastModel = model;
+            }
+            if (!model.pending) embedIt(newEl);
         }
-        embedIt(newEl);
+        else {
+            var scrollDown = this.$messageList.prop('scrollHeight') - this.$messageList.scrollTop();
+            var firstEl = this.$messageList.find('li').first();
+
+            if (messageDay !== this.firstDate) {
+                var dayDivider = $(templates.includes.dayDivider({day_name: messageDay}));
+                firstEl.before(dayDivider[0]);
+                var firstEl = this.$messageList.find('li').first();
+                this.firstDate = messageDay;
+            }
+
+            var isGrouped = model.shouldGroupWith(this.firstModel);
+            if (isGrouped) {
+                newEl = $(model.partialTemplateHtml);
+                first = this.$messageList.find('li').first().next();
+                first.find('.messageWrapper div:first').after(newEl);
+                first.addClass('chatGroup');
+            } else {
+                newEl = $(model.templateHtml);
+                firstEl.after(newEl[0]);
+                this.firstModel = model;
+            }
+            if (!model.pending) embedIt(newEl);
+
+            this.$messageList.scrollTop(this.$messageList.prop('scrollHeight') - scrollDown);
+            this.firstChanged = true;
+        }
     },
     refreshModel: function (model) {
         var existing = this.$('#chat' + model.cid);

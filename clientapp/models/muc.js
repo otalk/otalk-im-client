@@ -10,7 +10,6 @@ var Resources = require('./resources');
 var Messages = require('./messages');
 var Message = require('./message');
 
-
 module.exports = HumanModel.define({
     initialize: function (attrs) {
         if (attrs.jid) {
@@ -138,10 +137,62 @@ module.exports = HumanModel.define({
         this.resources.reset();
 
         client.joinRoom(this.jid, this.nick, {
-            history: {
-                maxstanzas: 50
-                //since: this.lastInteraction
+            joinMuc: {
+                history: {
+                    maxstanzas: 50
+                }
             }
+        });
+    },
+    fetchHistory: function() {
+        var self = this;
+        app.whenConnected(function () {
+            var filter = {
+                'to': self.jid,
+                rsm: {
+                    max: 40,
+                    before: true
+                }
+            };
+
+            var firstMessage = self.messages.first();
+            if (firstMessage && firstMessage.created) {
+                var end = new Date(firstMessage.created - 1);
+                filter.end = end.toISOString();
+            }
+
+            client.getHistory(filter, function (err, res) {
+                if (err) return;
+
+                self.lastHistoryFetch = new Date(Date.now());
+
+                var results = res.mamQuery.results || [];
+
+                results.forEach(function (result) {
+                    var msg = result.mam.forwarded.message;
+
+                    msg.mid = msg.id;
+                    delete msg.id;
+
+                    if (!msg.delay) {
+                        msg.delay = result.mam.forwarded.delay;
+                    }
+
+                    if (msg.replace) {
+                        var original = Message.idLookup(msg.from[msg.type == 'groupchat' ? 'full' : 'bare'], msg.replace);
+                        // Drop the message if editing a previous, but
+                        // keep it if it didn't actually change an
+                        // existing message.
+                        if (original && original.correct(msg)) return;
+                    }
+
+                    var message = new Message(msg);
+                    message.archivedId = result.mam.id;
+                    message.acked = true;
+
+                    self.addMessage(message, false);
+                });
+            });
         });
     },
     leave: function () {
