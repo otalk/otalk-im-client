@@ -47,6 +47,7 @@ module.exports = {
                 app.storage = new Storage();
                 app.storage.open(cb);
                 app.composing = {};
+                app.timeInterval = 0;
                 app.mucInfos = [];
             },
             function (cb) {
@@ -82,6 +83,21 @@ module.exports = {
             function (cb) {
                 app.soundManager.loadFile('/sounds/ding.wav', 'ding');
                 app.soundManager.loadFile('/sounds/threetone-alert.wav', 'threetone-alert');
+                cb();
+            },
+            function (cb) {
+                app.whenConnected(function () {
+                    function getInterval() {
+                        if (client.sessionStarted) {
+                            client.getTime(self.id, function (err, res) {
+                                if (err) return;
+                                self.timeInterval = res.time.utc - Date.now();
+                            });
+                            setTimeout(getInterval, 600000);
+                        }
+                    }
+                    getInterval();
+                });
                 cb();
             },
             function (cb) {

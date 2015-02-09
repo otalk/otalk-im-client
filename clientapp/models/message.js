@@ -11,7 +11,7 @@ var ID_CACHE = {};
 
 var Message = module.exports = HumanModel.define({
     initialize: function (attrs) {
-        this._created = new Date(Date.now());
+        this._created = new Date(Date.now() + app.timeInterval);
     },
     type: 'message',
     props: {
