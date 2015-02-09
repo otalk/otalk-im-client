@@ -87,7 +87,6 @@ app.get('/config.js', function (req, res) {
     res.send("var SERVER_CONFIG = " + JSON.stringify(config.server) + ";");
 });
 
-
 app.get('/oauth/login', function (req, res) {
     res.redirect('https://apps.andyet.com/oauth/authorize?client_id=' + config.andyetAuth.id + '&response_type=token');
 });
