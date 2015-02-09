@@ -16,5 +16,6 @@
         "domain": "localhost",
         "wss": "wss://localhost:5281/xmpp-websocket/",
         "muc": "chat.localhost",
+        "startup": ""
     }
 }

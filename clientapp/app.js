@@ -78,6 +78,8 @@ module.exports = {
                 function start() {
                     // start our router and show the appropriate page
                     app.history.start({pushState: true, root: '/'});
+                    if (app.history.fragment == '' && SERVER_CONFIG.startup)
+                        app.navigate(SERVER_CONFIG.startup);
                     cb();
                 }
 
