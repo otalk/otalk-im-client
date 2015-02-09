@@ -313,7 +313,6 @@ module.exports = HumanModel.define({
                 var results = res.mamQuery.results || [];
                 results.reverse();
                 results.forEach(function (result) {
-                    result = result.toJSON();
                     var msg = result.mam.forwarded.message;
 
                     msg.mid = msg.id;

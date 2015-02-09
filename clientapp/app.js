@@ -2,8 +2,9 @@
 "use strict";
 
 var _ = require('underscore');
-var async = require('async');
 var Backbone = require('backbone');
+Backbone.$ = $;
+var async = require('async');
 var StanzaIO = require('stanza.io');
 
 var AppState = require('./models/state');
@@ -17,16 +18,16 @@ var Notify = require('notify.js');
 var Desktop = require('./helpers/desktop');
 var AppCache = require('./helpers/cache');
 
-
 module.exports = {
     launch: function () {
+
         var self = window.app = this;
         var config = localStorage.config;
-
 
         if (!config) {
             console.log('missing config');
             window.location = '/login';
+            return;
         }
 
         config = JSON.parse(config);
@@ -128,5 +129,6 @@ module.exports = {
     }
 };
 
-
-module.exports.launch();
+$(function () {
+    module.exports.launch();
+});

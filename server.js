@@ -2,17 +2,18 @@ var fs = require('fs');
 var https = require('https');
 var express = require('express');
 var helmet = require('helmet');
-var Moonboots = require('moonboots');
+var Moonboots = require('moonboots-express');
 var config = require('getconfig');
 var templatizer = require('templatizer');
 var oembed = require('oembed');
 var async = require('async');
 
-
 var app = express();
+var compression = require('compression');
+var serveStatic = require('serve-static');
 
-app.use(express.compress());
-app.use(express.static(__dirname + '/public'));
+app.use(compression());
+app.use(serveStatic(__dirname + '/public'));
 if (!config.isDev) {
     app.use(helmet.xframe());
 }
@@ -22,58 +23,9 @@ app.use(helmet.contentTypeOptions());
 oembed.EMBEDLY_URL = config.embedly.url || 'https://api.embed.ly/1/oembed';
 oembed.EMBEDLY_KEY = config.embedly.key;
 
-var clientApp = new Moonboots({
-    main: __dirname + '/clientapp/app.js',
-    templateFile: __dirname + '/clientapp/templates/main.html',
-    developmentMode: config.isDev,
-    cachePeriod: 0,
-    libraries: [
-        __dirname + '/clientapp/libraries/jquery.js',
-        __dirname + '/clientapp/libraries/ui.js',
-        __dirname + '/clientapp/libraries/resampler.js',
-        __dirname + '/clientapp/libraries/IndexedDBShim.min.js',
-        __dirname + '/clientapp/libraries/sugar-1.2.1-dates.js'
-    ],
-    browserify: {
-        debug: false
-    },
-    stylesheets: [
-        __dirname + '/public/css/otalk.css'
-    ],
-    server: app
-});
-
-if (config.isDev) {
-    clientApp.config.beforeBuildJS = function () {
-        var clientFolder = __dirname + '/clientapp';
-        templatizer(clientFolder + '/templates', clientFolder + '/templates.js');
-    };
-}
-
-clientApp.on('ready', function () {
-    console.log('Client app ready');
-    var pkginfo = JSON.parse(fs.readFileSync(__dirname + '/package.json'));
-
-    var manifestTemplate = fs.readFileSync(__dirname + '/clientapp/templates/misc/manifest.cache', 'utf-8');
-    var cacheManifest = manifestTemplate
-          .replace('#{version}', pkginfo.version + config.isDev ? ' ' + Date.now() : '')
-          .replace('#{jsFileName}', clientApp.jsFileName())
-          .replace('#{cssFileName}', clientApp.cssFileName());
-    console.log('Cache manifest generated');
-
-
-    app.get('/manifest.cache', function (req, res, next) {
-        res.set('Content-Type', 'text/cache-manifest');
-        res.set('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
-        res.send(cacheManifest);
-    });
-
-    // serves app on every other url
-    app.get('*', clientApp.html());
-});
-
 var webappManifest = fs.readFileSync('./public/x-manifest.webapp');
 
+app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 
 app.get('/login', function (req, res) {
@@ -168,9 +120,66 @@ app.use(function handleError(err, req, res, next) {
     res.render('error', errorResult);
 });
 
+var clientApp = new Moonboots({
+    moonboots: {
+        main: __dirname + '/clientapp/app.js',
+        developmentMode: config.isDev,
+        libraries: [
+            __dirname + '/clientapp/libraries/jquery.js',
+            __dirname + '/clientapp/libraries/ui.js',
+            __dirname + '/clientapp/libraries/resampler.js',
+            __dirname + '/clientapp/libraries/IndexedDBShim.min.js',
+            __dirname + '/clientapp/libraries/sugar-1.2.1-dates.js'
+        ],
+        browserify: {
+            debug: false
+        },
+        stylesheets: [
+            __dirname + '/public/css/otalk.css'
+        ],
+        beforeBuildJS: function () {
+            if (config.isDev) {
+                var clientFolder = __dirname + '/clientapp';
+                templatizer(clientFolder + '/templates', clientFolder + '/templates.js');
+            }
+        }
+    },
+    server: app,
+    cachePeriod: 0,
+    render: function (req, res) {
+        res.render('index');
+    }
+});
+
+clientApp.on('ready', function () {
+    console.log('Client app ready');
+    var pkginfo = JSON.parse(fs.readFileSync(__dirname + '/package.json'));
+
+    var manifestTemplate = fs.readFileSync(__dirname + '/clientapp/templates/misc/manifest.cache', 'utf-8');
+    var cacheManifest = manifestTemplate
+          .replace('#{version}', pkginfo.version + config.isDev ? ' ' + Date.now() : '')
+          .replace('#{jsFileName}', clientApp.moonboots.jsFileName())
+          .replace('#{cssFileName}', clientApp.moonboots.cssFileName());
+    console.log('Cache manifest generated');
+
+
+    app.get('/manifest.cache', function (req, res, next) {
+        res.set('Content-Type', 'text/cache-manifest');
+        res.set('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+        res.send(cacheManifest);
+    });
+
+    // serves app on every other url
+    app.get('*', function (req, res) {
+        res.render(clientApp.moonboots.htmlSource());
+    });
+});
+
 //https.createServer({
 //    key: fs.readFileSync(config.http.key),
 //    cert: fs.readFileSync(config.http.cert)
 //}, app).listen(config.http.port);
-app.listen(config.http.port);
-console.log('demo.stanza.io running at: ' + config.http.baseUrl);
+
+app.listen(config.http.port, function () {
+  console.log('demo.stanza.io running at: ' + config.http.baseUrl);
+})

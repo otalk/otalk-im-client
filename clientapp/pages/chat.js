@@ -211,16 +211,17 @@ module.exports = BasePage.extend({
         this.$('button.call').prop('disabled', !resources.length);
     },
     appendModel: function (model, preload) {
-        var newEl, first, last;
+        var newEl, first, last, newDay = false;
 
         var messageDay = Date.create(model.timestamp).format('{month} {ord}, {yyyy}');
         if (messageDay !== this.lastDate) {
             var dayDivider = $(templates.includes.dayDivider({day_name: messageDay}));
             this.staydown.append(dayDivider[0]);
             this.lastDate = messageDay;
+            newDay = true;
         }
 
-        var isGrouped = model.shouldGroupWith(this.lastModel);
+        var isGrouped = !newDay && model.shouldGroupWith(this.lastModel);
         if (isGrouped) {
             newEl = $(model.partialTemplateHtml);
             last = this.$messageList.find('li').last();
