@@ -52,6 +52,7 @@ module.exports = BasePage.extend({
     show: function (animation) {
         BasePage.prototype.show.apply(this, [animation]);
         this.sendChatState('active');
+        this.$chatInput.focus();
     },
     hide: function () {
         BasePage.prototype.hide.apply(this);
@@ -66,6 +67,7 @@ module.exports = BasePage.extend({
         this.renderAndBind();
 
         this.$chatInput = this.$('.chatBox textarea');
+        this.$chatInput.val(app.composing[this.model.jid] || '');
         this.$chatBox = this.$('.chatBox');
         this.$messageList = this.$('.messages');
 
@@ -105,6 +107,7 @@ module.exports = BasePage.extend({
     },
     handleKeyDown: function (e) {
         if (e.which === 13 && !e.shiftKey) {
+            app.composing[this.model.jid] = '';
             this.sendChat();
             e.preventDefault();
             return false;
@@ -130,6 +133,7 @@ module.exports = BasePage.extend({
     },
     handleKeyUp: function (e) {
         //this.resizeInput();
+        app.composing[this.model.jid] = this.$chatInput.val();
         if (this.typing && this.$chatInput.val().length === 0) {
             this.typing = false;
             this.$chatInput.removeClass('typing');

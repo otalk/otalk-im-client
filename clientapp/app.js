@@ -46,6 +46,7 @@ module.exports = {
                 app.cache = new AppCache();
                 app.storage = new Storage();
                 app.storage.open(cb);
+                app.composing = {};
                 app.mucInfos = [];
             },
             function (cb) {
