@@ -8,7 +8,7 @@ input[type=text], input[type=email], input[type=password], input[type=search], i
     display: inline-block
     width: auto
 
-input[type=text], input[type=email], input[type=password], input[type=search], 
+input[type=text], input[type=email], input[type=password], input[type=search],
 input[type=date], input[type=url], input[type=file], textarea, select, input[type=checkbox], input[type=radio]
 
   &:disabled
@@ -49,10 +49,6 @@ input[type=text], input[type=email], input[type=password], input[type=search], i
 
   &:focus
     outline: none
-    border: 1px solid $blue-light
-    box-shadow: 0 0 5px $blue-light
-    transition: all .3s ease-in
-    -webkit-transition: all .3s ease-in
 
   &:disabled
     background: lighten($gray-lighter, 60%)

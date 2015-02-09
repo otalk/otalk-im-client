@@ -6,14 +6,30 @@
   top: 0px
   bottom: 0px
   left: 0px
-  width: 270px
-  background-color: $blue-saturated-darker
-  border-right: 1px solid $gray-lighter
+  width: 220px
+  background-color: $sidebarBg
+  color: $sidebarText
+  border-right: 1px solid $sidebarBorder
   z-index: 300
   overflow-y: auto;
   overflow-x: hidden;
   webkit-transition-fix()
   noselect()
+
+  #organization
+    width: 220px
+    height: 53px
+    background-color: $sidebarTopAndBottomBg
+    border-bottom: 2px solid $sidebarBorder
+    margin-bottom: 10px
+
+    #orga_name
+      color: $sidebarOrgaName
+      font-size: $font-size-large
+      font-weight: $font-weight-bolder
+      line-height: 53px;
+      vertical-align: middle
+      margin-left: 20px
 
   .main
     margin: 10px 0 0 0
@@ -37,19 +53,32 @@
         position: relative
 
   h1
-    font-size: $font-size-small
+    font-size: $font-size-base
     margin: 0
-    padding: 20px 10px
-    color: white
+    padding: 4px 20px
     text-transform: uppercase
 
 #roster,
 #bookmarks
+  margin-right: 20px
+  margin-bottom: 25px
 
   #contactrequests
     margin: 0px
     padding-left: 0px
-    background: $blue-saturated
+
+    li
+      width: 180px
+      height: 68px
+      margin-left: 20px
+      margin-bottom: 10px
+      padding-bottom: 4px
+      background: $sidebarRequestBg
+      border-radius: 0.25rem
+      border: 2px solid $sidebarRequestBorder
+
+      .response
+        text-align: center
 
   .jid
     display: inline-block
@@ -62,79 +91,88 @@
 
   #addcontact,
   #joinmuc
-    margin: 0px 10px 5px 10px
+    margin: 8px 20px 5px 20px
     padding: 0px 10px
     width: 178px
     height: 25px
     font-size: $font-size-small
+    background-color: $sidebarInputBg
+    border-radius: 0.25rem
+    border: 1px solid $sidebarInputBorder
+    color: $sidebarInputText
 
   li
     list-style-type: none
-    padding: 7px 10px 7px 10px
+    padding: 4px 10px
     margin: 0px
+    border-radius: 0px 0.25rem 0.25rem 0px;
     position: relative
-    min-height: 40px
-    font-size: $font-size-small
-    color: #fff
+    height: 25px
+    font-size: $font-size-base
     cursor: pointer
-    transition: all .3s ease-in 0
-    -webkit-transition: all .3s ease-in 0
-    -moz-transition: all .3s ease-in 0
     width: 100%
     borderbox()
-
-    .wrap
-      vertical-align: middle
-      padding-left: 40px
+    color: $sidebarNames
 
     &:hover
-      background: $blue-saturated
+      background: $sidebarHover
 
-    &.online, &.chat, &.dnd, &.away, &.xa
-      &:after
-        content: ''
-        position: absolute
-        top: 50%
-        right: 15px
-        height: 6px
-        width: 6px
-        margin-top: -4px
-        border: 1px solid transparent
-        roundall(10px)
+    &.joined
+      &:hover:not(.hasUnread) .remove
+        visibility: visible
 
-    &.online,
-    &.chat
-      &:after
-        background: $green
-        border-color: $green
+    &:not(.joined)
+      &:hover:not(.hasUnread) .join
+        visibility: visible
 
-    &.dnd
-      &:after
-        background: $red
-        border-color: $red
+    &.hasUnread, &.hasUnread .prefix
+      font-weight: $font-weight-bolder
+      color: #fff
 
-    &.away,
-    &.xa
-      &:after
-        background: $orange
-        border-color: $orange
+    &:not(.activeContact).offline,
+    &:not(.activeContact).chat
+      .presence
+        color: $brown-light
 
-    &.offline:not(:hover)
-      .name
-        color: darken($gray-light, 40%)
+    &:not(.activeContact).dnd
+      .presence
+        color: $red
+        opacity: 1
 
-      .status
-        color: darken($gray-light, 65%)
-
-      img
-        opacity: .25
+    &:not(.activeContact).away,
+    &:not(.activeContact).xa
+      .presence
+        color: $orange
+        opacity: 1
 
     &.activeContact, &.offline.activeContact
-      background: white
-      font-weight: $font-weight-bold
-
+      background: $sidebarSelectionBg
+      .prefix
+        color: $green-lighterer
+        opacity: 1
+      &:not(.dnd):not(.away):not(.online) .presence
+        color: $brown-darkerer
+        opacity: 1
+      .remove, .join
+        color: #fff
       .name
-        color: $gray
+        color: #fff
+
+    &:not(.activeContact).online
+      .presence
+        color: $green
+        opacity: 1
+
+    &.online, &.dnd, &.away
+      .name
+        font-style : normal
+
+    &.activeContact
+      &.online .presence,
+      &.dnd .presence,
+      &.away .presence
+        color: #fff
+        opacity: 1
 
     &.composing
       &:after
@@ -154,34 +192,30 @@
         background: transparent
 
       .name
-        color: $gray-light
+        color: $sidebarNames
         max-width: 60%
 
       .user
         width: 95%
 
-    img
-      opacity: 1
-
-    .avatar
-      vertical-align: top
-      margin-right: 5px
-      margin-top: -15px
-      position: absolute
-      left: 10px
-      top: 20px
-      avatar()
-      noselect()
+    .presence
+      font-size: 10px
+      display: inline-block
+      margin-top: -10px
+      vertical-align: middle
+      opacity: 0.5
 
     .user
-      color: white
-      width: 100%
+      display: inline-block
+      width: 120px
       line-height: 100%
       overflow: hidden
       text-overflow: ellipsis
+      height: $font-size-base+3
+      font-style: italic
+      text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.25)
 
     .status
-      color: $gray-light
       font-size: $font-size-small
       font-weight: 400
       line-height: 12px
@@ -191,34 +225,52 @@
       display: inline-block
       margin-left: 5px
       font-size: $font-size-small
-      color: darken($gray-light, 50%)
+      color: darken($brown-light, 50%)
 
     .name
-      display: inline-block
-      text-overflow: ellipsis
+      width: 100%
+      line-height: 100%
       overflow: hidden
-
-    &.persistent
-      .name
-        color: red
+      text-overflow: ellipsis
+      height: $font-size-base+3
+      text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.3)
+      position: absolute
+      left: 32px
+      max-width: 140px
 
     .unread
       display: none
-      color: white
-      height: 22px
-      width: 30px
-      padding-top: 8px
-      roundall(30px)
+      color: $sidebarUnreadText
+      height: 16px
+      width: 18px
+      roundall(5px)
       position: absolute
-      top: 5px
-      left: 10px
-      font-size: $font-size-small
+      padding-top:2px
+      right: 5px
+      top: 3px
+      font-size: $font-size-smaller
       font-weight: $font-weight-bold
       text-align: center
-      background: rgba(0, 174, 239, .8)
+      background: $sidebarUnreadBg
 
     .unread:not(:empty)
       display: block
+
+    .remove, .join
+      position: absolute
+      right: 7px
+      top: 5px
+      font-size: $font-size-base
+      display: inline-block
+      font-family: FontAwesome
+      visibility: hidden
+
+    .prefix
+      font-weight: 300
+      opacity: 0.5
+      position: relative
+      left: -15px
+      text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.25);
 
     button
       margin: -15px 0px 0px 5px
@@ -237,15 +289,12 @@
         display: inline-block
 
 #roster
-
-  .name
-    width: 180px
+  .wrap
+    padding-left: 10px
 
 #bookmarks
-
-  .name
-    width: 120px
-    padding: 5px 10px 5px 40px
+  .wrap
+    padding-left: 24px
 
 @keyframes pulsate
   0%

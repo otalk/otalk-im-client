@@ -14,75 +14,13 @@
 
   header
     padding: 0px
-    padding-left: 6px
-    border-bottom: 1px solid darken($gray-lighter, 10%)
     position: fixed
-    top: 40px
+    top: 0px
     right: 0px
-    left: 270px
-    z-index: 10
-    borderbox()
-    background: lighten($gray-light, 93%)
-
-    &:before
-      content: ''
-      position: absolute
-      left: 5px
-      top: 18px
-      height: 4px
-      width: 4px
-      margin-top: -3px
-      border: 1px solid transparent
-      roundall(10px)
-
-    &.online,
-    &.chat
-      &:before
-        background: $green
-        border-color: $green
-
-    &.dnd:before
-      background: $red
-      border-color: $red
-
-    &.away:before,
-    &.xa:before
-      background: $orange
-      border-color: $orange
-
-    &.offline:before
-      background: $gray-dark
-
-    &.composing:before
-      animation: pulsate 1.5s infinite ease-in
-      -webkit-animation: pulsate 1.5s infinite ease-in
-      -moz-animation: pulsate 1.5s infinite ease-in
-
-    &.paused:before
-      background: lighten($gray-light, 30%)
-      border-color: lighten($gray-light, 30%)
-
-    &.idle:before
-      background: transparent
-
-    .controls
-      float: right
-
-      .leaveRoom
-        display: none
-
-      .joinRoom
-        display: block
-
-      button
-        margin-top: 5px
-
-      &.joined
-        .joinRoom
-          display: none
-
-        .leaveRoom
-          display: block
+    left: 220px
+    right: 90px
+    height: 55px
+    z-index: 101
 
     .avatar
       margin-right: 5px
@@ -93,48 +31,100 @@
       vertical-align: top
 
     h1
-      font-size: 12px
-      margin: 5px
-      margin-left: 10px
       padding: 0px
+      margin: 0px
+      top: 0px
       white-space: nowrap
-      max-width: 80%
       display: inline-block
-      height: 25px
-      line-height: 25px
+      height: 53px
+
+      &:hover .prefix
+        color: $gray-dark
+
+    .prefix, .name, .user_presence, .channel_actions, .status
+      display: inline-block
+      color: $gray-dark
+      padding: 0px
+      text-rendering: optimizelegibility
+      top: 0px
+      vertical-align: middle
+
+    .prefix
+      color: $gray
+      font-size: $font-size-h2
+      font-weight: $font-weight-classic
+      margin-left: 25px
+      line-height: 53px
+      cursor: pointer
 
     .name
-      font-size: 12px
-      border-width: 0px
-      padding: 0px
-      display: inline-block
+      font-size: $font-size-h2
+      font-weight: $font-weight-bolder
       overflow: hidden
+      text-overflow: ellipsis
+      padding-left: 3px
+      line-height: 53px
+      cursor: pointer
+
+    .user_presence, .channel_actions
+      font-size: $font-size-small
+      color: $gray
+      padding-left: 8px
+      line-height: 53px
+      cursor: pointer
+
+    .user_presence
+      padding-top: 5px
+
+        &.online
+          color: $green
+          opacity: 1
+
+        &.offline
+          color: $gray-dark
+          opacity: 0.5
+
+        &.dnd
+          color: $red
+
+        &.away, &.xa
+          color: $orange
+
+        &.composing
+          animation: pulsate 1.5s infinite ease-in
+          -webkit-animation: pulsate 1.5s infinite ease-in
+          -moz-animation: pulsate 1.5s infinite ease-in
+
+        &.paused:before
+          color: lighten($gray-dark, 30%)
+
+        &.idle:before
+          background: transparent
+
+    .channel_actions
+      opacity: 1
 
     .status
-      font-weight: normal
-      font-size: 12px
-      border-width: 0px
-      padding: 0px
-      max-width: 80%
-      padding-left: 5px
+      color: $gray
+      font-weight: $font-weight-classic
+      font-size: $font-size-h3
+      line-height: 18px
+      margin-left: 15px
+      padding-top: 5px
       white-space: nowrap
       overflow: hidden
       text-overflow: ellipsis
       transition: all .25s
-      display: inline-block
       allowselect()
 
       &:empty:before
-        content: '- No subject'
+        content: ''
 
-      &:not(:empty):before
-        content: '- '
-
-      &:before,
-      &:empty:focus:before
-        content: '-'
-        padding-left: 5px
-        padding-right: 5px
+      &:focus
+        border-radius: 0.25rem
+        border: 1px solid $gray
+        padding: 5px
+        outline: none
 
     .tzo:not(:empty)
       position: absolute
@@ -155,61 +145,157 @@
         content: 'Current Time: '
         font-weight: bold
 
-    .call, .remove
-      display: inline-block
-      margin-top: -17px
-      margin-left: 10px
-
-    .activeCall
-      transition(height 250ms)
-      height: 0px
-      position: relative
+    .call
+      display: block
+      width: 50px
+      height: 38px
+      position: absolute
       top: 0px
+      right: 11px
 
-      .remote
-        position: absolute
-        top: 60px
-        left: 10px
-        height: 50%
-
-      .local
-        position: absolute
-        bottom: 10px
-        right: 10px
-        height: 20%
-        border: 2px solid $gray-lighter
-        transform(scaleX(-1))
-
-      .button-wrap
-        position: absolute
-        left: 10px
-        bottom: 10px
-
-        .button-group
-          margin-left: 5px
-
-  // while on video call the parent has
-  // this class so we animate the height
   .activeCall
     display: none
+    transition(height 250ms)
+    height: 0px
+    position: absolute
+    bottom: 4rem
+    width: 100%
+    min-width: 610px
+    box-sizing: border-box
+    padding: 0px 73px 0px 24px
+
+    .container
+      width: 100%
+      height: 100%
+      border: 1px solid $gray-lighter
+      border-bottom: none
+      border-radius: 0.2rem 0.2rem 0 0
+      background-color: $gray-lighter
+
+    .remote
+      position: absolute
+      top: 20px
+      left: 40px
+      height: 65%
+      border: 2px solid $gray-light
+
+    .local
+      position: absolute
+      bottom: 10px
+      right: 80px
+      height: 20%
+      border: 2px solid $gray-light
+      transform(scaleX(-1))
+
+    .button-wrap
+      position: absolute
+      left: 118px
+      bottom: 26px
+
+      .button-group
+        margin-left: 5px
   &.onCall
     .activeCall
       display: block
-      height: 400px
+      height: 20rem
+    .messages
+      bottom: 24rem
+
+  .chatBox
+    background-color: #fff
+    bottom: 0px
+    position: fixed
+    right: 0px
+    left: 221px
+    height: 4rem
+    z-index: 302
+    transition: none
+    -webkit-transition: none
+
+    .formwrap
+      transition: none
+      -webkit-transition: none
+      position: relative
+      height:38px
+      left: 24px
+      margin-right: 93px
+
+    textarea
+      display: inline-block
+      vertical-align: middle
+      background: none repeat scroll 0% 0% padding-box #fff
+      font-size: $font-size-base
+      border-width: 2px
+      border-style: solid
+      border-color: $gray-lighter
+      border-image: none
+      border-radius: 0px 0.2rem 0.2rem 0px
+      font-family: "Lato",sans-serif
+      margin: 0
+      color: #3D3C40
+      overflow-y: hidden
+      box-shadow: none
+      outline: 0px none
+      position: absolute
+      bottom: 0px
+      height: 38px
+      padding: 9px 5px 9px 8px
+      max-height: 10rem
+      resize: none !important
+
+      &.editing
+        background-color: #fffcea
+        border: 1px solid #efe391
+        color: #d2bd2d
+      &:focus
+        box-shadow: none
 
 .messages
   margin: 0px
-  padding: 0px
+  padding: 0px 1.5rem
   overflow-y: auto
   overflow-x: hidden
   position: absolute
   top: 0px
   right: 0px
-  bottom: 55px
-  margin-top: 75px
+  bottom: 4rem
+  margin-top: 54px
   width: 100%
   borderbox()
   -webkit-overflow-scrolling: touch
+
+  li.day_divider
+    display: block
+    background: none repeat scroll 0% 0% #fff
+    font-size: 1rem
+    color: #555459
+    font-weight: 900
+    text-align: center
+    cursor: default
+    clear: both
+    position: relative
+    line-height: 1.2rem
+    margin: 1.5rem 0px
+    padding: 0
+    min-height: 0
+
+    hr
+      position: absolute
+      width: 100%
+      top: 0.6rem
+      margin: 0px
+      border-width: 1px 0px 0px 0px
+      border-style: solid none
+      border-color: #ddd
+
+    .day_divider_name
+      background: none repeat scroll 0% 0% #fff
+      text-transform: capitalize
+      text-align: center
+      padding: 0px 1rem
+      display: inline-block
+      margin: 0px auto
+      position: relative
 
   li
     position: relative
@@ -218,8 +304,6 @@
     width: 100%
     min-height: 50px
     display: table
-    borderbox()
-    border-bottom: 1px solid $gray-lighter
     display: table-row
 
     &:last-of-type
@@ -227,6 +311,7 @@
 
     .messageAvatar
       display: inline-block
+      outline: none
 
       img
         avatar()
@@ -247,15 +332,13 @@
       box-shadow: rgba(0, 0, 0, .25) 0 2px 3px
 
   .sender
-    display: table-cell
     font-size: 12px
     font-weight: bold
     color: $gray
-    padding: 5px
     text-align: right
-    border-top: 1px solid #eee
     white-space: nowrap
-    vertical-align: middle
+    vertical-align: top
+    margin-top: 5px
 
     .name
       padding-left: 10px
@@ -263,44 +346,42 @@
 
   .messageWrapper
     display: table-cell
-    padding: 5px
-    border-top: 1px solid #eee
+    padding: 0px 0px 12px 15px
     width: 99%
-    vertical-align: middle
+    vertical-align: top
+
+    .message_header
+
+      .name
+        display: inline-block
+        font-weight: $font-weight-bolder
+        font-size: $font-size-message
+        color: $black
+        line-height: 22px
+        cursor: pointer
+
+      .date
+        display: inline-block
+        margin-left: 0.25rem
+        color: $gray-light
+        font-size: $font-size-small
+        width: 60px
+        line-height: 22px
+        text-transform: uppercase
+        cursor: pointer
 
   .message
-    font-size: $font-size-small
-    margin: 2px
+    font-size: $font-size-message
+    line-height: 22px
+    color: $black
+    margin: 0px 0px 2px 0px
     display: inline-block
-    padding-right: 3px
     min-width: 20px
     width: 100%
     borderbox()
 
     &:not(.mine)
       color: $gray-dark
-
-    &.mine
-      .timestamp
-        color: darken($gray-lighter, 20%)
-
-    &.mine.pendingReceipt:not(.delayed)
-      .timestamp:after
-        content: '\26A0'
-        color: $orange
-
-    &.delayed
-      .timestamp:before
-        content: '@ '
-
-    &.edited
-      .timestamp:before
-        content: 'edited '
-
-    &.mine.delivered
-      .timestamp:after
-        content: '\2713' !important
-        color: $green !important
 
     &.pending
       color: lighten($gray, 50%)
@@ -349,42 +430,28 @@
     .sender
       display: block
 
-.chatBox
-  borderbox()
-  bottom: 0px
-  position: fixed
-  right: 0px
-  left: 270px
-  z-index: 200
-  transition: none
-  -webkit-transition: none
-
-  form
-    border-top: 1px solid #eee
-    background: lighten($gray-light, 93%)
-    padding: 11px
-    transition: none
-    -webkit-transition: none
-
-  .formwrap
-    borderbox()
-    width: 100%
-    padding-right: 80px
-    position: relative
-
-  textarea
-    height: 30px
-    padding: 6px 10px
-    transition: none
-    -webkit-transition: none
-
-    &.editing
-      background-color: #fffcea
-      border: 1px solid #efe391
-      color: #d2bd2d
-
-
 .group.conversation
+  h1
+    .status
+      &:empty:before
+        content: 'No subject'
+
+  .chatBox .formwrap
+    margin-right: 35px
+
+  #members_toggle
+    position: absolute
+    top: 60px
+    right: 20px
+    cursor: pointer
+    color: $gray
+    font-size: $font-size-h3
+
+    &:hover
+      color: #439FE0
+
+    #members_toggle_count
+      margin-left: 5px
 
   .groupRoster
     width: 150px
@@ -393,34 +460,46 @@
     overflow-y: auto
     overflow-x: hidden
     position: absolute
-    top: 0px
-    right: 0px
-    bottom: 50px
-    padding-top: 80px
-    padding-bottom: 10px
+    top: 80px
+    right: 20px
     borderbox()
+    box-shadow: 0px 2px 10px rgba(64, 54, 63, 0.25)
     -webkit-overflow-scrolling: touch
-    background: lighten($gray, 95%)
-    border-left: 1px solid #eee
+    border: 1px solid #ddd
+    border-radius: 0.25rem
+    background-color: #fff
+    z-index: 100
+    visibility: hidden
+    padding: 5px 30px 5px 5px
 
     li
       padding: 3px
       margin: 0px
-      font-size: 12px
+      border-radius: 0.25rem
       position: relative
+      cursor: pointer
+
+      &:hover
+        background-color: #439FE0
+
+        .name
+          color: #fff
 
       .name
-        padding-left: 10px
+        padding-left: 14px
+        color: $gray
+        font-size: 14px
+        font-weight: bold
 
       &:before
         content: ''
         position: absolute
         left: 4px
-        top: 11px
+        top: 12px
         height: 4px
         width: 4px
         margin-top: -3px
-        border: 1px solid transparent
+        border: 2px solid transparent
         roundall(10px)
 
       &.online,
@@ -428,6 +507,11 @@
         &:before
           background: $green
           border-color: $green
+        &:not(:hover) .name
+          color: $gray-dark
+
+        &:not(:hover).active .name
+          color $red
 
       &.dnd:before
         background: $red

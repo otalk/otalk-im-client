@@ -63,7 +63,13 @@ module.exports = HumanModel.define({
                 if (!this.stream) return '';
                 return URL.createObjectURL(this.stream);
             }
-        }
+        },
+        organization: {
+            deps: ['orga'],
+            fn: function () {
+                return app.serverConfig().name || 'Otalk';
+            }
+        },
     },
     setActiveContact: function (jid) {
         var prev = this.getContact(this._activeContact);
@@ -125,6 +131,7 @@ module.exports = HumanModel.define({
 
         app.storage.profiles.get(this.jid.bare, function (err, profile) {
             if (!err) {
+                self.nick = self.jid.local;
                 self.status = profile.status;
                 self.avatarID = profile.avatarID;
             }

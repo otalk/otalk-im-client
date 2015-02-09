@@ -122,6 +122,9 @@ module.exports = {
         // to start with the active class already before appending to DOM.
         container.append(view.render(animation === 'none').el);
         view.show(animation);
+    },
+    serverConfig: function () {
+        return SERVER_CONFIG;
     }
 };
 

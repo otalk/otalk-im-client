@@ -1,67 +1,16 @@
 @import '../_variables'
 @import '../_mixins'
 
-#me
+#topbar
   position: fixed
-  left: 270px
+  left: 220px
   top: 0px
-  height: 40px
+  height: 54px
   width: 100%
   background-color: #fff
-  border-bottom: 1px solid darken($gray-lighter, 10%)
   z-index: 100
   noselect()
   color: #fff
-
-  .avatar
-    width: 30px
-    height: 30px
-    vertical-align: middle
-    margin-right: 5px
-    roundall(15px)
-
-  h1
-    font-size: 13px
-    line-height: 12px
-    margin: 5px
-    padding: 0px
-    white-space: nowrap
-    max-width: 75%
-
-  .status
-    font-weight: normal
-    font-size: 12px
-    line-height: 12px
-    border-width: 0px
-    margin: 0px
-    padding: 0px
-    line-height: 20px
-    height: 20px
-    max-width: 75%
-    white-space: nowrap
-    overflow: hidden
-    text-overflow: ellipsis
-    transition: all .25s
-    allowselect()
-
-    &:empty:before
-      content: '- Update your status'
-
-    &:before,
-    &:empty:focus:before
-      content: '-'
-      padding-left: 5px
-      padding-right: 5px
-
-    &:empty
-      font-style: italic
-
-  .name,
-  .status
-    &:focus
-      background-color: #fffcea
-      border: 1px solid #efe391
-      color: #d2bd2d
 
   .settings
     position: fixed
@@ -70,9 +19,10 @@
     height: 30px
     right: 5px
     top: 5px
-    background-color: #fff
-    color: #12acef
+    background-color: $settingsBg
+    color: $settingsText
     transition: none
+    border: 0
 
     svg
       position: absolute
@@ -80,11 +30,11 @@
       left: 5px
       margin: 0px
       margin-top: -13px
-      fill: #12acef
+      fill: $settingsText
 
     &:hover
-      background-color: #12acef
-      color: #fff
+      background-color: $settingsHoverBg
+      color: $settingsHoverText
 
       svg
         fill: #fff

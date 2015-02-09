@@ -20,8 +20,8 @@ module.exports = HumanView.extend({
     },
     events: {
         'click .name': 'handleClick',
-        'click .joinRoom': 'handleJoinRoom',
-        'click .leaveRoom': 'handleLeaveRoom'
+        'click .join': 'handleJoinRoom',
+        'click .remove': 'handleLeaveRoom'
     },
     render: function () {
         this.renderAndBind({contact: this.model});

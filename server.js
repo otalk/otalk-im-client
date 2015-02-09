@@ -31,7 +31,8 @@ var clientApp = new Moonboots({
         __dirname + '/clientapp/libraries/jquery.js',
         __dirname + '/clientapp/libraries/ui.js',
         __dirname + '/clientapp/libraries/resampler.js',
-        __dirname + '/clientapp/libraries/IndexedDBShim.min.js'
+        __dirname + '/clientapp/libraries/IndexedDBShim.min.js',
+        __dirname + '/clientapp/libraries/sugar-1.2.1-dates.js'
     ],
     browserify: {
         debug: false

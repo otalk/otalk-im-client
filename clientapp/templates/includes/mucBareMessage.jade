@@ -1,5 +1,4 @@
 .message(id='chat'+message.cid, class=message.classList)
-  span.timestamp=message.formattedTime
   p.body !{message.processedBody}
   - var urls = message.urls
   section.embeds

@@ -1,5 +1,7 @@
 li.contact
-  .unread=contact.unreadCount
-  .name=contact.displayName
-  button.primary.small.joinRoom Join
-  button.secondary.small.leaveRoom Leave
+  .wrap
+    i.remove.fa.fa-times-circle
+    i.join.fa.fa-sign-in
+    span.prefix #
+    .unread=contact.unreadCount
+    span.name=contact.displayName

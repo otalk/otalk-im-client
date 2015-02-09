@@ -1,8 +1,8 @@
-li.contact
+li.contact.joined
   .wrap
-    img.avatar(src=contact.avatar)
+    i.remove.fa.fa-times-circle
+    i.presence.fa.fa-circle
     .user
       span.name=contact.displayName
       span.idleTime=contact.idleSince
     .unread=contact.unreadCount
-    .status=contact.status

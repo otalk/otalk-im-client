@@ -3,4 +3,7 @@ li
     a.messageAvatar(href='#')
       img(src=message.sender.avatar, alt=message.sender.displayName, data-placement="below")
   .messageWrapper
+    .message_header
+      .name #{message.sender.displayName}
+      .date #{Date.create(message.timestamp).format('{h}:{mm} {tt}')}
     include bareMessage

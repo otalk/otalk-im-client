@@ -1,0 +1,63 @@
+@import '../_variables'
+@import '../_mixins'
+
+#footer
+  bottom: 0px
+  left: 0px
+  background-color: $sidebarTopAndBottomBg
+  width:100%
+  height: 4rem;
+  position: fixed
+  z-index: 301
+
+  #me
+    border-top: 2px solid $sidebarBorder
+    padding: 7px 0px 9px 8px;
+
+  .avatar
+    float:left
+    width: 48px
+    height: 48px
+    background: rgba(0,0,0,0)
+    background-color: transparent
+    vertical-align: middle
+    margin: 0px 0.5rem 0px 0px;
+
+  .name,
+  .status
+    display: block
+    width: 145px
+    overflow: hidden
+    text-overflow: ellipsis
+
+  .name
+    color: #fff
+    font-size: $font-size-large
+    font-weight: $font-weight-bolder
+
+  .status
+    color: $sidebarStatusText
+    font-weight: normal
+    font-size: $font-size-base
+    line-height: $font-size-base
+    border-width: 0px
+    margin: 0px
+    padding: 0px
+    line-height: 18px
+    height: 18px
+    white-space: nowrap
+    transition: all .25s
+    allowselect()
+
+    &:focus
+      border-radius: 0.25rem
+      border: 1px solid $sidebarStatusBorder
+      outline: none
+      padding: 2px
+
+    &:empty:before
+      content: 'Update your status'
+
+    &:before,
+    &:empty:focus:before
+      content: ''

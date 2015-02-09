@@ -8,7 +8,6 @@ button
 
 .button, button
   display: inline-block
-  border-radius: 3px
   padding: 0 15px
   height: 35px
   background: $gray-lighter
@@ -16,7 +15,9 @@ button
   font-weight: $font-weight-bold
   text-align: center
   text-decoration: none
-  color: $gray-light
+  color: $gray
+  border: 1px solid $gray-light
+  border-radius: 3px
   text-overflow: ellipsis
   vertical-align: middle
   user-select()
@@ -49,22 +50,22 @@ button
     color: white
 
   &.primary
-    background: $pink
+    background: $green
 
     &:hover:not(:disabled)
-      background: darken($pink, 10%)
+      background: darken($green, 10%)
 
     &:disabled
-      background: $pink-light
+      background: $green-light
 
   &.secondary
-    background: $blue
+    background: $red
 
     &:disabled
-      background: $blue-light
+      background: $red-light
 
     &:hover:not(:disabled)
-      background: darken($blue, 10%)
+      background: darken($red, 10%)
 
 .button-group
 
@@ -86,7 +87,7 @@ button
     border-radius: 3px
 
     button, .button
-      border: 1px solid lighten($gray-light, 70%)
+      border: 1px solid $gray-light
 
     &.primary
 

@@ -1,5 +1,9 @@
 li
   .sender
-    .name=message.from.resource
+    a.messageAvatar(href='#')
+      img(src="https://gravatar.com/avatar", alt=message.from.resource, data-placement="below")
   .messageWrapper
+    .message_header
+      .name #{message.from.resource}
+      .date #{Date.create(message.timestamp).format('{h}:{mm} {tt}')}
     include mucBareMessage

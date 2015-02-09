@@ -28,18 +28,18 @@ module.exports = BasePage.extend({
     events: {
         'keydown textarea': 'handleKeyDown',
         'keyup textarea': 'handleKeyUp',
-        'click .joinRoom': 'handleJoin',
-        'click .leaveRoom': 'handleLeave',
         'click .status': 'clickStatusChange',
         'blur .status': 'blurStatusChange',
-        'keydown .status': 'keyDownStatusChange'
+        'keydown .status': 'keyDownStatusChange',
+        'click #members_toggle': 'clickMembersToggle'
     },
     classBindings: {
         joined: '.controls'
     },
     textBindings: {
         displayName: 'header .name',
-        subject: 'header .status'
+        subject: 'header .status',
+        membersCount: '#members_toggle_count'
     },
     show: function (animation) {
         BasePage.prototype.show.apply(this, [animation]);
@@ -73,7 +73,7 @@ module.exports = BasePage.extend({
 
         this.listenTo(this.model.messages, 'add', this.handleChatAdded);
 
-        $(window).on('resize', _.bind(this.resizeInput, this));
+        //$(window).on('resize', _.bind(this.resizeInput, this));
 
         this.registerBindings();
 
@@ -81,6 +81,7 @@ module.exports = BasePage.extend({
     },
     renderMessages: function () {
         var self = this;
+        this.lastDate = '';
         this.model.messages.each(function (model, i) {
             self.appendModel(model);
         });
@@ -91,7 +92,7 @@ module.exports = BasePage.extend({
     },
     handlePageLoaded: function () {
         this.staydown.checkdown();
-        this.resizeInput();
+        //this.resizeInput();
     },
     handleKeyDown: function (e) {
         if (e.which === 13 && !e.shiftKey) {
@@ -122,7 +123,7 @@ module.exports = BasePage.extend({
         }
     },
     handleKeyUp: function (e) {
-        this.resizeInput();
+        //this.resizeInput();
         if (this.typing && this.$chatInput.val().length === 0) {
             this.typing = false;
             this.paused = false;
@@ -208,12 +209,6 @@ module.exports = BasePage.extend({
         this.$chatInput.removeClass('editing');
         this.$chatInput.val('');
     },
-    handleJoin: function () {
-        this.model.join();
-    },
-    handleLeave: function () {
-        this.model.leave();
-    },
     clickStatusChange: function (e) {
         tempSubject = e.target.textContent;
     },
@@ -230,11 +225,24 @@ module.exports = BasePage.extend({
             return false;
         }
     },
+    clickMembersToggle: function (e) {
+        var roster = $('.groupRoster');
+        if (roster.css('visibility') == 'hidden')
+            roster.css('visibility', 'visible');
+        else
+            roster.css('visibility', 'hidden');
+    },
     appendModel: function (model, preload) {
-        var self = this;
-        var isGrouped = model.shouldGroupWith(this.lastModel);
         var newEl, first, last;
 
+        var messageDay = Date.create(model.timestamp).format('{month} {ord}, {yyyy}');
+        if (messageDay !== this.lastDate) {
+            var dayDivider = $(templates.includes.dayDivider({day_name: messageDay}));
+            this.staydown.append(dayDivider[0]);
+            this.lastDate = messageDay;
+        }
+
+        var isGrouped = model.shouldGroupWith(this.lastModel);
         if (isGrouped) {
             newEl = $(model.partialTemplateHtml);
             last = this.$messageList.find('li').last();

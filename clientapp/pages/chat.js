@@ -29,7 +29,6 @@ module.exports = BasePage.extend({
     events: {
         'keydown textarea': 'handleKeyDown',
         'keyup textarea': 'handleKeyUp',
-        'click .remove': 'handleRemoveClick',
         'click .call': 'handleCallClick',
         'click .accept': 'handleAcceptClick',
         'click .end': 'handleEndClick',
@@ -46,8 +45,8 @@ module.exports = BasePage.extend({
     },
     classBindings: {
         chatState: 'header',
-        idle: 'header',
-        show: 'header',
+        idle: '.user_presence',
+        show: '.user_presence',
         onCall: '.conversation'
     },
     show: function (animation) {
@@ -76,7 +75,7 @@ module.exports = BasePage.extend({
         this.listenTo(this.model.messages, 'add', this.handleChatAdded);
         this.listenToAndRun(this.model, 'change:jingleResources', this.handleJingleResourcesChanged);
 
-        $(window).on('resize', _.bind(this.resizeInput, this));
+        //$(window).on('resize', _.bind(this.resizeInput, this));
 
         this.registerBindings(me, {
             srcBindings: {
@@ -88,11 +87,7 @@ module.exports = BasePage.extend({
     },
     handlePageLoaded: function () {
         this.staydown.checkdown();
-        this.resizeInput();
-    },
-    handleRemoveClick: function (e) {
-      me.removeContact(this.model.jid);
-      app.navigate('/');
+        //this.resizeInput();
     },
     handleCallClick: function (e) {
         e.preventDefault();
@@ -102,6 +97,7 @@ module.exports = BasePage.extend({
     renderCollection: function () {
         var self = this;
         this.$messageList.empty();
+        this.lastDate = '';
         this.model.messages.each(function (model, i) {
             self.appendModel(model);
         });
@@ -133,7 +129,7 @@ module.exports = BasePage.extend({
         }
     },
     handleKeyUp: function (e) {
-        this.resizeInput();
+        //this.resizeInput();
         if (this.typing && this.$chatInput.val().length === 0) {
             this.typing = false;
             this.$chatInput.removeClass('typing');
@@ -215,10 +211,16 @@ module.exports = BasePage.extend({
         this.$('button.call').prop('disabled', !resources.length);
     },
     appendModel: function (model, preload) {
-        var self = this;
-        var isGrouped = model.shouldGroupWith(this.lastModel);
         var newEl, first, last;
 
+        var messageDay = Date.create(model.timestamp).format('{month} {ord}, {yyyy}');
+        if (messageDay !== this.lastDate) {
+            var dayDivider = $(templates.includes.dayDivider({day_name: messageDay}));
+            this.staydown.append(dayDivider[0]);
+            this.lastDate = messageDay;
+        }
+
+        var isGrouped = model.shouldGroupWith(this.lastModel);
         if (isGrouped) {
             newEl = $(model.partialTemplateHtml);
             last = this.$messageList.find('li').last();

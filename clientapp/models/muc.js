@@ -16,6 +16,10 @@ module.exports = HumanModel.define({
         if (attrs.jid) {
             this.id = attrs.jid.full;
         }
+        var self = this;
+        this.resources.bind("add remove reset", function(){
+            self.membersCount = self.resources.length;
+        });
     },
     type: 'muc',
     props: {
@@ -32,7 +36,8 @@ module.exports = HumanModel.define({
         lastSentMessage: 'object',
         unreadCount: ['number', false, 0],
         persistent: ['bool', false, false],
-        joined: ['bool', true, false]
+        joined: ['bool', true, false],
+        membersCount: ['number', false, 0],
     },
     derived: {
         displayName: {
@@ -52,7 +57,7 @@ module.exports = HumanModel.define({
                     else
                       return '99+'
                 }
-                return '0';
+                return '';
             }
         },
         displaySubject: {

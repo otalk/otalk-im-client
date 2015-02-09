@@ -24,9 +24,7 @@ module.exports = HumanView.extend({
         'click .embed': 'handleEmbedClick',
         'click .reconnect': 'handleReconnect',
         'click .logout': 'handleLogout',
-        'click .addContact': 'handleAddContact',
         'keydown #addcontact': 'keyDownAddContact',
-        'click .joinMUC': 'handleJoinMUC',
         'keydown #joinmuc': 'keyDownJoinMUC',
         'blur #me .status': 'handleStatusChange',
         'keydown .status': 'keyDownStatus'
@@ -47,7 +45,8 @@ module.exports = HumanView.extend({
         this.registerBindings(me, {
             textBindings: {
                 displayName: '#me .name',
-                status: '#me .status'
+                status: '#me .status',
+                organization: '#organization #orga_name',
             },
             srcBindings: {
                 avatar: '#me .avatar'
