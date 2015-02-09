@@ -192,7 +192,7 @@ a:active {
   position: absolute;
   top: 0px;
   right: 0px;
-  left: 201px;
+  left: 270px;
   height: 100%;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -506,16 +506,8 @@ button.secondary:hover:not(:disabled) {
 .button-group.outlined.secondary .button:hover {
   background: #b8e6fa;
 }
-.installFirefox,
-.addContact {
+.installFirefox {
   margin-left: 5px;
-}
-.addContact {
-  margin-top: -2px;
-}
-.joinRoom,
-.leaveRoom {
-  margin: 3px 5px 0 0;
 }
 #connectionOverlay {
   position: fixed;
@@ -569,7 +561,7 @@ button.secondary:hover:not(:disabled) {
   top: 0px;
   bottom: 0px;
   left: 0px;
-  width: 200px;
+  width: 270px;
   background-color: #0b1316;
   border-right: 1px solid #eee;
   z-index: 300;
@@ -611,10 +603,38 @@ button.secondary:hover:not(:disabled) {
   color: #fff;
   text-transform: uppercase;
 }
+#roster #contactrequests,
+#bookmarks #contactrequests {
+  margin: 0px;
+  padding-left: 0px;
+  background: #192a47;
+}
+#roster .jid,
+#bookmarks .jid {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+}
+#roster .approve,
+#bookmarks .approve,
+#roster .deny,
+#bookmarks .deny {
+  display: inline-block;
+  margin-top: 10px;
+}
+#roster #addcontact,
+#bookmarks #addcontact,
+#roster #joinmuc,
+#bookmarks #joinmuc {
+  margin: 0px 10px 5px 10px;
+  width: 178px;
+  height: 25px;
+  font-size: 12px;
+}
 #roster li,
 #bookmarks li {
   list-style-type: none;
-  padding: 7px 35px 7px 10px;
+  padding: 7px 10px 7px 10px;
   margin: 0px;
   position: relative;
   min-height: 40px;
@@ -633,10 +653,6 @@ button.secondary:hover:not(:disabled) {
 #bookmarks li .wrap {
   vertical-align: middle;
   padding-left: 40px;
-}
-#roster li .unread:not(:empty),
-#bookmarks li .unread:not(:empty) {
-  display: block;
 }
 #roster li:hover,
 #bookmarks li:hover {
@@ -774,12 +790,6 @@ button.secondary:hover:not(:disabled) {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-#roster li .name,
-#bookmarks li .name {
-  display: inline-block;
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
 #roster li .status,
 #bookmarks li .status {
   color: #878787;
@@ -787,6 +797,23 @@ button.secondary:hover:not(:disabled) {
   font-weight: 400;
   line-height: 12px;
   margin: 0;
+}
+#roster li .idleTime,
+#bookmarks li .idleTime {
+  display: inline-block;
+  margin-left: 5px;
+  font-size: 12px;
+  color: #444;
+}
+#roster li .name,
+#bookmarks li .name {
+  display: inline-block;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+#roster li.persistent .name,
+#bookmarks li.persistent .name {
+  color: #f00;
 }
 #roster li .unread,
 #bookmarks li .unread {
@@ -809,25 +836,44 @@ button.secondary:hover:not(:disabled) {
   text-align: center;
   background: rgba(0,174,239,0.8);
 }
-#roster li .idleTime,
-#bookmarks li .idleTime {
+#roster li .unread:not(:empty),
+#bookmarks li .unread:not(:empty) {
+  display: block;
+}
+#roster li button,
+#bookmarks li button {
+  margin: -15px 0px 0px 5px;
+}
+#roster li .leaveRoom,
+#bookmarks li .leaveRoom {
+  display: none;
+}
+#roster li .joinRoom,
+#bookmarks li .joinRoom {
   display: inline-block;
-  margin-left: 5px;
-  font-size: 12px;
-  color: #444;
+}
+#roster li.joined .joinRoom,
+#bookmarks li.joined .joinRoom {
+  display: none;
+}
+#roster li.joined .leaveRoom,
+#bookmarks li.joined .leaveRoom {
+  display: inline-block;
+}
+#roster .name {
+  width: 180px;
 }
 #bookmarks .name {
+  width: 120px;
   padding: 5px 10px 5px 40px;
 }
 @-moz-keyframes pulsate {
   0% {
     opacity: 1;
   }
-
   50% {
     opacity: 0.5;
   }
-
   100% {
     opacity: 1;
   }
@@ -836,11 +882,9 @@ button.secondary:hover:not(:disabled) {
   0% {
     opacity: 1;
   }
-
   50% {
     opacity: 0.5;
   }
-
   100% {
     opacity: 1;
   }
@@ -849,24 +893,9 @@ button.secondary:hover:not(:disabled) {
   0% {
     opacity: 1;
   }
-
   50% {
     opacity: 0.5;
   }
-
-  100% {
-    opacity: 1;
-  }
-}
-@-ms-keyframes pulsate {
-  0% {
-    opacity: 1;
-  }
-
-  50% {
-    opacity: 0.5;
-  }
-
   100% {
     opacity: 1;
   }
@@ -875,11 +904,9 @@ button.secondary:hover:not(:disabled) {
   0% {
     opacity: 1;
   }
-
   50% {
     opacity: 0.5;
   }
-
   100% {
     opacity: 1;
   }
@@ -906,7 +933,7 @@ button.secondary:hover:not(:disabled) {
   position: fixed;
   top: 40px;
   right: 0px;
-  left: 201px;
+  left: 270px;
   z-index: 10;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -1049,11 +1076,11 @@ button.secondary:hover:not(:disabled) {
   content: 'Current Time: ';
   font-weight: bold;
 }
-.conversation header .call {
-  text-transform: capitalize;
+.conversation header .call,
+.conversation header .remove {
   display: inline-block;
+  margin-top: -17px;
   margin-left: 10px;
-  float: right;
 }
 .conversation header .activeCall {
   height: 0px;
@@ -1258,7 +1285,7 @@ button.secondary:hover:not(:disabled) {
   bottom: 0px;
   position: fixed;
   right: 0px;
-  left: 201px;
+  left: 270px;
   z-index: 200;
   transition: none;
   -webkit-transition: none;
@@ -1605,10 +1632,9 @@ rgba(255,255,255,0.5)
   float: left;
 rgba(0,0,0,0.3)
 }
-#calls button border:top: 1pxsolid rgba(255,
+#calls button border:top: 1px solid rgba(255,
 #calls button 255,
-#calls button 255,
-#calls button 0.6) {
+#calls button .6) {
   bottom: 1px solid rgba(0,0,0,0.1);
   left: 1px solid rgba(255,255,255,0.2);
   right: 1px solid rgba(255,255,255,0.2);
@@ -1621,8 +1647,7 @@ rgba(0,0,0,0.2)
   padding-top: 11px;
   padding-bottom: 9px;
 }
-#calls button:active border:bottom: 1pxsolid rgba(255,
-#calls button:active 255,
+#calls button:active border:bottom: 1px solid rgba(255,
 #calls button:active 255,
 #calls button:active 1) {
   top: 1px solid rgba(0,0,0,0.2);
@@ -1667,7 +1692,7 @@ rgba(0,0,0,0.7)
 }
 #me {
   position: fixed;
-  left: 200px;
+  left: 270px;
   top: 0px;
   height: 40px;
   width: 100%;

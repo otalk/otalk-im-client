@@ -50,6 +50,7 @@ module.exports = HumanModel.define({
         unreadCount: ['number', false, 0],
         _forceUpdate: ['number', false, 0],
         onCall: ['boolean', false, false],
+        persistent: ['bool', false, false],
         stream: 'object'
     },
     derived: {

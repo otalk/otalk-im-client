@@ -42,6 +42,7 @@ module.exports = {
                 app.cache = new AppCache();
                 app.storage = new Storage();
                 app.storage.open(cb);
+                app.mucInfos = [];
             },
             function (cb) {
                 app.storage.profiles.get(config.jid, function (err, res) {

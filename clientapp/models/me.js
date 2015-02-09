@@ -11,7 +11,6 @@ var MUC = require('./muc');
 var ContactRequests = require('./contactRequests');
 var fetchAvatar = require('../helpers/fetchAvatar');
 
-
 module.exports = HumanModel.define({
     initialize: function (opts) {
         if (opts.avatarID) {
@@ -137,12 +136,16 @@ module.exports = HumanModel.define({
                     contact = new Contact(contact);
                     contact.owner = self.jid.bare;
                     contact.inRoster = true;
+                    if (contact.jid.indexOf("@" + SERVER_CONFIG.domain) > -1)
+                      contact.persistent = true;
                     contact.save();
                     self.contacts.add(contact);
                 });
-
-                self.contacts.trigger('loaded');
             });
+        });
+
+        this.mucs.once('loaded', function () {
+            self.contacts.trigger('loaded');
         });
     },
     isMe: function (jid) {

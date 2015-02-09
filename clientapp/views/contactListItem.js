@@ -14,7 +14,8 @@ module.exports = HumanView.extend({
         chatState: '',
         activeContact: '',
         hasUnread: '',
-        idle: ''
+        idle: '',
+        persistent: ''
     },
     textBindings: {
         displayName: '.name',

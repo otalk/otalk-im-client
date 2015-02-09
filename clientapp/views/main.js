@@ -7,6 +7,8 @@ var ContactListItem = require('../views/contactListItem');
 var MUCListItem = require('../views/mucListItem');
 var CallView = require('../views/call');
 
+var ContactRequestItem = require('../views/contactRequest');
+
 
 module.exports = HumanView.extend({
     template: templates.body,
@@ -22,6 +24,8 @@ module.exports = HumanView.extend({
         'click .embed': 'handleEmbedClick',
         'click .reconnect': 'handleReconnect',
         'click .logout': 'handleLogout',
+        'click .addContact': 'handleAddContact',
+        'click .joinMUC': 'handleJoinMUC',
         'blur #me .status': 'handleStatusChange'
     },
     classBindings: {
@@ -35,6 +39,7 @@ module.exports = HumanView.extend({
         this.renderAndBind();
         this.renderCollection(me.contacts, ContactListItem, this.$('#roster nav'));
         this.renderCollection(me.mucs, MUCListItem, this.$('#bookmarks nav'));
+        this.renderCollection(me.contactRequests, ContactRequestItem, this.$('#contactrequests'));
 
         this.registerBindings(me, {
             textBindings: {
@@ -82,5 +87,35 @@ module.exports = HumanView.extend({
     },
     handleLogout: function (e) {
         app.navigate('/logout');
+    },
+    handleAddContact: function (e) {
+        e.preventDefault();
+
+        var contact = this.$('#addcontact').val();
+        if (contact.indexOf('@') == -1 && SERVER_CONFIG.domain)
+            contact += '@' + SERVER_CONFIG.domain;
+        if (contact) {
+            app.api.sendPresence({to: contact, type: 'subscribe'});
+        }
+        this.$('#addcontact').val('');
+
+        return false;
+    },
+    handleJoinMUC: function (e) {
+        e.preventDefault();
+
+        var mucjid = this.$('#joinmuc').val();
+        this.$('#joinmuc').val('');
+        if (mucjid.indexOf('@') == -1 && SERVER_CONFIG.muc)
+            mucjid += '@' + SERVER_CONFIG.muc;
+        me.mucs.add({
+            id: mucjid,
+            name: mucjid,
+            jid: new client.JID(mucjid),
+            nick: me.nick,
+            autoJoin: true
+        });
+        me.mucs.save();
+        me.mucs.get(mucjid).join();
     }
 });

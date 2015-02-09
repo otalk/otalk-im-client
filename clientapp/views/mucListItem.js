@@ -10,20 +10,30 @@ module.exports = HumanView.extend({
     template: templates.includes.mucListItem,
     classBindings: {
         activeContact: '',
-        hasUnread: ''
+        hasUnread: '',
+        joined: '',
+        persistent: ''
     },
     textBindings: {
         displayName: '.name',
         displayUnreadCount: '.unread'
     },
     events: {
-        'click': 'handleClick'
+        'click .name': 'handleClick',
+        'click .joinRoom': 'handleJoinRoom',
+        'click .leaveRoom': 'handleLeaveRoom'
     },
     render: function () {
         this.renderAndBind({contact: this.model});
         return this;
     },
-    handleClick: function () {
+    handleClick: function (e) {
         app.navigate('groupchat/' + this.model.jid);
+    },
+    handleJoinRoom: function (e) {
+        this.model.join();
+    },
+    handleLeaveRoom: function (e) {
+        this.model.leave();
     }
 });

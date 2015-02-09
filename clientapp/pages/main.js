@@ -5,8 +5,6 @@ var crypto = require('crypto');
 var BasePage = require('./base');
 var templates = require('../templates');
 
-var ContactRequestItem = require('../views/contactRequest');
-
 
 module.exports = BasePage.extend({
     template: templates.pages.main,
@@ -22,19 +20,15 @@ module.exports = BasePage.extend({
     events: {
         'click .enableAlerts': 'enableAlerts',
         'click .installFirefox': 'installFirefox',
-        'click .addContact': 'handleAddContact',
-        'click .joinMUC': 'handleJoinMUC',
         'dragover': 'handleAvatarChangeDragOver',
         'drop': 'handleAvatarChange',
-        'change #uploader': 'handleAvatarChange',
-        'blur .status': 'handleStatusChange'
+        'change #uploader': 'handleAvatarChange'
     },
     initialize: function (spec) {
         this.render();
     },
     render: function () {
         this.renderAndBind();
-        this.renderCollection(this.model.contactRequests, ContactRequestItem, this.$('#contactrequests'));
         return this;
     },
     enableAlerts: function () {
@@ -93,37 +87,5 @@ module.exports = BasePage.extend({
             };
             fileTracker.readAsDataURL(file);
         }
-    },
-    handleStatusChange: function (e) {
-        var text = e.target.textContent;
-        me.status = text;
-        client.sendPresence({
-            status: text,
-            caps: client.disco.caps
-        });
-    },
-    handleAddContact: function (e) {
-        e.preventDefault();
-
-        var contact = this.$('#addcontact').val();
-        if (contact) {
-            app.api.sendPresence({to: contact, type: 'subscribe'});
-        }
-        this.$('#addcontact').val('');
-
-        return false;
-    },
-    handleJoinMUC: function (e) {
-        e.preventDefault();
-
-        var mucjid = this.$('#joinmuc').val();
-        me.mucs.add({
-            id: mucjid,
-            name: mucjid,
-            jid: new client.JID(mucjid),
-            nick: me.nick,
-            autoJoin: false
-        });
-        me.mucs.get(mucjid).join();
     }
 });

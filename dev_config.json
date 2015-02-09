@@ -11,5 +11,10 @@
     },
     "session": {
         "secret": "shhhhhh don't tell anyone ok?"
+    },
+    "server": {
+        "domain": "localhost",
+        "wss": "wss://localhost:5281/xmpp-websocket/",
+        "muc": "chat.localhost",
     }
 }

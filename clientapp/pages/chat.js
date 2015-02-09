@@ -29,6 +29,7 @@ module.exports = BasePage.extend({
     events: {
         'keydown textarea': 'handleKeyDown',
         'keyup textarea': 'handleKeyUp',
+        'click .remove': 'handleRemoveClick',
         'click .call': 'handleCallClick',
         'click .accept': 'handleAcceptClick',
         'click .end': 'handleEndClick',
@@ -88,6 +89,10 @@ module.exports = BasePage.extend({
     handlePageLoaded: function () {
         this.staydown.checkdown();
         this.resizeInput();
+    },
+    handleRemoveClick: function (e) {
+      me.removeContact(this.model.jid);
+      app.navigate('/');
     },
     handleCallClick: function (e) {
         e.preventDefault();

@@ -10,6 +10,7 @@ module.exports = BaseCollection.extend({
     type: 'mucs',
     model: MUC,
     comparator: function (model1, model2) {
+        return 0;
         var name1 = model1.displayName.toLowerCase();
         var name2 = model2.displayName.toLowerCase();
         if (name1 === name2) {
@@ -23,7 +24,7 @@ module.exports = BaseCollection.extend({
     initialize: function (model, options) {
         this.bind('change', this.sort, this);
     },
-    fetch: function () {
+    loadBookmarks: function () {
         var self = this;
         app.whenConnected(function () {
             client.getBookmarks(function (err, res) {
@@ -38,6 +39,117 @@ module.exports = BaseCollection.extend({
                 });
             });
         });
+    },
+    init: function () {
+        var self = this;
+        app.whenConnected(function () {
+
+            function _fetch(init) {
+                self.fetch(function() {
+                    self.update();
+                    if (init) self.trigger('loaded');
+                    setTimeout(_fetch, 30000);
+                });
+            }
+            _fetch(true);
+
+        });
+    },
+    fetch: function(cb) {
+        var self = this;
+        while(app.mucInfos.length > 0) {
+            app.mucInfos.pop();
+        }
+
+        if (SERVER_CONFIG.muc) {
+            if (client.sessionStarted) {
+                client.getDiscoItems(SERVER_CONFIG.muc, '', function (err, res) {
+                    if (!err) {
+                        var rooms = res.discoItems.items;
+
+                        if (rooms) {
+                            var roomNum = 0;
+                            rooms.forEach(function (room) {
+
+                                client.getDiscoInfo(room.jid, '', function (err, res) {
+                                    if (err) return;
+
+                                    var features = res.discoInfo.features;
+                                    var persistent = features.indexOf("muc_persistent") > -1;
+                                    var mucInfo = {
+                                        id: room.jid.full,
+                                        name: room.name,
+                                        jid: room.jid,
+                                        nick: me.nick,
+                                        autoJoin: persistent,
+                                        persistent: persistent
+                                    };
+
+                                    app.mucInfos.push(mucInfo);
+
+                                    if (++roomNum == rooms.length)
+                                        cb();
+
+                                });
+
+                            });
+                        }
+                        else {
+                            cb();
+                        }
+                    }
+
+                    if (err)
+                        cb();
+                });
+            } else {
+                app.whenConnected(function () {
+                    self.fetch(function () {});
+                });
+            }
+        } else {
+            cb();
+        }
+
+    },
+    update: function () {
+        if (SERVER_CONFIG.muc) {
+            var toRemove = [];
+            for ( var i = 0; i < this.models.length; i++) {
+                toRemove.push(this.models[i]);
+            }
+
+            for (var i = 0; i < app.mucInfos.length; i++) {
+
+                var mucInfo = app.mucInfos[i];
+                var muc = this.get(mucInfo.jid);
+                if (muc) {
+                    muc.name = mucInfo.name;
+                    muc.autoJoin =  mucInfo.autoJoin;
+                    muc.persistent = mucInfo.persistent;
+
+                    var index = toRemove.indexOf(muc);
+                    if (index > -1) {
+                        toRemove.splice(index, 1);
+                    }
+                }
+                else {
+                    this.add(mucInfo);
+                    muc = this.get(mucInfo.jid);
+                }
+
+                if (muc.autoJoin && !muc.joined) {
+                    muc.join();
+                }
+
+            }
+
+            this.remove(toRemove);
+
+            while(app.mucInfos.length > 0) {
+                app.mucInfos.pop();
+            }
+        }
     },
     save: function (cb) {
         var self = this;

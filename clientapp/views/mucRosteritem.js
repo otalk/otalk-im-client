@@ -11,7 +11,8 @@ module.exports = HumanView.extend({
     classBindings: {
         show: '',
         chatState: '',
-        idle: ''
+        idle: '',
+        persistent: ''
     },
     textBindings: {
         mucDisplayName: '.name'

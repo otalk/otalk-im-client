@@ -31,22 +31,28 @@ module.exports = HumanModel.define({
         lastInteraction: 'date',
         lastSentMessage: 'object',
         unreadCount: ['number', false, 0],
+        persistent: ['bool', false, false],
         joined: ['bool', true, false]
     },
     derived: {
         displayName: {
             deps: ['name', 'jid'],
             fn: function () {
-                return this.name || this.jid;
+                var disp = this.name;
+                if (!disp) disp = this.jid.jid;
+              return disp.split('@')[0];
             }
         },
         displayUnreadCount: {
             deps: ['unreadCount'],
             fn: function () {
                 if (this.unreadCount > 0) {
-                    return this.unreadCount.toString();
+                    if (this.unreadCount < 100)
+                      return this.unreadCount.toString();
+                    else
+                      return '99+'
                 }
-                return '';
+                return '0';
             }
         },
         displaySubject: {
@@ -110,6 +116,7 @@ module.exports = HumanModel.define({
         }
         this.messages.reset();
         this.resources.reset();
+
         client.joinRoom(this.jid, this.nick, {
             history: {
                 maxstanzas: 50

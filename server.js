@@ -76,12 +76,17 @@ var webappManifest = fs.readFileSync('./public/x-manifest.webapp');
 app.set('view engine', 'jade');
 
 app.get('/login', function (req, res) {
-    res.render('login');
+    res.render("login", {"config": config.server});
 });
 
 app.get('/logout', function (req, res) {
     res.render('logout');
 });
+
+app.get('/config.js', function (req, res) {
+    res.send("var SERVER_CONFIG = " + JSON.stringify(config.server) + ";");
+});
+
 
 app.get('/oauth/login', function (req, res) {
     res.redirect('https://apps.andyet.com/oauth/authorize?client_id=' + config.andyetAuth.id + '&response_type=token');

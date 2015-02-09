@@ -134,7 +134,7 @@ module.exports = function (client, app) {
                 client.enableCarbons();
             });
 
-            me.mucs.fetch();
+            me.mucs.init();
         });
 
         var keepalive;

@@ -2,7 +2,7 @@ body
   #connectionOverlay
     aside#connectionStatus.box
       p
-        | You're currently 
+        | You're currently
         strong disconnected
       button.primary.reconnect Reconnect
   #updateBar
@@ -12,9 +12,14 @@ body
     aside#menu
       section#roster
         h1 Roster
+        input(type="text", class="inline")#addcontact
+        button.primary.small.addContact Add
+        ul#contactrequests
         nav
       section#bookmarks
-        h1 Bookmarks
+        h1 Rooms
+        input(type="text", class="inline")#joinmuc
+        button.primary.small.joinMUC Add
         nav
     header#me
       h1
