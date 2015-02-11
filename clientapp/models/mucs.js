@@ -62,53 +62,52 @@ module.exports = BaseCollection.extend({
 
         if (SERVER_CONFIG.muc) {
             if (client.sessionStarted) {
+
+                var rooms = [];
                 client.getDiscoItems(SERVER_CONFIG.muc, '', function (err, res) {
-                    if (!err) {
-                        var rooms = res.discoItems.items;
+                    if (err) return;
 
-                        if (rooms) {
-                            var roomNum = 0;
-                            rooms.forEach(function (room) {
+                    rooms = res.discoItems.items;
+                    var roomNum = 0;
 
-                                client.getDiscoInfo(room.jid, '', function (err, res) {
-                                    if (err) return;
+                    if (rooms) {
+                        rooms.forEach (function (room) {
+                            client.getDiscoInfo(room.jid, '', function (err, res) {
 
-                                    var features = res.discoInfo.features;
-                                    var persistent = features.indexOf("muc_persistent") > -1;
-                                    var mucInfo = {
-                                        id: room.jid.full,
-                                        name: room.name,
-                                        jid: room.jid,
-                                        nick: me.nick,
-                                        autoJoin: persistent,
-                                        persistent: persistent
-                                    };
+                                roomNum++;
+                                if (err) return;
 
-                                    app.mucInfos.push(mucInfo);
+                                var features = res.discoInfo.features;
+                                var persistent = features.indexOf("muc_persistent") > -1;
+                                var mucInfo = {
+                                  id: room.jid.full,
+                                  name: room.name,
+                                  jid: room.jid,
+                                  nick: me.nick,
+                                  autoJoin: persistent,
+                                  persistent: persistent
+                                };
 
-                                    if (++roomNum == rooms.length)
-                                        cb();
+                                app.mucInfos.push(mucInfo);
 
-                                });
-
+                            }).then(function() {
+                                if (cb && roomNum == rooms.length) cb();
                             });
-                        }
-                        else {
-                            cb();
-                        }
+                        });
                     }
-
-                    if (err)
-                        cb();
+                }).then(function() {
+                    if (cb && !rooms.length) cb();
                 });
+
             } else {
                 app.whenConnected(function () {
-                    self.fetch(function () {});
+                    self.fetch(cb);
                 });
             }
-        } else {
-            cb();
+            return;
         }
+
+        if (cb) cb();
 
     },
     update: function () {
