@@ -822,9 +822,8 @@
             , {templateRegex: /.*\/([^\/]+)\/([^\/]+).*/,
                 templateData: function (data) {
                     if (!data.data.html_url)return false;
-                    return  '<div class="oembedall-githubrepos"><ul class="oembedall-repo-stats"><li>' + data.data.language + '</li><li class="oembedall-watchers"><a title="Watchers" href="' + data.data.html_url + '/watchers">&#x25c9; ' + data.data.watchers + '</a></li>'
-                        + '<li class="oembedall-forks"><a title="Forks" href="' + data.data.html_url + '/network">&#x0265; ' + data.data.forks + '</a></li></ul><h3><a href="' + data.data.html_url + '">' + data.data.name + '</a></h3><div class="oembedall-body"><p class="oembedall-description">' + data.data.description + '</p>'
-                        + '<p class="oembedall-updated-at">Last updated: ' + data.data.pushed_at + '</p></div></div>';
+                    return  '<div class="oembedall-githubrepos"><h3><a href="' + data.data.html_url + '">' + data.data.name + '</a></h3><div class="oembedall-body"><p class="oembedall-description">' + data.data.description + '</p>'
+                    + '<p class="oembedall-updated-at">Last updated: ' + data.data.pushed_at + '</p></div><div class="oembedall-repo-stats"><p class="oembedall-language">' + data.data.language + '</p><p class="oembedall-watchers"><a title="Watchers" target="_blank" href="' + data.data.html_url + '/watchers">&#x25c9; ' + data.data.subscribers_count + '</a></p><p class="oembedall-forks"><a title="Forks" target="_blank" href="' + data.data.html_url + '/network">&#x0265; ' + data.data.forks + '</a></p></div></div>';
                 }
             }),
         new $.fn.oembed.OEmbedProvider("facebook", "rich", ["facebook.com"], null

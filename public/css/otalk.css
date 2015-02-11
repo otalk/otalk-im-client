@@ -1059,17 +1059,17 @@ button.secondary:hover:not(:disabled) {
   -webkit-animation: pulsate 1.5s infinite ease-in;
   -moz-animation: pulsate 1.5s infinite ease-in;
 }
-.conversation header .user_presence.paused:before {
-  color: #87868c;
-}
+.conversation header .user_presence.paused:before,
+.conversation header .user_presence color: lighten($gray-dark,
+.conversation header .user_presence 30%),
 .conversation header .user_presence.idle:before {
   background: transparent;
 }
-.conversation .channel_actions {
+.conversation header .channel_actions {
   opacity: 1;
   font-size: 20px;
 }
-.conversation .status {
+.conversation header .status {
   color: #9e9ea6;
   font-weight: 500;
   font-size: 16px;
@@ -1087,16 +1087,16 @@ button.secondary:hover:not(:disabled) {
   -ms-user-select: initial;
   user-select: initial;
 }
-.conversation .status:empty:before {
+.conversation header .status:empty:before {
   content: '';
 }
-.conversation .status:focus {
+.conversation header .status:focus {
   border-radius: 0.25rem;
   border: 1px solid #9e9ea6;
   padding: 5px;
   outline: none;
 }
-.conversation .tzo:not(:empty) {
+.conversation header .tzo:not(:empty) {
   position: absolute;
   right: 15px;
   top: 18px;
@@ -1116,11 +1116,11 @@ button.secondary:hover:not(:disabled) {
   background: #e0e0e0;
   border: 1px solid #cacaca;
 }
-.conversation .tzo:not(:empty):before {
+.conversation header .tzo:not(:empty):before {
   content: 'Current Time: ';
   font-weight: bold;
 }
-.conversation .call {
+.conversation header .call {
   display: none;
   width: 50px;
   height: 38px;
@@ -1128,7 +1128,7 @@ button.secondary:hover:not(:disabled) {
   top: 0px;
   right: 11px;
 }
-.activeCall {
+.conversation .activeCall {
   display: none;
   height: 0px;
   position: absolute;
@@ -1138,7 +1138,7 @@ button.secondary:hover:not(:disabled) {
   box-sizing: border-box;
   padding: 0px 73px 0px 24px;
 }
-.activeCall .container {
+.conversation .activeCall .container {
   width: 100%;
   height: 100%;
   border: 1px solid #e0e0e0;
@@ -1146,14 +1146,14 @@ button.secondary:hover:not(:disabled) {
   border-radius: 0.2rem 0.2rem 0 0;
   background-color: #e0e0e0;
 }
-.activeCall .remote {
+.conversation .activeCall .remote {
   position: absolute;
   top: 20px;
   left: 40px;
   height: 65%;
   border: 2px solid #babbbf;
 }
-.activeCall .local {
+.conversation .activeCall .local {
   position: absolute;
   bottom: 10px;
   right: 80px;
@@ -1164,22 +1164,22 @@ button.secondary:hover:not(:disabled) {
   -ms-transform: scaleX(-1);
   transform: scaleX(-1);
 }
-.activeCall .button-wrap {
+.conversation .activeCall .button-wrap {
   position: absolute;
   left: 118px;
   bottom: 26px;
 }
-.activeCall .button-wrap .button-group {
+.conversation .activeCall .button-wrap .button-group {
   margin-left: 5px;
 }
-.onCall .activeCall {
+.conversation.onCall .activeCall {
   display: block;
   height: 20rem;
 }
-.onCall .messages {
+.conversation.onCall .messages {
   bottom: 24rem;
 }
-.chatBox {
+.conversation .chatBox {
   background-color: #fff;
   bottom: 0px;
   position: fixed;
@@ -1190,7 +1190,7 @@ button.secondary:hover:not(:disabled) {
   transition: none;
   -webkit-transition: none;
 }
-.chatBox .formwrap {
+.conversation .chatBox .formwrap {
   transition: none;
   -webkit-transition: none;
   position: relative;
@@ -1198,7 +1198,7 @@ button.secondary:hover:not(:disabled) {
   left: 24px;
   margin-right: 50px;
 }
-.chatBox textarea {
+.conversation .chatBox textarea {
   display: inline-block;
   vertical-align: middle;
   background: none repeat scroll 0% 0% padding-box #fff;
@@ -1221,12 +1221,12 @@ button.secondary:hover:not(:disabled) {
   max-height: 10rem;
   resize: none !important;
 }
-.chatBox textarea.editing {
+.conversation .chatBox textarea.editing {
   background-color: #fffcea;
   border: 1px solid #efe391;
   color: #d2bd2d;
 }
-.chatBox textarea:focus {
+.conversation .chatBox textarea:focus {
   box-shadow: none;
 }
 .messages {
@@ -1361,7 +1361,7 @@ button.secondary:hover:not(:disabled) {
   line-height: 22px;
   color: #3d3c40;
   margin: 0px 0px 2px 0px;
-  display: inline-block;
+  display: block;
   min-width: 20px;
   width: 100%;
   -moz-box-sizing: border-box;

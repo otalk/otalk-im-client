@@ -73,30 +73,30 @@
       padding-top: 5px
       font-size: $font-size-small
 
-        &.online
-          color: $green
-          opacity: 1
+      &.online
+        color: $green
+        opacity: 1
 
-        &.offline
-          color: $gray-dark
-          opacity: 0.5
+      &.offline
+        color: $gray-dark
+        opacity: 0.5
 
-        &.dnd
-          color: $red
+      &.dnd
+        color: $red
 
-        &.away, &.xa
-          color: $orange
+      &.away, &.xa
+        color: $orange
 
-        &.composing
-          animation: pulsate 1.5s infinite ease-in
-          -webkit-animation: pulsate 1.5s infinite ease-in
-          -moz-animation: pulsate 1.5s infinite ease-in
+      &.composing
+        animation: pulsate 1.5s infinite ease-in
+        -webkit-animation: pulsate 1.5s infinite ease-in
+        -moz-animation: pulsate 1.5s infinite ease-in
 
-        &.paused:before
-          color: lighten($gray-dark, 30%)
+      &.paused:before
+      color: lighten($gray-dark, 30%)
 
-        &.idle:before
-          background: transparent
+      &.idle:before
+        background: transparent
 
     .channel_actions
       opacity: 1
@@ -373,7 +373,7 @@
     line-height: 22px
     color: $black
     margin: 0px 0px 2px 0px
-    display: inline-block
+    display: block
     min-width: 20px
     width: 100%
     borderbox()
