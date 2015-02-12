@@ -976,21 +976,6 @@ button.secondary:hover:not(:disabled) {
   height: 55px;
   z-index: 101;
 }
-.conversation header .avatar {
-  margin-right: 5px;
-  width: 36px;
-  height: 36px;
-  -moz-border-radius: 0.2rem;
-  -webkit-border-radius: 0.2rem;
-  -khtml-border-radius: 0.2rem;
-  -o-border-radius: 0.2rem;
-  -border-radius: 0.2rem;
-  border-radius: 0.2rem;
-  position: absolute;
-  top: 11px;
-  left: 11px;
-  vertical-align: top;
-}
 .conversation header h1 {
   padding: 0px;
   margin: 0px;
@@ -1120,14 +1105,6 @@ button.secondary:hover:not(:disabled) {
   content: 'Current Time: ';
   font-weight: bold;
 }
-.conversation header .call {
-  display: none;
-  width: 50px;
-  height: 38px;
-  position: absolute;
-  top: 0px;
-  right: 11px;
-}
 .conversation .activeCall {
   display: none;
   height: 0px;
@@ -1228,6 +1205,14 @@ button.secondary:hover:not(:disabled) {
 }
 .conversation .chatBox textarea:focus {
   box-shadow: none;
+}
+.conversation .chatBox .call {
+  display: none;
+  width: 50px;
+  height: 38px;
+  position: absolute;
+  top: 0px;
+  right: 11px;
 }
 .messages {
   margin: 0px;

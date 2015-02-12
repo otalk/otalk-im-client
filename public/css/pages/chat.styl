@@ -22,14 +22,6 @@
     height: 55px
     z-index: 101
 
-    .avatar
-      margin-right: 5px
-      avatar()
-      position: absolute
-      top: 11px
-      left: 11px
-      vertical-align: top
-
     h1
       padding: 0px
       margin: 0px
@@ -143,14 +135,6 @@
         content: 'Current Time: '
         font-weight: bold
 
-    .call
-      display: none
-      width: 50px
-      height: 38px
-      position: absolute
-      top: 0px
-      right: 11px
-
   .activeCall
     display: none
     transition(height 250ms)
@@ -247,6 +231,14 @@
         color: #d2bd2d
       &:focus
         box-shadow: none
+
+    .call
+      display: none
+      width: 50px
+      height: 38px
+      position: absolute
+      top: 0px
+      right: 11px
 
 .messages
   margin: 0px
