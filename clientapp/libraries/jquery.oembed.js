@@ -285,6 +285,12 @@
 
                 }
 
+                if (tag == 'img') {
+                    var link = $('<a target="_blank" href="' + src + '" />');
+                    link.append(code);
+                    code = link;
+                }
+
                 success({code: code}, externalUrl, container);
             } else if (embedProvider.apiendpoint) {
                 //Add APIkey if true
@@ -682,8 +688,10 @@
             {templateRegex: /.*ly\/([^\/]+).*/, embedtag: {tag: 'img'}, nocache: 1}),
         new $.fn.oembed.OEmbedProvider("twitgoo.com", "photo", ["twitgoo\\.com/.+"], "http://twitgoo.com/show/thumb/$1",
             {templateRegex: /.*com\/([^\/]+).*/, embedtag: {tag: 'img'}, nocache: 1}),
-        new $.fn.oembed.OEmbedProvider("imgur.com", "photo", ["imgur\\.com/gallery/.+"], "http://imgur.com/$1l.jpg",
+        new $.fn.oembed.OEmbedProvider("imgur.com", "photo", ["imgur\\.com/gallery/.+"], "https://imgur.com/$1l.jpg",
             {templateRegex: /.*gallery\/([^\/]+).*/, embedtag: {tag: 'img'}, nocache: 1}),
+        new $.fn.oembed.OEmbedProvider("imgur.com", "photo", ["imgur\\.com/.+"], "https://imgur.com/$1.png",
+            {templateRegex: /.*\/([^\/]+).*/, embedtag: {tag: 'img'}, nocache: 1}),
         new $.fn.oembed.OEmbedProvider("visual.ly", "rich", ["visual\\.ly/.+"], null,
             {
                 yql: {
