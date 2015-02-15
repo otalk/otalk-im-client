@@ -210,7 +210,7 @@ var Message = module.exports = HumanModel.define({
         delete msg.id;
 
         this.set(msg);
-        this._edited = new Date(Date.now());
+        this._edited = new Date(Date.now() + app.timeInterval);
         this.edited = true;
 
         this.save();

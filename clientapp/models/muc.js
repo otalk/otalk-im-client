@@ -95,8 +95,7 @@ module.exports = HumanModel.define({
             message.mentions = mentions;
         }
 
-        var localTime = new Date();
-        if (Math.round((localTime - message.created) / 1000) < 5 && notify && (!this.activeContact || (this.activeContact && !app.state.focused)) && !mine) {
+        if (notify && (!this.activeContact || (this.activeContact && !app.state.focused)) && !mine) {
             this.unreadCount++;
             if (message.mentions.length) {
                 app.notifications.create(this.displayName, {
@@ -163,8 +162,6 @@ module.exports = HumanModel.define({
 
             client.getHistory(filter, function (err, res) {
                 if (err) return;
-
-                self.lastHistoryFetch = new Date(Date.now());
 
                 var results = res.mamQuery.results || [];
 

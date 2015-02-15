@@ -284,7 +284,9 @@ module.exports = function (client, app) {
             }
 
             message.acked = true;
-            contact.addMessage(message, true);
+            var localTime = new Date(Date.now() + app.timeInterval);
+            var notify = Math.round((localTime - message.created) / 1000) < 5;
+            contact.addMessage(message, notify);
             if (msg.from.bare == contact.jid.bare) {
                 contact.lockedResource = msg.from.full;
             }
@@ -299,7 +301,9 @@ module.exports = function (client, app) {
         if (contact && !msg.replace) {
             var message = new Message(msg);
             message.acked = true;
-            contact.addMessage(message, true);
+            var localTime = new Date(Date.now() + app.timeInterval);
+            var notify = Math.round((localTime - message.created) / 1000) < 5;
+            contact.addMessage(message, notify);
         }
     });
 
@@ -341,7 +345,7 @@ module.exports = function (client, app) {
         var msg = carbon.carbonReceived.forwarded.message;
         var delay = carbon.carbonReceived.forwarded.delay;
         if (!delay.stamp) {
-            delay.stamp = new Date(Date.now());
+            delay.stamp = new Date(Date.now() + app.timeInterval);
         }
 
         if (!msg._extensions.delay) {
@@ -357,7 +361,7 @@ module.exports = function (client, app) {
         var msg = carbon.carbonSent.forwarded.message;
         var delay = carbon.carbonSent.forwarded.delay;
         if (!delay.stamp) {
-            delay.stamp = new Date(Date.now());
+            delay.stamp = new Date(Date.now() + app.timeInterval);
         }
 
         if (!msg._extensions.delay) {

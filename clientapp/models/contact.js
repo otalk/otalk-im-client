@@ -24,6 +24,8 @@ module.exports = HumanModel.define({
         this.resources.bind('change', this.onResourceChange, this);
 
         this.bind('change:topResource change:lockedResource change:_forceUpdate', this.summarizeResources, this);
+
+        this.fetchHistory();
     },
     type: 'contact',
     props: {
@@ -310,14 +312,14 @@ module.exports = HumanModel.define({
                       filter.start = self.lastHistoryFetch;
                   }
               } else {
-                  filter.end = new Date(Date.now());
+                  filter.end = new Date(Date.now() + app.timeInterval);
               }
             }
 
             client.getHistory(filter, function (err, res) {
                 if (err) return;
 
-                self.lastHistoryFetch = new Date(Date.now());
+                self.lastHistoryFetch = new Date(Date.now() + app.timeInterval);
 
                 var results = res.mamQuery.results || [];
                 if (!old) results.reverse();
