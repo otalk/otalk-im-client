@@ -311,6 +311,7 @@ exports.includes.mucRosterItem = function anonymous(locals) {
 exports.includes.mucWrappedMessage = function anonymous(locals) {
     var buf = [];
     with (locals || {}) {
+        var messageDate = Date.create(message.timestamp);
         buf.push('<li><div class="sender"><a href="#" class="messageAvatar"><img' + jade.attrs({
             src: "https://gravatar.com/avatar",
             alt: message.from.resource,
@@ -319,7 +320,12 @@ exports.includes.mucWrappedMessage = function anonymous(locals) {
             src: true,
             alt: true,
             "data-placement": true
-        }) + '/></a></div><div class="messageWrapper"><div class="message_header"><div class="name">' + jade.escape((jade.interp = message.from.resource) == null ? "" : jade.interp) + '</div><div class="date">' + jade.escape((jade.interp = Date.create(message.timestamp).format("{h}:{mm} {tt}")) == null ? "" : jade.interp) + "</div></div><div" + jade.attrs({
+        }) + '/></a></div><div class="messageWrapper"><div class="message_header"><div class="name">' + jade.escape((jade.interp = message.from.resource) == null ? "" : jade.interp) + "</div><div" + jade.attrs({
+            title: messageDate.format("{Dow}, {MM}/{dd}/{yyyy} - {h}:{mm} {Tt}"),
+            "class": "date"
+        }, {
+            title: true
+        }) + ">" + jade.escape((jade.interp = messageDate.format("{h}:{mm} {tt}")) == null ? "" : jade.interp) + "</div></div><div" + jade.attrs({
             id: "chat" + message.cid,
             "class": "message" + " " + message.classList
         }, {
@@ -383,6 +389,7 @@ exports.includes.mucWrappedMessage = function anonymous(locals) {
 exports.includes.wrappedMessage = function anonymous(locals) {
     var buf = [];
     with (locals || {}) {
+        var messageDate = Date.create(message.timestamp);
         buf.push('<li><div class="sender"><a href="#" class="messageAvatar"><img' + jade.attrs({
             src: message.sender.avatar,
             alt: message.sender.displayName,
@@ -391,7 +398,12 @@ exports.includes.wrappedMessage = function anonymous(locals) {
             src: true,
             alt: true,
             "data-placement": true
-        }) + '/></a></div><div class="messageWrapper"><div class="message_header"><div class="name">' + jade.escape((jade.interp = message.sender.displayName) == null ? "" : jade.interp) + '</div><div class="date">' + jade.escape((jade.interp = Date.create(message.timestamp).format("{h}:{mm} {tt}")) == null ? "" : jade.interp) + "</div></div><div" + jade.attrs({
+        }) + '/></a></div><div class="messageWrapper"><div class="message_header"><div class="name">' + jade.escape((jade.interp = message.sender.displayName) == null ? "" : jade.interp) + "</div><div" + jade.attrs({
+            title: messageDate.format("{Dow}, {MM}/{dd}/{yyyy} - {h}:{mm} {Tt}"),
+            "class": "date"
+        }, {
+            title: true
+        }) + ">" + jade.escape((jade.interp = messageDate.format("{h}:{mm} {tt}")) == null ? "" : jade.interp) + "</div></div><div" + jade.attrs({
             id: "chat" + message.cid,
             "class": "message" + " " + message.classList
         }, {

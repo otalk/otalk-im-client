@@ -1,3 +1,4 @@
+- var messageDate = Date.create(message.timestamp)
 li
   .sender
     a.messageAvatar(href='#')
@@ -5,5 +6,5 @@ li
   .messageWrapper
     .message_header
       .name #{message.from.resource}
-      .date #{Date.create(message.timestamp).format('{h}:{mm} {tt}')}
+      .date(title=messageDate.format('{Dow}, {MM}/{dd}/{yyyy} - {h}:{mm} {Tt}')) #{messageDate.format('{h}:{mm} {tt}')}
     include mucBareMessage
