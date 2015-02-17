@@ -85,7 +85,7 @@ module.exports = BasePage.extend({
 
         this.listenTo(this.model.messages, 'add', this.handleChatAdded);
 
-        //$(window).on('resize', _.bind(this.resizeInput, this));
+        $(window).on('resize', _.bind(this.resizeInput, this));
 
         this.registerBindings();
 
@@ -105,7 +105,7 @@ module.exports = BasePage.extend({
     },
     handlePageLoaded: function () {
         this.staydown.checkdown();
-        //this.resizeInput();
+        this.resizeInput();
     },
     handleKeyDown: function (e) {
         if (e.which === 13 && !e.shiftKey) {
@@ -137,7 +137,7 @@ module.exports = BasePage.extend({
         }
     },
     handleKeyUp: function (e) {
-        //this.resizeInput();
+        this.resizeInput();
         app.composing[this.model.jid] = this.$chatInput.val();
         if (this.typing && this.$chatInput.val().length === 0) {
             this.typing = false;
@@ -154,24 +154,29 @@ module.exports = BasePage.extend({
     resizeInput: _.throttle(function () {
         var height;
         var scrollHeight;
+        var heightDiff;
         var newHeight;
-        var newPadding;
-        var paddingDelta;
-        var maxHeight = 102;
+        var newMargin;
+        var marginDelta;
+        var maxHeight = parseInt(this.$chatInput.css('max-height'), 10);
 
         this.$chatInput.removeAttr('style');
-        height = this.$chatInput.height() + 10,
+        height = this.$chatInput.outerHeight(),
         scrollHeight = this.$chatInput.get(0).scrollHeight,
-        newHeight = scrollHeight + 2;
+        newHeight = Math.max(height, scrollHeight);
+        heightDiff = height - this.$chatInput.innerHeight();
 
         if (newHeight > maxHeight) newHeight = maxHeight;
         if (newHeight > height) {
-            this.$chatInput.css('height', newHeight);
-            newPadding = newHeight + 21;
-            paddingDelta = newPadding - parseInt(this.$messageList.css('paddingBottom'), 10);
-            if (!!paddingDelta) {
-                this.$messageList.css('paddingBottom', newPadding);
+            this.$chatInput.css('height', newHeight+heightDiff);
+            this.$chatInput.scrollTop(this.$chatInput[0].scrollHeight - this.$chatInput.height());
+            newMargin = newHeight - height + heightDiff;
+            marginDelta = newMargin - parseInt(this.$messageList.css('marginBottom'), 10);
+            if (!!marginDelta) {
+                this.$messageList.css('marginBottom', newMargin);
             }
+        } else {
+            this.$messageList.css('marginBottom', 0);
         }
     }, 300),
     pausedTyping: _.debounce(function () {
