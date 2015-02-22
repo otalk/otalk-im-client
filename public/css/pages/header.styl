@@ -1,16 +1,41 @@
 @import '../_variables'
 @import '../_mixins'
 
+#topbar.connected
+  background-color: transparent
+  z-index: 100
+  #connectionStatus
+    display: none
+
 #topbar
   position: fixed
-  left: 220px
+  right: 0px
   top: 0px
-  height: 54px
+  height: 55px
   width: 100%
-  background-color: #fff
-  z-index: 100
+  background-color: lighten($sidebarTopAndBottomBg, 60%)
+  z-index: 102
   noselect()
   color: #fff
+
+  #connectionStatus
+    width: 340px
+    margin: 9px auto
+    background-color: transparent
+
+    p
+      position: relative
+      top: 2px
+      display: inline
+      color: #fff
+      font-size: 15px
+      padding: 0
+      margin: 0 18px 0 0
+
+    button
+      height: 30px
+      margin: 3px 0
+      cursor: pointer
 
   .settings
     position: fixed
@@ -18,7 +43,7 @@
     line-height: 30px
     height: 30px
     right: 5px
-    top: 5px
+    top: 12px
     background-color: $settingsBg
     color: $settingsText
     transition: none

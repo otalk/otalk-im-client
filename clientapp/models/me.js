@@ -170,6 +170,16 @@ module.exports = HumanModel.define({
     isMe: function (jid) {
         return jid && (jid.bare === this.jid.bare);
     },
+    updateJid: function(newJid) {
+        if (this.jid.domain && this.isMe(newJid)) {
+            this.jid.full = newJid.full;
+            this.jid.resource = newJid.resource;
+            this.jid.unescapedFull = newJid.unescapedFull;
+            this.jid.prepped = newJid.prepped;
+        } else {
+            this.jid = newJid;
+        }
+    },
     updateIdlePresence: function () {
         var update = {
             status: this.status,

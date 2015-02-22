@@ -115,13 +115,19 @@ module.exports = HumanModel.define({
         }
 
         message.acked = true;
-        message.save();
 
         if (mine) {
             this.lastSentMessage = message;
         }
 
-        this.messages.add(message);
+        var existing = Message.idLookup(message.from['full'], message.mid);
+        if (existing) {
+            existing.set(message);
+            existing.save();
+        } else {
+            this.messages.add(message);
+            message.save();
+        }
 
         var newInteraction = new Date(message.created);
         if (!this.lastInteraction || this.lastInteraction < newInteraction) {
@@ -142,22 +148,38 @@ module.exports = HumanModel.define({
                 }
             }
         });
+
+        var self = this;
+        // After a reconnection
+        client.on('muc:join', function (pres) {
+            if (self.messages.length) {
+                self.fetchHistory(true);
+            }
+        });
     },
-    fetchHistory: function() {
+    fetchHistory: function(allInterval) {
         var self = this;
         app.whenConnected(function () {
             var filter = {
                 'to': self.jid,
                 rsm: {
                     max: 40,
-                    before: true
+                    before: !allInterval
                 }
             };
 
-            var firstMessage = self.messages.first();
-            if (firstMessage && firstMessage.created) {
-                var end = new Date(firstMessage.created - 1);
-                filter.end = end.toISOString();
+            if (allInterval) {
+                var lastMessage = self.messages.last();
+                if (lastMessage && lastMessage.created) {
+                    var start = new Date(lastMessage.created);
+                    filter.start = start.toISOString();
+                }
+            } else {
+                var firstMessage = self.messages.first();
+                if (firstMessage && firstMessage.created) {
+                    var end = new Date(firstMessage.created);
+                    filter.end = end.toISOString();
+                }
             }
 
             client.getHistory(filter, function (err, res) {
@@ -189,6 +211,12 @@ module.exports = HumanModel.define({
 
                     self.addMessage(message, false);
                 });
+
+                if (allInterval) {
+                  self.trigger('refresh');
+                  if (results.length == 40)
+                      self.fetchHistory(true);
+                }
             });
         });
     },

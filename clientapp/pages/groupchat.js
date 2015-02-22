@@ -21,7 +21,10 @@ module.exports = BasePage.extend({
         this.listenTo(this, 'pageunloaded', this.handlePageUnloaded);
 
         this.listenTo(this.model.messages, 'change', this.refreshModel);
-        this.listenTo(this.model.messages, 'reset', this.resetMessages);
+        this.listenTo(this.model.messages, 'reset', this.renderMessages);
+        this.listenTo(this.model, 'refresh', this.renderMessages);
+
+        app.state.bind('change:connected', this.connectionChange, this);
 
         this.render();
     },
@@ -93,8 +96,13 @@ module.exports = BasePage.extend({
     },
     renderMessages: function () {
         var self = this;
-        this.firstDate = '';
-        this.lastDate = '';
+
+        this.$messageList.empty();
+        delete this.firstModel;
+        delete this.firstDate;
+        delete this.lastModel;
+        delete this.lastDate;
+
         this.model.messages.each(function (model, i) {
             self.appendModel(model);
         });
@@ -219,7 +227,7 @@ module.exports = BasePage.extend({
                 this.model.lastSentMessage.correct(message);
             } else {
                 var msgModel = new MessageModel(message);
-                msgModel.save();
+                this.model.addMessage(msgModel);
                 this.model.lastSentMessage = msgModel;
             }
         }
@@ -315,7 +323,11 @@ module.exports = BasePage.extend({
         var existing = this.$('#chat' + model.cid);
         existing.replaceWith(model.partialTemplateHtml);
     },
-    resetMessages: function () {
-        this.$messageList.empty();
+    connectionChange: function () {
+        if (app.state.connected) {
+            this.$chatInput.attr("disabled", false);
+        } else {
+            this.$chatInput.attr("disabled", "disabled");
+        }
     }
 });

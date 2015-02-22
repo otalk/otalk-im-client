@@ -499,40 +499,6 @@ button.secondary:hover:not(:disabled) {
 .button-group.outlined.secondary .button:hover {
   background: #b8e6fa;
 }
-#connectionOverlay {
-  position: fixed;
-  top: 0px;
-  left: 0px;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.5);
-  z-index: 1000;
-  transition: all 0.25s linear 0;
-}
-#connectionOverlay.connected {
-  height: 0px;
-}
-#connectionOverlay.connected #connectionStatus {
-  top: -200px;
-}
-#connectionStatus {
-  height: 75px;
-  width: 400px;
-  top: 30%;
-  left: 50%;
-  margin-left: -200px;
-  position: absolute;
-  z-index: 10;
-  text-align: center;
-}
-#connectionStatus p {
-  padding: 0 0 20px 0;
-  margin: 0;
-}
-#connectionStatus button {
-  position: relative;
-  top: -1px;
-}
 #updateBar {
   position: fixed;
   top: 0px;
@@ -976,7 +942,7 @@ button.secondary:hover:not(:disabled) {
   height: 55px;
   z-index: 101;
 }
-.conversation header h1 {
+.conversation header .title {
   padding: 0px;
   margin: 0px;
   top: 0px;
@@ -1403,7 +1369,7 @@ button.secondary:hover:not(:disabled) {
 .messages .message .sender {
   display: block;
 }
-.group.conversation h1 .status:empty:before {
+.group.conversation .title .status:empty:before {
   content: 'No subject';
 }
 #members_toggle {
@@ -1785,14 +1751,21 @@ rgba(0,0,0,0.7)
   right: 40px;
   margin: 0;
 }
+#topbar.connected {
+  background-color: transparent;
+  z-index: 100;
+}
+#topbar.connected #connectionStatus {
+  display: none;
+}
 #topbar {
   position: fixed;
-  left: 220px;
+  right: 0px;
   top: 0px;
-  height: 54px;
+  height: 55px;
   width: 100%;
-  background-color: #fff;
-  z-index: 100;
+  background-color: #8899ce;
+  z-index: 102;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -1801,13 +1774,32 @@ rgba(0,0,0,0.7)
   user-select: none;
   color: #fff;
 }
+#topbar #connectionStatus {
+  width: 340px;
+  margin: 9px auto;
+  background-color: transparent;
+}
+#topbar #connectionStatus p {
+  position: relative;
+  top: 2px;
+  display: inline;
+  color: #fff;
+  font-size: 15px;
+  padding: 0;
+  margin: 0 18px 0 0;
+}
+#topbar #connectionStatus button {
+  height: 30px;
+  margin: 3px 0;
+  cursor: pointer;
+}
 #topbar .settings {
   position: fixed;
   padding-left: 30px;
   line-height: 30px;
   height: 30px;
   right: 5px;
-  top: 5px;
+  top: 12px;
   background-color: #fff;
   color: #3d486b;
   transition: none;

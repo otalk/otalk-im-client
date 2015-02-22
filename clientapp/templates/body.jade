@@ -1,10 +1,4 @@
 body
-  #connectionOverlay
-    aside#connectionStatus.box
-      p
-        | You're currently
-        strong disconnected
-      button.primary.reconnect Reconnect
   #updateBar
     p Update available!
     button.primary.upgrade Upgrade
@@ -22,6 +16,11 @@ body
         nav
         input(type="text", class="inline", placeholder="add a contact")#addcontact
     header#topbar
+      #connectionStatus
+        p
+          | You're currently&nbsp;
+          strong disconnected
+        button.primary.reconnect Reconnect
       a(href="/", class="button secondary settings")
         svg(version='1.1', xmlns='http://www.w3.org/2000/svg', xmlns:xlink='http://www.w3.org/1999/xlink', viewbox="0 0 25 25", height="25", width="25")
           g(transform='scale(0.4)')

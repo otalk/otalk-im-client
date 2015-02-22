@@ -18,6 +18,8 @@ module.exports = HumanView.extend({
         app.state.on('change:deviceID', function () {
             console.log('DEVICE ID>>>', app.state.deviceID);
         });
+
+        app.state.bind('change:connected', this.connectionChange, this);
     },
     events: {
         'click a[href]': 'handleLinkClick',
@@ -30,7 +32,7 @@ module.exports = HumanView.extend({
         'keydown .status': 'keyDownStatus'
     },
     classBindings: {
-        connected: '#connectionOverlay',
+        connected: '#topbar',
         cacheStatus: '#updateBar',
         hasActiveCall: '#wrapper'
     },
@@ -41,6 +43,10 @@ module.exports = HumanView.extend({
         this.renderCollection(me.contacts, ContactListItem, this.$('#roster nav'));
         this.renderCollection(me.mucs, MUCListItem, this.$('#bookmarks nav'));
         this.renderCollection(me.contactRequests, ContactRequestItem, this.$('#contactrequests'));
+
+        this.$joinmuc = this.$('#joinmuc');
+        this.$addcontact = this.$('#addcontact');
+        this.$meStatus = this.$('#footer .status');
 
         this.registerBindings(me, {
             textBindings: {
@@ -136,6 +142,17 @@ module.exports = HumanView.extend({
         if (e.which === 13 && !e.shiftKey) {
             this.handleJoinMUC(e);
             return false;
+        }
+    },
+    connectionChange: function () {
+        if (app.state.connected) {
+            this.$joinmuc.attr("disabled", false);
+            this.$addcontact.attr("disabled", false);
+            this.$meStatus.attr("contenteditable", true);
+        } else {
+            this.$joinmuc.attr("disabled", "disabled");
+            this.$addcontact.attr("disabled", "disabled");
+            this.$meStatus.attr("contenteditable", false);
         }
     }
 });

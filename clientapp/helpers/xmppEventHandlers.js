@@ -106,7 +106,7 @@ module.exports = function (client, app) {
     });
 
     client.on('session:started', function (jid) {
-        me.jid = jid;
+        me.updateJid(jid);
 
         app.state.connected = true;
         window.readyForDeviceID = true;

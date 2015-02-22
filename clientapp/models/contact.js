@@ -25,7 +25,13 @@ module.exports = HumanModel.define({
 
         this.bind('change:topResource change:lockedResource change:_forceUpdate', this.summarizeResources, this);
 
-        this.fetchHistory();
+        this.fetchHistory(true);
+
+        var self = this;
+        client.on('session:started', function () {
+            if (self.messages.length)
+                self.fetchHistory(true, true);
+        });
     },
     type: 'contact',
     props: {
@@ -283,37 +289,39 @@ module.exports = HumanModel.define({
             this.lastInteraction = newInteraction;
         }
     },
-    fetchHistory: function (old) {
+    fetchHistory: function (onlyLastMessages, allInterval) {
         var self = this;
         app.whenConnected(function () {
             var filter = {
                 'with': self.jid,
                 rsm: {
-                    max: old ? 40 : 50,
-                    before: true
+                    max: !!onlyLastMessages && !allInterval ? 50 : 40
                 }
             };
 
-            if (old) {
-              var firstMessage = self.messages.first();
-              if (firstMessage && firstMessage.archivedId) {
-                  filter.rsm.before = firstMessage.archivedId;
-              }
-            } else {
-              var lastMessage = self.messages.last();
-              if (lastMessage && lastMessage.archivedId) {
-                  filter.rsm.after = lastMessage.archivedId;
-              }
+            if (!!onlyLastMessages) {
+                var lastMessage = self.messages.last();
+                if (lastMessage && lastMessage.archivedId) {
+                    filter.rsm.after = lastMessage.archivedId;
+                }
+                if (!allInterval) {
+                    filter.rsm.before = true;
 
-              if (self.lastHistoryFetch && !isNaN(self.lastHistoryFetch.valueOf())) {
-                  if (self.lastInteraction > self.lastHistoryFetch) {
-                      filter.start = self.lastInteraction;
-                  } else {
-                      filter.start = self.lastHistoryFetch;
-                  }
-              } else {
-                  filter.end = new Date(Date.now() + app.timeInterval);
-              }
+                    if (self.lastHistoryFetch && !isNaN(self.lastHistoryFetch.valueOf())) {
+                        if (self.lastInteraction > self.lastHistoryFetch) {
+                            filter.start = self.lastInteraction;
+                        } else {
+                            filter.start = self.lastHistoryFetch;
+                        }
+                    } else {
+                        filter.end = new Date(Date.now() + app.timeInterval);
+                    }
+                }
+            } else {
+                var firstMessage = self.messages.first();
+                if (firstMessage && firstMessage.archivedId) {
+                    filter.rsm.before = firstMessage.archivedId;
+                }
             }
 
             client.getHistory(filter, function (err, res) {
@@ -322,7 +330,7 @@ module.exports = HumanModel.define({
                 self.lastHistoryFetch = new Date(Date.now() + app.timeInterval);
 
                 var results = res.mamQuery.results || [];
-                if (!old) results.reverse();
+                if (!!onlyLastMessages && !allInterval) results.reverse();
                 results.forEach(function (result) {
                     var msg = result.mam.forwarded.message;
 
@@ -347,6 +355,14 @@ module.exports = HumanModel.define({
 
                     self.addMessage(message, false);
                 });
+
+                if (allInterval) {
+                    if (results.length == 40) {
+                        self.fetchHistory(true, true);
+                    } else {
+                        self.trigger('refresh');
+                    }
+                }
             });
         });
     },

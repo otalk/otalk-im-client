@@ -16,13 +16,15 @@ module.exports = BasePage.extend({
     template: templates.pages.chat,
     initialize: function (spec) {
         this.editMode = false;
-        this.model.fetchHistory();
 
         this.listenTo(this, 'pageloaded', this.handlePageLoaded);
         this.listenTo(this, 'pageunloaded', this.handlePageUnloaded);
 
         this.listenTo(this.model.messages, 'change', this.refreshModel);
-        //this.listenTo(this.model.messages, 'sort', this.renderCollection);
+        this.listenTo(this.model.messages, 'reset', this.renderCollection);
+        this.listenTo(this.model, 'refresh', this.renderCollection);
+
+        app.state.bind('change:connected', this.connectionChange, this);
 
         this.render();
     },
@@ -58,7 +60,7 @@ module.exports = BasePage.extend({
         $('.messages').scroll(function() {
             if (self.firstChanged && $(".messages li:first-child").offset().top > 0) {
                 self.firstChanged = false;
-                self.model.fetchHistory(true);
+                self.model.fetchHistory();
             }
         });
 
@@ -108,8 +110,13 @@ module.exports = BasePage.extend({
     },
     renderCollection: function () {
         var self = this;
+
         this.$messageList.empty();
-        this.lastDate = '';
+        delete this.firstModel;
+        delete this.firstDate;
+        delete this.lastModel;
+        delete this.lastDate;
+
         this.model.messages.each(function (model, i) {
             self.appendModel(model);
         });
@@ -352,5 +359,12 @@ module.exports = BasePage.extend({
         } else {
             this.$messageList.css('marginBottom', 0);
         }
-    }, 300)
+    }, 300),
+    connectionChange: function () {
+        if (app.state.connected) {
+            this.$chatInput.attr("disabled", false);
+        } else {
+            this.$chatInput.attr("disabled", "disabled");
+        }
+    }
 });
