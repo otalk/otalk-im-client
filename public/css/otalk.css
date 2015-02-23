@@ -565,6 +565,9 @@ button.secondary:hover:not(:disabled) {
 #menu #organization .settings:hover svg {
   fill: #94b021;
 }
+#menu #organization .settings.active svg {
+  fill: #94b021;
+}
 #menu .main {
   margin: 10px 0 0 0;
   text-align: center;
@@ -1521,9 +1524,24 @@ button.secondary:hover:not(:disabled) {
 .embed a.source {
   display: none;
 }
+.main svg {
+  position: absolute;
+  top: 24px;
+  left: 16px;
+  margin: 0px;
+  margin-top: -13px;
+  fill: #9e9ea6;
+  z-index: 101;
+}
 .main h1 {
-  padding: 34px 20px 0 20px;
-  color: #192a47;
+  color: #555459;
+  padding: 0;
+  margin: 0;
+  position: fixed;
+  top: 14px;
+  left: 266px;
+  right: 200px;
+  z-index: 101;
 }
 .main > div {
   padding: 20px;
@@ -1559,7 +1577,7 @@ button.secondary:hover:not(:disabled) {
   -o-border-radius: 3px;
   -border-radius: 3px;
   border-radius: 3px;
-  margin: 10px 0;
+  margin: 50px 0;
   border: 1px solid #e0e0e0;
   background: #f9f9f9;
 }

@@ -4,9 +4,24 @@
 // Settings
 .main
 
+  svg
+    position: absolute
+    top: 24px
+    left: 16px
+    margin: 0px
+    margin-top: -13px
+    fill: $gray
+    z-index: 101
+
   h1
-    padding: 34px 20px 0 20px
-    color: $blue-saturated
+    color: $gray-dark
+    padding: 0
+    margin: 0
+    position: fixed
+    top: 14px
+    left: 266px
+    right: 200px
+    z-index: 101
 
   > div
     padding: 20px
@@ -37,7 +52,7 @@
 .uploadRegion
   padding: 15px
   roundall(3px)
-  margin: 10px 0
+  margin: 50px 0
   border: 1px solid $gray-lighter
   background: lighten($gray-lighter, 80%)
 

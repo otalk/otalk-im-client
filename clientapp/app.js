@@ -111,6 +111,9 @@ module.exports = {
 
                 new Router();
                 app.history = Backbone.history;
+                app.history.on("route", function(route, params) {
+                    app.state.pageChanged = params;
+                });
 
                 self.view = new MainView({
                     model: app.state,

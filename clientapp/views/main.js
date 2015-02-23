@@ -34,7 +34,8 @@ module.exports = HumanView.extend({
     classBindings: {
         connected: '#topbar',
         cacheStatus: '#updateBar',
-        hasActiveCall: '#wrapper'
+        hasActiveCall: '#wrapper',
+        currentPageIsSettings: '.settings'
     },
     render: function () {
         $('head').append(templates.head());

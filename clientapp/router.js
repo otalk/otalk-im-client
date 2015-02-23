@@ -2,22 +2,22 @@
 "use strict";
 
 var Backbone = require('backbone');
-var MainPage = require('./pages/main');
+var SettingsPage = require('./pages/settings');
 var ChatPage = require('./pages/chat');
 var GroupChatPage = require('./pages/groupchat');
 
 
 module.exports = Backbone.Router.extend({
     routes: {
-        '': 'main',
+        '': 'settings',
         'chat/:jid': 'chat',
         'chat/:jid/:resource': 'chat',
         'groupchat/:jid': 'groupchat',
         'logout': 'logout'
     },
     // ------- ROUTE HANDLERS ---------
-    main: function () {
-        app.renderPage(new MainPage({
+    settings: function () {
+        app.renderPage(new SettingsPage({
             model: me
         }));
     },

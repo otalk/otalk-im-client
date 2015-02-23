@@ -7,7 +7,7 @@ var templates = require('../templates');
 
 
 module.exports = BasePage.extend({
-    template: templates.pages.main,
+    template: templates.pages.settings,
     classBindings: {
         shouldAskForAlertsPermission: '.enableAlerts',
         soundEnabledClass: '.soundNotifs'

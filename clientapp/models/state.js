@@ -46,7 +46,8 @@ module.exports = HumanModel.define({
         pageTitle: 'string',
         hasActiveCall: ['boolean', false, false],
         cacheStatus: 'string',
-        deviceID: ['string', false, '']
+        deviceID: ['string', false, ''],
+        pageChanged: ['string', false, '']
     },
     derived: {
         title: {
@@ -63,6 +64,12 @@ module.exports = HumanModel.define({
             deps: ['connected', 'deviceID'],
             fn: function () {
                 return (this.connected && !!this.deviceID);
+            }
+        },
+        currentPageIsSettings: {
+            deps: ['pageChanged'],
+            fn: function () {
+                return this.pageChanged === 'settings' ? 'active' : '';
             }
         }
     },
