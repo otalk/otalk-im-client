@@ -1545,6 +1545,12 @@ button.secondary:hover:not(:disabled) {
 .main > div .soundNotifs {
   margin-left: 5px;
 }
+.main > div .soundNotifs.primary:before {
+  content: 'Disable ';
+}
+.main > div .soundNotifs.secondary:before {
+  content: 'Enable ';
+}
 .uploadRegion {
   padding: 15px;
   -moz-border-radius: 3px;

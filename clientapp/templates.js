@@ -512,7 +512,7 @@ exports.pages.groupchat = function anonymous(locals) {
 exports.pages.main = function anonymous(locals) {
     var buf = [];
     with (locals || {}) {
-        buf.push('<section class="page main"><h1 id="title">Settings</h1><div id="avatarChanger"><h4>Change Avatar</h4><div class="uploadRegion"><p>Drag and drop a new avatar here</p><img/><form><input id="uploader" type="file"/></form></div></div><div><h4>Desktop Integration</h4><button class="enableAlerts">Enable alerts</button><button class="primary installFirefox">Install app</button><button class="soundNotifs">Sound Notification</button></div><div><button class="logout">Logout</button></div></section>');
+        buf.push('<section class="page main"><h1 id="title">Settings</h1><div id="avatarChanger"><h4>Change Avatar</h4><div class="uploadRegion"><p>Drag and drop a new avatar here</p><img/><form><input id="uploader" type="file"/></form></div></div><div><h4>Desktop Integration</h4><button class="enableAlerts">Enable alerts</button><button class="primary installFirefox">Install app</button><button class="soundNotifs">sound notifications</button></div><div><button class="logout">Logout</button></div></section>');
     }
     return buf.join("");
 };

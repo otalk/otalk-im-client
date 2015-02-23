@@ -26,6 +26,14 @@
     .installFirefox, .soundNotifs
       margin-left: 5px
 
+    .soundNotifs
+      &.primary
+        &:before
+          content: 'Disable '
+      &.secondary
+        &:before
+          content: 'Enable '
+
 .uploadRegion
   padding: 15px
   roundall(3px)
