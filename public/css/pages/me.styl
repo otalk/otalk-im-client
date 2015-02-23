@@ -1,42 +1,39 @@
 @import '../_variables'
 @import '../_mixins'
 
-#footer
-  bottom: 0px
-  left: 0px
-  background-color: $sidebarTopAndBottomBg
-  width:100%
-  height: 4rem;
-  position: fixed
-  z-index: 301
+#topbar
 
   #me
-    border-top: 2px solid $sidebarBorder
-    padding: 7px 0px 9px 8px;
+    display: none
+    position: fixed
+    right: 0
+    padding: 8px 5px 5px 5px
+    width: 175px
 
   .avatar
-    float:left
-    width: 48px
-    height: 48px
+    float:right
+    width: 35px
+    height: 35px
     background: rgba(0,0,0,0)
     background-color: transparent
     vertical-align: middle
-    margin: 0px 0.5rem 0px 0px;
+    margin: 3px 0.5rem 0px 0px;
 
   .name,
   .status
     display: block
-    width: 145px
+    width: 120px
     overflow: hidden
     text-overflow: ellipsis
+    text-align: right
 
   .name
-    color: #fff
+    color: $gray-dark
     font-size: $font-size-large
     font-weight: $font-weight-bolder
 
   .status
-    color: $sidebarStatusText
+    color: $gray
     font-weight: normal
     font-size: $font-size-base
     line-height: $font-size-base
@@ -51,7 +48,7 @@
 
     &:focus
       border-radius: 0.25rem
-      border: 1px solid $sidebarStatusBorder
+      border: 1px solid $gray
       outline: none
       padding: 2px
 
@@ -61,3 +58,7 @@
     &:before,
     &:empty:focus:before
       content: ''
+
+  &.connected
+    #me
+      display: block

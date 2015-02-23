@@ -534,9 +534,7 @@ button.secondary:hover:not(:disabled) {
 }
 #menu #organization {
   width: 220px;
-  height: 53px;
-  background-color: #1a233f;
-  border-bottom: 2px solid #121a33;
+  height: 42px;
   margin-bottom: 10px;
 }
 #menu #organization #orga_name {
@@ -546,6 +544,26 @@ button.secondary:hover:not(:disabled) {
   line-height: 53px;
   vertical-align: middle;
   margin-left: 20px;
+}
+#menu #organization .settings {
+  position: relative;
+  height: 30px;
+  left: 0px;
+  background-color: #3d486b;
+  color: #fff;
+  transition: none;
+  border: 0;
+}
+#menu #organization .settings svg {
+  position: absolute;
+  top: 55%;
+  left: 3px;
+  margin: 0px;
+  margin-top: -13px;
+  fill: #fff;
+}
+#menu #organization .settings:hover svg {
+  fill: #94b021;
 }
 #menu .main {
   margin: 10px 0 0 0;
@@ -630,8 +648,8 @@ button.secondary:hover:not(:disabled) {
 #bookmarks li {
   list-style-type: none;
   padding: 4px 10px;
-  margin: 0px;
-  border-radius: 0px 0.25rem 0.25rem 0px;
+  margin: 0px 0px 0px 10px;
+  border-radius: 0.25rem;
   position: relative;
   height: 25px;
   font-size: 14px;
@@ -799,7 +817,7 @@ button.secondary:hover:not(:disabled) {
   height: 17px;
   text-shadow: 0px 1px 1px rgba(0,0,0,0.3);
   position: absolute;
-  left: 32px;
+  left: 22px;
   max-width: 140px;
 }
 #roster li .unread,
@@ -868,10 +886,10 @@ button.secondary:hover:not(:disabled) {
   display: inline-block;
 }
 #roster .wrap {
-  padding-left: 10px;
+  padding-left: 0px;
 }
 #bookmarks .wrap {
-  padding-left: 24px;
+  padding-left: 14px;
 }
 @-moz-keyframes pulsate {
   0% {
@@ -938,7 +956,7 @@ button.secondary:hover:not(:disabled) {
   top: 0px;
   right: 0px;
   left: 220px;
-  right: 90px;
+  right: 200px;
   height: 55px;
   z-index: 101;
 }
@@ -1752,7 +1770,7 @@ rgba(0,0,0,0.7)
   margin: 0;
 }
 #topbar.connected {
-  background-color: transparent;
+  background-color: #f7f7f7;
   z-index: 100;
 }
 #topbar.connected #connectionStatus {
@@ -1793,69 +1811,37 @@ rgba(0,0,0,0.7)
   margin: 3px 0;
   cursor: pointer;
 }
-#topbar .settings {
+#topbar #me {
+  display: none;
   position: fixed;
-  padding-left: 30px;
-  line-height: 30px;
-  height: 30px;
-  right: 5px;
-  top: 12px;
-  background-color: #fff;
-  color: #3d486b;
-  transition: none;
-  border: 0;
+  right: 0;
+  padding: 8px 5px 5px 5px;
+  width: 175px;
 }
-#topbar .settings svg {
-  position: absolute;
-  top: 50%;
-  left: 5px;
-  margin: 0px;
-  margin-top: -13px;
-  fill: #3d486b;
-}
-#topbar .settings:hover {
-  background-color: #3d486b;
-  color: #fff;
-}
-#topbar .settings:hover svg {
-  fill: #fff;
-}
-#footer {
-  bottom: 0px;
-  left: 0px;
-  background-color: #1a233f;
-  width: 100%;
-  height: 4rem;
-  position: fixed;
-  z-index: 301;
-}
-#footer #me {
-  border-top: 2px solid #121a33;
-  padding: 7px 0px 9px 8px;
-}
-#footer .avatar {
-  float: left;
-  width: 48px;
-  height: 48px;
+#topbar .avatar {
+  float: right;
+  width: 35px;
+  height: 35px;
   background: rgba(0,0,0,0);
   background-color: transparent;
   vertical-align: middle;
-  margin: 0px 0.5rem 0px 0px;
+  margin: 3px 0.5rem 0px 0px;
 }
-#footer .name,
-#footer .status {
+#topbar .name,
+#topbar .status {
   display: block;
-  width: 145px;
+  width: 120px;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-align: right;
 }
-#footer .name {
-  color: #fff;
+#topbar .name {
+  color: #555459;
   font-size: 17px;
   font-weight: 900;
 }
-#footer .status {
-  color: #c1dcec;
+#topbar .status {
+  color: #9e9ea6;
   font-weight: normal;
   font-size: 14px;
   line-height: 14px;
@@ -1873,16 +1859,19 @@ rgba(0,0,0,0.7)
   -ms-user-select: initial;
   user-select: initial;
 }
-#footer .status:focus {
+#topbar .status:focus {
   border-radius: 0.25rem;
-  border: 1px solid #626f9c;
+  border: 1px solid #9e9ea6;
   outline: none;
   padding: 2px;
 }
-#footer .status:empty:before {
+#topbar .status:empty:before {
   content: 'Update your status';
 }
-#footer .status:before,
-#footer .status:empty:focus:before {
+#topbar .status:before,
+#topbar .status:empty:focus:before {
   content: '';
+}
+#topbar.connected #me {
+  display: block;
 }

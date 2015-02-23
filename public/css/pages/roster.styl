@@ -18,9 +18,7 @@
 
   #organization
     width: 220px
-    height: 53px
-    background-color: $sidebarTopAndBottomBg
-    border-bottom: 2px solid $sidebarBorder
+    height: 42px
     margin-bottom: 10px
 
     #orga_name
@@ -30,6 +28,27 @@
       line-height: 53px;
       vertical-align: middle
       margin-left: 20px
+
+    .settings
+      position: relative
+      height: 30px
+      left: 0px
+      background-color: $settingsBg
+      color: $settingsText
+      transition: none
+      border: 0
+
+      svg
+        position: absolute
+        top: 55%
+        left: 3px
+        margin: 0px
+        margin-top: -13px
+        fill: $settingsText
+
+      &:hover
+        svg
+          fill: $settingsHoverText
 
   .main
     margin: 10px 0 0 0
@@ -104,8 +123,8 @@
   li
     list-style-type: none
     padding: 4px 10px
-    margin: 0px
-    border-radius: 0px 0.25rem 0.25rem 0px;
+    margin: 0px 0px 0px 10px
+    border-radius: 0.25rem
     position: relative
     height: 25px
     font-size: $font-size-base
@@ -230,7 +249,7 @@
       height: $font-size-base+3
       text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.3)
       position: absolute
-      left: 32px
+      left: 22px
       max-width: 140px
 
     .unread
@@ -285,11 +304,11 @@
 
 #roster
   .wrap
-    padding-left: 10px
+    padding-left: 0px
 
 #bookmarks
   .wrap
-    padding-left: 24px
+    padding-left: 14px
 
 @keyframes pulsate
   0%

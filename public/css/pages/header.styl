@@ -2,7 +2,7 @@
 @import '../_mixins'
 
 #topbar.connected
-  background-color: transparent
+  background-color: rgb(247, 247, 247)
   z-index: 100
   #connectionStatus
     display: none
@@ -36,30 +36,3 @@
       height: 30px
       margin: 3px 0
       cursor: pointer
-
-  .settings
-    position: fixed
-    padding-left: 30px
-    line-height: 30px
-    height: 30px
-    right: 5px
-    top: 12px
-    background-color: $settingsBg
-    color: $settingsText
-    transition: none
-    border: 0
-
-    svg
-      position: absolute
-      top: 50%
-      left: 5px
-      margin: 0px
-      margin-top: -13px
-      fill: $settingsText
-
-    &:hover
-      background-color: $settingsHoverBg
-      color: $settingsHoverText
-
-      svg
-        fill: #fff
