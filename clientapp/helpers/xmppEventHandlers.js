@@ -283,6 +283,9 @@ module.exports = function (client, app) {
                 });
             }
 
+            if (msg.carbon)
+                msg.delay.stamp = new Date(Date.now() + app.timeInterval);
+
             message.acked = true;
             var localTime = new Date(Date.now() + app.timeInterval);
             var notify = Math.round((localTime - message.created) / 1000) < 5;
@@ -339,36 +342,12 @@ module.exports = function (client, app) {
         original.receiptReceived = true;
     });
 
-    client.on('carbon:received', function (carbon) {
-        if (!me.isMe(carbon.from)) return;
+    client.on('message:sent', function (msg) {
+        if (msg.carbon) {
+            msg.delay.stamp = new Date(Date.now() + app.timeInterval);
 
-        var msg = carbon.carbonReceived.forwarded.message;
-        var delay = carbon.carbonReceived.forwarded.delay;
-        if (!delay.stamp) {
-            delay.stamp = new Date(Date.now() + app.timeInterval);
+            client.emit('message', msg);
         }
-
-        if (!msg._extensions.delay) {
-            msg.delay = delay;
-        }
-
-        client.emit('message', msg);
-    });
-
-    client.on('carbon:sent', function (carbon) {
-        if (!me.isMe(carbon.from)) return;
-
-        var msg = carbon.carbonSent.forwarded.message;
-        var delay = carbon.carbonSent.forwarded.delay;
-        if (!delay.stamp) {
-            delay.stamp = new Date(Date.now() + app.timeInterval);
-        }
-
-        if (!msg._extensions.delay) {
-            msg.delay = delay;
-        }
-
-        client.emit('message', msg);
     });
 
     client.on('disco:caps', function (pres) {
