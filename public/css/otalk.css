@@ -1154,6 +1154,40 @@ button.secondary:hover:not(:disabled) {
   transition: none;
   -webkit-transition: none;
 }
+.conversation .chatBox .autoComplete {
+  display: none;
+  position: fixed;
+  left: 245px;
+  bottom: 64px;
+  border: 2px solid #ddd;
+  border-bottom: 0;
+  border-radius: 0.25rem 0.25rem 0 0;
+  background-color: #fff;
+  z-index: 100;
+  list-style-type: none;
+  padding: 3px;
+  margin: 0px;
+}
+.conversation .chatBox .autoComplete li {
+  padding: 3px 25px;
+  margin: 0px;
+  border-radius: 0.25rem;
+  position: relative;
+  cursor: pointer;
+}
+.conversation .chatBox .autoComplete li:hover,
+.conversation .chatBox .autoComplete li.selected {
+  background-color: #439fe0;
+}
+.conversation .chatBox .autoComplete li:hover .name,
+.conversation .chatBox .autoComplete li.selected .name {
+  color: #fff;
+}
+.conversation .chatBox .autoComplete li .name {
+  color: #9e9ea6;
+  font-size: 14px;
+  font-weight: bold;
+}
 .conversation .chatBox .formwrap {
   transition: none;
   -webkit-transition: none;
@@ -1312,15 +1346,32 @@ button.secondary:hover:not(:disabled) {
 }
 .messages .messageWrapper .message_header .name {
   display: inline-block;
+  margin-right: 0.25rem;
   font-weight: 900;
   font-size: 15px;
   color: #3d3c40;
   line-height: 22px;
   cursor: pointer;
 }
+.messages .messageWrapper .message_header .name:empty {
+  margin-right: 0;
+}
+.messages .messageWrapper .message_header .nickname {
+  display: inline-block;
+  font-weight: 500;
+  font-size: 14px;
+  color: #9e9ea6;
+  line-height: 22px;
+  cursor: pointer;
+}
+.messages .messageWrapper .message_header .nickname:not(:empty) {
+  margin-right: 0.25rem;
+}
+.messages .messageWrapper .message_header .nickname:not(:empty):before {
+  content: '@';
+}
 .messages .messageWrapper .message_header .date {
   display: inline-block;
-  margin-left: 0.25rem;
   color: #babbbf;
   font-size: 12px;
   width: 60px;

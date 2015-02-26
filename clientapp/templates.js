@@ -313,14 +313,14 @@ exports.includes.mucWrappedMessage = function anonymous(locals) {
     with (locals || {}) {
         var messageDate = Date.create(message.timestamp);
         buf.push('<li><div class="sender"><a href="#" class="messageAvatar"><img' + jade.attrs({
-            src: "https://gravatar.com/avatar",
+            src: message.sender.getAvatar(message.from.full),
             alt: message.from.resource,
             "data-placement": "below"
         }, {
             src: true,
             alt: true,
             "data-placement": true
-        }) + '/></a></div><div class="messageWrapper"><div class="message_header"><div class="name">' + jade.escape((jade.interp = message.from.resource) == null ? "" : jade.interp) + "</div><div" + jade.attrs({
+        }) + '/></a></div><div class="messageWrapper"><div class="message_header"><div class="name">' + jade.escape((jade.interp = message.sender.getName(message.from.full)) == null ? "" : jade.interp) + '</div><div class="nickname">' + jade.escape((jade.interp = message.sender.getNickname(message.from.full)) == null ? "" : jade.interp) + "</div><div" + jade.attrs({
             title: messageDate.format("{Dow}, {MM}/{dd}/{yyyy} - {h}:{mm} {Tt}"),
             "class": "date"
         }, {
@@ -503,7 +503,7 @@ exports.pages.chat = function anonymous(locals) {
 exports.pages.groupchat = function anonymous(locals) {
     var buf = [];
     with (locals || {}) {
-        buf.push('<section class="page chat"><section class="group conversation"><header class="online"><div class="title"><span class="prefix">#</span><span class="name"></span><i class="channel_actions fa fa-comments-o"></i><span contenteditable="true" spellcheck="false" class="status"></span></div></header><ul class="messages"></ul><a id="members_toggle"><i class="fa fa-user"></i><span id="members_toggle_count"></span></a><ul class="groupRoster"></ul><div class="chatBox"><form class="formwrap"><textarea name="chatInput" type="text" placeholder="Send a message..." autocomplete="off"></textarea></form></div></section></section>');
+        buf.push('<section class="page chat"><section class="group conversation"><header class="online"><div class="title"><span class="prefix">#</span><span class="name"></span><i class="channel_actions fa fa-comments-o"></i><span contenteditable="true" spellcheck="false" class="status"></span></div></header><ul class="messages"></ul><a id="members_toggle"><i class="fa fa-user"></i><span id="members_toggle_count"></span></a><ul class="groupRoster"></ul><div class="chatBox"><ul class="autoComplete"></ul><form class="formwrap"><textarea name="chatInput" type="text" placeholder="Send a message..." autocomplete="off"></textarea></form></div></section></section>');
     }
     return buf.join("");
 };

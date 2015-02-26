@@ -91,6 +91,15 @@ module.exports = HumanModel.define({
             this._activeContact = curr.id;
         }
     },
+    getName: function () {
+        return this.displayName;
+    },
+    getNickname: function () {
+        return this.displayName != this.nick ? this.nick : '';
+    },
+    getAvatar: function () {
+        return this.avatar;
+    },
     setAvatar: function (id, type, source) {
         var self = this;
         fetchAvatar('', id, type, source, function (avatar) {
@@ -102,7 +111,10 @@ module.exports = HumanModel.define({
         this.soundEnabled = enable;
     },
     getContact: function (jid, alt) {
-        if (typeof jid === 'string') jid = new client.JID(jid);
+        if (typeof jid === 'string') {
+            if (SERVER_CONFIG.domain && jid.indexOf('@') == -1) jid += '@' + SERVER_CONFIG.domain;
+            jid = new client.JID(jid);
+        }
         if (typeof alt === 'string') alt = new client.JID(alt);
 
         if (this.isMe(jid)) {

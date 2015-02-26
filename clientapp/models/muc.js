@@ -76,6 +76,27 @@ module.exports = HumanModel.define({
         resources: Resources,
         messages: Messages
     },
+    getName: function (jid) {
+        var nickname = jid.split('/')[1];
+        var name = nickname;
+        var xmppContact = me.getContact(nickname);
+        if (xmppContact) {
+            name = xmppContact.displayName;
+        }
+        return name != '' ? name : nickname;
+    },
+    getNickname: function (jid) {
+        var nickname = jid.split('/')[1];
+        return nickname != this.getName(jid) ? nickname : '';
+    },
+    getAvatar: function (jid) {
+        var avatar = "";
+        var xmppContact = me.getContact(jid.split('/')[1]);
+        if (xmppContact) {
+            avatar = xmppContact.avatar;
+        }
+        return avatar || 'https://gravatar.com/avatar';
+    },
     addMessage: function (message, notify) {
         message.owner = me.jid.bare;
 

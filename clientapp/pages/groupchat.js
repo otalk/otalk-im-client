@@ -80,12 +80,15 @@ module.exports = BasePage.extend({
         this.$chatInput.val(app.composing[this.model.jid] || '');
         this.$chatBox = this.$('.chatBox');
         this.$messageList = this.$('.messages');
+        this.$autoComplete = this.$('.autoComplete');
 
         this.staydown = new StayDown(this.$messageList[0], 500);
 
         this.renderMessages();
+
         this.renderCollection(this.model.resources, MUCRosterItem, this.$('.groupRoster'));
 
+        this.listenTo(this, 'rosterItemClicked', this.rosterItemSelected);
         this.listenTo(this.model.messages, 'add', this.handleChatAdded);
 
         $(window).on('resize', _.bind(this.resizeInput, this));
@@ -117,19 +120,47 @@ module.exports = BasePage.extend({
     },
     handleKeyDown: function (e) {
         if (e.which === 13 && !e.shiftKey) {
-            app.composing[this.model.jid] = '';
-            this.sendChat();
+            if (this.$autoComplete.css('display') != 'none') {
+                var nickname = this.$autoComplete.find(">:nth-child(" + this.autoCompletePos + ")>:first-child").text();
+                this.rosterItemSelected(nickname);
+            } else {
+                app.composing[this.model.jid] = '';
+                this.sendChat();
+            }
             e.preventDefault();
             return false;
-        } else if (e.which === 38 && this.$chatInput.val() === '' && this.model.lastSentMessage) {
-            this.editMode = true;
-            this.$chatInput.addClass('editing');
-            this.$chatInput.val(this.model.lastSentMessage.body);
+        } else if (e.which === 38) { // Up arrow
+
+            if (this.$autoComplete.css('display') != 'none') {
+                var count = this.$autoComplete.find(">li").length;
+                var oldPos = this.autoCompletePos;
+                this.autoCompletePos = (oldPos - 1) < 1 ? count : oldPos - 1;
+
+                this.$autoComplete.find(">:nth-child(" + oldPos + ")").removeClass('selected');
+                this.$autoComplete.find(">:nth-child(" + this.autoCompletePos + ")").addClass('selected');
+
+            }
+            else if (this.$chatInput.val() === '' && this.model.lastSentMessage) {
+                this.editMode = true;
+                this.$chatInput.addClass('editing');
+                this.$chatInput.val(this.model.lastSentMessage.body);
+            }
             e.preventDefault();
             return false;
-        } else if (e.which === 40 && this.editMode) {
-            this.editMode = false;
-            this.$chatInput.removeClass('editing');
+        } else if (e.which === 40) { // Down arrow
+
+            if (this.$autoComplete.css('display') != 'none') {
+                var count = this.$autoComplete.find(">li").length;
+                var oldPos = this.autoCompletePos;
+                this.autoCompletePos = (oldPos + 1) > count ? 1 : oldPos + 1;
+
+                this.$autoComplete.find(">:nth-child(" + oldPos + ")").removeClass('selected');
+                this.$autoComplete.find(">:nth-child(" + this.autoCompletePos + ")").addClass('selected');
+            }
+            else if (this.editMode) {
+                this.editMode = false;
+                this.$chatInput.removeClass('editing');
+            }
             e.preventDefault();
             return false;
         } else if (!e.ctrlKey && !e.metaKey) {
@@ -158,6 +189,43 @@ module.exports = BasePage.extend({
         } else if (this.typing) {
             this.pausedTyping();
         }
+
+        if (([38, 40, 13]).indexOf(e.which) === -1) {
+            var lastWord = this.$chatInput.val().split(' ').pop();
+            if (lastWord.charAt(0) === '@') {
+              var models = this.model.resources.search(lastWord.substr(1) || '', true, true);
+              if (models.length) {
+                this.renderCollection(models, MUCRosterItem, this.$autoComplete);
+                this.autoCompletePos = 1;
+                this.$autoComplete.find(">:nth-child(" + this.autoCompletePos + ")").addClass('selected');
+                this.$autoComplete.show();
+              }
+              else
+                this.$autoComplete.hide();
+            }
+
+            if (this.$autoComplete.css('display') != 'none') {
+                if( lastWord ===  '') {
+                    this.$autoComplete.hide();
+                    return;
+                }
+            }
+        }
+    },
+    rosterItemSelected: function (nickName) {
+        if (nickName == me.nick)
+            nickName = 'me';
+        var val = this.$chatInput.val();
+        var splited = val.split(' ');
+        var length = splited.length-1;
+        var lastWord = splited.pop();
+        if (('@' + nickName).indexOf(lastWord) > -1)
+            splited[length] = '@' + nickName + ' ';
+        else
+            splited.push('@' + nickName + ' ');
+        this.$chatInput.val(splited.join(' '));
+        this.$autoComplete.hide();
+        this.$chatInput.focus();
     },
     resizeInput: _.throttle(function () {
         var height;

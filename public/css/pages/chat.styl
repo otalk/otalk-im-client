@@ -194,6 +194,37 @@
     transition: none
     -webkit-transition: none
 
+    .autoComplete
+      display: none
+      position: fixed
+      left: 245px
+      bottom: 64px
+      border: 2px solid #ddd
+      border-bottom: 0
+      border-radius: 0.25rem 0.25rem 0 0
+      background-color: #fff
+      z-index: 100
+      list-style-type: none
+      padding: 3px
+      margin: 0px
+
+      li
+        padding: 3px 25px
+        margin: 0px
+        border-radius: 0.25rem
+        position: relative
+        cursor: pointer
+
+        &:hover, &.selected
+          background-color: #439FE0
+          .name
+            color: #fff
+
+        .name
+          color: $gray
+          font-size: 14px
+          font-weight: bold
+
     .formwrap
       transition: none
       -webkit-transition: none
@@ -344,15 +375,29 @@
 
       .name
         display: inline-block
+        margin-right: 0.25rem
         font-weight: $font-weight-bolder
         font-size: $font-size-message
         color: $black
         line-height: 22px
         cursor: pointer
+        &:empty
+          margin-right: 0
+
+      .nickname
+        display: inline-block
+        font-weight: $font-weight-classic
+        font-size: $font-size-base
+        color: $gray
+        line-height: 22px
+        cursor: pointer
+        &:not(:empty)
+          margin-right: 0.25rem
+          &:before
+            content: '@'
 
       .date
         display: inline-block
-        margin-left: 0.25rem
         color: $gray-light
         font-size: $font-size-small
         width: 60px
