@@ -134,7 +134,7 @@ module.exports = HumanModel.define({
             this.lastInteraction = newInteraction;
         }
     },
-    join: function () {
+    join: function (manual) {
         if (!this.nick) {
             this.nick = me.jid.local;
         }
@@ -148,6 +148,39 @@ module.exports = HumanModel.define({
                 }
             }
         });
+
+        if (manual) {
+            var form = {
+                fields: [
+                    {
+                      type: 'hidden',
+                      name: 'FORM_TYPE',
+                      value: 'http://jabber.org/protocol/muc#roomconfig'
+                    },
+                    {
+                      type: 'boolean',
+                      name: 'muc#roomconfig_changesubject',
+                      value: true
+                    },
+                    {
+                      type: 'boolean',
+                      name: 'muc#roomconfig_persistentroom',
+                      value: true
+                    },
+                ]
+            };
+            client.configureRoom(this.jid, form, function(err, resp) {
+                if (err) return;
+            });
+
+            if (SERVER_CONFIG.domain && SERVER_CONFIG.admin) {
+                var self = this;
+                client.setRoomAffiliation(this.jid, SERVER_CONFIG.admin + '@' + SERVER_CONFIG.domain, 'owner', 'administration', function(err, resp) {
+                    if (err) return;
+                    client.setRoomAffiliation(self.jid, me.jid, 'none', 'administration');
+                });
+            }
+        }
 
         var self = this;
         // After a reconnection

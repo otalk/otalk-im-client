@@ -137,7 +137,7 @@ module.exports = HumanView.extend({
             autoJoin: true
         });
         me.mucs.save();
-        me.mucs.get(mucjid).join();
+        me.mucs.get(mucjid).join(true);
     },
     keyDownJoinMUC: function (e) {
         if (e.which === 13 && !e.shiftKey) {
