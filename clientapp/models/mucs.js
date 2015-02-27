@@ -68,33 +68,33 @@ module.exports = BaseCollection.extend({
                     if (err) return;
 
                     rooms = res.discoItems.items;
+                    if (rooms === undefined)
+                        rooms = [];
                     var roomNum = 0;
 
-                    if (rooms) {
-                        rooms.forEach (function (room) {
-                            client.getDiscoInfo(room.jid, '', function (err, res) {
+                    rooms.forEach (function (room) {
+                      client.getDiscoInfo(room.jid, '', function (err, res) {
 
-                                roomNum++;
-                                if (err) return;
+                        roomNum++;
+                        if (err) return;
 
-                                var features = res.discoInfo.features;
-                                var persistent = features.indexOf("muc_persistent") > -1;
-                                var mucInfo = {
-                                  id: room.jid.full,
-                                  name: room.name,
-                                  jid: room.jid,
-                                  nick: me.nick,
-                                  autoJoin: persistent,
-                                  persistent: persistent
-                                };
+                        var features = res.discoInfo.features;
+                        var persistent = features.indexOf("muc_persistent") > -1;
+                        var mucInfo = {
+                          id: room.jid.full,
+                          name: room.name,
+                          jid: room.jid,
+                          nick: me.nick,
+                          autoJoin: persistent,
+                          persistent: persistent
+                        };
 
-                                app.mucInfos.push(mucInfo);
+                        app.mucInfos.push(mucInfo);
 
-                            }).then(function() {
-                                if (cb && roomNum == rooms.length) cb();
-                            });
-                        });
-                    }
+                      }).then(function() {
+                        if (cb && roomNum == rooms.length) cb();
+                      });
+                    });
                 }).then(function() {
                     if (cb && !rooms.length) cb();
                 });
