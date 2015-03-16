@@ -95,7 +95,7 @@ module.exports = HumanModel.define({
         if (xmppContact) {
             avatar = xmppContact.avatar;
         }
-        return avatar || 'https://gravatar.com/avatar';
+        return avatar;
     },
     addMessage: function (message, notify) {
         message.owner = me.jid.bare;

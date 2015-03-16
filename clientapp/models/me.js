@@ -13,9 +13,7 @@ var fetchAvatar = require('../helpers/fetchAvatar');
 
 module.exports = HumanModel.define({
     initialize: function (opts) {
-        if (opts.avatarID) {
-            this.setAvatar(opts.avatarID);
-        }
+        this.setAvatar(opts ? opts.avatarID : null);
 
         this.bind('change:jid', this.load, this);
         this.bind('change:hasFocus', function () {
