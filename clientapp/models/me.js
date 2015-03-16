@@ -197,6 +197,7 @@ module.exports = HumanModel.define({
             this.jid.prepped = newJid.prepped;
         } else {
             this.jid = newJid;
+            this.nick = this.jid.local;
         }
     },
     updateIdlePresence: function () {
