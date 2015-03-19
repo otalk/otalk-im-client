@@ -11,11 +11,11 @@
     },
     "server": {
         "name": "Otalk",
-        "domain": "localhost",
-        "wss": "wss://localhost:5281/xmpp-websocket/",
-        "muc": "chat.localhost",
-        "startup": "",
-        "admin": ""
+        "domain": "example.com",
+        "wss": "wss://example.com:5281/xmpp-websocket/",
+        "muc": "chat.example.com",
+        "startup": "room%40chat.example.com",
+        "admin": "admin"
     },
     "ldap": {
         "address": "127.0.0.1",
