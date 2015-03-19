@@ -9,6 +9,7 @@ var StanzaIO = require('stanza.io');
 
 var AppState = require('./models/state');
 var MeModel = require('./models/me');
+var LdapUsers = require('./models/ldapUsers');
 var MainView = require('./views/main');
 var Router = require('./router');
 var Storage = require('./storage');
@@ -32,8 +33,8 @@ module.exports = {
             return;
         }
 
-        config = JSON.parse(config);
-        config.useStreamManagement = true;
+        app.config = JSON.parse(config);
+        app.config.useStreamManagement = true;
 
         _.extend(this, Backbone.Events);
 
@@ -51,11 +52,11 @@ module.exports = {
                 app.mucInfos = [];
             },
             function (cb) {
-                app.storage.profiles.get(config.jid, function (err, res) {
+                app.storage.profiles.get(app.config.jid, function (err, res) {
                     if (res) {
                         profile = res;
-                        profile.jid = {full: config.jid, bare: config.jid};
-                        config.rosterVer = res.rosterVer;
+                        profile.jid = {full: app.config.jid, bare: app.config.jid};
+                        app.config.rosterVer = res.rosterVer;
                     }
                     cb();
                 });
@@ -70,7 +71,7 @@ module.exports = {
                     }
                 };
 
-                self.api = window.client = StanzaIO.createClient(config);
+                self.api = window.client = StanzaIO.createClient(app.config);
                 client.use(pushNotifications);
                 xmppEventHandlers(self.api, self);
 
@@ -120,6 +121,8 @@ module.exports = {
                     el: document.body
                 });
                 self.view.render();
+
+                app.ldapUsers = new LdapUsers();
 
                 if (me.contacts.length) {
                     start();

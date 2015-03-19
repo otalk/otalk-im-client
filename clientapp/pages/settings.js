@@ -4,13 +4,15 @@
 var crypto = require('crypto');
 var BasePage = require('./base');
 var templates = require('../templates');
-
+var LDAPUserItem = require('../views/ldapUserItem');
 
 module.exports = BasePage.extend({
     template: templates.pages.settings,
     classBindings: {
         shouldAskForAlertsPermission: '.enableAlerts',
-        soundEnabledClass: '.soundNotifs'
+        soundEnabledClass: '.soundNotifs',
+        hasLdapUsers: '#ldapSettings',
+        isAdmin: '#newLdapUser'
     },
     srcBindings: {
         avatar: '#avatarChanger img'
@@ -24,13 +26,19 @@ module.exports = BasePage.extend({
         'click .soundNotifs': 'handleSoundNotifs',
         'dragover': 'handleAvatarChangeDragOver',
         'drop': 'handleAvatarChange',
-        'change #uploader': 'handleAvatarChange'
+        'change #uploader': 'handleAvatarChange',
+        'keydown #newLdapUser': 'addLdapUser',
     },
     initialize: function (spec) {
-        this.render();
+        this.listenTo(this, 'deleteLdapUser', this.deleteLdapUser);
+        var self = this;
+        app.ldapUsers.fetch(function () {
+            self.render();
+        });
     },
     render: function () {
         this.renderAndBind();
+        this.renderCollection(app.ldapUsers, LDAPUserItem, this.$('#ldapUsers'));
         return this;
     },
     enableAlerts: function () {
@@ -93,4 +101,14 @@ module.exports = BasePage.extend({
     handleSoundNotifs: function (e) {
         this.model.setSoundNotification(!this.model.soundEnabled);
     },
+    addLdapUser: function (e) {
+        if (e.which === 13 && !e.shiftKey) {
+            var id = e.target.value;
+            e.target.value = '';
+            app.ldapUsers.addUser(id);
+        }
+    },
+    deleteLdapUser: function (id) {
+        app.ldapUsers.deleteUser(id);
+    }
 });

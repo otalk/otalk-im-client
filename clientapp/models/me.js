@@ -76,6 +76,12 @@ module.exports = HumanModel.define({
                 return this.soundEnabled ? "primary" : "secondary";
             }
         },
+        isAdmin: {
+            deps: ['jid'],
+            fn: function () {
+               return this.jid.local === SERVER_CONFIG.admin ? 'meIsAdmin' : '';
+            }
+        }
     },
     setActiveContact: function (jid) {
         var prev = this.getContact(this._activeContact);
@@ -104,6 +110,9 @@ module.exports = HumanModel.define({
             self.avatarID = avatar.id;
             self.avatar = avatar.uri;
         });
+    },
+    hasLdapUsers: function () {
+        return app.ldapUsers.length > 0 ? 'hasLdapUsers' : '';
     },
     setSoundNotification: function(enable) {
         this.soundEnabled = enable;

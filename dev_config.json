@@ -16,5 +16,13 @@
         "muc": "chat.localhost",
         "startup": "",
         "admin": ""
+    },
+    "ldap": {
+        "address": "127.0.0.1",
+        "user": "cn=admin,dc=example.com",
+        "password": "password",
+        "base": "ou=users,dc=example.com",
+        "filter": "objectClass=person",
+        "group": "cn=mygroup,ou=groups,dc=example.com"
     }
 }

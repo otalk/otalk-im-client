@@ -1594,6 +1594,12 @@ button.secondary:hover:not(:disabled) {
   right: 200px;
   z-index: 101;
 }
+.main #ldapSettings {
+  display: none;
+}
+.main #ldapSettings.hasLdapUsers {
+  display: block;
+}
 .main > div {
   padding: 20px;
   border-bottom: 1px solid #e0e0e0;
@@ -1619,6 +1625,66 @@ button.secondary:hover:not(:disabled) {
 }
 .main > div .soundNotifs.secondary:before {
   content: 'Enable ';
+}
+.main > div #newLdapUser {
+  display: none;
+  width: 500px;
+  height: 20px;
+  padding: 3px;
+  font-size: 12px;
+}
+.main > div #newLdapUser.meIsAdmin {
+  display: inline-block;
+}
+.main > div #ldapUsers {
+  border-radius: 3px;
+  border: 1px solid #e0e0e0;
+  background: #f9f9f9;
+  list-style-type: none;
+  padding: 5px 5px 5px 8px;
+  line-height: 20px;
+}
+.main > div #ldapUsers .fa-plus,
+.main > div #ldapUsers .fa-minus,
+.main > div #ldapUsers .delete {
+  display: none;
+  margin-left: 5px;
+  cursor: pointer;
+  color: #000;
+}
+.main > div #ldapUsers .fa-plus:hover,
+.main > div #ldapUsers .fa-minus:hover,
+.main > div #ldapUsers .delete:hover {
+  color: #94b021;
+}
+.main > div #ldapUsers .fa-plus.meIsAdmin,
+.main > div #ldapUsers .fa-minus.meIsAdmin,
+.main > div #ldapUsers .delete.meIsAdmin {
+  display: inline-block;
+}
+.main > div #ldapUsers .delete:hover {
+  color: #f00;
+}
+.main > div #ldapUsers .wrap {
+  background: #f0f0f0;
+  border-radius: 3px;
+  border: 1px solid #e0e0e0;
+  padding: 5px;
+  font-size: 12px;
+  margin-bottom: 5px;
+  width: 502px;
+}
+.main > div #ldapUsers .wrap.meIsAdmin {
+  display: none;
+}
+.main > div #ldapUsers .wrap input {
+  width: 500px;
+  height: 20px;
+  padding: 3px;
+}
+.main > div #ldapUsers .wrap .changePassword {
+  margin-top: 4px;
+  margin-right: 4px;
 }
 .uploadRegion {
   padding: 15px;
