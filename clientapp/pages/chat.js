@@ -25,6 +25,7 @@ module.exports = BasePage.extend({
         this.listenTo(this.model, 'refresh', this.renderCollection);
 
         app.state.bind('change:connected', this.connectionChange, this);
+        this.model.bind('change:avatar', this.handleAvatarChanged, this);
 
         this.render();
     },
@@ -37,7 +38,6 @@ module.exports = BasePage.extend({
         'click .mute': 'handleMuteClick'
     },
     srcBindings: {
-        avatar: 'header .avatar',
         streamUrl: 'video.remote'
     },
     textBindings: {
@@ -233,6 +233,11 @@ module.exports = BasePage.extend({
         var resources = val || this.model.jingleResources;
         this.$('button.call').prop('disabled', !resources.length);
     },
+    handleAvatarChanged: function (contact, uri) {
+        if (!me.isMe(contact.jid)) {
+            $('.' + contact.jid.substr(0, contact.jid.indexOf('@')) + ' .messageAvatar img').attr('src', uri);
+        }
+    },
     appendModel: function (model, preload) {
         var newEl, first, last;
         var msgDate = Date.create(model.timestamp);
@@ -259,6 +264,7 @@ module.exports = BasePage.extend({
                 this.staydown.checkdown();
             } else {
                 newEl = $(model.templateHtml);
+                if (!me.isMe(model.sender.jid)) newEl.addClass(model.sender.jid.substr(0, model.sender.jid.indexOf('@')));
                 this.staydown.append(newEl[0]);
                 this.lastModel = model;
             }
@@ -283,6 +289,7 @@ module.exports = BasePage.extend({
                 first.addClass('chatGroup');
             } else {
                 newEl = $(model.templateHtml);
+                if (!me.isMe(model.sender.jid)) newEl.addClass(model.sender.jid.substr(0, model.sender.jid.indexOf('@')));
                 firstEl.after(newEl[0]);
                 this.firstModel = model;
             }

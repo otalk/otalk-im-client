@@ -9,6 +9,7 @@ var HumanModel = require('human-model');
 var Resources = require('./resources');
 var Messages = require('./messages');
 var Message = require('./message');
+var avatarHandler = require('../helpers/avatarHandler');
 
 module.exports = HumanModel.define({
     initialize: function (attrs) {
@@ -90,7 +91,7 @@ module.exports = HumanModel.define({
         return nickname != this.getName(jid) ? nickname : '';
     },
     getAvatar: function (jid) {
-        var avatar = "";
+        var avatar = avatarHandler.getGravatar('').uri;
         var xmppContact = me.getContact(jid.split('/')[1]);
         if (xmppContact) {
             avatar = xmppContact.avatar;

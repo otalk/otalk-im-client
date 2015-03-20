@@ -102,6 +102,10 @@ module.exports = {
                 cb();
             },
             function (cb) {
+                app.whenConnected(function () {
+                    me.publishAvatar();
+                });
+
                 function start() {
                     // start our router and show the appropriate page
                     app.history.start({pushState: true, root: '/'});

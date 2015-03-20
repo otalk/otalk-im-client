@@ -1,7 +1,6 @@
 /*global app, me, client, Resample*/
 "use strict";
 
-var crypto = require('crypto');
 var BasePage = require('./base');
 var templates = require('../templates');
 var LDAPUserItem = require('../views/ldapUserItem');
@@ -79,21 +78,7 @@ module.exports = BasePage.extend({
         if (file.type.match('image.*')) {
             var fileTracker = new FileReader();
             fileTracker.onload = function () {
-                var resampler = new Resample(this.result, 80, 80, function (data) {
-                    var b64Data = data.split(',')[1];
-                    var id = crypto.createHash('sha1').update(atob(b64Data)).digest('hex');
-                    app.storage.avatars.add({id: id, uri: data});
-                    client.publishAvatar(id, b64Data, function (err, res) {
-                        if (err) return;
-                        client.useAvatars([{
-                            id: id,
-                            width: 80,
-                            height: 80,
-                            type: 'image/png',
-                            bytes: b64Data.length
-                        }]);
-                    });
-                });
+                me.publishAvatar(this.result);
             };
             fileTracker.readAsDataURL(file);
         }

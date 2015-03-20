@@ -90,6 +90,7 @@ module.exports = BasePage.extend({
 
         this.listenTo(this, 'rosterItemClicked', this.rosterItemSelected);
         this.listenTo(this.model.messages, 'add', this.handleChatAdded);
+        this.listenTo(this.model.resources, 'add', this.handleResourceAdded);
 
         $(window).on('resize', _.bind(this.resizeInput, this));
 
@@ -113,6 +114,17 @@ module.exports = BasePage.extend({
     },
     handleChatAdded: function (model) {
         this.appendModel(model, true);
+    },
+    handleResourceAdded: function (model) {
+        var xmppContact = me.getContact(model.id.split('/')[1]);
+        if (xmppContact) {
+            xmppContact.bind('change:avatar', this.handleAvatarChanged, this);
+        }
+    },
+    handleAvatarChanged: function(contact, uri) {
+        if (!me.isMe(contact.jid)) {
+            $('.' + contact.jid.substr(0, contact.jid.indexOf('@')) + ' .messageAvatar img').attr('src', uri);
+        }
     },
     handlePageLoaded: function () {
         this.staydown.checkdown();
@@ -354,6 +366,7 @@ module.exports = BasePage.extend({
                 this.staydown.checkdown();
             } else {
                 newEl = $(model.templateHtml);
+                newEl.addClass(model.sender.getNickname(model.from.full));
                 this.staydown.append(newEl[0]);
                 this.lastModel = model;
             }
@@ -378,6 +391,7 @@ module.exports = BasePage.extend({
                 first.addClass('chatGroup');
             } else {
                 newEl = $(model.templateHtml);
+                newEl.addClass(model.sender.getNickname(model.from.full));
                 firstEl.after(newEl[0]);
                 this.firstModel = model;
             }

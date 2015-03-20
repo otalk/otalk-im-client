@@ -9,7 +9,8 @@ var Contact = require('./contact');
 var MUCs = require('./mucs');
 var MUC = require('./muc');
 var ContactRequests = require('./contactRequests');
-var fetchAvatar = require('../helpers/fetchAvatar');
+var avatarHandler = require('../helpers/avatarHandler');
+var crypto = require('crypto');
 
 module.exports = HumanModel.define({
     initialize: function (opts) {
@@ -105,10 +106,32 @@ module.exports = HumanModel.define({
         return this.avatar;
     },
     setAvatar: function (id, type, source) {
+        if (!this.avatar) this.avatar = avatarHandler.getGravatar('').uri;
+
         var self = this;
-        fetchAvatar('', id, type, source, function (avatar) {
+        avatarHandler.fetch('', id, type, source, function (avatar) {
             self.avatarID = avatar.id;
             self.avatar = avatar.uri;
+        });
+    },
+    publishAvatar: function (data) {
+        if (!data) data = this.avatar;
+        if (!data || data.indexOf('https://') != -1) return;
+
+        var resampler = new Resample(data, 80, 80, function (data) {
+            var b64Data = data.split(',')[1];
+            var id = crypto.createHash('sha1').update(atob(b64Data)).digest('hex');
+            app.storage.avatars.add({id: id, uri: data});
+            client.publishAvatar(id, b64Data, function (err, res) {
+                if (err) return;
+                client.useAvatars([{
+                  id: id,
+                  width: 80,
+                  height: 80,
+                  type: 'image/png',
+                  bytes: b64Data.length
+                }]);
+            });
         });
     },
     hasLdapUsers: function () {
