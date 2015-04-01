@@ -1,0 +1,28 @@
+{
+    "isDev": true,
+    "http": {
+        "baseUrl": "http://localhost:8000",
+        "port": 8000,
+        "key": "./fakekeys/privatekey.pem",
+        "cert": "./fakekeys/certificate.pem"
+    },
+    "session": {
+        "secret": "shhhhhh don't tell anyone ok?"
+    },
+    "server": {
+        "name": "{{XMPP_NAME}}",
+        "domain": "{{XMPP_DOMAIN}}",
+        "wss": "{{XMPP_WSS}}",
+        "muc": "{{XMPP_MUC}}",
+        "startup": "{{XMPP_STARTUP}}",
+        "admin": "{{XMPP_ADMIN}}"
+    },
+    "ldap": {
+        "address": "{{LDAP_HOST}}",
+        "user": "{{LDAP_DN}}",
+        "password": "{{LDAP_PWD}}",
+        "base": "ou=users,{{LDAP_BASE}}",
+        "filter": "objectClass=person",
+        "group": "cn={{LDAP_GROUP}},ou=groups,{{LDAP_BASE}}"
+    }
+}
