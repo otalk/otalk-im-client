@@ -131,7 +131,7 @@ module.exports = BasePage.extend({
         this.resizeInput();
     },
     handleKeyDown: function (e) {
-        if (e.which === 13 && !e.shiftKey) {
+        if ((e.which === 13 || e.which === 9) && !e.shiftKey) { // Enter or Tab
             if (this.$autoComplete.css('display') != 'none') {
                 var nickname = this.$autoComplete.find(">:nth-child(" + this.autoCompletePos + ")>:first-child").text();
                 this.rosterItemSelected(nickname);
