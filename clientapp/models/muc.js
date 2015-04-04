@@ -101,20 +101,21 @@ module.exports = HumanModel.define({
     addMessage: function (message, notify) {
         message.owner = me.jid.bare;
 
+        var mentions = [];
+        this.resources.forEach(function (resource) {
+            if (message.body.toLowerCase().indexOf('@' + resource.mucDisplayName) >= 0) {
+                mentions.push('@' + resource.mucDisplayName);
+            }
+        });
+        if (message.body.toLowerCase().indexOf('@all') >= 0) {
+            mentions.push('@all');
+        }
+        message.mentions = mentions;
+
         var mine = message.from.resource === this.nick;
 
         if (mine) {
             message._mucMine = true;
-        }
-        else {
-            var mentions = [];
-            if (message.body.toLowerCase().indexOf('@' + this.nick.toLowerCase()) >= 0) {
-                mentions.push('@' + this.nick);
-            }
-            if (message.body.toLowerCase().indexOf('@all') >= 0) {
-                mentions.push('@all');
-            }
-            message.mentions = mentions;
         }
 
         if (notify && (!this.activeContact || (this.activeContact && !app.state.focused)) && !mine) {
