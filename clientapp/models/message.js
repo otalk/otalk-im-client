@@ -126,9 +126,9 @@ var Message = module.exports = HumanModel.define({
             cache: false,
             fn: function () {
                 if (this.type === 'groupchat') {
-                    return templates.includes.mucBareMessage({message: this});
+                    return templates.includes.mucBareMessage({message: this, messageDate: Date.create(this.timestamp), hasParent: false});
                 } else {
-                    return templates.includes.bareMessage({message: this});
+                    return templates.includes.bareMessage({message: this, messageDate: Date.create(this.timestamp), hasParent: false});
                 }
             }
         },
@@ -137,9 +137,9 @@ var Message = module.exports = HumanModel.define({
             cache: false,
             fn: function () {
                 if (this.type === 'groupchat') {
-                    return templates.includes.mucWrappedMessage({message: this});
+                    return templates.includes.mucWrappedMessage({message: this, messageDate: Date.create(this.timestamp), hasParent: true});
                 } else {
-                    return templates.includes.wrappedMessage({message: this});
+                    return templates.includes.wrappedMessage({message: this, messageDate: Date.create(this.timestamp), hasParent: true});
                 }
             }
         },

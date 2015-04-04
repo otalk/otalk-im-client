@@ -31,13 +31,22 @@ exports.head = function anonymous(locals) {
 exports.includes.bareMessage = function anonymous(locals) {
     var buf = [];
     with (locals || {}) {
+        var messageClasses = message.classList;
+        if (hasParent) {
+            messageClasses += " first";
+        }
         buf.push("<div" + jade.attrs({
             id: "chat" + message.cid,
-            "class": "message" + " " + message.classList
+            "class": "message" + " " + messageClasses
         }, {
             "class": true,
             id: true
-        }) + '><p class="body">' + ((jade.interp = message.processedBody) == null ? "" : jade.interp) + "</p>");
+        }) + "><div" + jade.attrs({
+            title: messageDate.format("{Dow}, {MM}/{dd}/{yyyy} - {h}:{mm} {Tt}"),
+            "class": "date"
+        }, {
+            title: true
+        }) + ">" + jade.escape((jade.interp = messageDate.format("{h}:{mm} {tt}")) == null ? "" : jade.interp) + '</div><p class="body">' + ((jade.interp = message.processedBody) == null ? "" : jade.interp) + "</p>");
         var urls = message.urls;
         buf.push('<section class="embeds">');
         (function() {
@@ -238,13 +247,22 @@ exports.includes.messageGroup = function anonymous(locals) {
 exports.includes.mucBareMessage = function anonymous(locals) {
     var buf = [];
     with (locals || {}) {
+        var messageClasses = message.classList;
+        if (hasParent) {
+            messageClasses += " first";
+        }
         buf.push("<div" + jade.attrs({
             id: "chat" + message.cid,
-            "class": "message" + " " + message.classList
+            "class": "message" + " " + messageClasses
         }, {
             "class": true,
             id: true
-        }) + '><p class="body">' + ((jade.interp = message.processedBody) == null ? "" : jade.interp) + "</p>");
+        }) + "><div" + jade.attrs({
+            title: messageDate.format("{Dow}, {MM}/{dd}/{yyyy} - {h}:{mm} {Tt}"),
+            "class": "date"
+        }, {
+            title: true
+        }) + ">" + jade.escape((jade.interp = messageDate.format("{h}:{mm} {tt}")) == null ? "" : jade.interp) + '</div><p class="body">' + ((jade.interp = message.processedBody) == null ? "" : jade.interp) + "</p>");
         var urls = message.urls;
         buf.push('<section class="embeds">');
         (function() {
@@ -320,7 +338,6 @@ exports.includes.mucRosterItem = function anonymous(locals) {
 exports.includes.mucWrappedMessage = function anonymous(locals) {
     var buf = [];
     with (locals || {}) {
-        var messageDate = Date.create(message.timestamp);
         buf.push('<li><div class="sender"><a href="#" class="messageAvatar"><img' + jade.attrs({
             src: message.sender.getAvatar(message.from.full),
             alt: message.from.resource,
@@ -334,13 +351,23 @@ exports.includes.mucWrappedMessage = function anonymous(locals) {
             "class": "date"
         }, {
             title: true
-        }) + ">" + jade.escape((jade.interp = messageDate.format("{h}:{mm} {tt}")) == null ? "" : jade.interp) + "</div></div><div" + jade.attrs({
+        }) + ">" + jade.escape((jade.interp = messageDate.format("{h}:{mm} {tt}")) == null ? "" : jade.interp) + "</div></div>");
+        var messageClasses = message.classList;
+        if (hasParent) {
+            messageClasses += " first";
+        }
+        buf.push("<div" + jade.attrs({
             id: "chat" + message.cid,
-            "class": "message" + " " + message.classList
+            "class": "message" + " " + messageClasses
         }, {
             "class": true,
             id: true
-        }) + '><p class="body">' + ((jade.interp = message.processedBody) == null ? "" : jade.interp) + "</p>");
+        }) + "><div" + jade.attrs({
+            title: messageDate.format("{Dow}, {MM}/{dd}/{yyyy} - {h}:{mm} {Tt}"),
+            "class": "date"
+        }, {
+            title: true
+        }) + ">" + jade.escape((jade.interp = messageDate.format("{h}:{mm} {tt}")) == null ? "" : jade.interp) + '</div><p class="body">' + ((jade.interp = message.processedBody) == null ? "" : jade.interp) + "</p>");
         var urls = message.urls;
         buf.push('<section class="embeds">');
         (function() {
@@ -398,7 +425,6 @@ exports.includes.mucWrappedMessage = function anonymous(locals) {
 exports.includes.wrappedMessage = function anonymous(locals) {
     var buf = [];
     with (locals || {}) {
-        var messageDate = Date.create(message.timestamp);
         buf.push('<li><div class="sender"><a href="#" class="messageAvatar"><img' + jade.attrs({
             src: message.sender.avatar,
             alt: message.sender.displayName,
@@ -412,13 +438,23 @@ exports.includes.wrappedMessage = function anonymous(locals) {
             "class": "date"
         }, {
             title: true
-        }) + ">" + jade.escape((jade.interp = messageDate.format("{h}:{mm} {tt}")) == null ? "" : jade.interp) + "</div></div><div" + jade.attrs({
+        }) + ">" + jade.escape((jade.interp = messageDate.format("{h}:{mm} {tt}")) == null ? "" : jade.interp) + "</div></div>");
+        var messageClasses = message.classList;
+        if (hasParent) {
+            messageClasses += " first";
+        }
+        buf.push("<div" + jade.attrs({
             id: "chat" + message.cid,
-            "class": "message" + " " + message.classList
+            "class": "message" + " " + messageClasses
         }, {
             "class": true,
             id: true
-        }) + '><p class="body">' + ((jade.interp = message.processedBody) == null ? "" : jade.interp) + "</p>");
+        }) + "><div" + jade.attrs({
+            title: messageDate.format("{Dow}, {MM}/{dd}/{yyyy} - {h}:{mm} {Tt}"),
+            "class": "date"
+        }, {
+            title: true
+        }) + ">" + jade.escape((jade.interp = messageDate.format("{h}:{mm} {tt}")) == null ? "" : jade.interp) + '</div><p class="body">' + ((jade.interp = message.processedBody) == null ? "" : jade.interp) + "</p>");
         var urls = message.urls;
         buf.push('<section class="embeds">');
         (function() {

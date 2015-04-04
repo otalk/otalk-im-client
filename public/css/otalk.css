@@ -1391,6 +1391,9 @@ button.secondary:hover:not(:disabled) {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
+.messages .message:hover:not(.first) .date {
+  visibility: visible;
+}
 .messages .message:not(.mine) {
   color: #555459;
 }
@@ -1414,9 +1417,23 @@ button.secondary:hover:not(:disabled) {
   font-style: normal;
   color: #88d5f7;
 }
+.messages .message .date {
+  display: inline-block;
+  color: #babbbf;
+  font-size: 12px;
+  width: 60px;
+  line-height: 22px;
+  text-transform: uppercase;
+  cursor: pointer;
+  position: relative;
+  left: -50px;
+  visibility: hidden;
+}
 .messages .message .body {
   display: inline;
   word-break: break-word;
+  position: relative;
+  left: -60px;
 }
 .messages .message .body .mention {
   color: #ec008c;

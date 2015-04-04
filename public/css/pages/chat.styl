@@ -415,6 +415,10 @@
     width: 100%
     borderbox()
 
+    &:hover
+      &:not(.first) .date
+        visibility: visible
+
     &:not(.mine)
       color: $gray-dark
 
@@ -438,9 +442,23 @@
         font-style: normal
         color: $blue-light
 
+    .date
+      display: inline-block
+      color: $gray-light
+      font-size: $font-size-small
+      width: 60px
+      line-height: 22px
+      text-transform: uppercase
+      cursor: pointer
+      position: relative
+      left: -50px
+      visibility: hidden
+
     .body
       display: inline
       word-break: break-word
+      position: relative
+      left: -60px
 
       .mention
         color: $pink
