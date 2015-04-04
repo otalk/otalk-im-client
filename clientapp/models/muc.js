@@ -279,5 +279,19 @@ module.exports = HumanModel.define({
     leave: function () {
         this.resources.reset();
         client.leaveRoom(this.jid, this.nick);
+    },
+    destroy: function (cb) {
+        client.sendIq({
+            type: 'set',
+            to: this.jid,
+            mucOwner: {
+            destroy: {
+                jid: this.jid,
+                password: '',
+                reason: ''
+            } }
+        }, function (err, res) {
+            cb(err);
+        });
     }
 });
