@@ -699,13 +699,13 @@
                     from: 'htmlstring'
                 }
             }),
-        new $.fn.oembed.OEmbedProvider("gravtar", "photo", ["mailto:.+"], null,
+        /*new $.fn.oembed.OEmbedProvider("gravatar", "photo", ["mailto:.+"], null,
             {
-                templateRegex: /mailto:([^\/]+).*/,
+                templateRegex: /mailto:([^\/]+).,
                 template: function (wm, email) {
                     return '<img src="https://gravatar.com/avatar/' + email.md5() + '.jpg" alt="on Gravtar" class="jqoaImg">';
                 }
-            }),
+            }),*/
         new $.fn.oembed.OEmbedProvider("achewood", "photo", ["achewood\\.com\\/index.php\\?date=.+"], "http://www.achewood.com/comic.php?date=$1", {templateRegex: /.*achewood\.com\/index.php\?date=(\w+).*/, embedtag: {tag: 'iframe', width: 480, height: 360 }, nocache: 1}),
         new $.fn.oembed.OEmbedProvider("fotokritik", "photo", ["fotokritik\\.com/.+"], "http://www.fotokritik.com/embed/$1", {templateRegex: [/.*fotokritik\.com\/embed\/(\w+).*/, /.*fotokritik\.com\/(\w+).*/], embedtag: {tag: 'iframe', width: 480, height: 360 }, nocache: 1}),
         new $.fn.oembed.OEmbedProvider("giflike", "photo", ["giflike\\.com/.+"], "http://www.giflike.com/embed/$1", {templateRegex: [/.*giflike\.com\/embed\/(\w+).*/, /.*giflike\.com\/a\/(\w+).*/], embedtag: {tag: 'iframe', width: 480, height: 360 }, nocache: 1}),
