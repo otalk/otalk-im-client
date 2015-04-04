@@ -175,6 +175,19 @@ module.exports = HumanModel.define({
                 return 'gone';
             }
         },
+        chatStateText: {
+            deps: ['topResource', 'lockedResource', '_forceUpdate'],
+            fn: function () {
+                var chatState = this.chatState;
+                if (chatState == 'composing')
+                    return this.displayName + ' is composing';
+                else if (chatState == 'paused')
+                    return this.displayName + ' stopped writting';
+                else if (chatState == 'gone')
+                    return this.displayName + ' is gone';
+                return '';
+            }
+        },
         supportsReceipts: {
             deps: ['lockedResource', '_forceUpdate'],
             fn: function () {
@@ -188,7 +201,7 @@ module.exports = HumanModel.define({
             fn: function () {
                 if (!this.lockedResource) return false;
                 var res = this.resources.get(this.lockedResource);
-                return res.supportsChatStates;
+                return res && res.supportsChatStates;
             }
         },
         hasUnread: {

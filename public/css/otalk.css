@@ -953,6 +953,12 @@ button.secondary:hover:not(:disabled) {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
+.conversation .contactState {
+  position: relative;
+  left: 24px;
+  color: #babbbf;
+  font-size: 12px;
+}
 .conversation header {
   padding: 0px;
   position: fixed;

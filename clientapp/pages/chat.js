@@ -43,7 +43,8 @@ module.exports = BasePage.extend({
     textBindings: {
         displayName: 'header .name',
         formattedTZO: 'header .tzo',
-        status: 'header .status'
+        status: 'header .status',
+        chatStateText: '.chatBox .contactState'
     },
     classBindings: {
         chatState: 'header',
@@ -166,7 +167,7 @@ module.exports = BasePage.extend({
         }
     }, 3000),
     sendChatState: function (state) {
-        if (!this.model.supportsChatStates) return;
+        //if (!this.model.supportsChatStates) return;
         client.sendMessage({
             to: this.model.lockedResource || this.model.jid,
             chatState: state
