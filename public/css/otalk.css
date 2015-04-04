@@ -1432,7 +1432,7 @@ button.secondary:hover:not(:disabled) {
   text-transform: uppercase;
   cursor: pointer;
   position: relative;
-  left: -50px;
+  left: -55px;
   visibility: hidden;
 }
 .messages .message .body {
