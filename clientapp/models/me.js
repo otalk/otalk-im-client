@@ -173,9 +173,12 @@ module.exports = HumanModel.define({
         }
     },
     removeContact: function (jid) {
-        var contact = this.getContact(jid);
-        this.contacts.remove(contact.jid);
-        app.storage.roster.remove(contact.storageId);
+        var self = this;
+        client.removeRosterItem(jid, function(err, res) {
+            var contact = self.getContact(jid);
+            self.contacts.remove(contact.jid);
+            app.storage.roster.remove(contact.storageId);
+        });
     },
     load: function () {
         if (!this.jid.bare) return;
