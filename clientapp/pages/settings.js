@@ -27,6 +27,7 @@ module.exports = BasePage.extend({
         'drop': 'handleAvatarChange',
         'change #uploader': 'handleAvatarChange',
         'keydown #newLdapUser': 'addLdapUser',
+        'click .disconnect': 'handleDisconnect'
     },
     initialize: function (spec) {
         this.listenTo(this, 'deleteLdapUser', this.deleteLdapUser);
@@ -95,5 +96,8 @@ module.exports = BasePage.extend({
     },
     deleteLdapUser: function (id) {
         app.ldapUsers.deleteUser(id);
+    },
+    handleDisconnect: function (e) {
+        client.disconnect();
     }
 });

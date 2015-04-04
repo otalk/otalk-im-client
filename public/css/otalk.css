@@ -1639,9 +1639,10 @@ button.secondary:hover:not(:disabled) {
   max-height: 50px;
   height: auto;
 }
+.main > div .enableAlerts,
 .main > div .installFirefox,
 .main > div .soundNotifs {
-  margin-left: 5px;
+  margin-right: 5px;
 }
 .main > div .soundNotifs.primary:before {
   content: 'Disable ';
@@ -1726,6 +1727,10 @@ button.secondary:hover:not(:disabled) {
 }
 .uploadRegion img {
   margin: 10px 0;
+}
+.disconnect,
+.logout {
+  margin-right: 5px;
 }
 .aux {
   background: #fafafb;
