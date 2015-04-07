@@ -226,7 +226,7 @@ module.exports = BasePage.extend({
     },
     refreshModel: function (model) {
         var existing = this.$('#chat' + model.cid);
-        existing.replaceWith(model.partialTemplateHtml);
+        existing.replaceWith(model.bareMessageTemplate(existing.prev().hasClass('message_header')));
         existing = this.$('#chat' + model.cid);
         embedIt(existing);
     },

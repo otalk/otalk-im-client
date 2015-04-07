@@ -125,11 +125,7 @@ var Message = module.exports = HumanModel.define({
             deps: ['edited', 'pending', 'body', 'urls'],
             cache: false,
             fn: function () {
-                if (this.type === 'groupchat') {
-                    return templates.includes.mucBareMessage({message: this, messageDate: Date.create(this.timestamp), hasParent: false});
-                } else {
-                    return templates.includes.bareMessage({message: this, messageDate: Date.create(this.timestamp), hasParent: false});
-                }
+                return this.bareMessageTemplate(false);
             }
         },
         templateHtml: {
@@ -137,9 +133,9 @@ var Message = module.exports = HumanModel.define({
             cache: false,
             fn: function () {
                 if (this.type === 'groupchat') {
-                    return templates.includes.mucWrappedMessage({message: this, messageDate: Date.create(this.timestamp), hasParent: true});
+                    return templates.includes.mucWrappedMessage({message: this, messageDate: Date.create(this.timestamp), firstEl: true});
                 } else {
-                    return templates.includes.wrappedMessage({message: this, messageDate: Date.create(this.timestamp), hasParent: true});
+                    return templates.includes.wrappedMessage({message: this, messageDate: Date.create(this.timestamp), firstEl: true});
                 }
             }
         },
@@ -216,6 +212,13 @@ var Message = module.exports = HumanModel.define({
         this.save();
 
         return true;
+    },
+    bareMessageTemplate: function (firstEl) {
+        if (this.type === 'groupchat') {
+            return templates.includes.mucBareMessage({message: this, messageDate: Date.create(this.timestamp), firstEl: firstEl});
+        } else {
+            return templates.includes.bareMessage({message: this, messageDate: Date.create(this.timestamp), firstEl: firstEl});
+        }
     },
     save: function () {
         if (this.mid) {

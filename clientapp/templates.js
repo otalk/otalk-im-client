@@ -32,7 +32,7 @@ exports.includes.bareMessage = function anonymous(locals) {
     var buf = [];
     with (locals || {}) {
         var messageClasses = message.classList;
-        if (hasParent) {
+        if (firstEl) {
             messageClasses += " first";
         }
         buf.push("<div" + jade.attrs({
@@ -248,7 +248,7 @@ exports.includes.mucBareMessage = function anonymous(locals) {
     var buf = [];
     with (locals || {}) {
         var messageClasses = message.classList;
-        if (hasParent) {
+        if (firstEl) {
             messageClasses += " first";
         }
         buf.push("<div" + jade.attrs({
@@ -353,7 +353,7 @@ exports.includes.mucWrappedMessage = function anonymous(locals) {
             title: true
         }) + ">" + jade.escape((jade.interp = messageDate.format("{h}:{mm} {tt}")) == null ? "" : jade.interp) + "</div></div>");
         var messageClasses = message.classList;
-        if (hasParent) {
+        if (firstEl) {
             messageClasses += " first";
         }
         buf.push("<div" + jade.attrs({
@@ -440,7 +440,7 @@ exports.includes.wrappedMessage = function anonymous(locals) {
             title: true
         }) + ">" + jade.escape((jade.interp = messageDate.format("{h}:{mm} {tt}")) == null ? "" : jade.interp) + "</div></div>");
         var messageClasses = message.classList;
-        if (hasParent) {
+        if (firstEl) {
             messageClasses += " first";
         }
         buf.push("<div" + jade.attrs({
