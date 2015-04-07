@@ -1436,10 +1436,12 @@ button.secondary:hover:not(:disabled) {
   visibility: hidden;
 }
 .messages .message .body {
-  display: inline;
+  display: inline-block;
   word-break: break-word;
   position: relative;
   left: -60px;
+  margin: 0;
+  padding: 0;
 }
 .messages .message .body .mention {
   color: #ec008c;
