@@ -307,7 +307,7 @@ module.exports = BasePage.extend({
                 this.model.lastSentMessage.correct(message);
             } else {
                 var msgModel = new MessageModel(message);
-                this.model.addMessage(msgModel);
+                this.model.addMessage(msgModel, false);
                 this.model.lastSentMessage = msgModel;
             }
         }

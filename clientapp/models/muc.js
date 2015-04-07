@@ -101,10 +101,15 @@ module.exports = HumanModel.define({
     addMessage: function (message, notify) {
         message.owner = me.jid.bare;
 
+        var self = this;
+
         var mentions = [];
+        var toMe = false;
         this.resources.forEach(function (resource) {
             if (message.body.toLowerCase().indexOf('@' + resource.mucDisplayName) >= 0) {
                 mentions.push('@' + resource.mucDisplayName);
+                if (resource.mucDisplayName === self.nick)
+                    toMe = true;
             }
         });
         if (message.body.toLowerCase().indexOf('@all') >= 0) {
@@ -120,7 +125,7 @@ module.exports = HumanModel.define({
 
         if (notify && (!this.activeContact || (this.activeContact && !app.state.focused)) && !mine) {
             this.unreadCount++;
-            if (message.mentions.length) {
+            if (toMe) {
                 app.notifications.create(this.displayName, {
                     body: message.body,
                     icon: this.avatar,
