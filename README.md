@@ -1,10 +1,8 @@
 # Kaiwa
 
-Kaiwa is a fork a otalk by &yet (http://andyet.com/)
-Note: See also https://github.com/otalk for more code
+Kaiwa is an open source web client for XMPP.
 
-## What is it?
-Kaiwa is an open source chat client powered by [XMPP](http://xmpp.org) and [stanza.io](https://github.com/legastero/stanza.io). You can think of it as an open source alternative to Skype.
+Kaiwa is a fork of otalk by &yet (https://github.com/otalk for more code).
 
 ## Installing
 
@@ -13,7 +11,7 @@ Kaiwa is an open source chat client powered by [XMPP](http://xmpp.org) and [stan
     npm install
     node server
 
-You can also run your own [XMPP server](https://github.com/digicoop/kaiwa-server).
+You will need an XMPP to use Kaiwa. We provide one at [Kaiwa server](https://github.com/digicoop/kaiwa-server).
 
 *Note:* If you're running your own XMPP server, and aren't using something like HAProxy to terminate SSL, then you might get errors in certain browsers trying to establish a WebSocket connection because the XMPP server is requesting an optional client certificate which makes the browser terminate the socket. To resolve that, visit the XMPP over Websocket URL directly (eg, example.com:5281/xmpp-websocket for Prosody) so that a client cert choice can be made. After that, the Kaiwa client should connect fine.
 
