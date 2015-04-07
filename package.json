@@ -1,7 +1,7 @@
 {
-  "name": "otalk.im",
-  "description": "Otalk: WebRTC Enabled XMPP Client, in the Browser",
-  "version": "0.0.50",
+  "name": "kaiwa.im",
+  "description": "Kaiwa: XMPP Client in the Browser",
+  "version": "1.0.0",
   "browser": {
     "crypto": "crypto-browserify"
   },
@@ -45,6 +45,6 @@
   "private": true,
   "repository": {
     "type": "git",
-    "url": "git@github.com:andyet/otalk.git"
+    "url": "git@github.com:digicoop/kaiwa.git"
   }
 }

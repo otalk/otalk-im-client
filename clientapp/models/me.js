@@ -68,7 +68,7 @@ module.exports = HumanModel.define({
         organization: {
             deps: ['orga'],
             fn: function () {
-                return app.serverConfig().name || 'Otalk';
+                return app.serverConfig().name || 'Kaiwa';
             }
         },
         soundEnabledClass: {
