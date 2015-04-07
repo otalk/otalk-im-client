@@ -182,7 +182,7 @@ module.exports = HumanModel.define({
                 if (chatState == 'composing')
                     return this.displayName + ' is composing';
                 else if (chatState == 'paused')
-                    return this.displayName + ' stopped writting';
+                    return this.displayName + ' stopped writing';
                 else if (chatState == 'gone')
                     return this.displayName + ' is gone';
                 return '';
