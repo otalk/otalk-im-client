@@ -34,9 +34,9 @@ RUN apt-get update && apt-get install -y --force-yes nodejs git-core libldap2-de
 
 RUN apt-get remove -y --force-yes nodejs && apt-get install -y --force-yes nodejs-legacy npm
 
-RUN git clone git://github.com/digicoop/otalk.git
+RUN git clone git://github.com/digicoop/kaiwa.git
 
-RUN cd otalk && npm install
+RUN cd kaiwa && npm install
 
 ADD app /app
 
