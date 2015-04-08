@@ -22,11 +22,11 @@ sed 's/{{LDAP_DN}}/'"${LDAP_DN}"'/' -i /app/config/dev_config.json
 sed 's/{{LDAP_PWD}}/'"${LDAP_PWD}"'/' -i /app/config/dev_config.json
 sed 's/{{LDAP_GROUP}}/'"${LDAP_GROUP}"'/' -i /app/config/dev_config.json
 
-cp /app/config/dev_config.json /otalk
+cp /app/config/dev_config.json /kaiwa
 
-echo "Configuring otalk..."
+echo "Configuring kaiwa..."
 
-cd otalk
+cd kaiwa
 
 cp /app/stanza.io/websocket.js node_modules/stanza.io/lib/transports
 cp /app/stanza.io/index-browser.js node_modules/stanza.io/lib/plugins

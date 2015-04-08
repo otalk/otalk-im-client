@@ -3,7 +3,7 @@ FROM ubuntu:14.04
 ENV DEBIAN_FRONTEND noninteractive
 ENV HOME /root
 
-ENV XMPP_NAME Otalk
+ENV XMPP_NAME Kaiwa
 ENV XMPP_DOMAIN example.com
 ENV XMPP_WSS wss://example.com:5281/xmpp-websocket/
 ENV XMPP_MUC chat.example.com
