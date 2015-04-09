@@ -786,8 +786,8 @@ button.secondary:hover:not(:disabled) {
   margin-top: -10px;
   vertical-align: middle;
   position: absolute;
-  right: 28px;
-  top: 21px;
+  top: 28px;
+  left: 37px;
 }
 #roster li .user,
 #bookmarks li .user {
@@ -795,7 +795,7 @@ button.secondary:hover:not(:disabled) {
   width: 170px;
   overflow: hidden;
   text-overflow: ellipsis;
-  height: 20px;
+  height: 22px;
   font-style: italic;
 }
 #roster li .status,
@@ -814,8 +814,8 @@ button.secondary:hover:not(:disabled) {
 }
 #roster li .avatar,
 #bookmarks li .avatar {
-  width: 16px;
-  height: 16px;
+  width: 20px;
+  height: 20px;
   -moz-border-radius: 0.2rem;
   -webkit-border-radius: 0.2rem;
   -khtml-border-radius: 0.2rem;
@@ -825,8 +825,8 @@ button.secondary:hover:not(:disabled) {
   border-radius: 50%;
   margin: 0;
   padding: 0;
-  margin-right: 5px;
-  margin-top: 4px;
+  margin-right: 10px;
+  margin-top: 2px;
 }
 #roster li .name,
 #bookmarks li .name {
