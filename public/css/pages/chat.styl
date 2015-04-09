@@ -367,6 +367,11 @@
     vertical-align: top
     position: relative
 
+    &:hover
+      .date
+        color: $gray
+        font-weight: bolder
+
     .message_header
 
       .name
@@ -440,22 +445,18 @@
         color: $blue-light
 
     .date
-      display: inline-block
       color: $gray-light
       font-size: $font-size-small
       width: 60px
       line-height: 22px
       text-transform: uppercase
       cursor: pointer
-      position: relative
-      left: -55px
+      position: absolute
+      left: -40px
       visibility: hidden
 
     .body
-      display: inline-block
       word-break: break-word
-      position: relative
-      left: -60px
       margin: 0
       padding: 0
 

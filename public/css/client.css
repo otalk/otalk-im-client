@@ -1362,6 +1362,10 @@ button.secondary:hover:not(:disabled) {
   vertical-align: top;
   position: relative;
 }
+.messages .messageWrapper:hover .date {
+  color: #9e9ea6;
+  font-weight: bolder;
+}
 .messages .messageWrapper .message_header .name {
   display: inline-block;
   margin-right: 0.25rem;
@@ -1437,22 +1441,18 @@ button.secondary:hover:not(:disabled) {
   color: #88d5f7;
 }
 .messages .message .date {
-  display: inline-block;
   color: #babbbf;
   font-size: 12px;
   width: 60px;
   line-height: 22px;
   text-transform: uppercase;
   cursor: pointer;
-  position: relative;
-  left: -55px;
+  position: absolute;
+  left: -40px;
   visibility: hidden;
 }
 .messages .message .body {
-  display: inline-block;
   word-break: break-word;
-  position: relative;
-  left: -60px;
   margin: 0;
   padding: 0;
 }
