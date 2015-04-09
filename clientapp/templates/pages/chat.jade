@@ -2,7 +2,6 @@ section.page.chat
   section.conversation
     header
       .title
-        span.prefix @
         span.name
         i.user_presence.fa.fa-circle
         span.status
@@ -19,7 +18,7 @@ section.page.chat
             button.mute Mute
             button.unmute Unmute
     .chatBox
+      .contactState
       form.formwrap
         textarea(name='chatInput', type='text', placeholder='Send a message...', autocomplete='off')
       button.primary.small.call Call
-      .contactState
