@@ -21,7 +21,7 @@ Kaiwa comes with support for:
 
 ### Message History Syncing
 
-Using Message Archive Management (MAM, [XEP-0313](http://xmpp.org/extension/xep-0313.html)), your conversations can be archived by your server and pulled down by the Kaiwa client on demand.
+Using Message Archive Management (MAM, [XEP-0313](http://xmpp.org/extensions/xep-0313.html)), your conversations can be archived by your server and pulled down by the Kaiwa client on demand.
 
 ### Active Chat Syncing
 
