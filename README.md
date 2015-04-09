@@ -1,13 +1,15 @@
 # Kaiwa
 
-Kaiwa is an open source web client for XMPP.
-
+Kaiwa is an open source web client for XMPP.  
 Kaiwa is a fork of otalk by &yet (https://github.com/otalk for more code).
+
+![Screenshot](http://getkaiwa.com/assets/img/header.png)
 
 ## Installing
 
     git clone https://github.com/digicoop/kaiwa.git
     cd kaiwa
+    sudo apt-get install libldap2-dev uuid-dev
     npm install
     node server
 
