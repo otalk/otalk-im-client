@@ -23,9 +23,9 @@
     position: fixed
     top: 0px
     right: 0px
-    left: 220px
+    left: 230px
     right: 200px
-    height: 55px
+    height: 42px
     z-index: 101
 
     .title
@@ -34,7 +34,7 @@
       top: 0px
       white-space: nowrap
       display: inline-block
-      height: 53px
+      height: 42px
 
     .prefix, .name, .user_presence, .channel_actions, .status
       display: inline-block
@@ -43,13 +43,13 @@
       text-rendering: optimizelegibility
       top: 0px
       vertical-align: middle
+      line-height: 42px
 
     .prefix
       color: $gray
       font-size: $font-size-h2
       font-weight: $font-weight-classic
       margin-left: 25px
-      line-height: 53px
       cursor: default
 
     .name
@@ -57,14 +57,13 @@
       font-weight: $font-weight-bolder
       overflow: hidden
       text-overflow: ellipsis
-      padding-left: 3px
-      line-height: 53px
+      padding-left: 20px
       cursor: default
+      color: $topbarFg
 
     .user_presence, .channel_actions
       color: $gray
       padding-left: 8px
-      line-height: 53px
       cursor: default
 
     .user_presence
@@ -106,7 +105,6 @@
       font-size: $font-size-h3
       line-height: 18px
       margin-left: 15px
-      padding-top: 5px
       white-space: nowrap
       overflow: hidden
       text-overflow: ellipsis
@@ -194,8 +192,7 @@
     bottom: 0px
     position: fixed
     right: 0px
-    left: 221px
-    height: 4rem
+    left: 230px
     z-index: 302
     transition: none
     -webkit-transition: none
@@ -204,7 +201,7 @@
       display: none
       position: fixed
       left: 245px
-      bottom: 64px
+      bottom: 46px
       border: 2px solid #ddd
       border-bottom: 0
       border-radius: 0.25rem 0.25rem 0 0
@@ -235,30 +232,24 @@
       transition: none
       -webkit-transition: none
       position: relative
-      height:38px
-      left: 24px
-      margin-right: 50px
 
     textarea
       display: inline-block
       vertical-align: middle
       background: none repeat scroll 0% 0% padding-box #fff
       font-size: 13px
-      border-width: 2px
-      border-style: solid
-      border-color: $gray-lighter
-      border-image: none
-      border-radius: 0px 0.2rem 0.2rem 0px
+      border: 0
+      border-top: 2px solid $gray-lighter
+      border-radius: 0
       font-family: "Lato",sans-serif
       margin: 0
       color: #3D3C40
       overflow-y: auto
       box-shadow: none
       outline: 0px none
-      position: absolute
       bottom: 0px
-      height: 38px
-      padding: 9px 5px 9px 8px
+      height: 44px;
+      padding: 13px 24px
       max-height: 102px
       resize: none !important
 
@@ -285,8 +276,8 @@
   position: absolute
   top: 0px
   right: 0px
-  bottom: 4rem
-  margin-top: 54px
+  bottom: 59px
+  margin-top: 43px
   width: 100%
   borderbox()
   -webkit-overflow-scrolling: touch
@@ -295,14 +286,13 @@
     display: block
     background: none repeat scroll 0% 0% #fff
     font-size: 1rem
-    color: #555459
-    font-weight: 900
-    text-align: center
+    color: $gray-light
+    text-align: right
     cursor: default
     clear: both
     position: relative
     line-height: 1.2rem
-    margin: 1.5rem 0px
+    margin: 10px 0 30px
     padding: 0
     min-height: 0
 
@@ -312,14 +302,13 @@
       top: 0.6rem
       margin: 0px
       border-width: 1px 0px 0px 0px
-      border-style: solid none
+      border-style: dotted none
       border-color: #ddd
 
     .day_divider_name
       background: none repeat scroll 0% 0% #fff
       text-transform: capitalize
-      text-align: center
-      padding: 0px 1rem
+      padding-left: 1rem
       display: inline-block
       margin: 0px auto
       position: relative
@@ -376,24 +365,24 @@
     padding: 0px 0px 12px 15px
     width: 99%
     vertical-align: top
+    position: relative
 
     .message_header
 
       .name
         display: inline-block
         margin-right: 0.25rem
-        font-weight: $font-weight-bolder
-        font-size: $font-size-message
-        color: $black
-        line-height: 22px
-        cursor: pointer
+        font-size: $font-size-small
+        line-height: 16px
+        color: $gray
+        font-weight: bold
         &:empty
           margin-right: 0
 
       .nickname
         display: inline-block
         font-weight: $font-weight-classic
-        font-size: $font-size-base
+        font-size: $font-size-small
         color: $gray
         line-height: 22px
         cursor: pointer
@@ -409,13 +398,15 @@
         width: 60px
         line-height: 22px
         text-transform: uppercase
-        cursor: pointer
+        text-aligne: right
+        position: absolute
+        right: 0
 
   .message
     font-size: $font-size-message
-    line-height: 22px
+    line-height: 20px
     color: $black
-    margin: 0px 0px 2px 0px
+    margin: 0
     display: block
     min-width: 20px
     width: 100%
@@ -502,11 +493,13 @@
 */
   #members_toggle
     position: absolute
-    top: 60px
+    bottom: 50px
     right: 20px
     cursor: pointer
     color: $gray
     font-size: $font-size-h3
+    background: #fff
+    padding: 5px
 
     &:hover
       color: #439FE0
@@ -521,7 +514,7 @@
     overflow-y: auto
     overflow-x: hidden
     position: absolute
-    top: 80px
+    bottom: 80px
     right: 20px
     borderbox()
     box-shadow: 0px 2px 10px rgba(64, 54, 63, 0.25)

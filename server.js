@@ -352,7 +352,7 @@ var clientApp = new Moonboots({
             debug: false
         },
         stylesheets: [
-            __dirname + '/public/css/otalk.css',
+            __dirname + '/public/css/client.css',
             __dirname + '/public/css/jquery.oembed.css',
             __dirname + '/public/css/jquery-impromptu.css'
         ],
@@ -400,5 +400,5 @@ clientApp.on('ready', function () {
 //}, app).listen(config.http.port);
 
 app.listen(config.http.port, function () {
-    console.log('Otalk running at: ' + config.http.baseUrl);
+    console.log('Kaiwa running at: ' + config.http.baseUrl);
 });

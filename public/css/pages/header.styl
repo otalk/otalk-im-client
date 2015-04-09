@@ -2,7 +2,6 @@
 @import '../_mixins'
 
 #topbar.connected
-  background-color: rgb(247, 247, 247)
   z-index: 100
   #connectionStatus
     display: none
@@ -11,16 +10,16 @@
   position: fixed
   right: 0px
   top: 0px
-  height: 55px
+  height: 42px
   width: 100%
-  background-color: lighten($sidebarTopAndBottomBg, 60%)
+  background-color: $topbarBg
   z-index: 102
   noselect()
-  color: #fff
+  color: $topbarFg
 
   #connectionStatus
     width: 340px
-    margin: 9px auto
+    margin: 2px auto
     background-color: transparent
 
     p

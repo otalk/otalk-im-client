@@ -22,6 +22,7 @@ module.exports = HumanView.extend({
         displayUnreadCount: '.unread'
     },
     srcBindings: {
+        avatar: '.avatar'
     },
     events: {
         'click': 'handleClick',

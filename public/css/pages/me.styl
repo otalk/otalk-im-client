@@ -7,7 +7,7 @@
     display: none
     position: fixed
     right: 0
-    padding: 8px 5px 5px 5px
+    padding: 1px 0px 5px 5px
     width: 175px
 
   .avatar
@@ -18,6 +18,7 @@
     background-color: transparent
     vertical-align: middle
     margin: 3px 0.5rem 0px 0px;
+    border-radius: 50%;
 
   .name,
   .status
@@ -28,19 +29,18 @@
     text-align: right
 
   .name
-    color: $gray-dark
-    font-size: $font-size-large
+    color: $meUsernameColor
+    font-size: $font-size-base
     font-weight: $font-weight-bolder
+    margin-top: 3px;
 
   .status
     color: $gray
     font-weight: normal
-    font-size: $font-size-base
-    line-height: $font-size-base
+    font-size: $font-size-small
     border-width: 0px
     margin: 0px
     padding: 0px
-    line-height: 18px
     height: 18px
     white-space: nowrap
     transition: all .25s

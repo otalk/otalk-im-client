@@ -188,7 +188,7 @@ a:active {
   position: absolute;
   top: 0px;
   right: 0px;
-  left: 220px;
+  left: 230px;
   height: 100%;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -260,7 +260,7 @@ input[type=radio]:disabled {
   box-shadow: 0 0 5px #fdcad3;
 }
 .valid label {
-  color: #4c9689;
+  color: #41a564;
 }
 .valid input[type=text],
 .valid input[type=email],
@@ -270,9 +270,9 @@ input[type=radio]:disabled {
 .valid input[type=url],
 .valid input[type=file],
 .valid textarea {
-  background: #f4f9f8;
-  border: 1px solid #c6e2dd;
-  color: #c6e2dd;
+  background: #f3faf6;
+  border: 1px solid #c3e7d0;
+  color: #c3e7d0;
 }
 .valid input[type=text]:focus,
 .valid input[type=email]:focus,
@@ -282,8 +282,8 @@ input[type=radio]:disabled {
 .valid input[type=url]:focus,
 .valid input[type=file]:focus,
 .valid textarea:focus {
-  border: 1px solid #c6e2dd;
-  box-shadow: 0 0 5px #c6e2dd;
+  border: 1px solid #c3e7d0;
+  box-shadow: 0 0 5px #c3e7d0;
 }
 input[type=text],
 input[type=email],
@@ -364,7 +364,7 @@ label {
   color: #fdcad3;
 }
 .has-icon .ss-icon.ss-check {
-  color: #c6e2dd;
+  color: #c3e7d0;
 }
 .has-icon .ss-icon.ss-search {
   color: #e0e0e0;
@@ -432,15 +432,15 @@ button.secondary:hover {
 }
 .button.primary,
 button.primary {
-  background: #4c9689;
+  background: #41a564;
 }
 .button.primary:hover:not(:disabled),
 button.primary:hover:not(:disabled) {
-  background: #44877b;
+  background: #3b955a;
 }
 .button.primary:disabled,
 button.primary:disabled {
-  background: #c6e2dd;
+  background: #c3e7d0;
 }
 .button.secondary,
 button.secondary {
@@ -517,13 +517,10 @@ button.secondary:hover:not(:disabled) {
   top: 0px;
   bottom: 0px;
   left: 0px;
-  width: 220px;
-  background-color: #3d486b;
-  color: #abb6da;
-  border-right: 1px solid #121a33;
+  width: 230px;
+  background-color: #e5e5e5;
+  color: #565656;
   z-index: 300;
-  overflow-y: auto;
-  overflow-x: hidden;
   -webkit-backface-visibility: hidden;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -533,24 +530,24 @@ button.secondary:hover:not(:disabled) {
   user-select: none;
 }
 #menu #organization {
-  width: 220px;
+  width: 230px;
   height: 42px;
-  margin-bottom: 10px;
+  background: #2b3556;
 }
 #menu #organization #orga_name {
   color: #fff;
   font-size: 17px;
   font-weight: 900;
-  line-height: 53px;
+  line-height: 42px;
   vertical-align: middle;
   margin-left: 20px;
 }
 #menu #organization .settings {
   position: relative;
-  height: 30px;
-  left: 0px;
-  background-color: #3d486b;
-  color: #fff;
+  height: 28px;
+  left: 5px;
+  background-color: transparent;
+  color: #b5b5b5;
   transition: none;
   border: 0;
 }
@@ -560,13 +557,24 @@ button.secondary:hover:not(:disabled) {
   left: 3px;
   margin: 0px;
   margin-top: -13px;
-  fill: #fff;
+  fill: #b5b5b5;
 }
 #menu #organization .settings:hover svg {
-  fill: #94b021;
+  fill: #aeaeae;
 }
 #menu #organization .settings.active svg {
-  fill: #94b021;
+  fill: #aeaeae;
+}
+#menu .viewport {
+  position: absolute;
+  top: 42px;
+  bottom: 22px;
+  left: 0;
+  right: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-top: 20px;
+  padding-bottom: 10px;
 }
 #menu .main {
   margin: 10px 0 0 0;
@@ -590,14 +598,15 @@ button.secondary:hover:not(:disabled) {
   position: relative;
 }
 #menu h1 {
-  font-size: 14px;
+  font-size: 15px;
   margin: 0;
   padding: 4px 20px;
   text-transform: uppercase;
+  margin-bottom: 7px;
+  color: #8e8e8e;
 }
 #roster,
 #bookmarks {
-  margin-right: 20px;
   margin-bottom: 25px;
 }
 #roster #contactrequests,
@@ -612,9 +621,9 @@ button.secondary:hover:not(:disabled) {
   margin-left: 20px;
   margin-bottom: 10px;
   padding-bottom: 4px;
-  background: #1a233f;
+  background: #aeaeae;
   border-radius: 0.25rem;
-  border: 2px solid #1a233f;
+  border: 2px solid #aeaeae;
 }
 #roster #contactrequests li .response,
 #bookmarks #contactrequests li .response {
@@ -642,30 +651,29 @@ button.secondary:hover:not(:disabled) {
   width: 178px;
   height: 25px;
   font-size: 12px;
-  background-color: #3d486b;
+  background-color: #e5e5e5;
   border-radius: 0.25rem;
-  border: 1px solid #626f9c;
-  color: #c1dcec;
+  border: 1px solid #bbb;
+  color: #919191;
 }
 #roster li,
 #bookmarks li {
   list-style-type: none;
-  padding: 4px 10px;
-  margin: 0px 0px 0px 10px;
-  border-radius: 0.25rem;
+  padding: 3px 10px;
+  padding-right: 15px;
   position: relative;
-  height: 25px;
   font-size: 14px;
   cursor: pointer;
   width: 100%;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  color: #c1dcec;
+  color: #919191;
 }
 #roster li:hover,
 #bookmarks li:hover {
-  background: #1a233f;
+  background: #aeaeae;
+  color: #fff;
 }
 #roster li.joined:hover:not(.hasUnread) .remove,
 #bookmarks li.joined:hover:not(.hasUnread) .remove {
@@ -680,7 +688,7 @@ button.secondary:hover:not(:disabled) {
 #roster li.hasUnread .prefix,
 #bookmarks li.hasUnread .prefix {
   font-weight: 900;
-  color: #fff;
+  color: #000;
 }
 #roster li:not(.activeContact).offline .presence,
 #bookmarks li:not(.activeContact).offline .presence,
@@ -704,14 +712,7 @@ button.secondary:hover:not(:disabled) {
 #bookmarks li.activeContact,
 #roster li.offline.activeContact,
 #bookmarks li.offline.activeContact {
-  background: #94b021;
-}
-#roster li.activeContact .prefix,
-#bookmarks li.activeContact .prefix,
-#roster li.offline.activeContact .prefix,
-#bookmarks li.offline.activeContact .prefix {
-  color: #b2d5c9;
-  opacity: 1;
+  background: #aeaeae;
 }
 #roster li.activeContact:not(.dnd):not(.away):not(.online) .presence,
 #bookmarks li.activeContact:not(.dnd):not(.away):not(.online) .presence,
@@ -728,17 +729,17 @@ button.secondary:hover:not(:disabled) {
 #bookmarks li.activeContact .join,
 #roster li.offline.activeContact .join,
 #bookmarks li.offline.activeContact .join {
-  color: #fff;
+  color: #000;
 }
 #roster li.activeContact .name,
 #bookmarks li.activeContact .name,
 #roster li.offline.activeContact .name,
 #bookmarks li.offline.activeContact .name {
-  color: #fff;
+  color: #000;
 }
 #roster li:not(.activeContact).online .presence,
 #bookmarks li:not(.activeContact).online .presence {
-  color: #4c9689;
+  color: #41a564;
   opacity: 1;
 }
 #roster li.online .name,
@@ -775,7 +776,7 @@ button.secondary:hover:not(:disabled) {
 }
 #roster li.idle .name,
 #bookmarks li.idle .name {
-  color: #c1dcec;
+  color: #919191;
   font-style: italic;
 }
 #roster li .presence,
@@ -784,18 +785,18 @@ button.secondary:hover:not(:disabled) {
   display: inline-block;
   margin-top: -10px;
   vertical-align: middle;
-  opacity: 0.5;
+  position: absolute;
+  top: 28px;
+  left: 37px;
 }
 #roster li .user,
 #bookmarks li .user {
   display: inline-block;
-  width: 120px;
-  line-height: 100%;
+  width: 170px;
   overflow: hidden;
   text-overflow: ellipsis;
-  height: 17px;
+  height: 22px;
   font-style: italic;
-  text-shadow: 0px 1px 1px rgba(0,0,0,0.25);
 }
 #roster li .status,
 #bookmarks li .status {
@@ -811,22 +812,36 @@ button.secondary:hover:not(:disabled) {
   font-size: 12px;
   color: #594a57;
 }
+#roster li .avatar,
+#bookmarks li .avatar {
+  width: 20px;
+  height: 20px;
+  -moz-border-radius: 0.2rem;
+  -webkit-border-radius: 0.2rem;
+  -khtml-border-radius: 0.2rem;
+  -o-border-radius: 0.2rem;
+  -border-radius: 0.2rem;
+  border-radius: 0.2rem;
+  border-radius: 50%;
+  margin: 0;
+  padding: 0;
+  margin-right: 10px;
+  margin-top: 2px;
+}
 #roster li .name,
 #bookmarks li .name {
   width: 100%;
-  line-height: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
-  height: 17px;
-  text-shadow: 0px 1px 1px rgba(0,0,0,0.3);
-  position: absolute;
-  left: 22px;
   max-width: 140px;
+  line-height: 23px;
+  height: 23px;
+  position: absolute;
 }
 #roster li .unread,
 #bookmarks li .unread {
   display: none;
-  color: #fff;
+  color: #000;
   height: 16px;
   width: 18px;
   -moz-border-radius: 5px;
@@ -837,12 +852,12 @@ button.secondary:hover:not(:disabled) {
   border-radius: 5px;
   position: absolute;
   padding-top: 2px;
-  right: 5px;
-  top: 3px;
+  right: 15px;
+  top: 6px;
   font-size: 10px;
   font-weight: 700;
   text-align: center;
-  background: #94b021;
+  background: #aeaeae;
 }
 #roster li .unread:not(:empty),
 #bookmarks li .unread:not(:empty) {
@@ -853,20 +868,12 @@ button.secondary:hover:not(:disabled) {
 #roster li .join,
 #bookmarks li .join {
   position: absolute;
-  right: 7px;
-  top: 5px;
+  right: 10px;
+  top: 8px;
   font-size: 14px;
   display: inline-block;
   font-family: FontAwesome;
   visibility: hidden;
-}
-#roster li .prefix,
-#bookmarks li .prefix {
-  font-weight: 300;
-  opacity: 0.5;
-  position: relative;
-  left: -15px;
-  text-shadow: 0px 1px 1px rgba(0,0,0,0.25);
 }
 #roster li button,
 #bookmarks li button {
@@ -889,10 +896,24 @@ button.secondary:hover:not(:disabled) {
   display: inline-block;
 }
 #roster .wrap {
-  padding-left: 0px;
+  padding-left: 14px;
+  height: 23px;
 }
 #bookmarks .wrap {
   padding-left: 14px;
+  height: 23px;
+}
+#kaiwaNotice {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  width: 120px;
+  margin-left: -60px;
+  opacity: 0.4;
+}
+#kaiwaNotice img {
+  width: 36px;
+  margin-left: 3px;
 }
 @-moz-keyframes pulsate {
   0% {
@@ -964,9 +985,9 @@ button.secondary:hover:not(:disabled) {
   position: fixed;
   top: 0px;
   right: 0px;
-  left: 220px;
+  left: 230px;
   right: 200px;
-  height: 55px;
+  height: 42px;
   z-index: 101;
 }
 .conversation header .title {
@@ -975,7 +996,7 @@ button.secondary:hover:not(:disabled) {
   top: 0px;
   white-space: nowrap;
   display: inline-block;
-  height: 53px;
+  height: 42px;
 }
 .conversation header .prefix,
 .conversation header .name,
@@ -988,13 +1009,13 @@ button.secondary:hover:not(:disabled) {
   text-rendering: optimizelegibility;
   top: 0px;
   vertical-align: middle;
+  line-height: 42px;
 }
 .conversation header .prefix {
   color: #9e9ea6;
   font-size: 22px;
   font-weight: 500;
   margin-left: 25px;
-  line-height: 53px;
   cursor: default;
 }
 .conversation header .name {
@@ -1002,15 +1023,14 @@ button.secondary:hover:not(:disabled) {
   font-weight: 900;
   overflow: hidden;
   text-overflow: ellipsis;
-  padding-left: 3px;
-  line-height: 53px;
+  padding-left: 20px;
   cursor: default;
+  color: #fff;
 }
 .conversation header .user_presence,
 .conversation header .channel_actions {
   color: #9e9ea6;
   padding-left: 8px;
-  line-height: 53px;
   cursor: default;
 }
 .conversation header .user_presence {
@@ -1018,7 +1038,7 @@ button.secondary:hover:not(:disabled) {
   font-size: 12px;
 }
 .conversation header .user_presence.online {
-  color: #4c9689;
+  color: #41a564;
   opacity: 1;
 }
 .conversation header .user_presence.offline {
@@ -1053,7 +1073,6 @@ button.secondary:hover:not(:disabled) {
   font-size: 16px;
   line-height: 18px;
   margin-left: 15px;
-  padding-top: 5px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1154,8 +1173,7 @@ button.secondary:hover:not(:disabled) {
   bottom: 0px;
   position: fixed;
   right: 0px;
-  left: 221px;
-  height: 4rem;
+  left: 230px;
   z-index: 302;
   transition: none;
   -webkit-transition: none;
@@ -1164,7 +1182,7 @@ button.secondary:hover:not(:disabled) {
   display: none;
   position: fixed;
   left: 245px;
-  bottom: 64px;
+  bottom: 46px;
   border: 2px solid #ddd;
   border-bottom: 0;
   border-radius: 0.25rem 0.25rem 0 0;
@@ -1198,30 +1216,24 @@ button.secondary:hover:not(:disabled) {
   transition: none;
   -webkit-transition: none;
   position: relative;
-  height: 38px;
-  left: 24px;
-  margin-right: 50px;
 }
 .conversation .chatBox textarea {
   display: inline-block;
   vertical-align: middle;
   background: none repeat scroll 0% 0% padding-box #fff;
   font-size: 13px;
-  border-width: 2px;
-  border-style: solid;
-  border-color: #e0e0e0;
-  border-image: none;
-  border-radius: 0px 0.2rem 0.2rem 0px;
+  border: 0;
+  border-top: 2px solid #e0e0e0;
+  border-radius: 0;
   font-family: "Lato", sans-serif;
   margin: 0;
   color: #3d3c40;
   overflow-y: auto;
   box-shadow: none;
   outline: 0px none;
-  position: absolute;
   bottom: 0px;
-  height: 38px;
-  padding: 9px 5px 9px 8px;
+  height: 44px;
+  padding: 13px 24px;
   max-height: 102px;
   resize: none !important;
 }
@@ -1249,8 +1261,8 @@ button.secondary:hover:not(:disabled) {
   position: absolute;
   top: 0px;
   right: 0px;
-  bottom: 4rem;
-  margin-top: 54px;
+  bottom: 59px;
+  margin-top: 43px;
   width: 100%;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -1261,14 +1273,13 @@ button.secondary:hover:not(:disabled) {
   display: block;
   background: none repeat scroll 0% 0% #fff;
   font-size: 1rem;
-  color: #555459;
-  font-weight: 900;
-  text-align: center;
+  color: #babbbf;
+  text-align: right;
   cursor: default;
   clear: both;
   position: relative;
   line-height: 1.2rem;
-  margin: 1.5rem 0px;
+  margin: 10px 0 30px;
   padding: 0;
   min-height: 0;
 }
@@ -1278,14 +1289,13 @@ button.secondary:hover:not(:disabled) {
   top: 0.6rem;
   margin: 0px;
   border-width: 1px 0px 0px 0px;
-  border-style: solid none;
+  border-style: dotted none;
   border-color: #ddd;
 }
 .messages li.day_divider .day_divider_name {
   background: none repeat scroll 0% 0% #fff;
   text-transform: capitalize;
-  text-align: center;
-  padding: 0px 1rem;
+  padding-left: 1rem;
   display: inline-block;
   margin: 0px auto;
   position: relative;
@@ -1315,6 +1325,7 @@ button.secondary:hover:not(:disabled) {
   -o-border-radius: 0.2rem;
   -border-radius: 0.2rem;
   border-radius: 0.2rem;
+  border-radius: 50%;
 }
 .messages li .messageAvatar .name {
   text-indent: -9999em;
@@ -1349,15 +1360,15 @@ button.secondary:hover:not(:disabled) {
   padding: 0px 0px 12px 15px;
   width: 99%;
   vertical-align: top;
+  position: relative;
 }
 .messages .messageWrapper .message_header .name {
   display: inline-block;
   margin-right: 0.25rem;
-  font-weight: 900;
-  font-size: 15px;
-  color: #3d3c40;
-  line-height: 22px;
-  cursor: pointer;
+  font-size: 12px;
+  line-height: 16px;
+  color: #9e9ea6;
+  font-weight: bold;
 }
 .messages .messageWrapper .message_header .name:empty {
   margin-right: 0;
@@ -1365,7 +1376,7 @@ button.secondary:hover:not(:disabled) {
 .messages .messageWrapper .message_header .nickname {
   display: inline-block;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 12px;
   color: #9e9ea6;
   line-height: 22px;
   cursor: pointer;
@@ -1383,13 +1394,15 @@ button.secondary:hover:not(:disabled) {
   width: 60px;
   line-height: 22px;
   text-transform: uppercase;
-  cursor: pointer;
+  text-aligne: right;
+  position: absolute;
+  right: 0;
 }
 .messages .message {
   font-size: 15px;
-  line-height: 22px;
+  line-height: 20px;
   color: #3d3c40;
-  margin: 0px 0px 2px 0px;
+  margin: 0;
   display: block;
   min-width: 20px;
   width: 100%;
@@ -1471,11 +1484,13 @@ button.secondary:hover:not(:disabled) {
 }
 #members_toggle {
   position: absolute;
-  top: 60px;
+  bottom: 50px;
   right: 20px;
   cursor: pointer;
   color: #9e9ea6;
   font-size: 16px;
+  background: #fff;
+  padding: 5px;
 }
 #members_toggle:hover {
   color: #439fe0;
@@ -1490,7 +1505,7 @@ button.secondary:hover:not(:disabled) {
   overflow-y: auto;
   overflow-x: hidden;
   position: absolute;
-  top: 80px;
+  bottom: 80px;
   right: 20px;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -1541,8 +1556,8 @@ button.secondary:hover:not(:disabled) {
 }
 .groupRoster li.online:before,
 .groupRoster li.chat:before {
-  background: #4c9689;
-  border-color: #4c9689;
+  background: #41a564;
+  border-color: #41a564;
 }
 .groupRoster li.online:not(:hover) .name,
 .groupRoster li.chat:not(:hover) .name {
@@ -1600,24 +1615,12 @@ button.secondary:hover:not(:disabled) {
 .embed a.source {
   display: none;
 }
-.main svg {
-  position: absolute;
-  top: 24px;
-  left: 16px;
-  margin: 0px;
-  margin-top: -13px;
-  fill: #9e9ea6;
-  z-index: 101;
-}
 .main h1 {
-  color: #555459;
-  padding: 0;
+  color: #fff;
+  padding: 6px 12px;
   margin: 0;
-  position: fixed;
-  top: 14px;
-  left: 266px;
-  right: 200px;
   z-index: 101;
+  position: fixed;
 }
 .main #ldapSettings {
   display: none;
@@ -1681,7 +1684,7 @@ button.secondary:hover:not(:disabled) {
 .main > div #ldapUsers .fa-plus:hover,
 .main > div #ldapUsers .fa-minus:hover,
 .main > div #ldapUsers .delete:hover {
-  color: #94b021;
+  color: #aeaeae;
 }
 .main > div #ldapUsers .fa-plus.meIsAdmin,
 .main > div #ldapUsers .fa-minus.meIsAdmin,
@@ -1733,9 +1736,6 @@ button.secondary:hover:not(:disabled) {
 .disconnect,
 .logout {
   margin-right: 5px;
-}
-.aux {
-  background: #fafafb;
 }
 .aux header {
   margin-top: 8%;
@@ -1941,7 +1941,6 @@ rgba(0,0,0,0.7)
   margin: 0;
 }
 #topbar.connected {
-  background-color: #f7f7f7;
   z-index: 100;
 }
 #topbar.connected #connectionStatus {
@@ -1951,9 +1950,9 @@ rgba(0,0,0,0.7)
   position: fixed;
   right: 0px;
   top: 0px;
-  height: 55px;
+  height: 42px;
   width: 100%;
-  background-color: #8899ce;
+  background-color: #3d486b;
   z-index: 102;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -1965,7 +1964,7 @@ rgba(0,0,0,0.7)
 }
 #topbar #connectionStatus {
   width: 340px;
-  margin: 9px auto;
+  margin: 2px auto;
   background-color: transparent;
 }
 #topbar #connectionStatus p {
@@ -1986,7 +1985,7 @@ rgba(0,0,0,0.7)
   display: none;
   position: fixed;
   right: 0;
-  padding: 8px 5px 5px 5px;
+  padding: 1px 0px 5px 5px;
   width: 175px;
 }
 #topbar .avatar {
@@ -1997,6 +1996,7 @@ rgba(0,0,0,0.7)
   background-color: transparent;
   vertical-align: middle;
   margin: 3px 0.5rem 0px 0px;
+  border-radius: 50%;
 }
 #topbar .name,
 #topbar .status {
@@ -2007,19 +2007,18 @@ rgba(0,0,0,0.7)
   text-align: right;
 }
 #topbar .name {
-  color: #555459;
-  font-size: 17px;
+  color: #fff;
+  font-size: 14px;
   font-weight: 900;
+  margin-top: 3px;
 }
 #topbar .status {
   color: #9e9ea6;
   font-weight: normal;
-  font-size: 14px;
-  line-height: 14px;
+  font-size: 12px;
   border-width: 0px;
   margin: 0px;
   padding: 0px;
-  line-height: 18px;
   height: 18px;
   white-space: nowrap;
   transition: all 0.25s;

@@ -6,33 +6,30 @@
   top: 0px
   bottom: 0px
   left: 0px
-  width: 220px
+  width: 230px
   background-color: $sidebarBg
   color: $sidebarText
-  border-right: 1px solid $sidebarBorder
   z-index: 300
-  overflow-y: auto;
-  overflow-x: hidden;
   webkit-transition-fix()
   noselect()
 
   #organization
-    width: 220px
+    width: 230px
     height: 42px
-    margin-bottom: 10px
+    background: $sidebarTopAndBottomBg
 
     #orga_name
-      color: $sidebarOrgaName
+      color: $topbarFg
       font-size: $font-size-large
       font-weight: $font-weight-bolder
-      line-height: 53px;
+      line-height: 42px;
       vertical-align: middle
       margin-left: 20px
 
     .settings
       position: relative
-      height: 30px
-      left: 0px
+      height: 28px;
+      left: 5px;
       background-color: $settingsBg
       color: $settingsText
       transition: none
@@ -53,6 +50,17 @@
       &.active
         svg
           fill: $settingsHoverText
+
+  .viewport
+    position: absolute
+    top: 42px
+    bottom: 22px
+    left: 0
+    right: 0
+    overflow-y: auto
+    overflow-x: hidden
+    padding-top: 20px
+    padding-bottom: 10px
 
   .main
     margin: 10px 0 0 0
@@ -76,14 +84,15 @@
         position: relative
 
   h1
-    font-size: $font-size-base
+    font-size: $font-size-message
     margin: 0
     padding: 4px 20px
     text-transform: uppercase
+    margin-bottom: 7px;
+    color: $sidebarSectionTitleColor
 
 #roster,
 #bookmarks
-  margin-right: 20px
   margin-bottom: 25px
 
   #contactrequests
@@ -126,11 +135,9 @@
 
   li
     list-style-type: none
-    padding: 4px 10px
-    margin: 0px 0px 0px 10px
-    border-radius: 0.25rem
+    padding: 3px 10px
+    padding-right: 15px
     position: relative
-    height: 25px
     font-size: $font-size-base
     cursor: pointer
     width: 100%
@@ -139,6 +146,7 @@
 
     &:hover
       background: $sidebarHover
+      color: $sidebarHoverText
 
     &.joined
       &:hover:not(.hasUnread) .remove
@@ -150,7 +158,7 @@
 
     &.hasUnread, &.hasUnread .prefix
       font-weight: $font-weight-bolder
-      color: #fff
+      color: $sidebarUnreadText
 
     &:not(.activeContact).offline,
     &:not(.activeContact).chat
@@ -170,16 +178,13 @@
 
     &.activeContact, &.offline.activeContact
       background: $sidebarSelectionBg
-      .prefix
-        color: $green-lighterer
-        opacity: 1
       &:not(.dnd):not(.away):not(.online) .presence
         color: $brown-darkerer
         opacity: 1
       .remove, .join
-        color: #fff
+        color: $sidebarSelectionText
       .name
-        color: #fff
+        color: $sidebarSelectionText
 
     &:not(.activeContact).online
       .presence
@@ -221,17 +226,17 @@
       display: inline-block
       margin-top: -10px
       vertical-align: middle
-      opacity: 0.5
+      position: absolute;
+      top: 28px;
+      left: 37px
 
     .user
       display: inline-block
-      width: 120px
-      line-height: 100%
+      width: 170px
       overflow: hidden
       text-overflow: ellipsis
-      height: $font-size-base+3
+      height: 22px
       font-style: italic
-      text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.25)
 
     .status
       font-size: $font-size-small
@@ -245,16 +250,24 @@
       font-size: $font-size-small
       color: darken($brown-light, 50%)
 
+    .avatar
+      width: 20px
+      height: 20px
+      roundall(0.2rem)
+      border-radius: 50%
+      margin: 0
+      padding: 0
+      margin-right: 10px
+      margin-top: 2px
+
     .name
       width: 100%
-      line-height: 100%
       overflow: hidden
       text-overflow: ellipsis
-      height: $font-size-base+3
-      text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.3)
-      position: absolute
-      left: 22px
       max-width: 140px
+      line-height: 23px
+      height: 23px
+      position: absolute
 
     .unread
       display: none
@@ -264,8 +277,8 @@
       roundall(5px)
       position: absolute
       padding-top:2px
-      right: 5px
-      top: 3px
+      right: 15px
+      top: 6px
       font-size: $font-size-smaller
       font-weight: $font-weight-bold
       text-align: center
@@ -276,19 +289,12 @@
 
     .remove, .join
       position: absolute
-      right: 7px
-      top: 5px
+      right: 10px
+      top: 8px
       font-size: $font-size-base
       display: inline-block
       font-family: FontAwesome
       visibility: hidden
-
-    .prefix
-      font-weight: 300
-      opacity: 0.5
-      position: relative
-      left: -15px
-      text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.25);
 
     button
       margin: -15px 0px 0px 5px
@@ -308,11 +314,13 @@
 
 #roster
   .wrap
-    padding-left: 0px
+    padding-left: 14px
+    height: 23px;
 
 #bookmarks
   .wrap
     padding-left: 14px
+    height: 23px
 
 @keyframes pulsate
   0%
@@ -321,3 +329,15 @@
     opacity: 0.5
   100%
     opacity: 1.0
+
+#kaiwaNotice
+  position: absolute
+  bottom: 8px
+  left: 50%
+  width: 120px
+  margin-left: -60px
+  opacity: .4
+
+  img
+    width: 36px
+    margin-left: 3px;
