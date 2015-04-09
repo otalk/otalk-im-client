@@ -905,15 +905,15 @@ button.secondary:hover:not(:disabled) {
 }
 #kaiwaNotice {
   position: absolute;
-  bottom: 5px;
+  bottom: 8px;
   left: 50%;
-  width: 50px;
-  margin-left: -25px;
+  width: 120px;
+  margin-left: -60px;
+  opacity: 0.4;
 }
 #kaiwaNotice img {
-  width: 100%;
-  display: block;
-  opacity: 0.4;
+  width: 36px;
+  margin-left: 3px;
 }
 @-moz-keyframes pulsate {
   0% {
