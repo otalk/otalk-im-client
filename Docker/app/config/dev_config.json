@@ -21,8 +21,8 @@
         "address": "{{LDAP_HOST}}",
         "user": "{{LDAP_DN}}",
         "password": "{{LDAP_PWD}}",
-        "base": "ou=users,{{LDAP_BASE}}",
+        "base": "{{LDAP_USER_BASE}}",
         "filter": "objectClass=person",
-        "group": "cn={{LDAP_GROUP}},ou=groups,{{LDAP_BASE}}"
+        "group": "cn={{LDAP_GROUP}},{{LDAP_GROUP_BASE}}"
     }
 }
