@@ -17,7 +17,8 @@ sed 's/{{XMPP_STARTUP}}/'"${XMPP_STARTUP}"'/' -i /app/config/dev_config.json
 sed 's/{{XMPP_ADMIN}}/'"${XMPP_ADMIN}"'/' -i /app/config/dev_config.json
 
 sed 's/{{LDAP_HOST}}/'"${LDAP_PORT_389_TCP_ADDR}"'/' -i /app/config/dev_config.json
-sed 's/{{LDAP_BASE}}/'"${LDAP_BASE}"'/' -i /app/config/dev_config.json
+sed 's/{{LDAP_USER_BASE}}/'"${LDAP_USER_BASE}"'/' -i /app/config/dev_config.json
+sed 's/{{LDAP_GROUP_BASE}}/'"${LDAP_GROUP_BASE}"'/' -i /app/config/dev_config.json
 sed 's/{{LDAP_DN}}/'"${LDAP_DN}"'/' -i /app/config/dev_config.json
 sed 's/{{LDAP_PWD}}/'"${LDAP_PWD}"'/' -i /app/config/dev_config.json
 sed 's/{{LDAP_GROUP}}/'"${LDAP_GROUP}"'/' -i /app/config/dev_config.json

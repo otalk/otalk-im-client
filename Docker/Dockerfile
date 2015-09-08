@@ -10,10 +10,11 @@ ENV XMPP_MUC chat.example.com
 ENV XMPP_STARTUP groupchat/room%40chat.example.com
 ENV XMPP_ADMIN admin
 
-ENV LDAP_BASE dc=example.com
 ENV LDAP_DN cn=admin,dc=example.com
 ENV LDAP_PWD password
 ENV LDAP_GROUP mygroup
+ENV LDAP_USER_BASE ou=users,dc=example.com
+ENV LDAP_GROUP_BASE ou=groups,dc=example.com
 
 RUN sed -i 's/^#\s*\(deb.*universe\)$/\1/g' /etc/apt/sources.list && \
     sed -i 's/^#\s*\(deb.*multiverse\)$/\1/g' /etc/apt/sources.list && \
