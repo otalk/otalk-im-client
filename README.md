@@ -11,6 +11,7 @@ Kaiwa is a fork of Otalk, a prototype application created by &yet (https://githu
     cd kaiwa
     sudo apt-get install libldap2-dev uuid-dev
     npm install
+    cp dev_config.example.json dev_config.json
     node server
 
 You will need an XMPP server to use Kaiwa. We provide one at [Kaiwa server](https://github.com/digicoop/kaiwa-server).
