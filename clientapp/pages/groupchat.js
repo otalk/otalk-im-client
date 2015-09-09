@@ -135,7 +135,7 @@ module.exports = BasePage.extend({
             if (this.$autoComplete.css('display') != 'none') {
                 var nickname = this.$autoComplete.find(">:nth-child(" + this.autoCompletePos + ")>:first-child").text();
                 this.rosterItemSelected(nickname);
-            } else {
+            } else if (e.which === 13){
                 app.composing[this.model.jid] = '';
                 this.sendChat();
             }
