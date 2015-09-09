@@ -31,7 +31,7 @@ RUN sed -i 's/^#\s*\(deb.*universe\)$/\1/g' /etc/apt/sources.list && \
 
 RUN locale-gen en_US && locale-gen en_US.UTF-8 && echo 'LANG="en_US.UTF-8"' > /etc/default/locale
 
-RUN apt-get update && apt-get install -y --force-yes nodejs git-core libldap2-dev uuid-dev
+RUN apt-get update && apt-get install -y --force-yes nodejs git-core uuid-dev
 
 RUN apt-get remove -y --force-yes nodejs && apt-get install -y --force-yes nodejs-legacy npm
 

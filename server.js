@@ -6,7 +6,7 @@ var Moonboots = require('moonboots-express');
 var config = require('getconfig');
 var templatizer = require('templatizer');
 var async = require('async');
-var LDAP = require('LDAP');
+var LDAP = require('ldapjs');
 
 String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
@@ -61,49 +61,41 @@ function connectLDAP(req, cb) {
     var ldapDN = 'uid=' + req.body.uid + ',' + config.ldap.base;
     var ldapPW = req.body.password;
 
-    var ldap = new LDAP({ uri: 'ldap://' + config.ldap.address, reconnect: false });
+    var client = LDAP.createClient({ url: 'ldap://' + config.ldap.address });
 
-    ldap.open(function(err) {
-        if (err) {
-            console.log("LDAP: Can not connect to server on ldap://" + config.ldap.address);
+    function closeCb(client) {
+      client.unbind();
+      console.log("LDAP: Disconnected");
+    };
+
+    client.bind(ldapDN, ldapPW, function(err) {
+      if (err) {
+        console.log("LDAP: Can not connect to server with " + ldapDN);
+        closeCb(client);
+        cb(true);
+        return;
+      }
+
+      console.log("LDAP: Connected on ldap://" + config.ldap.address + " with " + ldapDN);
+
+      if (req.body.uid == config.server.admin && config.ldap.user && config.ldap.password) {
+        console.log("LDAP: " + ldapDN + " is XMPP admin");
+
+        client.bind(config.ldap.user, config.ldap.password, function(err) {
+          if (err) {
+            console.log("LDAP: Can not connect to server with " + config.ldap.user);
+            closeCb(client);
             cb(true);
             return;
-        }
+          }
 
-        function closeCb(ldap) {
-            ldap.close();
-            console.log("LDAP: Disconnected");
-        }
-
-        ldap.simplebind({ binddn: ldapDN, password: ldapPW }, function(err) {
-            if (err) {
-                console.log("LDAP: Can not connect to server with " + ldapDN);
-                closeCb(ldap);
-                cb(true);
-                return;
-            }
-
-            console.log("LDAP: Connected on ldap://" + config.ldap.address + " with " + ldapDN);
-
-            if (req.body.uid == config.server.admin && config.ldap.user && config.ldap.password) {
-                console.log("LDAP: " + ldapDN + " is XMPP admin");
-
-                ldap.simplebind({ binddn: config.ldap.user, password: config.ldap.password }, function(err) {
-                    if (err) {
-                        console.log("LDAP: Can not connect to server with " + config.ldap.user);
-                        closeCb(ldap);
-                        cb(true);
-                        return;
-                    }
-
-                    console.log("LDAP: Connected on ldap://" + config.ldap.address + " with " + config.ldap.user);
-                    cb(false, ldap, closeCb);
-                });
-                return;
-            }
-            cb(false, ldap, closeCb);
-
+          console.log("LDAP: Connected on ldap://" + config.ldap.address + " with " + config.ldap.user);
+          cb(false, client, closeCb);
         });
+        return;
+      }
+      cb(false, client, closeCb);
+
     });
 }
 
@@ -111,24 +103,24 @@ app.post('/ldap/user/:id', function(req, res) {
     var dn = 'uid=' + req.params.id.toLowerCase() + ',' + config.ldap.base;
     console.log('LDAP: Save user informations (' + dn + ')');
 
-    connectLDAP(req, function (err, ldap, closeCb) {
+    connectLDAP(req, function (err, client, closeCb) {
         if (err === false) {
 
             var changes = [];
-            if (req.body.cn != undefined) changes.push({ op: 'replace', attr: 'cn', vals: [ req.body.cn ] });
-            if (req.body.sn != undefined) changes.push({ op: 'replace', attr: 'sn', vals: [ req.body.sn ] });
-            if (req.body.givenName != undefined) changes.push({ op: 'replace', attr: 'givenName', vals: [ req.body.givenName ] });
-            if (req.body.displayName != undefined) changes.push({ op: 'replace', attr: 'displayName', vals: [ req.body.displayName ] });
-            if (req.body.mail != undefined) changes.push({ op: 'replace', attr: 'mail', vals: [ req.body.mail ] });
+            if (req.body.cn != undefined) changes.push(new LDAP.Change({ operation: 'replace', modification: {cn: req.body.cn}}));
+            if (req.body.sn != undefined) changes.push(new LDAP.Change({ operation: 'replace',  modification: {sn: req.body.sn}}));
+            if (req.body.givenName != undefined) changes.push(new LDAP.Change({ operation: 'replace',  modification: {givenName: req.body.givenName}}));
+            if (req.body.displayName != undefined) changes.push(new LDAP.Change({ operation: 'replace',  modification: {displayName: req.body.displayName}}));
+            if (req.body.mail != undefined) changes.push(new LDAP.Change({ operation: 'replace',  modification: {mail: req.body.mail}}));
 
-            ldap.modify(dn, changes, function (err) {
+            client.modify(dn, changes, function (err) {
                 if (err) {
                     console.log('LDAP: Impossible to change user informations (' + dn + ')');
                     console.log(err);
                     res.type('application/javascript');
                     res.send(false);
 
-                    closeCb(ldap);
+                    closeCb(client);
                     return;
                 }
 
@@ -136,7 +128,7 @@ app.post('/ldap/user/:id', function(req, res) {
                 res.type('application/javascript');
                 res.send(true);
 
-                closeCb(ldap);
+                closeCb(client);
             });
         }
     });
@@ -147,19 +139,19 @@ app.post('/ldap/user/:id/password', function(req, res) {
     var dn = 'uid=' + req.params.id.toLowerCase() + ',' + config.ldap.base;
     console.log('LDAP: Change user password (' + dn + ')');
 
-    connectLDAP(req, function (err, ldap, closeCb) {
+    connectLDAP(req, function (err, client, closeCb) {
         if (err === false) {
 
-            var changes = [{ op: 'replace', attr: 'userPassword', vals: [ req.body.newPassword ] }];
+            var changes = [new LDAP.Change({ operation: 'replace', modification: {userPassword: req.body.newPassword}})];
 
-            ldap.modify(dn, changes, function (err) {
+            client.modify(dn, changes, function (err) {
                 if (err) {
                     console.log('LDAP: Impossible to change user password (' + dn + ')');
                     console.log(err);
                     res.type('application/javascript');
                     res.send(false);
 
-                    closeCb(ldap);
+                    closeCb(client);
                     return;
                 }
 
@@ -167,7 +159,7 @@ app.post('/ldap/user/:id/password', function(req, res) {
                 res.type('application/javascript');
                 res.send(true);
 
-                closeCb(ldap);
+                closeCb(client);
             });
         }
     });
@@ -176,37 +168,43 @@ app.post('/ldap/user/:id/password', function(req, res) {
 app.post('/ldap/users', function (req, res) {
     console.log('LDAP: Get users list');
 
-    connectLDAP(req, function (err, ldap, closeCb) {
+    connectLDAP(req, function (err, client, closeCb) {
         if (err === false) {
             var filter = config.ldap.filter;
             if (req.body.uid != config.server.admin) {
                 var uid = 'uid=' + req.body.uid.toLowerCase();
                 filter = '(&(' + filter + ')(' + uid + '))';
             }
-            ldap.search({ base: config.ldap.base, filter: filter }, function(err, data) {
+            var opts = {
+              filter: filter,
+              scope: 'sub',
+              attributes: ['uid', 'cn', 'sn', 'givenName', 'displayName', 'mail', 'objectClass'],
+              attrsOnly: true
+            };
+            client.search(config.ldap.base, opts, function(err, data) {
                 var users = new Array();
                 if (!err) {
-                    data.forEach(function(el) {
-                        var user = {
-                            id: el.uid[0],
-                            cn: el.cn ? el.cn[0] : '',
-                            sn: el.sn ? el.sn[0] : '',
-                            givenName: el.givenName ? el.givenName[0] : '',
-                            displayName: el.displayName ? el.displayName[0] : '',
-                            mail: el.mail ? el.mail[0] : '',
-                            objectClass: el.objectClass
-                        };
-                        users.push(user);
+                    data.on('searchEntry', function(entry) {
+                      var user = {};
+                      entry.attributes.forEach(function(attr) {
+                        user[attr.type] = attr.vals;
+                        if (attr.type !== 'objectClass') {
+                          user[attr.type] = user[attr.type][0];
+                        }
+                      });
+                      users.push(user);
+                    });
+                    data.on('end', function(result) {
+                      res.type('application/javascript');
+                      res.send(JSON.stringify(users));
+
+                      console.log('LDAP: Users list sent');
+                      closeCb(client);
                     });
                 }
                 else {
                     console.log(err);
                 }
-                res.type('application/javascript');
-                res.send(JSON.stringify(users));
-
-                console.log('LDAP: Users list sent');
-                closeCb(ldap);
             });
         }
     });
@@ -216,43 +214,42 @@ app.post('/ldap/users', function (req, res) {
 app.post('/ldap/users/add', function (req, res) {
     console.log('LDAP: Add a new user');
 
-    connectLDAP(req, function (err, ldap, closeCb) {
+    connectLDAP(req, function (err, client, closeCb) {
         if (err === false || !req.body.newUid) {
             var dn = 'uid=' + req.body.newUid.toLowerCase() + ',' + config.ldap.base;
-            var attrs = [
-                { attr: 'objectClass', vals: [ 'organizationalPerson', 'person', 'inetOrgPerson'] },
-                { attr: 'cn', vals: [ req.body.newUid.capitalize() ] },
-                { attr: 'sn', vals: [ req.body.newUid.capitalize() ] },
-                { attr: 'givenName', vals: [ req.body.newUid.capitalize() ] },
-                { attr: 'displayName', vals: [ req.body.newUid.capitalize() ] },
-                { attr: 'userPassword', vals: [ req.body.newUid.toLowerCase() ] }
-            ];
-            ldap.add(dn, attrs, function (err) {
+            var entry = {
+                objectClass: [ 'organizationalPerson', 'person', 'inetOrgPerson'],
+                cn: req.body.newUid.capitalize(),
+                sn: req.body.newUid.capitalize(),
+                givenName: req.body.newUid.capitalize(),
+                displayName: req.body.newUid.capitalize(),
+                userPassword: req.body.newUid.toLowerCase()
+            };
+            client.add(dn, entry, function (err) {
                 if (err) {
                     console.log('LDAP: Impossible to add a new user (' + dn + ')');
                     console.log(err);
                     res.type('application/javascript');
                     res.send(false);
 
-                    closeCb(ldap);
+                    closeCb(client);
                     return;
                 }
 
                 if (config.ldap.group) {
                     var changes = [
-                      { op: 'add',
-                       attr: 'member',
-                       vals: [ dn ]
+                      { operation: 'add',
+                       modification: {member: dn }
                       }
                     ];
-                    ldap.modify(config.ldap.group, changes, function (err) {
+                    client.modify(config.ldap.group, changes, function (err) {
                         if (err) console.log(err);
 
                         console.log('LDAP: New user added (' + dn + ')');
                         res.type('application/javascript');
                         res.send(true);
 
-                        closeCb(ldap);
+                        closeCb(client);
                     });
                 }
 
@@ -265,35 +262,34 @@ app.post('/ldap/users/add', function (req, res) {
 app.post('/ldap/users/delete', function (req, res) {
     console.log('LDAP: Remove a user');
 
-    connectLDAP(req, function (err, ldap, closeCb) {
+    connectLDAP(req, function (err, client, closeCb) {
         if (err === false || !req.body.removeUid) {
             var dn = 'uid=' + req.body.removeUid.toLowerCase() + ',' + config.ldap.base;
-            ldap.remove(dn, function (err) {
+            client.del(dn, function (err) {
                 if (err) {
                     console.log('LDAP: Impossible to remove this user (' + dn + ')');
                     console.log(err);
                     res.type('application/javascript');
                     res.send(false);
 
-                    closeCb(ldap);
+                    closeCb(client);
                     return;
                 }
 
                 if (config.ldap.group) {
                     var changes = [
-                      { op: 'delete',
-                       attr: 'member',
-                       vals: [ dn ]
+                      { operation: 'delete',
+                       modification: {member: dn }
                       }
                     ];
-                    ldap.modify(config.ldap.group, changes, function (err) {
+                    client.modify(config.ldap.group, changes, function (err) {
                         if (err) console.log(err);
 
                         console.log('LDAP: User removed (' + dn + ')');
                         res.type('application/javascript');
                         res.send(true);
 
-                        closeCb(ldap);
+                        closeCb(client);
                     });
                 }
 

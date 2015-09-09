@@ -32,6 +32,7 @@ module.exports = BaseCollection.extend({
 
             users = JSON.parse(users);
             users.forEach(function(user) {
+                user.id = user.uid;
                 var existing = self.get(user.id);
                 if (!existing) {
                     self.add(user);
