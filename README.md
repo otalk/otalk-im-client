@@ -15,6 +15,8 @@ Ubuntu
 CentOS
 
     sudo yum install libuuid-devel libicu-devel
+Then
+
     npm install
     cp dev_config.example.json dev_config.json
     node server
