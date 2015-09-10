@@ -9,7 +9,12 @@ Kaiwa is a fork of Otalk, a prototype application created by &yet (https://githu
 
     git clone https://github.com/digicoop/kaiwa.git
     cd kaiwa
+Ubuntu
+
     sudo apt-get install uuid-dev
+CentOS
+
+    sudo yum install libuuid-devel libicu-devel
     npm install
     cp dev_config.example.json dev_config.json
     node server
