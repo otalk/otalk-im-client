@@ -127,6 +127,7 @@ module.exports = BasePage.extend({
         if (e.which === 13 && !e.shiftKey) {
             app.composing[this.model.jid] = '';
             this.sendChat();
+            this.sendChatState('active');
             e.preventDefault();
             return false;
         } else if (e.which === 38 && this.$chatInput.val() === '' && this.model.lastSentMessage) {
