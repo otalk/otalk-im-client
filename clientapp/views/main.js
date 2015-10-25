@@ -132,7 +132,7 @@ module.exports = HumanView.extend({
         me.mucs.add({
             id: mucjid,
             name: mucjid,
-            jid: new client.JID(mucjid),
+            jid: new app.JID(mucjid),
             nick: me.nick,
             autoJoin: true
         });

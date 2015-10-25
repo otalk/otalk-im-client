@@ -15,6 +15,7 @@ var attachMediaStream = require('attachmediastream');
 module.exports = BasePage.extend({
     template: templates.pages.chat,
     initialize: function (spec) {
+        var self = this;
         this.editMode = false;
 
         this.listenTo(this, 'pageloaded', this.handlePageLoaded);
@@ -187,7 +188,7 @@ module.exports = BasePage.extend({
 
             message = {
                 id: client.nextId(),
-                to: client.JID(this.model.lockedResource || this.model.jid),
+                to: new app.JID(this.model.lockedResource || this.model.jid),
                 type: 'chat',
                 body: val,
                 requestReceipt: true,
@@ -314,12 +315,12 @@ module.exports = BasePage.extend({
                             condition: 'decline'
                         });
                     } else {
-                        client.sendPresence({to: client.JID(self.model.jingleCall.jingleSession.peer) });
+                        client.sendPresence({to: new app.JID(self.model.jingleCall.jingleSession.peer) });
                         self.model.jingleCall.jingleSession.accept();
                     }
                 });
             } else {
-                client.sendPresence({to: client.JID(this.model.jingleCall.jingleSession.peer) });
+                client.sendPresence({to: new app.JID(this.model.jingleCall.jingleSession.peer) });
                 this.model.jingleCall.jingleSession.accept();
             }
         }

@@ -29,8 +29,4 @@ echo "Configuring kaiwa..."
 
 cd kaiwa
 
-cp /app/stanza.io/websocket.js node_modules/stanza.io/lib/transports
-cp /app/stanza.io/index-browser.js node_modules/stanza.io/lib/plugins
-cp /app/stanza.io/muc.js node_modules/stanza.io/lib/stanza
-
 node server

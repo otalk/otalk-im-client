@@ -109,16 +109,19 @@ var Message = module.exports = HumanModel.define({
             deps: ['body', 'meAction', 'mentions'],
             fn: function () {
                 var body = this.body;
-                if (this.meAction) {
-                    body = body.substr(4);
+                if (body) {
+                    if (this.meAction) {
+                        body = body.substr(4);
+                    }
+                    body = htmlify.toHTML(body);
+                    for (var i = 0; i < this.mentions.length; i++) {
+                        var existing = htmlify.toHTML(this.mentions[i]);
+                        var parts = body.split(existing);
+                        body = parts.join('<span class="mention">' + existing + '</span>');
+                    }
+                    return body;
                 }
-                body = htmlify.toHTML(body);
-                for (var i = 0; i < this.mentions.length; i++) {
-                    var existing = htmlify.toHTML(this.mentions[i]);
-                    var parts = body.split(existing);
-                    body = parts.join('<span class="mention">' + existing + '</span>');
-                }
-                return body;
+                this.body = '';
             }
         },
         partialTemplateHtml: {
@@ -158,7 +161,7 @@ var Message = module.exports = HumanModel.define({
         meAction: {
             deps: ['body'],
             fn: function () {
-                return this.body.indexOf('/me') === 0;
+                return this.body && this.body.indexOf('/me') === 0;
             }
         },
         urls: {

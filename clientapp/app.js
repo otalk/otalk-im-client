@@ -25,6 +25,7 @@ module.exports = {
     launch: function () {
 
         var self = window.app = this;
+        self.JID = StanzaIO.JID;
         var config = localStorage.config;
 
         if (!config) {
@@ -41,15 +42,17 @@ module.exports = {
         var profile = {};
         async.series([
             function (cb) {
+                app.composing = {};
+                app.timeInterval = 0;
+                app.mucInfos = [];
                 app.notifications = new Notify();
                 app.soundManager = new SoundEffectManager();
                 app.desktop = new Desktop();
                 app.cache = new AppCache();
                 app.storage = new Storage();
-                app.storage.open(cb);
-                app.composing = {};
-                app.timeInterval = 0;
-                app.mucInfos = [];
+                app.storage.open(function() {
+                  cb();
+                });
             },
             function (cb) {
                 app.storage.profiles.get(app.config.jid, function (err, res) {
@@ -109,7 +112,7 @@ module.exports = {
                 function start() {
                     // start our router and show the appropriate page
                     app.history.start({pushState: true, root: '/'});
-                    if (app.history.fragment == '' && SERVER_CONFIG.startup)
+                    if (app.history.fragment === '' && SERVER_CONFIG.startup)
                         app.navigate(SERVER_CONFIG.startup);
                     cb();
                 }

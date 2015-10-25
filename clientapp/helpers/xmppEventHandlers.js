@@ -86,11 +86,8 @@ module.exports = function (client, app) {
         });
     });
 
-    client.on('disconnected', function (err) {
+    client.on('disconnected', function () {
         app.state.connected = false;
-        if (err) {
-            console.error(err);
-        }
         if (!app.state.hasConnected) {
             window.location = '/login';
         }
@@ -372,7 +369,7 @@ module.exports = function (client, app) {
     client.on('jingle:incoming', function (session) {
         var contact = me.getContact(session.peer);
         if (!contact) {
-            contact = new Contact({jid: client.JID(session.peer).bare});
+            contact = new Contact({jid: new app.JID(session.peer).bare});
             contact.resources.add({id: session.peer});
             me.contacts.add(contact);
         }

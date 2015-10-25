@@ -113,7 +113,7 @@ exports.includes.call = function anonymous(locals) {
 exports.includes.contactListItem = function anonymous(locals) {
     var buf = [];
     with (locals || {}) {
-        buf.push('<li class="contact joined"><div class="wrap"><i class="remove fa fa-times-circle"></i><i class="presence fa fa-circle"></i><div class="user"><img class="avatar"/><span class="name">' + jade.escape(null == (jade.interp = contact.displayName) ? "" : jade.interp) + '</span><span class="idleTime">' + jade.escape(null == (jade.interp = contact.idleSince) ? "" : jade.interp) + '</span></div><div class="unread">' + jade.escape(null == (jade.interp = contact.unreadCount) ? "" : jade.interp) + "</div></div></li>");
+        buf.push('<li class="contact joined"><div class="wrap"><i class="remove fa fa-times-circle"></i><i class="presence fa fa-circle"></i><div class="user"><img class="avatar"/><span class="name">' + jade.escape(null == (jade.interp = contact.displayName) ? "" : jade.interp) + '</span></div><div class="unread">' + jade.escape(null == (jade.interp = contact.unreadCount) ? "" : jade.interp) + "</div></div></li>");
     }
     return buf.join("");
 };

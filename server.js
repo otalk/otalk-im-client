@@ -1,8 +1,8 @@
 var fs = require('fs');
 var https = require('https');
+var Moonboots = require('moonboots-express');
 var express = require('express');
 var helmet = require('helmet');
-var Moonboots = require('moonboots-express');
 var config = require('getconfig');
 var templatizer = require('templatizer');
 var async = require('async');
@@ -10,10 +10,10 @@ var LDAP = require('ldapjs');
 
 String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
-}
+};
 
 var app = express();
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
 var compression = require('compression');
 var serveStatic = require('serve-static');
 
@@ -42,7 +42,7 @@ app.get('/logout', function (req, res) {
 
 app.get('/config.js', function (req, res) {
     res.type('application/javascript');
-    res.send("var SERVER_CONFIG = " + JSON.stringify(config.server) + ";");
+    res.send("window.SERVER_CONFIG = " + JSON.stringify(config.server) + ";");
 });
 
 app.get('/sounds/*', function (req, res) {
@@ -66,7 +66,7 @@ function connectLDAP(req, cb) {
     function closeCb(client) {
       client.unbind();
       console.log("LDAP: Disconnected");
-    };
+    }
 
     client.bind(ldapDN, ldapPW, function(err) {
       if (err) {
@@ -107,11 +107,11 @@ app.post('/ldap/user/:id', function(req, res) {
         if (err === false) {
 
             var changes = [];
-            if (req.body.cn != undefined) changes.push(new LDAP.Change({ operation: 'replace', modification: {cn: req.body.cn}}));
-            if (req.body.sn != undefined) changes.push(new LDAP.Change({ operation: 'replace',  modification: {sn: req.body.sn}}));
-            if (req.body.givenName != undefined) changes.push(new LDAP.Change({ operation: 'replace',  modification: {givenName: req.body.givenName}}));
-            if (req.body.displayName != undefined) changes.push(new LDAP.Change({ operation: 'replace',  modification: {displayName: req.body.displayName}}));
-            if (req.body.mail != undefined) changes.push(new LDAP.Change({ operation: 'replace',  modification: {mail: req.body.mail}}));
+            if (req.body.cn !== undefined) changes.push(new LDAP.Change({ operation: 'replace', modification: {cn: req.body.cn}}));
+            if (req.body.sn !== undefined) changes.push(new LDAP.Change({ operation: 'replace',  modification: {sn: req.body.sn}}));
+            if (req.body.givenName !== undefined) changes.push(new LDAP.Change({ operation: 'replace',  modification: {givenName: req.body.givenName}}));
+            if (req.body.displayName !== undefined) changes.push(new LDAP.Change({ operation: 'replace',  modification: {displayName: req.body.displayName}}));
+            if (req.body.mail !== undefined) changes.push(new LDAP.Change({ operation: 'replace',  modification: {mail: req.body.mail}}));
 
             client.modify(dn, changes, function (err) {
                 if (err) {

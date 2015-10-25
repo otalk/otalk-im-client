@@ -15,6 +15,7 @@ var tempSubject = '';
 module.exports = BasePage.extend({
     template: templates.pages.groupchat,
     initialize: function (spec) {
+        var self = this;
         this.editMode = false;
 
         this.listenTo(this, 'pageloaded', this.handlePageLoaded);
@@ -301,7 +302,7 @@ module.exports = BasePage.extend({
 
             var id = client.sendMessage(message);
             message.mid = id;
-            message.from = client.JID(this.model.jid.bare + '/' + this.model.nick);
+            message.from = new app.JID(this.model.jid.bare + '/' + this.model.nick);
 
             if (this.editMode) {
                 this.model.lastSentMessage.correct(message);
@@ -322,7 +323,7 @@ module.exports = BasePage.extend({
     },
     blurStatusChange: function (e) {
         var subject = e.target.textContent;
-        if (subject == '')
+        if (subject === '')
             subject = true;
         client.setSubject(this.model.jid, subject);
         e.target.textContent = tempSubject;

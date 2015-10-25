@@ -55,7 +55,7 @@ module.exports = HumanModel.define({
                     if (this.unreadCount < 100)
                       return this.unreadCount.toString();
                     else
-                      return '99+'
+                      return '99+';
                 }
                 return '';
             }
@@ -84,7 +84,7 @@ module.exports = HumanModel.define({
         if (xmppContact) {
             name = xmppContact.displayName;
         }
-        return name != '' ? name : nickname;
+        return name !== '' ? name : nickname;
     },
     getNickname: function (jid) {
         var nickname = jid.split('/')[1];
@@ -148,7 +148,7 @@ module.exports = HumanModel.define({
             this.lastSentMessage = message;
         }
 
-        var existing = Message.idLookup(message.from['full'], message.mid);
+        var existing = Message.idLookup(message.from.full, message.mid);
         if (existing) {
             existing.set(message);
             existing.save();
@@ -163,6 +163,7 @@ module.exports = HumanModel.define({
         }
     },
     join: function (manual) {
+        var self = this;
         if (!this.nick) {
             this.nick = me.jid.local;
         }
@@ -202,7 +203,6 @@ module.exports = HumanModel.define({
             });
 
             if (SERVER_CONFIG.domain && SERVER_CONFIG.admin) {
-                var self = this;
                 client.setRoomAffiliation(this.jid, SERVER_CONFIG.admin + '@' + SERVER_CONFIG.domain, 'owner', 'administration', function(err, resp) {
                     if (err) return;
                     client.setRoomAffiliation(self.jid, me.jid, 'none', 'administration');
@@ -210,7 +210,6 @@ module.exports = HumanModel.define({
             }
         }
 
-        var self = this;
         // After a reconnection
         client.on('muc:join', function (pres) {
             if (self.messages.length) {
@@ -243,19 +242,21 @@ module.exports = HumanModel.define({
                 }
             }
 
-            client.getHistory(filter, function (err, res) {
+            client.searchHistory(filter, function (err, res) {
                 if (err) return;
 
-                var results = res.mamQuery.results || [];
-
+                var results = res.mamResult.items || [];
+                if (filter.rsm.before) {
+                  results.reverse();
+                }
                 results.forEach(function (result) {
-                    var msg = result.mam.forwarded.message;
+                    var msg = result.forwarded.message;
 
                     msg.mid = msg.id;
                     delete msg.id;
 
                     if (!msg.delay) {
-                        msg.delay = result.mam.forwarded.delay;
+                        msg.delay = result.forwarded.delay;
                     }
 
                     if (msg.replace) {
@@ -267,7 +268,7 @@ module.exports = HumanModel.define({
                     }
 
                     var message = new Message(msg);
-                    message.archivedId = result.mam.id;
+                    message.archivedId = result.id;
                     message.acked = true;
 
                     self.addMessage(message, false);
@@ -275,7 +276,7 @@ module.exports = HumanModel.define({
 
                 if (allInterval) {
                   self.trigger('refresh');
-                  if (results.length == 40)
+                  if (results.length === filter.rsm.max)
                       self.fetchHistory(true);
                 }
             });

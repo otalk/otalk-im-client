@@ -88,6 +88,7 @@ module.exports = HumanModel.define({
         var prev = this.getContact(this._activeContact);
         if (prev) {
             prev.activeContact = false;
+            this._activeContact = '';
         }
         var curr = this.getContact(jid);
         if (curr) {
@@ -143,9 +144,9 @@ module.exports = HumanModel.define({
     getContact: function (jid, alt) {
         if (typeof jid === 'string') {
             if (SERVER_CONFIG.domain && jid.indexOf('@') == -1) jid += '@' + SERVER_CONFIG.domain;
-            jid = new client.JID(jid);
+            jid = new app.JID(jid);
         }
-        if (typeof alt === 'string') alt = new client.JID(alt);
+        if (typeof alt === 'string') alt = new app.JID(alt);
 
         if (this.isMe(jid)) {
             jid = alt || jid;

@@ -7,38 +7,41 @@
   },
   "dependencies": {
     "andlog": "0.0.4",
-    "async": "^0.9.0",
+    "async": "^1.4.0",
     "attachmediastream": "1.0.1",
     "backbone": "1.0.0",
     "bluebird": "^2.3.2",
     "body-parser": "1.12.0",
     "bows": "0.3.0",
-    "browserify": "4.x",
     "compression": "1.2.2",
     "crypto-browserify": "",
-    "express": "4.10.6",
+    "express": "4.13.3",
     "getconfig": "0.0.5",
     "getusermedia": "0.2.1",
     "helmet": "0.1.0",
     "human-model": "2.6.0",
     "human-view": "1.8.0",
     "jade": "1.8.2",
-    "jxt": "^2.7.0",
+    "jxt": "^3.0.4",
+    "jxt-xmpp": "^1.2.3",
+    "jxt-xmpp-types": "^3.0.0",
     "ldapjs": "0.7.1",
-    "moonboots-express": "2.x",
+    "moonboots-express": "^3.0",
     "node-uuid": "^1.4.1",
     "notify.js": "0.0.3",
     "semi-static": "0.0.4",
     "serve-static": "1.7.1",
     "sound-effect-manager": "1.0.0",
-    "stanza.io": "6.10.2",
+    "stanza.io": "7.3.4",
     "staydown": "1.0.3",
     "templatizer": "0.1.2",
     "underscore": "1.6.0",
-    "wildemitter": "^1.0.1"
+    "wildemitter": "^1.0.1",
+    "xmpp-constants": "^2.2.2"
   },
   "devDependencies": {
-    "precommit-hook": "^1.0.2"
+    "browserify": "^11.0.1",
+    "precommit-hook": "^3.0.0"
   },
   "license": "MIT",
   "main": "server.js",
@@ -46,5 +49,14 @@
   "repository": {
     "type": "git",
     "url": "git@github.com:digicoop/kaiwa.git"
-  }
+  },
+  "scripts": {
+    "lint": "jshint .",
+    "validate": "npm ls"
+  },
+  "pre-commit": [
+    "lint",
+    "validate",
+    "test"
+  ]
 }
