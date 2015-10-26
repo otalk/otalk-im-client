@@ -50,7 +50,10 @@ module.exports = {
                 app.desktop = new Desktop();
                 app.cache = new AppCache();
                 app.storage = new Storage();
-                app.storage.open(function() {
+                app.storage.open(function(success) {
+                  if (!success) {
+                    console.error('IndexedDB is not activated (private mode?)');
+                  }
                   cb();
                 });
             },

@@ -30,7 +30,7 @@ Storage.prototype = {
         var request = indexedDB.open('datastorage', this.version);
         request.onsuccess = function (e) {
             self.db = e.target.result;
-            cb(false, self.db);
+            cb(true);
         };
         request.onupgradeneeded = function (e) {
             var db = e.target.result;
@@ -40,7 +40,9 @@ Storage.prototype = {
             self.archive.setup(db);
             self.profiles.setup(db);
         };
-        request.onerror = cb;
+        request.onerror = function(e) {
+            cb(false);
+        };
     }
 };
 
