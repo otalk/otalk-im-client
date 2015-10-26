@@ -1,7 +1,7 @@
 {
     "isDev": true,
     "http": {
-        "baseUrl": "http://localhost:8000",
+        "host": "localhost",
         "port": 8000
     },
     "session": {

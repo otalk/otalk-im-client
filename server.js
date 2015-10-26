@@ -46,7 +46,6 @@ app.get('/config.js', function (req, res) {
 });
 
 app.get('/sounds/*', function (req, res) {
-    console.log(req.baseUrl);
     res.type('audio/wav');
     res.redirect("./public" + req.baseUrl);
 });
@@ -390,11 +389,10 @@ clientApp.on('ready', function () {
     });
 });
 
-//https.createServer({
-//    key: fs.readFileSync(config.http.key),
-//    cert: fs.readFileSync(config.http.cert)
-//}, app).listen(config.http.port);
-
-app.listen(config.http.port, function () {
-    console.log('Kaiwa running at: ' + config.http.baseUrl);
+app.listen(config.http.port, config.http.host, function () {
+    console.log('Kaiwa running...');
+    if (config.http.host) {
+      console.log('Hostname:' + config.http.host);
+    }
+    console.log('Port:' + config.http.port);
 });

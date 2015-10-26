@@ -9,6 +9,8 @@ export XMPP_MUC="$(echo ${XMPP_MUC} | sed 's/\//\\\//g')"
 export XMPP_STARTUP="$(echo ${XMPP_STARTUP} | sed 's/\//\\\//g')"
 export XMPP_ADMIN="$(echo ${XMPP_ADMIN} | sed 's/\//\\\//g')"
 
+sed 's/{{HOSTNAME}}/'"${HOSTNAME}"'/' -i /app/config/dev_config.json
+
 sed 's/{{XMPP_NAME}}/'"${XMPP_NAME}"'/' -i /app/config/dev_config.json
 sed 's/{{XMPP_DOMAIN}}/'"${XMPP_DOMAIN}"'/' -i /app/config/dev_config.json
 sed 's/{{XMPP_WSS}}/'"${XMPP_WSS}"'/' -i /app/config/dev_config.json
