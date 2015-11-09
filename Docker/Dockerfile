@@ -10,6 +10,7 @@ ENV XMPP_MUC chat.example.com
 ENV XMPP_STARTUP groupchat/room%40chat.example.com
 ENV XMPP_ADMIN admin
 
+ENV LDAP_HOST container
 ENV LDAP_DN cn=admin,dc=example.com
 ENV LDAP_PWD password
 ENV LDAP_GROUP mygroup
