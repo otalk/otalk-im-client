@@ -1,90 +1,37 @@
 @import '../_variables'
 @import '../_mixins'
 
-#me
-  position: fixed
-  left: 200px
-  top: 0px
-  height: 40px
-  width: 100%
-  background-color: #fff
-  border-bottom: 1px solid darken($gray-lighter, 10%)
+#topbar.connected
   z-index: 100
+  #connectionStatus
+    display: none
+
+#topbar
+  position: fixed
+  right: 0px
+  top: 0px
+  height: 42px
+  width: 100%
+  background-color: $topbarBg
+  z-index: 102
   noselect()
-  color: #fff
+  color: $topbarFg
 
-  .avatar
-    width: 30px
-    height: 30px
-    vertical-align: middle
-    margin-right: 5px
-    roundall(15px)
+  #connectionStatus
+    width: 340px
+    margin: 2px auto
+    background-color: transparent
 
-  h1
-    font-size: 13px
-    line-height: 12px
-    margin: 5px
-    padding: 0px
-    white-space: nowrap
-    max-width: 75%
-
-  .status
-    font-weight: normal
-    font-size: 12px
-    line-height: 12px
-    border-width: 0px
-    margin: 0px
-    padding: 0px
-    line-height: 20px
-    height: 20px
-    max-width: 75%
-    white-space: nowrap
-    overflow: hidden
-    text-overflow: ellipsis
-    transition: all .25s
-    allowselect()
-
-    &:empty:before
-      content: '- Update your status'
-
-    &:before,
-    &:empty:focus:before
-      content: '-'
-      padding-left: 5px
-      padding-right: 5px
-
-    &:empty
-      font-style: italic
-
-  .name,
-  .status
-    &:focus
-      background-color: #fffcea
-      border: 1px solid #efe391
-      color: #d2bd2d
-
-  .settings
-    position: fixed
-    padding-left: 30px
-    line-height: 30px
-    height: 30px
-    right: 5px
-    top: 5px
-    background-color: #fff
-    color: #12acef
-    transition: none
-
-    svg
-      position: absolute
-      top: 50%
-      left: 5px
-      margin: 0px
-      margin-top: -13px
-      fill: #12acef
-
-    &:hover
-      background-color: #12acef
+    p
+      position: relative
+      top: 2px
+      display: inline
       color: #fff
+      font-size: 15px
+      padding: 0
+      margin: 0 18px 0 0
 
-      svg
-        fill: #fff
+    button
+      height: 30px
+      margin: 3px 0
+      cursor: pointer

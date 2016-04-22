@@ -2,12 +2,14 @@
 "use strict";
 
 var _ = require('underscore');
-var async = require('async');
 var Backbone = require('backbone');
+Backbone.$ = $;
+var async = require('async');
 var StanzaIO = require('stanza.io');
 
 var AppState = require('./models/state');
 var MeModel = require('./models/me');
+var LdapUsers = require('./models/ldapUsers');
 var MainView = require('./views/main');
 var Router = require('./router');
 var Storage = require('./storage');
@@ -17,38 +19,50 @@ var Notify = require('notify.js');
 var Desktop = require('./helpers/desktop');
 var AppCache = require('./helpers/cache');
 
+var SoundEffectManager = require('sound-effect-manager');
 
 module.exports = {
     launch: function () {
-        var self = window.app = this;
-        var config = localStorage.config;
 
+        var self = window.app = this;
+        self.JID = StanzaIO.JID;
+        var config = localStorage.config;
 
         if (!config) {
             console.log('missing config');
             window.location = '/login';
+            return;
         }
 
-        config = JSON.parse(config);
-        config.useStreamManagement = true;
+        app.config = JSON.parse(config);
+        app.config.useStreamManagement = true;
 
         _.extend(this, Backbone.Events);
 
         var profile = {};
         async.series([
             function (cb) {
+                app.composing = {};
+                app.timeInterval = 0;
+                app.mucInfos = [];
                 app.notifications = new Notify();
+                app.soundManager = new SoundEffectManager();
                 app.desktop = new Desktop();
                 app.cache = new AppCache();
                 app.storage = new Storage();
-                app.storage.open(cb);
+                app.storage.open(function(success) {
+                  if (!success) {
+                    console.error('IndexedDB is not activated (private mode?)');
+                  }
+                  cb();
+                });
             },
             function (cb) {
-                app.storage.profiles.get(config.jid, function (err, res) {
+                app.storage.profiles.get(app.config.jid, function (err, res) {
                     if (res) {
                         profile = res;
-                        profile.jid = {full: config.jid, bare: config.jid};
-                        config.rosterVer = res.rosterVer;
+                        profile.jid = {full: app.config.jid, bare: app.config.jid};
+                        app.config.rosterVer = res.rosterVer;
                     }
                     cb();
                 });
@@ -63,7 +77,7 @@ module.exports = {
                     }
                 };
 
-                self.api = window.client = StanzaIO.createClient(config);
+                self.api = window.client = StanzaIO.createClient(app.config);
                 client.use(pushNotifications);
                 xmppEventHandlers(self.api, self);
 
@@ -74,20 +88,51 @@ module.exports = {
                 self.api.connect();
             },
             function (cb) {
+                app.soundManager.loadFile('/sounds/ding.wav', 'ding');
+                app.soundManager.loadFile('/sounds/threetone-alert.wav', 'threetone-alert');
+                cb();
+            },
+            function (cb) {
+                app.whenConnected(function () {
+                    function getInterval() {
+                        if (client.sessionStarted) {
+                            client.getTime(self.id, function (err, res) {
+                                if (err) return;
+                                self.timeInterval = res.time.utc - Date.now();
+                            });
+                            setTimeout(getInterval, 600000);
+                        }
+                    }
+                    getInterval();
+                });
+                cb();
+            },
+            function (cb) {
+                app.whenConnected(function () {
+                    me.publishAvatar();
+                });
+
                 function start() {
                     // start our router and show the appropriate page
                     app.history.start({pushState: true, root: '/'});
+                    if (app.history.fragment === '' && SERVER_CONFIG.startup)
+                        app.navigate(SERVER_CONFIG.startup);
                     cb();
                 }
 
                 new Router();
                 app.history = Backbone.history;
+                app.history.on("route", function(route, params) {
+                    app.state.pageChanged = params;
+                });
 
                 self.view = new MainView({
                     model: app.state,
                     el: document.body
                 });
                 self.view.render();
+
+                app.ldapUsers = new LdapUsers();
 
                 if (me.contacts.length) {
                     start();
@@ -119,8 +164,12 @@ module.exports = {
         // to start with the active class already before appending to DOM.
         container.append(view.render(animation === 'none').el);
         view.show(animation);
+    },
+    serverConfig: function () {
+        return SERVER_CONFIG;
     }
 };
 
-
-module.exports.launch();
+$(function () {
+    module.exports.launch();
+});

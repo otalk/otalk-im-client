@@ -1,10 +1,12 @@
 "use strict";
 
 var jxt = require('jxt');
-var stanzaio = require('stanza.io');
+var JXT = jxt.createRegistry();
+JXT.use(require('jxt-xmpp-types'));
+JXT.use(require('jxt-xmpp'));
 
 
-jxt.extend(stanzaio.Message, jxt.define({
+jxt.extend(JXT.getMessage(), jxt.define({
     name: 'pushNotification',
     namespace: 'urn:xmpp:push:0',
     element: 'push',
@@ -13,7 +15,7 @@ jxt.extend(stanzaio.Message, jxt.define({
     }
 }));
 
-jxt.extend(stanzaio.Iq, jxt.define({
+jxt.extend(JXT.getIQ(), jxt.define({
     name: 'registerPush',
     namespace: 'urn:xmpp:push:0',
     element: 'register',
@@ -22,7 +24,7 @@ jxt.extend(stanzaio.Iq, jxt.define({
     }
 }));
 
-jxt.extend(stanzaio.Iq, jxt.define({
+jxt.extend(JXT.getIQ(), jxt.define({
     name: 'unregisterPush',
     namespace: 'urn:xmpp:push:0',
     element: 'unregister',
@@ -32,7 +34,7 @@ jxt.extend(stanzaio.Iq, jxt.define({
 }));
 
 
-jxt.extend(stanzaio.Iq, jxt.define({
+jxt.extend(JXT.getIQ(), jxt.define({
     name: 'otalkRegister',
     namespace: 'http://otalk.im/protocol/push',
     element: 'register',

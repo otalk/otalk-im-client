@@ -14,24 +14,33 @@ module.exports = HumanView.extend({
         chatState: '',
         activeContact: '',
         hasUnread: '',
-        idle: ''
+        idle: '',
+        persistent: ''
     },
     textBindings: {
         displayName: '.name',
-        status: '.status',
         displayUnreadCount: '.unread'
     },
     srcBindings: {
         avatar: '.avatar'
     },
     events: {
-        'click': 'handleClick'
+        'click': 'handleClick',
+        'click .remove': 'handleRemoveContact'
     },
     render: function () {
         this.renderAndBind({contact: this.model});
         return this;
     },
     handleClick: function () {
-        app.navigate('chat/' + this.model.jid);
+        if (me.contacts.get(this.model.jid)) {
+            app.navigate('chat/' + encodeURIComponent(this.model.jid));
+        }
+    },
+    handleRemoveContact: function() {
+        me.removeContact(this.model.jid);
+        if (app.history.fragment === 'chat/' + encodeURIComponent(this.model.jid)) {
+            app.navigate('/');
+        }
     }
 });

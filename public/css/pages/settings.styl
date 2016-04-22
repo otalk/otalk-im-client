@@ -2,24 +2,101 @@
 @import '../_mixins'
 
 // Settings
-.main > div
-  padding: 20px
-  padding-top: 50px
-  border-bottom: 1px solid $gray-lighter
+.main
 
-  &:last-of-type
-    border: none
+  h1
+    color: #fff
+    padding: 6px 12px
+    margin: 0
+    z-index: 101
+    position: fixed
 
-  .status
-    overflow: hidden
-    min-height: 35px
-    max-height: 50px
-    height: auto
+  #ldapSettings
+    display: none
+    &.hasLdapUsers
+      display: block
+
+  > div
+    padding: 20px
+    border-bottom: 1px solid $gray-lighter
+    h4
+      color: $blue-saturated
+
+    &:last-of-type
+      border: none
+
+    .status
+      overflow: hidden
+      min-height: 35px
+      max-height: 50px
+      height: auto
+
+    .enableAlerts, .installFirefox, .soundNotifs
+      margin-right: 5px
+
+    .soundNotifs
+      &.primary
+        &:before
+          content: 'Disable '
+      &.secondary
+        &:before
+          content: 'Enable '
+
+    #newLdapUser
+      display: none
+      width: 500px
+      height: 20px
+      padding: 3px
+      font-size: 12px
+      &.meIsAdmin
+        display: inline-block
+
+    #ldapUsers
+      border-radius: 3px;
+      border: 1px solid $gray-lighter
+      background: lighten($gray-lighter, 80%)
+      list-style-type: none
+      padding: 5px 5px 5px 8px
+      line-height: 20px
+
+      .fa-plus, .fa-minus, .delete
+        display: none
+        margin-left: 5px
+        cursor: pointer
+        color: black
+        &:hover
+          color: $settingsHoverText
+        &.meIsAdmin
+          display: inline-block
+
+      .delete
+        &:hover
+          color: red
+
+      .wrap
+        background: lighten($gray-lighter, 50%)
+        border-radius: 3px;
+        border: 1px solid $gray-lighter
+        padding: 5px
+        font-size: 12px
+        margin-bottom: 5px
+        width: 502px
+        &.meIsAdmin
+          display: none
+
+        input
+          width: 500px
+          height: 20px
+          padding: 3px
+
+        .changePassword
+          margin-top: 4px
+          margin-right: 4px
 
 .uploadRegion
   padding: 15px
   roundall(3px)
-  margin: 10px 0
+  margin: 50px 0
   border: 1px solid $gray-lighter
   background: lighten($gray-lighter, 80%)
 
@@ -28,3 +105,6 @@
 
   img
     margin: 10px 0
+
+.disconnect, .logout
+  margin-right: 5px

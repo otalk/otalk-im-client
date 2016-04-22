@@ -44,7 +44,7 @@ var discoCapsQueue = async.queue(function (pres, cb) {
             }
             if (client.verifyVerString(result.discoInfo, caps.hash, caps.ver)) {
                 log.info('Saving info for ' + caps.ver);
-                var data = result.discoInfo.toJSON();
+                var data = result.discoInfo;
                 app.storage.disco.add(caps.ver, data, function () {
                     if (resource) resource.discoInfo = data;
                     cb();
@@ -86,11 +86,8 @@ module.exports = function (client, app) {
         });
     });
 
-    client.on('disconnected', function (err) {
+    client.on('disconnected', function () {
         app.state.connected = false;
-        if (err) {
-            console.error(err);
-        }
         if (!app.state.hasConnected) {
             window.location = '/login';
         }
@@ -106,14 +103,12 @@ module.exports = function (client, app) {
     });
 
     client.on('session:started', function (jid) {
-        me.jid = jid;
+        me.updateJid(jid);
 
         app.state.connected = true;
         window.readyForDeviceID = true;
 
         client.getRoster(function (err, resp) {
-            resp = resp.toJSON();
-
             if (resp.roster && resp.roster.items && resp.roster.items.length) {
                 app.storage.roster.clear(function () {
                     me.contacts.reset();
@@ -134,7 +129,7 @@ module.exports = function (client, app) {
                 client.enableCarbons();
             });
 
-            me.mucs.fetch();
+            me.mucs.init();
         });
 
         var keepalive;
@@ -143,7 +138,6 @@ module.exports = function (client, app) {
     });
 
     client.on('roster:update', function (iq) {
-        iq = iq.toJSON();
         var items = iq.roster.items;
 
         me.rosterVer = iq.roster.ver;
@@ -169,7 +163,6 @@ module.exports = function (client, app) {
     });
 
     client.on('available', function (pres) {
-        pres = pres.toJSON();
         var contact = me.getContact(pres.from);
         if (contact) {
             delete pres.id;
@@ -206,7 +199,6 @@ module.exports = function (client, app) {
     });
 
     client.on('unavailable', function (pres) {
-        pres = pres.toJSON();
         var contact = me.getContact(pres.from);
         if (contact) {
             var resource = contact.resources.get(pres.from.full);
@@ -273,7 +265,6 @@ module.exports = function (client, app) {
     });
 
     client.on('chat', function (msg) {
-        msg = msg.toJSON();
         msg.mid = msg.id;
         delete msg.id;
 
@@ -289,8 +280,13 @@ module.exports = function (client, app) {
                 });
             }
 
+            if (msg.carbon)
+                msg.delay.stamp = new Date(Date.now() + app.timeInterval);
+
             message.acked = true;
-            contact.addMessage(message, true);
+            var localTime = new Date(Date.now() + app.timeInterval);
+            var notify = Math.round((localTime - message.created) / 1000) < 5;
+            contact.addMessage(message, notify);
             if (msg.from.bare == contact.jid.bare) {
                 contact.lockedResource = msg.from.full;
             }
@@ -298,7 +294,6 @@ module.exports = function (client, app) {
     });
 
     client.on('groupchat', function (msg) {
-        msg = msg.toJSON();
         msg.mid = msg.id;
         delete msg.id;
 
@@ -306,19 +301,20 @@ module.exports = function (client, app) {
         if (contact && !msg.replace) {
             var message = new Message(msg);
             message.acked = true;
-            contact.addMessage(message, true);
+            var localTime = new Date(Date.now() + app.timeInterval);
+            var notify = Math.round((localTime - message.created) / 1000) < 5;
+            contact.addMessage(message, notify);
         }
     });
 
-    client.on('groupchat:subject', function (msg) {
+    client.on('muc:subject', function (msg) {
         var contact = me.getContact(msg.from, msg.to);
         if (contact) {
-            contact.subject = msg.subject;
+            contact.subject = msg.subject === 'true' ? '' : msg.subject;
         }
     });
 
     client.on('replace', function (msg) {
-        msg = msg.toJSON();
         msg.mid = msg.id;
         delete msg.id;
 
@@ -333,8 +329,6 @@ module.exports = function (client, app) {
     });
 
     client.on('receipt', function (msg) {
-        msg = msg.toJSON();
-
         var contact = me.getContact(msg.from, msg.to);
         if (!contact) return;
 
@@ -345,36 +339,12 @@ module.exports = function (client, app) {
         original.receiptReceived = true;
     });
 
-    client.on('carbon:received', function (carbon) {
-        if (!me.isMe(carbon.from)) return;
+    client.on('message:sent', function (msg) {
+        if (msg.carbon) {
+            msg.delay.stamp = new Date(Date.now() + app.timeInterval);
 
-        var msg = carbon.carbonReceived.forwarded.message;
-        var delay = carbon.carbonReceived.forwarded.delay;
-        if (!delay.stamp) {
-            delay.stamp = new Date(Date.now());
+            client.emit('message', msg);
         }
-
-        if (!msg._extensions.delay) {
-            msg.delay = delay;
-        }
-
-        client.emit('message', msg);
-    });
-
-    client.on('carbon:sent', function (carbon) {
-        if (!me.isMe(carbon.from)) return;
-
-        var msg = carbon.carbonSent.forwarded.message;
-        var delay = carbon.carbonSent.forwarded.delay;
-        if (!delay.stamp) {
-            delay.stamp = new Date(Date.now());
-        }
-
-        if (!msg._extensions.delay) {
-            msg.delay = delay;
-        }
-
-        client.emit('message', msg);
     });
 
     client.on('disco:caps', function (pres) {
@@ -399,7 +369,7 @@ module.exports = function (client, app) {
     client.on('jingle:incoming', function (session) {
         var contact = me.getContact(session.peer);
         if (!contact) {
-            contact = new Contact({jid: client.JID(session.peer).bare});
+            contact = new Contact({jid: new app.JID(session.peer).bare});
             contact.resources.add({id: session.peer});
             me.contacts.add(contact);
         }

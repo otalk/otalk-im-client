@@ -1,0 +1,18 @@
+{
+    "isDev": true,
+    "http": {
+        "host": "localhost",
+        "port": 8000
+    },
+    "session": {
+        "secret": "shhhhhh don't tell anyone ok?"
+    },
+    "server": {
+        "name": "Kaiwa",
+        "domain": "example.com",
+        "wss": "wss://example.com:5281/xmpp-websocket/",
+        "muc": "",
+        "startup": "groupchat/room%40chat.example.com",
+        "admin": "admin"
+    }
+}

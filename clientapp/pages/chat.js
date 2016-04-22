@@ -15,14 +15,18 @@ var attachMediaStream = require('attachmediastream');
 module.exports = BasePage.extend({
     template: templates.pages.chat,
     initialize: function (spec) {
+        var self = this;
         this.editMode = false;
-        this.model.fetchHistory();
 
         this.listenTo(this, 'pageloaded', this.handlePageLoaded);
         this.listenTo(this, 'pageunloaded', this.handlePageUnloaded);
 
         this.listenTo(this.model.messages, 'change', this.refreshModel);
-        this.listenTo(this.model.messages, 'sort', this.renderCollection);
+        this.listenTo(this.model.messages, 'reset', this.renderCollection);
+        this.listenTo(this.model, 'refresh', this.renderCollection);
+
+        app.state.bind('change:connected', this.connectionChange, this);
+        this.model.bind('change:avatar', this.handleAvatarChanged, this);
 
         this.render();
     },
@@ -35,23 +39,34 @@ module.exports = BasePage.extend({
         'click .mute': 'handleMuteClick'
     },
     srcBindings: {
-        avatar: 'header .avatar',
         streamUrl: 'video.remote'
     },
     textBindings: {
         displayName: 'header .name',
         formattedTZO: 'header .tzo',
-        status: 'header .status'
+        status: 'header .status',
+        chatStateText: '.chatBox .contactState'
     },
     classBindings: {
         chatState: 'header',
-        idle: 'header',
-        show: 'header',
+        idle: '.user_presence',
+        show: '.user_presence',
         onCall: '.conversation'
     },
     show: function (animation) {
         BasePage.prototype.show.apply(this, [animation]);
         this.sendChatState('active');
+
+        this.firstChanged = true;
+        var self = this;
+        $('.messages').scroll(function() {
+            if (self.firstChanged && $(".messages li:first-child").offset().top > 0) {
+                self.firstChanged = false;
+                self.model.fetchHistory();
+            }
+        });
+
+        this.$chatInput.focus();
     },
     hide: function () {
         BasePage.prototype.hide.apply(this);
@@ -66,6 +81,7 @@ module.exports = BasePage.extend({
         this.renderAndBind();
 
         this.$chatInput = this.$('.chatBox textarea');
+        this.$chatInput.val(app.composing[this.model.jid] || '');
         this.$chatBox = this.$('.chatBox');
         this.$messageList = this.$('.messages');
 
@@ -96,7 +112,13 @@ module.exports = BasePage.extend({
     },
     renderCollection: function () {
         var self = this;
+
         this.$messageList.empty();
+        delete this.firstModel;
+        delete this.firstDate;
+        delete this.lastModel;
+        delete this.lastDate;
+
         this.model.messages.each(function (model, i) {
             self.appendModel(model);
         });
@@ -104,7 +126,9 @@ module.exports = BasePage.extend({
     },
     handleKeyDown: function (e) {
         if (e.which === 13 && !e.shiftKey) {
+            app.composing[this.model.jid] = '';
             this.sendChat();
+            this.sendChatState('active');
             e.preventDefault();
             return false;
         } else if (e.which === 38 && this.$chatInput.val() === '' && this.model.lastSentMessage) {
@@ -129,6 +153,7 @@ module.exports = BasePage.extend({
     },
     handleKeyUp: function (e) {
         this.resizeInput();
+        app.composing[this.model.jid] = this.$chatInput.val();
         if (this.typing && this.$chatInput.val().length === 0) {
             this.typing = false;
             this.$chatInput.removeClass('typing');
@@ -144,7 +169,7 @@ module.exports = BasePage.extend({
         }
     }, 3000),
     sendChatState: function (state) {
-        if (!this.model.supportsChatStates) return;
+        //if (!this.model.supportsChatStates) return;
         client.sendMessage({
             to: this.model.lockedResource || this.model.jid,
             chatState: state
@@ -163,7 +188,7 @@ module.exports = BasePage.extend({
 
             message = {
                 id: client.nextId(),
-                to: client.JID(this.model.lockedResource || this.model.jid),
+                to: new app.JID(this.model.lockedResource || this.model.jid),
                 type: 'chat',
                 body: val,
                 requestReceipt: true,
@@ -187,7 +212,7 @@ module.exports = BasePage.extend({
                 this.model.lastSentMessage.correct(message);
             } else {
                 var msgModel = new MessageModel(message);
-                this.model.addMessage(msgModel);
+                this.model.addMessage(msgModel, false);
                 this.model.lastSentMessage = msgModel;
             }
         }
@@ -203,29 +228,79 @@ module.exports = BasePage.extend({
     },
     refreshModel: function (model) {
         var existing = this.$('#chat' + model.cid);
-        existing.replaceWith(model.partialTemplateHtml);
+        existing.replaceWith(model.bareMessageTemplate(existing.prev().hasClass('message_header')));
+        existing = this.$('#chat' + model.cid);
+        embedIt(existing);
     },
     handleJingleResourcesChanged: function (model, val) {
         var resources = val || this.model.jingleResources;
         this.$('button.call').prop('disabled', !resources.length);
     },
-    appendModel: function (model, preload) {
-        var self = this;
-        var isGrouped = model.shouldGroupWith(this.lastModel);
-        var newEl, first, last;
-
-        if (isGrouped) {
-            newEl = $(model.partialTemplateHtml);
-            last = this.$messageList.find('li').last();
-            last.find('.messageWrapper').append(newEl);
-            last.addClass('chatGroup');
-            this.staydown.checkdown();
-        } else {
-            newEl = $(model.templateHtml);
-            this.staydown.append(newEl[0]);
+    handleAvatarChanged: function (contact, uri) {
+        if (!me.isMe(contact.jid)) {
+            $('.' + contact.jid.substr(0, contact.jid.indexOf('@')) + ' .messageAvatar img').attr('src', uri);
         }
-        embedIt(newEl);
-        this.lastModel = model;
+    },
+    appendModel: function (model, preload) {
+        var newEl, first, last;
+        var msgDate = Date.create(model.timestamp);
+        var messageDay = msgDate.format('{month} {ord}, {yyyy}');
+
+        if (this.firstModel === undefined || msgDate > Date.create(this.firstModel.timestamp)) {
+            if (this.firstModel === undefined) {
+                this.firstModel = model;
+                this.firstDate = messageDay;
+            }
+
+            if (messageDay !== this.lastDate) {
+                var dayDivider = $(templates.includes.dayDivider({day_name: messageDay}));
+                this.staydown.append(dayDivider[0]);
+                this.lastDate = messageDay;
+            }
+
+            var isGrouped = model.shouldGroupWith(this.lastModel);
+            if (isGrouped) {
+                newEl = $(model.partialTemplateHtml);
+                last = this.$messageList.find('li').last();
+                last.find('.messageWrapper').append(newEl);
+                last.addClass('chatGroup');
+                this.staydown.checkdown();
+            } else {
+                newEl = $(model.templateHtml);
+                if (!me.isMe(model.sender.jid)) newEl.addClass(model.sender.jid.substr(0, model.sender.jid.indexOf('@')));
+                this.staydown.append(newEl[0]);
+                this.lastModel = model;
+            }
+            if (!model.pending) embedIt(newEl);
+        }
+        else {
+            var scrollDown = this.$messageList.prop('scrollHeight') - this.$messageList.scrollTop();
+            var firstEl = this.$messageList.find('li').first();
+
+            if (messageDay !== this.firstDate) {
+                var dayDivider = $(templates.includes.dayDivider({day_name: messageDay}));
+                firstEl.before(dayDivider[0]);
+                var firstEl = this.$messageList.find('li').first();
+                this.firstDate = messageDay;
+            }
+
+            var isGrouped = model.shouldGroupWith(this.firstModel);
+            if (isGrouped) {
+                newEl = $(model.partialTemplateHtml);
+                first = this.$messageList.find('li').first().next();
+                first.find('.messageWrapper div:first').after(newEl);
+                first.addClass('chatGroup');
+            } else {
+                newEl = $(model.templateHtml);
+                if (!me.isMe(model.sender.jid)) newEl.addClass(model.sender.jid.substr(0, model.sender.jid.indexOf('@')));
+                firstEl.after(newEl[0]);
+                this.firstModel = model;
+            }
+            if (!model.pending) embedIt(newEl);
+
+            this.$messageList.scrollTop(this.$messageList.prop('scrollHeight') - scrollDown);
+            this.firstChanged = true;
+        }
     },
     handleAcceptClick: function (e) {
         e.preventDefault();
@@ -240,12 +315,12 @@ module.exports = BasePage.extend({
                             condition: 'decline'
                         });
                     } else {
-                        client.sendPresence({to: client.JID(self.model.jingleCall.jingleSession.peer) });
+                        client.sendPresence({to: new app.JID(self.model.jingleCall.jingleSession.peer) });
                         self.model.jingleCall.jingleSession.accept();
                     }
                 });
             } else {
-                client.sendPresence({to: client.JID(this.model.jingleCall.jingleSession.peer) });
+                client.sendPresence({to: new app.JID(this.model.jingleCall.jingleSession.peer) });
                 this.model.jingleCall.jingleSession.accept();
             }
         }
@@ -270,24 +345,36 @@ module.exports = BasePage.extend({
     resizeInput: _.throttle(function () {
         var height;
         var scrollHeight;
+        var heightDiff;
         var newHeight;
-        var newPadding;
-        var paddingDelta;
-        var maxHeight = 102;
+        var newMargin;
+        var marginDelta;
+        var maxHeight = parseInt(this.$chatInput.css('max-height'), 10);
 
         this.$chatInput.removeAttr('style');
-        height = this.$chatInput.height() + 10;
-        scrollHeight = this.$chatInput.get(0).scrollHeight;
-        newHeight = scrollHeight + 2;
+        height = this.$chatInput.outerHeight(),
+        scrollHeight = this.$chatInput.get(0).scrollHeight,
+        newHeight = Math.max(height, scrollHeight);
+        heightDiff = height - this.$chatInput.innerHeight();
 
         if (newHeight > maxHeight) newHeight = maxHeight;
         if (newHeight > height) {
-            this.$chatInput.css('height', newHeight);
-            newPadding = newHeight + 21;
-            paddingDelta = newPadding - parseInt(this.$messageList.css('paddingBottom'), 10);
-            if (!!paddingDelta) {
-                this.$messageList.css('paddingBottom', newPadding);
+            this.$chatInput.css('height', newHeight+heightDiff);
+            this.$chatInput.scrollTop(this.$chatInput[0].scrollHeight - this.$chatInput.height());
+            newMargin = newHeight - height + heightDiff;
+            marginDelta = newMargin - parseInt(this.$messageList.css('marginBottom'), 10);
+            if (!!marginDelta) {
+                this.$messageList.css('marginBottom', newMargin);
             }
+        } else {
+            this.$messageList.css('marginBottom', 0);
         }
-    }, 300)
+    }, 300),
+    connectionChange: function () {
+        if (app.state.connected) {
+            this.$chatInput.attr("disabled", false);
+        } else {
+            this.$chatInput.attr("disabled", "disabled");
+        }
+    }
 });

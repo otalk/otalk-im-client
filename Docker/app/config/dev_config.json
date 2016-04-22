@@ -1,0 +1,26 @@
+{
+    "isDev": true,
+    "http": {
+        "host": "{{HOSTNAME}}",
+        "port": 8000
+    },
+    "session": {
+        "secret": "shhhhhh don't tell anyone ok?"
+    },
+    "server": {
+        "name": "{{XMPP_NAME}}",
+        "domain": "{{XMPP_DOMAIN}}",
+        "wss": "{{XMPP_WSS}}",
+        "muc": "{{XMPP_MUC}}",
+        "startup": "{{XMPP_STARTUP}}",
+        "admin": "{{XMPP_ADMIN}}"
+    },
+    "ldap": {
+        "address": "{{LDAP_HOST}}",
+        "user": "{{LDAP_DN}}",
+        "password": "{{LDAP_PWD}}",
+        "base": "{{LDAP_USER_BASE}}",
+        "filter": "objectClass=person",
+        "group": "cn={{LDAP_GROUP}},{{LDAP_GROUP_BASE}}"
+    }
+}

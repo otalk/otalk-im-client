@@ -9,14 +9,12 @@ var Contact = require('./contact');
 var MUCs = require('./mucs');
 var MUC = require('./muc');
 var ContactRequests = require('./contactRequests');
-var fetchAvatar = require('../helpers/fetchAvatar');
-
+var avatarHandler = require('../helpers/avatarHandler');
+var crypto = require('crypto');
 
 module.exports = HumanModel.define({
     initialize: function (opts) {
-        if (opts.avatarID) {
-            this.setAvatar(opts.avatarID);
-        }
+        this.setAvatar(opts ? opts.avatarID : null);
 
         this.bind('change:jid', this.load, this);
         this.bind('change:hasFocus', function () {
@@ -26,6 +24,7 @@ module.exports = HumanModel.define({
         this.bind('change:avatarID', this.save, this);
         this.bind('change:status', this.save, this);
         this.bind('change:rosterVer', this.save, this);
+        this.bind('change:soundEnabled', this.save, this);
         this.contacts.bind('change:unreadCount', this.updateUnreadCount, this);
         app.state.bind('change:active', this.updateIdlePresence, this);
         app.state.bind('change:deviceIDReady', this.registerDevice, this);
@@ -43,7 +42,8 @@ module.exports = HumanModel.define({
         shouldAskForAlertsPermission: ['bool', false, false],
         hasFocus: ['bool', false, false],
         _activeContact: 'string',
-        stream: 'object'
+        stream: 'object',
+        soundEnabled: ['bool', false, true],
     },
     collections: {
         contacts: Contacts,
@@ -64,12 +64,31 @@ module.exports = HumanModel.define({
                 if (!this.stream) return '';
                 return URL.createObjectURL(this.stream);
             }
+        },
+        organization: {
+            deps: ['orga'],
+            fn: function () {
+                return app.serverConfig().name || 'Kaiwa';
+            }
+        },
+        soundEnabledClass: {
+            deps: ['soundEnabled'],
+            fn: function () {
+                return this.soundEnabled ? "primary" : "secondary";
+            }
+        },
+        isAdmin: {
+            deps: ['jid'],
+            fn: function () {
+               return this.jid.local === SERVER_CONFIG.admin ? 'meIsAdmin' : '';
+            }
         }
     },
     setActiveContact: function (jid) {
         var prev = this.getContact(this._activeContact);
         if (prev) {
             prev.activeContact = false;
+            this._activeContact = '';
         }
         var curr = this.getContact(jid);
         if (curr) {
@@ -78,16 +97,56 @@ module.exports = HumanModel.define({
             this._activeContact = curr.id;
         }
     },
+    getName: function () {
+        return this.displayName;
+    },
+    getNickname: function () {
+        return this.displayName != this.nick ? this.nick : '';
+    },
+    getAvatar: function () {
+        return this.avatar;
+    },
     setAvatar: function (id, type, source) {
+        if (!this.avatar) this.avatar = avatarHandler.getGravatar('').uri;
+
         var self = this;
-        fetchAvatar('', id, type, source, function (avatar) {
+        avatarHandler.fetch('', id, type, source, function (avatar) {
             self.avatarID = avatar.id;
             self.avatar = avatar.uri;
         });
     },
+    publishAvatar: function (data) {
+        if (!data) data = this.avatar;
+        if (!data || data.indexOf('https://') != -1) return;
+
+        var resampler = new Resample(data, 80, 80, function (data) {
+            var b64Data = data.split(',')[1];
+            var id = crypto.createHash('sha1').update(atob(b64Data)).digest('hex');
+            app.storage.avatars.add({id: id, uri: data});
+            client.publishAvatar(id, b64Data, function (err, res) {
+                if (err) return;
+                client.useAvatars([{
+                  id: id,
+                  width: 80,
+                  height: 80,
+                  type: 'image/png',
+                  bytes: b64Data.length
+                }]);
+            });
+        });
+    },
+    hasLdapUsers: function () {
+        return app.ldapUsers.length > 0 ? 'hasLdapUsers' : '';
+    },
+    setSoundNotification: function(enable) {
+        this.soundEnabled = enable;
+    },
     getContact: function (jid, alt) {
-        if (typeof jid === 'string') jid = new client.JID(jid);
-        if (typeof alt === 'string') alt = new client.JID(alt);
+        if (typeof jid === 'string') {
+            if (SERVER_CONFIG.domain && jid.indexOf('@') == -1) jid += '@' + SERVER_CONFIG.domain;
+            jid = new app.JID(jid);
+        }
+        if (typeof alt === 'string') alt = new app.JID(alt);
 
         if (this.isMe(jid)) {
             jid = alt || jid;
@@ -115,9 +174,12 @@ module.exports = HumanModel.define({
         }
     },
     removeContact: function (jid) {
-        var contact = this.getContact(jid);
-        this.contacts.remove(contact.jid);
-        app.storage.roster.remove(contact.storageId);
+        var self = this;
+        client.removeRosterItem(jid, function(err, res) {
+            var contact = self.getContact(jid);
+            self.contacts.remove(contact.jid);
+            app.storage.roster.remove(contact.storageId);
+        });
     },
     load: function () {
         if (!this.jid.bare) return;
@@ -126,8 +188,10 @@ module.exports = HumanModel.define({
 
         app.storage.profiles.get(this.jid.bare, function (err, profile) {
             if (!err) {
+                self.nick = self.jid.local;
                 self.status = profile.status;
                 self.avatarID = profile.avatarID;
+                self.soundEnabled = profile.soundEnabled;
             }
             self.save();
             app.storage.roster.getAll(self.jid.bare, function (err, contacts) {
@@ -137,16 +201,31 @@ module.exports = HumanModel.define({
                     contact = new Contact(contact);
                     contact.owner = self.jid.bare;
                     contact.inRoster = true;
+                    if (contact.jid.indexOf("@" + SERVER_CONFIG.domain) > -1)
+                      contact.persistent = true;
                     contact.save();
                     self.contacts.add(contact);
                 });
-
-                self.contacts.trigger('loaded');
             });
+        });
+
+        this.mucs.once('loaded', function () {
+            self.contacts.trigger('loaded');
         });
     },
     isMe: function (jid) {
         return jid && (jid.bare === this.jid.bare);
+    },
+    updateJid: function(newJid) {
+        if (this.jid.domain && this.isMe(newJid)) {
+            this.jid.full = newJid.full;
+            this.jid.resource = newJid.resource;
+            this.jid.unescapedFull = newJid.unescapedFull;
+            this.jid.prepped = newJid.prepped;
+        } else {
+            this.jid = newJid;
+            this.nick = this.jid.local;
+        }
     },
     updateIdlePresence: function () {
         var update = {
@@ -177,7 +256,8 @@ module.exports = HumanModel.define({
             jid: this.jid.bare,
             avatarID: this.avatarID,
             status: this.status,
-            rosterVer: this.rosterVer
+            rosterVer: this.rosterVer,
+            soundEnabled: this.soundEnabled
         };
         app.storage.profiles.set(data);
     },

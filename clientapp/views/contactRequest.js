@@ -28,6 +28,10 @@ module.exports = HumanView.extend({
             to: this.model.jid,
             type: 'subscribed'
         });
+        app.api.sendPresence({
+          to: this.model.jid,
+          type: 'subscribe'
+        });
         app.me.contactRequests.remove(this.model);
         return false;
     },

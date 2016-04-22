@@ -10,33 +10,40 @@ var Message = require('../views/mucMessage');
 var MessageModel = require('../models/message');
 var embedIt = require('../helpers/embedIt');
 var htmlify = require('../helpers/htmlify');
-
+var tempSubject = '';
 
 module.exports = BasePage.extend({
     template: templates.pages.groupchat,
     initialize: function (spec) {
+        var self = this;
         this.editMode = false;
 
         this.listenTo(this, 'pageloaded', this.handlePageLoaded);
         this.listenTo(this, 'pageunloaded', this.handlePageUnloaded);
 
         this.listenTo(this.model.messages, 'change', this.refreshModel);
-        this.listenTo(this.model.messages, 'reset', this.resetMessages);
+        this.listenTo(this.model.messages, 'reset', this.renderMessages);
+        this.listenTo(this.model, 'refresh', this.renderMessages);
+
+        app.state.bind('change:connected', this.connectionChange, this);
 
         this.render();
     },
     events: {
         'keydown textarea': 'handleKeyDown',
         'keyup textarea': 'handleKeyUp',
-        'click .joinRoom': 'handleJoin',
-        'click .leaveRoom': 'handleLeave'
+        'click .status': 'clickStatusChange',
+        'blur .status': 'blurStatusChange',
+        'keydown .status': 'keyDownStatusChange',
+        'click #members_toggle': 'clickMembersToggle'
     },
     classBindings: {
         joined: '.controls'
     },
     textBindings: {
         displayName: 'header .name',
-        subject: 'header .status'
+        subject: 'header .status',
+        membersCount: '#members_toggle_count'
     },
     show: function (animation) {
         BasePage.prototype.show.apply(this, [animation]);
@@ -45,6 +52,17 @@ module.exports = BasePage.extend({
             to: this.model.jid,
             chatState: 'active'
         });
+
+        this.firstChanged = true;
+        var self = this;
+        $('.messages').scroll(function() {
+            if (self.firstChanged && $(".messages li:first-child").offset().top > 0) {
+                self.firstChanged = false;
+                self.model.fetchHistory();
+            }
+        });
+
+        this.$chatInput.focus();
     },
     hide: function () {
         BasePage.prototype.hide.apply(this);
@@ -60,15 +78,20 @@ module.exports = BasePage.extend({
 
         this.renderAndBind();
         this.$chatInput = this.$('.chatBox textarea');
+        this.$chatInput.val(app.composing[this.model.jid] || '');
         this.$chatBox = this.$('.chatBox');
         this.$messageList = this.$('.messages');
+        this.$autoComplete = this.$('.autoComplete');
 
         this.staydown = new StayDown(this.$messageList[0], 500);
 
         this.renderMessages();
+
         this.renderCollection(this.model.resources, MUCRosterItem, this.$('.groupRoster'));
 
+        this.listenTo(this, 'rosterItemClicked', this.rosterItemSelected);
         this.listenTo(this.model.messages, 'add', this.handleChatAdded);
+        this.listenTo(this.model.resources, 'add', this.handleResourceAdded);
 
         $(window).on('resize', _.bind(this.resizeInput, this));
 
@@ -78,6 +101,13 @@ module.exports = BasePage.extend({
     },
     renderMessages: function () {
         var self = this;
+
+        this.$messageList.empty();
+        delete this.firstModel;
+        delete this.firstDate;
+        delete this.lastModel;
+        delete this.lastDate;
+
         this.model.messages.each(function (model, i) {
             self.appendModel(model);
         });
@@ -86,24 +116,64 @@ module.exports = BasePage.extend({
     handleChatAdded: function (model) {
         this.appendModel(model, true);
     },
+    handleResourceAdded: function (model) {
+        var xmppContact = me.getContact(model.id.split('/')[1]);
+        if (xmppContact) {
+            xmppContact.bind('change:avatar', this.handleAvatarChanged, this);
+        }
+    },
+    handleAvatarChanged: function(contact, uri) {
+        if (!me.isMe(contact.jid)) {
+            $('.' + contact.jid.substr(0, contact.jid.indexOf('@')) + ' .messageAvatar img').attr('src', uri);
+        }
+    },
     handlePageLoaded: function () {
         this.staydown.checkdown();
         this.resizeInput();
     },
     handleKeyDown: function (e) {
-        if (e.which === 13 && !e.shiftKey) {
-            this.sendChat();
+        if ((e.which === 13 || e.which === 9) && !e.shiftKey) { // Enter or Tab
+            if (this.$autoComplete.css('display') != 'none') {
+                var nickname = this.$autoComplete.find(">:nth-child(" + this.autoCompletePos + ")>:first-child").text();
+                this.rosterItemSelected(nickname);
+            } else if (e.which === 13){
+                app.composing[this.model.jid] = '';
+                this.sendChat();
+            }
             e.preventDefault();
             return false;
-        } else if (e.which === 38 && this.$chatInput.val() === '' && this.model.lastSentMessage) {
-            this.editMode = true;
-            this.$chatInput.addClass('editing');
-            this.$chatInput.val(this.model.lastSentMessage.body);
+        } else if (e.which === 38) { // Up arrow
+
+            if (this.$autoComplete.css('display') != 'none') {
+                var count = this.$autoComplete.find(">li").length;
+                var oldPos = this.autoCompletePos;
+                this.autoCompletePos = (oldPos - 1) < 1 ? count : oldPos - 1;
+
+                this.$autoComplete.find(">:nth-child(" + oldPos + ")").removeClass('selected');
+                this.$autoComplete.find(">:nth-child(" + this.autoCompletePos + ")").addClass('selected');
+
+            }
+            else if (this.$chatInput.val() === '' && this.model.lastSentMessage) {
+                this.editMode = true;
+                this.$chatInput.addClass('editing');
+                this.$chatInput.val(this.model.lastSentMessage.body);
+            }
             e.preventDefault();
             return false;
-        } else if (e.which === 40 && this.editMode) {
-            this.editMode = false;
-            this.$chatInput.removeClass('editing');
+        } else if (e.which === 40) { // Down arrow
+
+            if (this.$autoComplete.css('display') != 'none') {
+                var count = this.$autoComplete.find(">li").length;
+                var oldPos = this.autoCompletePos;
+                this.autoCompletePos = (oldPos + 1) > count ? 1 : oldPos + 1;
+
+                this.$autoComplete.find(">:nth-child(" + oldPos + ")").removeClass('selected');
+                this.$autoComplete.find(">:nth-child(" + this.autoCompletePos + ")").addClass('selected');
+            }
+            else if (this.editMode) {
+                this.editMode = false;
+                this.$chatInput.removeClass('editing');
+            }
             e.preventDefault();
             return false;
         } else if (!e.ctrlKey && !e.metaKey) {
@@ -120,6 +190,7 @@ module.exports = BasePage.extend({
     },
     handleKeyUp: function (e) {
         this.resizeInput();
+        app.composing[this.model.jid] = this.$chatInput.val();
         if (this.typing && this.$chatInput.val().length === 0) {
             this.typing = false;
             this.paused = false;
@@ -131,28 +202,70 @@ module.exports = BasePage.extend({
         } else if (this.typing) {
             this.pausedTyping();
         }
+
+        if (([38, 40, 13]).indexOf(e.which) === -1) {
+            var lastWord = this.$chatInput.val().split(' ').pop();
+            if (lastWord.charAt(0) === '@') {
+              var models = this.model.resources.search(lastWord.substr(1) || '', true, true);
+              if (models.length) {
+                this.renderCollection(models, MUCRosterItem, this.$autoComplete);
+                this.autoCompletePos = 1;
+                this.$autoComplete.find(">:nth-child(" + this.autoCompletePos + ")").addClass('selected');
+                this.$autoComplete.show();
+              }
+              else
+                this.$autoComplete.hide();
+            }
+
+            if (this.$autoComplete.css('display') != 'none') {
+                if( lastWord ===  '') {
+                    this.$autoComplete.hide();
+                    return;
+                }
+            }
+        }
+    },
+    rosterItemSelected: function (nickName) {
+        if (nickName == me.nick)
+            nickName = 'me';
+        var val = this.$chatInput.val();
+        var splited = val.split(' ');
+        var length = splited.length-1;
+        var lastWord = splited.pop();
+        if (('@' + nickName).indexOf(lastWord) > -1)
+            splited[length] = '@' + nickName + ' ';
+        else
+            splited.push('@' + nickName + ' ');
+        this.$chatInput.val(splited.join(' '));
+        this.$autoComplete.hide();
+        this.$chatInput.focus();
     },
     resizeInput: _.throttle(function () {
         var height;
         var scrollHeight;
+        var heightDiff;
         var newHeight;
-        var newPadding;
-        var paddingDelta;
-        var maxHeight = 102;
+        var newMargin;
+        var marginDelta;
+        var maxHeight = parseInt(this.$chatInput.css('max-height'), 10);
 
         this.$chatInput.removeAttr('style');
-        height = this.$chatInput.height() + 10,
+        height = this.$chatInput.outerHeight(),
         scrollHeight = this.$chatInput.get(0).scrollHeight,
-        newHeight = scrollHeight + 2;
+        newHeight = Math.max(height, scrollHeight);
+        heightDiff = height - this.$chatInput.innerHeight();
 
         if (newHeight > maxHeight) newHeight = maxHeight;
         if (newHeight > height) {
-            this.$chatInput.css('height', newHeight);
-            newPadding = newHeight + 21;
-            paddingDelta = newPadding - parseInt(this.$messageList.css('paddingBottom'), 10);
-            if (!!paddingDelta) {
-                this.$messageList.css('paddingBottom', newPadding);
+            this.$chatInput.css('height', newHeight+heightDiff);
+            this.$chatInput.scrollTop(this.$chatInput[0].scrollHeight - this.$chatInput.height());
+            newMargin = newHeight - height + heightDiff;
+            marginDelta = newMargin - parseInt(this.$messageList.css('marginBottom'), 10);
+            if (!!marginDelta) {
+                this.$messageList.css('marginBottom', newMargin);
             }
+        } else {
+            this.$messageList.css('marginBottom', 0);
         }
     }, 300),
     pausedTyping: _.debounce(function () {
@@ -189,13 +302,13 @@ module.exports = BasePage.extend({
 
             var id = client.sendMessage(message);
             message.mid = id;
-            message.from = client.JID(this.model.jid.bare + '/' + this.model.nick);
+            message.from = new app.JID(this.model.jid.bare + '/' + this.model.nick);
 
             if (this.editMode) {
                 this.model.lastSentMessage.correct(message);
             } else {
                 var msgModel = new MessageModel(message);
-                msgModel.save();
+                this.model.addMessage(msgModel, false);
                 this.model.lastSentMessage = msgModel;
             }
         }
@@ -205,35 +318,99 @@ module.exports = BasePage.extend({
         this.$chatInput.removeClass('editing');
         this.$chatInput.val('');
     },
-    handleJoin: function () {
-        this.model.join();
+    clickStatusChange: function (e) {
+        tempSubject = e.target.textContent;
     },
-    handleLeave: function () {
-        this.model.leave();
+    blurStatusChange: function (e) {
+        var subject = e.target.textContent;
+        if (subject === '')
+            subject = true;
+        client.setSubject(this.model.jid, subject);
+        e.target.textContent = tempSubject;
+    },
+    keyDownStatusChange: function (e) {
+        if (e.which === 13 && !e.shiftKey) {
+            e.target.blur();
+            return false;
+        }
+    },
+    clickMembersToggle: function (e) {
+        var roster = $('.groupRoster');
+        if (roster.css('visibility') == 'hidden')
+            roster.css('visibility', 'visible');
+        else
+            roster.css('visibility', 'hidden');
     },
     appendModel: function (model, preload) {
-        var self = this;
-        var isGrouped = model.shouldGroupWith(this.lastModel);
         var newEl, first, last;
+        var msgDate = Date.create(model.timestamp);
+        var messageDay = msgDate.format('{month} {ord}, {yyyy}');
 
-        if (isGrouped) {
-            newEl = $(model.partialTemplateHtml);
-            last = this.$messageList.find('li').last();
-            last.find('.messageWrapper').append(newEl);
-            last.addClass('chatGroup');
-            this.staydown.checkdown();
-        } else {
-            newEl = $(model.templateHtml);
-            this.staydown.append(newEl[0]);
+        if (this.firstModel === undefined || msgDate > Date.create(this.firstModel.timestamp)) {
+            if (this.firstModel === undefined) {
+                this.firstModel = model;
+                this.firstDate = messageDay;
+            }
+
+            if (messageDay !== this.lastDate) {
+                var dayDivider = $(templates.includes.dayDivider({day_name: messageDay}));
+                this.staydown.append(dayDivider[0]);
+                this.lastDate = messageDay;
+            }
+
+            var isGrouped = model.shouldGroupWith(this.lastModel);
+            if (isGrouped) {
+                newEl = $(model.partialTemplateHtml);
+                last = this.$messageList.find('li').last();
+                last.find('.messageWrapper').append(newEl);
+                last.addClass('chatGroup');
+                this.staydown.checkdown();
+            } else {
+                newEl = $(model.templateHtml);
+                newEl.addClass(model.sender.getNickname(model.from.full));
+                this.staydown.append(newEl[0]);
+                this.lastModel = model;
+            }
+            if (!model.pending) embedIt(newEl);
         }
-        embedIt(newEl);
-        this.lastModel = model;
+        else {
+            var scrollDown = this.$messageList.prop('scrollHeight') - this.$messageList.scrollTop();
+            var firstEl = this.$messageList.find('li').first();
+
+            if (messageDay !== this.firstDate) {
+                var dayDivider = $(templates.includes.dayDivider({day_name: messageDay}));
+                firstEl.before(dayDivider[0]);
+                var firstEl = this.$messageList.find('li').first();
+                this.firstDate = messageDay;
+            }
+
+            var isGrouped = model.shouldGroupWith(this.firstModel);
+            if (isGrouped) {
+                newEl = $(model.partialTemplateHtml);
+                first = this.$messageList.find('li').first().next();
+                first.find('.messageWrapper div:first').after(newEl);
+                first.addClass('chatGroup');
+            } else {
+                newEl = $(model.templateHtml);
+                newEl.addClass(model.sender.getNickname(model.from.full));
+                firstEl.after(newEl[0]);
+                this.firstModel = model;
+            }
+            if (!model.pending) embedIt(newEl);
+
+            this.$messageList.scrollTop(this.$messageList.prop('scrollHeight') - scrollDown);
+            this.firstChanged = true;
+        }
     },
     refreshModel: function (model) {
         var existing = this.$('#chat' + model.cid);
-        existing.replaceWith(model.partialTemplateHtml);
+        existing.replaceWith(model.bareMessageTemplate(existing.prev().hasClass('message_header')));
     },
-    resetMessages: function () {
-        this.$messageList.empty();
+    connectionChange: function () {
+        if (app.state.connected) {
+            this.$chatInput.attr("disabled", false);
+        } else {
+            this.$chatInput.attr("disabled", "disabled");
+        }
     }
 });

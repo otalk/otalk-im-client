@@ -115,7 +115,7 @@ module.exports = HumanModel.define({
         app.whenConnected(function () {
             client.getDiscoInfo(self.id, '', function (err, res) {
                 if (err) return;
-                self.discoInfo = res.discoInfo.toJSON();
+                self.discoInfo = res.discoInfo;
             });
         });
     }

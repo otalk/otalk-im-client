@@ -1,47 +1,62 @@
 {
-  "name": "otalk.im",
-  "description": "Otalk: WebRTC Enabled XMPP Client, in the Browser",
-  "version": "0.0.40",
+  "name": "kaiwa.im",
+  "description": "Kaiwa: XMPP Client in the Browser",
+  "version": "1.0.0",
   "browser": {
     "crypto": "crypto-browserify"
   },
   "dependencies": {
     "andlog": "0.0.4",
-    "async": "0.2.9",
+    "async": "^1.4.0",
     "attachmediastream": "1.0.1",
     "backbone": "1.0.0",
-    "bluebird": "1.0.0",
+    "bluebird": "^2.3.2",
+    "body-parser": "1.12.0",
     "bows": "0.3.0",
-    "browserify": "2.25.1",
-    "crypto-browserify": "1.0.3",
-    "express": "3.3.7",
+    "compression": "1.2.2",
+    "crypto-browserify": "",
+    "express": "4.13.3",
     "getconfig": "0.0.5",
     "getusermedia": "0.2.1",
     "helmet": "0.1.0",
     "human-model": "2.6.0",
-    "human-view": "1.5.0",
-    "jade": "0.35.0",
-    "jxt": "0.6.0",
-    "moonboots": "1.0.0",
-    "node-uuid": "1.4.1",
+    "human-view": "1.8.0",
+    "jade": "1.8.2",
+    "jxt": "^3.0.4",
+    "jxt-xmpp": "^1.2.3",
+    "jxt-xmpp-types": "^3.0.0",
+    "ldapjs": "0.7.1",
+    "moonboots-express": "^3.0",
+    "node-uuid": "^1.4.1",
     "notify.js": "0.0.3",
-    "oembed": "0.1.0",
     "semi-static": "0.0.4",
-    "sound-effect-manager": "0.0.5",
-    "stanza.io": "3.6.x",
+    "serve-static": "1.7.1",
+    "sound-effect-manager": "1.0.0",
+    "stanza.io": "7.3.4",
     "staydown": "1.0.3",
     "templatizer": "0.1.2",
-    "underscore": "1.5.1",
-    "wildemitter": "1.0.1"
+    "underscore": "1.6.0",
+    "wildemitter": "^1.0.1",
+    "xmpp-constants": "^2.2.2"
   },
   "devDependencies": {
-    "precommit-hook": "0.3.6"
+    "browserify": "^11.0.1",
+    "precommit-hook": "^3.0.0"
   },
   "license": "MIT",
   "main": "server.js",
   "private": true,
   "repository": {
     "type": "git",
-    "url": "git@github.com:andyet/otalk.git"
-  }
+    "url": "git@github.com:digicoop/kaiwa.git"
+  },
+  "scripts": {
+    "lint": "jshint .",
+    "validate": "npm ls"
+  },
+  "pre-commit": [
+    "lint",
+    "validate",
+    "test"
+  ]
 }

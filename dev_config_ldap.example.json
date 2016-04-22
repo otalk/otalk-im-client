@@ -1,0 +1,26 @@
+{
+    "isDev": true,
+    "http": {
+        "host": "localhost",
+        "port": 8000
+    },
+    "session": {
+        "secret": "shhhhhh don't tell anyone ok?"
+    },
+    "server": {
+        "name": "Kaiwa",
+        "domain": "example.com",
+        "wss": "wss://example.com:5281/xmpp-websocket/",
+        "muc": "chat.example.com",
+        "startup": "groupchat/room%40chat.example.com",
+        "admin": "admin"
+    },
+    "ldap": {
+        "address": "127.0.0.1",
+        "user": "cn=admin,dc=example.com",
+        "password": "password",
+        "base": "ou=users,dc=example.com",
+        "filter": "objectClass=person",
+        "group": "cn=mygroup,ou=groups,dc=example.com"
+    }
+}

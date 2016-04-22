@@ -1,0 +1,64 @@
+@import '../_variables'
+@import '../_mixins'
+
+#topbar
+
+  #me
+    display: none
+    position: fixed
+    right: 0
+    padding: 1px 0px 5px 5px
+    width: 175px
+
+  .avatar
+    float:right
+    width: 35px
+    height: 35px
+    background: rgba(0,0,0,0)
+    background-color: transparent
+    vertical-align: middle
+    margin: 3px 0.5rem 0px 0px;
+    border-radius: 50%;
+
+  .name,
+  .status
+    display: block
+    width: 120px
+    overflow: hidden
+    text-overflow: ellipsis
+    text-align: right
+
+  .name
+    color: $meUsernameColor
+    font-size: $font-size-base
+    font-weight: $font-weight-bolder
+    margin-top: 3px;
+
+  .status
+    color: $gray
+    font-weight: normal
+    font-size: $font-size-small
+    border-width: 0px
+    margin: 0px
+    padding: 0px
+    height: 18px
+    white-space: nowrap
+    transition: all .25s
+    allowselect()
+
+    &:focus
+      border-radius: 0.25rem
+      border: 1px solid $gray
+      outline: none
+      padding: 2px
+
+    &:empty:before
+      content: 'Update your status'
+
+    &:before,
+    &:empty:focus:before
+      content: ''
+
+  &.connected
+    #me
+      display: block

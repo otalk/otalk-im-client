@@ -1,0 +1,26 @@
+section.page.main
+
+  h1#title Settings
+
+  div#avatarChanger
+    h4 Change Avatar
+    div.uploadRegion
+      p Drag and drop a new avatar here
+      img
+      form
+        input#uploader(type="file")
+
+  div
+    h4 Desktop Integration
+    button.enableAlerts Enable alerts
+    button.primary.installFirefox Install app
+    button.soundNotifs sound notifications
+
+  div#ldapSettings
+    h4 LDAP settings
+    ul#ldapUsers
+    input(type="text", placeholder="add a ldap user")#newLdapUser
+
+  div
+    button.disconnect Disconnect
+    button.primary.logout Logout

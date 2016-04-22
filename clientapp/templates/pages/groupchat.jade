@@ -1,14 +1,16 @@
 section.page.chat
   section.group.conversation
     header.online
-      h1
+      .title
         span.name
-        span.status
-      .controls
-        button.primary.small.joinRoom Join
-        button.secondary.small.leaveRoom Leave
+        i.channel_actions.fa.fa-comments-o
+        span.status(contenteditable="true", spellcheck="false")
     ul.messages
+    a#members_toggle
+      i.fa.fa-user
+      span#members_toggle_count
     ul.groupRoster
     .chatBox
-      form
+      ul.autoComplete
+      form.formwrap
         textarea(name='chatInput', type='text', placeholder='Send a message...', autocomplete='off')

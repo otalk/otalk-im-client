@@ -10,7 +10,7 @@ var Resources = require('./resources');
 var Messages = require('./messages');
 var Message = require('./message');
 var logger = require('andlog');
-var fetchAvatar = require('../helpers/fetchAvatar');
+var avatarHandler = require('../helpers/avatarHandler');
 
 
 module.exports = HumanModel.define({
@@ -24,6 +24,14 @@ module.exports = HumanModel.define({
         this.resources.bind('change', this.onResourceChange, this);
 
         this.bind('change:topResource change:lockedResource change:_forceUpdate', this.summarizeResources, this);
+
+        this.fetchHistory(true);
+
+        var self = this;
+        client.on('session:started', function () {
+            if (self.messages.length)
+                self.fetchHistory(true, true);
+        });
     },
     type: 'contact',
     props: {
@@ -50,6 +58,7 @@ module.exports = HumanModel.define({
         unreadCount: ['number', false, 0],
         _forceUpdate: ['number', false, 0],
         onCall: ['boolean', false, false],
+        persistent: ['bool', false, false],
         stream: 'object'
     },
     derived: {
@@ -166,6 +175,19 @@ module.exports = HumanModel.define({
                 return 'gone';
             }
         },
+        chatStateText: {
+            deps: ['topResource', 'lockedResource', '_forceUpdate'],
+            fn: function () {
+                var chatState = this.chatState;
+                if (chatState == 'composing')
+                    return this.displayName + ' is composing';
+                else if (chatState == 'paused')
+                    return this.displayName + ' stopped writing';
+                else if (chatState == 'gone')
+                    return this.displayName + ' is gone';
+                return '';
+            }
+        },
         supportsReceipts: {
             deps: ['lockedResource', '_forceUpdate'],
             fn: function () {
@@ -179,7 +201,7 @@ module.exports = HumanModel.define({
             fn: function () {
                 if (!this.lockedResource) return false;
                 var res = this.resources.get(this.lockedResource);
-                return res.supportsChatStates;
+                return res && res.supportsChatStates;
             }
         },
         hasUnread: {
@@ -222,8 +244,10 @@ module.exports = HumanModel.define({
         }
     },
     setAvatar: function (id, type, source) {
+        if (!this.avatar) this.avatar = avatarHandler.getGravatar(this.jid).uri;
+
         var self = this;
-        fetchAvatar(this.jid, id, type, source, function (avatar) {
+        avatarHandler.fetch(this.jid, id, type, source, function (avatar) {
             if (source == 'vcard' && self.avatarSource == 'pubsub') return;
             self.avatarID = avatar.id;
             self.avatar = avatar.uri;
@@ -260,8 +284,10 @@ module.exports = HumanModel.define({
                 body: message.body,
                 icon: this.avatar,
                 tag: this.jid,
-                onclick: _.bind(app.navigate, app, '/chat/' + this.jid)
+                onclick: _.bind(app.navigate, app, '/chat/' + encodeURIComponent(this.jid))
             });
+            if (me.soundEnabled)
+                app.soundManager.play('ding');
         }
 
         var existing = Message.idLookup(message.from[message.type == 'groupchat' ? 'full' : 'bare'], message.mid);
@@ -278,48 +304,58 @@ module.exports = HumanModel.define({
             this.lastInteraction = newInteraction;
         }
     },
-    fetchHistory: function () {
+    fetchHistory: function (onlyLastMessages, allInterval) {
         var self = this;
         app.whenConnected(function () {
             var filter = {
                 'with': self.jid,
                 rsm: {
-                    count: 20,
-                    before: true
+                    max: !!onlyLastMessages && !allInterval ? 50 : 40
                 }
             };
 
-            var lastMessage = self.messages.last();
-            if (lastMessage && lastMessage.archivedId) {
-                filter.rsm.after = lastMessage.archivedId;
-            }
+            if (!!onlyLastMessages) {
+                var lastMessage = self.messages.last();
+                if (lastMessage && lastMessage.archivedId) {
+                    filter.rsm.after = lastMessage.archivedId;
+                }
+                if (!allInterval) {
+                    filter.rsm.before = true;
 
-            if (self.lastHistoryFetch && !isNaN(self.lastHistoryFetch.valueOf())) {
-                if (self.lastInteraction > self.lastHistoryFetch) {
-                    filter.start = self.lastInteraction;
-                } else {
-                    filter.start = self.lastHistoryFetch;
+                    if (self.lastHistoryFetch && !isNaN(self.lastHistoryFetch.valueOf())) {
+                        if (self.lastInteraction > self.lastHistoryFetch) {
+                            filter.start = self.lastInteraction;
+                        } else {
+                            filter.start = self.lastHistoryFetch;
+                        }
+                    } else {
+                        filter.end = new Date(Date.now() + app.timeInterval);
+                    }
                 }
             } else {
-                filter.end = new Date(Date.now());
+                var firstMessage = self.messages.first();
+                if (firstMessage && firstMessage.archivedId) {
+                    filter.rsm.before = firstMessage.archivedId;
+                }
             }
 
-            client.getHistory(filter, function (err, res) {
+            client.searchHistory(filter, function (err, res) {
                 if (err) return;
 
-                self.lastHistoryFetch = new Date(Date.now());
+                self.lastHistoryFetch = new Date(Date.now() + app.timeInterval);
 
-                var results = res.mamQuery.results || [];
-                results.reverse();
+                var results = res.mamResult.items || [];
+                if (filter.rsm.before) {
+                  results.reverse();
+                }
                 results.forEach(function (result) {
-                    result = result.toJSON();
-                    var msg = result.mam.forwarded.message;
+                    var msg = result.forwarded.message;
 
                     msg.mid = msg.id;
                     delete msg.id;
 
                     if (!msg.delay) {
-                        msg.delay = result.mam.forwarded.delay;
+                        msg.delay = result.forwarded.delay;
                     }
 
                     if (msg.replace) {
@@ -331,11 +367,19 @@ module.exports = HumanModel.define({
                     }
 
                     var message = new Message(msg);
-                    message.archivedId = result.mam.id;
+                    message.archivedId = result.id;
                     message.acked = true;
 
                     self.addMessage(message, false);
                 });
+
+                if (allInterval) {
+                    if (results.length === filter.rsm.max) {
+                        self.fetchHistory(true, true);
+                    } else {
+                        self.trigger('refresh');
+                    }
+                }
             });
         });
     },

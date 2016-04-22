@@ -1,12 +1,14 @@
 section.page.chat
   section.conversation
     header
-      h1
-        button.primary.small.call call
+      .title
         span.name
+        i.user_presence.fa.fa-circle
         span.status
       .tzo
-      .activeCall
+    ul.messages.scroll-container
+    .activeCall
+      .container
         video.remote(autoplay)
         video.local(autoplay, muted)
         aside.button-wrap
@@ -15,7 +17,8 @@ section.page.chat
           .button-group.outlined
             button.mute Mute
             button.unmute Unmute
-    ul.messages.scroll-container
     .chatBox
-      form
+      .contactState
+      form.formwrap
         textarea(name='chatInput', type='text', placeholder='Send a message...', autocomplete='off')
+      button.primary.small.call Call

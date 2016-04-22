@@ -11,7 +11,7 @@ var ID_CACHE = {};
 
 var Message = module.exports = HumanModel.define({
     initialize: function (attrs) {
-        this._created = new Date(Date.now());
+        this._created = new Date(Date.now() + app.timeInterval);
     },
     type: 'message',
     props: {
@@ -109,27 +109,26 @@ var Message = module.exports = HumanModel.define({
             deps: ['body', 'meAction', 'mentions'],
             fn: function () {
                 var body = this.body;
-                if (this.meAction) {
-                    body = body.substr(4);
+                if (body) {
+                    if (this.meAction) {
+                        body = body.substr(4);
+                    }
+                    body = htmlify.toHTML(body);
+                    for (var i = 0; i < this.mentions.length; i++) {
+                        var existing = htmlify.toHTML(this.mentions[i]);
+                        var parts = body.split(existing);
+                        body = parts.join('<span class="mention">' + existing + '</span>');
+                    }
+                    return body;
                 }
-                body = htmlify.toHTML(body);
-                if (this.mentions) {
-                    var existing = htmlify.toHTML(this.mentions);
-                    var parts = body.split(existing);
-                    body = parts.join('<span class="mention">' + existing + '</span>');
-                }
-                return body;
+                this.body = '';
             }
         },
         partialTemplateHtml: {
             deps: ['edited', 'pending', 'body', 'urls'],
             cache: false,
             fn: function () {
-                if (this.type === 'groupchat') {
-                    return templates.includes.mucBareMessage({message: this});
-                } else {
-                    return templates.includes.bareMessage({message: this});
-                }
+                return this.bareMessageTemplate(false);
             }
         },
         templateHtml: {
@@ -137,9 +136,9 @@ var Message = module.exports = HumanModel.define({
             cache: false,
             fn: function () {
                 if (this.type === 'groupchat') {
-                    return templates.includes.mucWrappedMessage({message: this});
+                    return templates.includes.mucWrappedMessage({message: this, messageDate: Date.create(this.timestamp), firstEl: true});
                 } else {
-                    return templates.includes.wrappedMessage({message: this});
+                    return templates.includes.wrappedMessage({message: this, messageDate: Date.create(this.timestamp), firstEl: true});
                 }
             }
         },
@@ -162,7 +161,7 @@ var Message = module.exports = HumanModel.define({
         meAction: {
             deps: ['body'],
             fn: function () {
-                return this.body.indexOf('/me') === 0;
+                return this.body && this.body.indexOf('/me') === 0;
             }
         },
         urls: {
@@ -202,7 +201,7 @@ var Message = module.exports = HumanModel.define({
         receiptReceived: ['bool', true, false],
         edited: ['bool', true, false],
         delay: 'object',
-        mentions: ['string', false, '']
+        mentions: ['array', false, []]
     },
     correct: function (msg) {
         if (this.from.full !== msg.from.full) return false;
@@ -210,12 +209,19 @@ var Message = module.exports = HumanModel.define({
         delete msg.id;
 
         this.set(msg);
-        this._edited = new Date(Date.now());
+        this._edited = new Date(Date.now() + app.timeInterval);
         this.edited = true;
 
         this.save();
 
         return true;
+    },
+    bareMessageTemplate: function (firstEl) {
+        if (this.type === 'groupchat') {
+            return templates.includes.mucBareMessage({message: this, messageDate: Date.create(this.timestamp), firstEl: firstEl});
+        } else {
+            return templates.includes.bareMessage({message: this, messageDate: Date.create(this.timestamp), firstEl: firstEl});
+        }
     },
     save: function () {
         if (this.mid) {
@@ -238,9 +244,9 @@ var Message = module.exports = HumanModel.define({
     },
     shouldGroupWith: function (previous) {
         if (this.type === 'groupchat') {
-            return previous && previous.from.full === this.from.full;
+            return previous && previous.from.full === this.from.full && Math.round((this.created - previous.created) / 1000) <= 300 && previous.created.toLocaleDateString() === this.created.toLocaleDateString();
         } else {
-            return previous && previous.from.bare === this.from.bare;
+            return previous && previous.from.bare === this.from.bare && Math.round((this.created - previous.created) / 1000) <= 300 && previous.created.toLocaleDateString() === this.created.toLocaleDateString();
         }
     }
 });

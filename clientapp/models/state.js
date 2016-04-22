@@ -46,13 +46,14 @@ module.exports = HumanModel.define({
         pageTitle: 'string',
         hasActiveCall: ['boolean', false, false],
         cacheStatus: 'string',
-        deviceID: ['string', false, '']
+        deviceID: ['string', false, ''],
+        pageChanged: ['string', false, '']
     },
     derived: {
         title: {
             deps: ['pageTitle', 'badge'],
             fn: function () {
-                var base = this.pageTitle ? 'Otalk - ' + this.pageTitle : 'Otalk';
+                var base = this.pageTitle ? 'Kaiwa - ' + this.pageTitle : 'Kaiwa';
                 if (this.badge) {
                     return this.badge + ' • ' + base;
                 }
@@ -63,6 +64,12 @@ module.exports = HumanModel.define({
             deps: ['connected', 'deviceID'],
             fn: function () {
                 return (this.connected && !!this.deviceID);
+            }
+        },
+        currentPageIsSettings: {
+            deps: ['pageChanged'],
+            fn: function () {
+                return this.pageChanged === 'settings' ? 'active' : '';
             }
         }
     },

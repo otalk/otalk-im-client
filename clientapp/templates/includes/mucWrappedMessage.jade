@@ -1,5 +1,10 @@
 li
   .sender
-    .name=message.from.resource
+    a.messageAvatar(href='#')
+      img(src=message.sender.getAvatar(message.from.full), alt=message.from.resource, data-placement="below")
   .messageWrapper
+    .message_header
+      .name #{message.sender.getName(message.from.full)}
+      .nickname #{message.sender.getNickname(message.from.full)}
+      .date(title=messageDate.format('{Dow}, {MM}/{dd}/{yyyy} - {h}:{mm} {Tt}')) #{messageDate.format('{h}:{mm} {tt}')}
     include mucBareMessage

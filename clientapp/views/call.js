@@ -38,7 +38,7 @@ module.exports = HumanView.extend({
         e.preventDefault();
         var self = this;
         self.model.state = 'active';
-        app.navigate('/chat/' + self.model.contact.jid);
+        app.navigate('/chat/' + encodeURIComponent(self.model.contact.jid));
         self.model.contact.onCall = true;
         self.model.jingleSession.accept();
         return false;
