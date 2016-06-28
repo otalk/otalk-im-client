@@ -1,5 +1,6 @@
 var fs = require('fs');
 var https = require('https');
+var compression = require('compression');
 var express = require('express');
 var helmet = require('helmet');
 var Moonboots = require('moonboots');
@@ -11,7 +12,7 @@ var async = require('async');
 
 var app = express();
 
-app.use(express.compress());
+app.use(compression());
 app.use(express.static(__dirname + '/public'));
 if (!config.isDev) {
     app.use(helmet.xframe());
@@ -34,7 +35,7 @@ var clientApp = new Moonboots({
         __dirname + '/clientapp/libraries/IndexedDBShim.min.js'
     ],
     browserify: {
-        debug: false
+        debug: true
     },
     stylesheets: [
         __dirname + '/public/css/otalk.css'
@@ -42,7 +43,7 @@ var clientApp = new Moonboots({
     server: app
 });
 
-if (config.isDev) {
+if (config.isDev && false) {
     clientApp.config.beforeBuildJS = function () {
         var clientFolder = __dirname + '/clientapp';
         templatizer(clientFolder + '/templates', clientFolder + '/templates.js');
@@ -67,8 +68,26 @@ clientApp.on('ready', function () {
         res.send(cacheManifest);
     });
 
+    app.get('/' + clientApp.jsFileName(),
+            function (req, res) {
+                clientApp.jsSource(function (err, js) {
+                    res.set('Content-Type', 'application/javascript').send(js);
+                });
+            }
+           );
+
+    app.get('/' + clientApp.cssFileName(),
+            function (req, res) {
+                clientApp.cssSource(function (err, css) {
+                    res.set('Content-Type', 'text/css').send(css);
+                });
+            }
+           );
+
     // serves app on every other url
-    app.get('*', clientApp.html());
+    app.get('*', function (req, res) {
+        res.set('Content-Type', 'text/html; charset=utf-8').send(clientApp.htmlSource());
+    });
 });
 
 var webappManifest = fs.readFileSync('./public/x-manifest.webapp');

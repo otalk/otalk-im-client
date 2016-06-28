@@ -1,43 +1,49 @@
 "use strict";
 
-var jxt = require('jxt');
+var jxt = require('jxt').createRegistry();
+var jxt_helper = jxt.utils;
+jxt.use(require('jxt-xmpp-types'));
+
+// Load the XMPP definitions
+jxt.use(require('jxt-xmpp'));
+
 var stanzaio = require('stanza.io');
 
 
-jxt.extend(stanzaio.Message, jxt.define({
+jxt.extend(jxt.getMessage(), jxt.define({
     name: 'pushNotification',
     namespace: 'urn:xmpp:push:0',
     element: 'push',
     fields: {
-        body: jxt.subText('urn:xmpp:push:0', 'body')
+        body: jxt_helper.subText('urn:xmpp:push:0', 'body')
     }
 }));
 
-jxt.extend(stanzaio.Iq, jxt.define({
+jxt.extend(jxt.getIq(), jxt.define({
     name: 'registerPush',
     namespace: 'urn:xmpp:push:0',
     element: 'register',
     fields: {
-        service: jxt.text()
+        service: jxt_helper.text()
     }
 }));
 
-jxt.extend(stanzaio.Iq, jxt.define({
+jxt.extend(jxt.getIq(), jxt.define({
     name: 'unregisterPush',
     namespace: 'urn:xmpp:push:0',
     element: 'unregister',
     fields: {
-        service: jxt.text()
+        service: jxt_helper.text()
     }
 }));
 
 
-jxt.extend(stanzaio.Iq, jxt.define({
+jxt.extend(jxt.getIq(), jxt.define({
     name: 'otalkRegister',
     namespace: 'http://otalk.im/protocol/push',
     element: 'register',
     fields: {
-        deviceID: jxt.text()
+        deviceID: jxt_helper.text()
     }
 }));
 
