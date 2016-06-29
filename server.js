@@ -14,11 +14,10 @@ var app = express();
 
 app.use(compression());
 app.use(express.static(__dirname + '/public'));
-if (!config.isDev) {
-    app.use(helmet.xframe());
+app.use(helmet());
+if (config.isDev) {
+    app.use(helmet.noCache());
 }
-app.use(helmet.iexss());
-app.use(helmet.contentTypeOptions());
 
 oembed.EMBEDLY_URL = config.embedly.url || 'https://api.embed.ly/1/oembed';
 oembed.EMBEDLY_KEY = config.embedly.key;
@@ -43,11 +42,12 @@ var clientApp = new Moonboots({
     server: app
 });
 
-if (config.isDev && false) {
-    // [TODO] why u no work?
+if (config.isDev) {
     clientApp.config.beforeBuildJS = function () {
         var clientFolder = __dirname + '/clientapp';
-        templatizer(clientFolder + '/templates', clientFolder + '/templates.js');
+        templatizer(clientFolder + '/templates',
+                    clientFolder + '/templates.js',
+                    function (err, templates) { console.log(err || 'Success!'); });
     };
 }
 
