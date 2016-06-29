@@ -22,6 +22,7 @@
     "human-model": "^2.6.2",
     "human-view": "^1.8.0",
     "jade": "^1.11.0",
+    "jquery": "^3.0.0",
     "jxt": "^3.0.7",
     "moonboots": "^5.0.0",
     "node-uuid": "^1.4.7",
