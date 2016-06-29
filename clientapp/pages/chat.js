@@ -3,9 +3,9 @@
 
 var _ = require('underscore');
 var StayDown = require('staydown');
+var XMPP = require('stanza.io');
 var BasePage = require('./base');
 var templates = require('../templates');
-var Message = require('../views/message');
 var MessageModel = require('../models/message');
 var embedIt = require('../helpers/embedIt');
 var htmlify = require('../helpers/htmlify');
@@ -163,7 +163,7 @@ module.exports = BasePage.extend({
 
             message = {
                 id: client.nextId(),
-                to: client.JID(this.model.lockedResource || this.model.jid),
+                to: new XMPP.JID(this.model.lockedResource || this.model.jid),
                 type: 'chat',
                 body: val,
                 requestReceipt: true,
@@ -240,12 +240,12 @@ module.exports = BasePage.extend({
                             condition: 'decline'
                         });
                     } else {
-                        client.sendPresence({to: client.JID(self.model.jingleCall.jingleSession.peer) });
+                        client.sendPresence({to: new XMPP.JID(self.model.jingleCall.jingleSession.peer) });
                         self.model.jingleCall.jingleSession.accept();
                     }
                 });
             } else {
-                client.sendPresence({to: client.JID(this.model.jingleCall.jingleSession.peer) });
+                client.sendPresence({to: new XMPP.JID(this.model.jingleCall.jingleSession.peer) });
                 this.model.jingleCall.jingleSession.accept();
             }
         }

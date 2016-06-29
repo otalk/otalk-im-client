@@ -304,7 +304,7 @@ module.exports = HumanModel.define({
                 filter.end = new Date(Date.now());
             }
 
-            client.getHistory(filter, function (err, res) {
+            client.searchHistory(filter, function (err, res) {
                 if (err) return;
 
                 self.lastHistoryFetch = new Date(Date.now());

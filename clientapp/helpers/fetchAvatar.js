@@ -32,7 +32,6 @@ module.exports = function (jid, id, type, source, cb) {
                         return cb(fallback(jid));
                     }
 
-                    resp = resp.toJSON();
                     type = resp.vCardTemp.photo.type || type;
 
                     var data = resp.vCardTemp.photo.data;
@@ -53,7 +52,6 @@ module.exports = function (jid, id, type, source, cb) {
                         return cb(fallback(jid));
                     }
 
-                    resp = resp.toJSON();
                     var data = resp.pubsub.retrieve.item.avatarData;
                     var uri = 'data:' + type + ';base64,' + data;
 

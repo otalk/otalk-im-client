@@ -3,6 +3,7 @@
 
 var HumanModel = require('human-model');
 var getUserMedia = require('getusermedia');
+var XMPP = require('stanza.io');
 var Contacts = require('./contacts');
 var Calls = require('./calls');
 var Contact = require('./contact');
@@ -86,8 +87,8 @@ module.exports = HumanModel.define({
         });
     },
     getContact: function (jid, alt) {
-        if (typeof jid === 'string') jid = new client.JID(jid);
-        if (typeof alt === 'string') alt = new client.JID(alt);
+        if (typeof jid === 'string') jid = new XMPP.JID(jid);
+        if (typeof alt === 'string') alt = new XMPP.JID(alt);
 
         if (this.isMe(jid)) {
             jid = alt || jid;
