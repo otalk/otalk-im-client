@@ -14,8 +14,8 @@ module.exports = HumanModel.define({
         app.navigate('/chat/' + this.contact.jid);
     },
     session: {
-        contact: 'object',
-        jingleSession: 'object',
+        contact: ['object', false],
+        jingleSession: ['object', false],
         state: ['string', true, 'inactive'],
         multiUser: ['boolean', true, false]
     },

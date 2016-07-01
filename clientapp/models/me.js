@@ -33,18 +33,18 @@ module.exports = HumanModel.define({
     },
     props: {
         jid: ['object', true],
-        status: 'string',
-        avatarID: 'string',
-        rosterVer: 'string',
-        nick: 'string'
+        status: ['string'],
+        avatarID: ['string'],
+        rosterVer: ['string'],
+        nick: ['string']
     },
     session: {
-        avatar: 'string',
+        avatar: ['string'],
         connected: ['bool', false, false],
         shouldAskForAlertsPermission: ['bool', false, false],
         hasFocus: ['bool', false, false],
-        _activeContact: 'string',
-        stream: 'object'
+        _activeContact: ['string'],
+        stream: ['object']
     },
     collections: {
         contacts: Contacts,

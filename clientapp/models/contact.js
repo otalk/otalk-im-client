@@ -39,18 +39,18 @@ module.exports = HumanModel.define({
     },
     session: {
         activeContact: ['bool', false, false],
-        avatar: 'string',
-        avatarSource: 'string',
-        lastInteraction: 'date',
-        lastHistoryFetch: 'date',
-        lastSentMessage: 'object',
-        lockedResource: 'string',
+        avatar: ['string'],
+        avatarSource: ['string'],
+        lastInteraction: ['date'],
+        lastHistoryFetch: ['date'],
+        lastSentMessage: ['object'],
+        lockedResource: ['string'],
         offlineStatus: ['string', false, ''],
-        topResource: 'string',
+        topResource: ['string'],
         unreadCount: ['number', false, 0],
         _forceUpdate: ['number', false, 0],
         onCall: ['boolean', false, false],
-        stream: 'object'
+        stream: ['object']
     },
     derived: {
         streamUrl: {

@@ -15,17 +15,17 @@ var Message = module.exports = HumanModel.define({
     },
     type: 'message',
     props: {
-        mid: 'string',
-        owner: 'string',
-        to: 'object',
-        from: 'object',
-        body: 'string',
+        mid: ['string'],
+        owner: ['string'],
+        to: ['object'],
+        from: ['object'],
+        body: ['string'],
         type: ['string', false, 'normal'],
         acked: ['bool', false, false],
         requestReceipt: ['bool', false, false],
         receipt: ['bool', false, false],
-        archivedId: 'string',
-        oobURIs: 'array'
+        archivedId: ['string'],
+        oobURIs: ['array']
     },
     derived: {
         mine: {
@@ -196,12 +196,12 @@ var Message = module.exports = HumanModel.define({
         }
     },
     session: {
-        _created: 'date',
-        _edited: 'date',
-        _mucMine: 'bool',
+        _created: ['date'],
+        _edited: ['date'],
+        _mucMine: ['bool'],
         receiptReceived: ['bool', true, false],
         edited: ['bool', true, false],
-        delay: 'object',
+        delay: ['object'],
         mentions: ['string', false, '']
     },
     correct: function (msg) {

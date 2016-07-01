@@ -40,12 +40,12 @@ module.exports = HumanModel.define({
         connected: ['bool', false, false],
         hasConnected: ['bool', false, false],
         idleTimeout: ['number', false, 600000],
-        idleSince: 'date',
+        idleSince: ['date'],
         allowAlerts: ['bool', false, false],
-        badge: 'string',
-        pageTitle: 'string',
+        badge: ['string'],
+        pageTitle: ['string'],
         hasActiveCall: ['boolean', false, false],
-        cacheStatus: 'string',
+        cacheStatus: ['string'],
         deviceID: ['string', false, '']
     },
     derived: {
