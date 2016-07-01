@@ -186,9 +186,7 @@ module.exports = BasePage.extend({
             if (this.editMode) {
                 this.model.lastSentMessage.correct(message);
             } else {
-                var msgModel = new MessageModel(message);
-                this.model.addMessage(msgModel);
-                this.model.lastSentMessage = msgModel;
+                this.model.lastSentMessage = this.model.addMessage(message);
             }
         }
         this.editMode = false;
@@ -224,7 +222,7 @@ module.exports = BasePage.extend({
             newEl = $(model.templateHtml);
             this.staydown.append(newEl[0]);
         }
-        embedIt(newEl);
+        // [FIXME] embedIt(newEl);
         this.lastModel = model;
     },
     handleAcceptClick: function (e) {

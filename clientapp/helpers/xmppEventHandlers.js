@@ -274,18 +274,16 @@ module.exports = function (client, app) {
 
         var contact = me.getContact(msg.from, msg.to);
         if (contact && !msg.replace) {
-            var message = new Message(msg);
-
             if (msg.archived) {
                 msg.archived.forEach(function (archived) {
                     if (me.isMe(archived.by)) {
-                        message.archivedId = archived.id;
+                        msg.archivedId = archived.id;
                     }
                 });
             }
 
-            message.acked = true;
-            contact.addMessage(message, true);
+            msg.acked = true;
+            contact.addMessage(msg, true);
             if (msg.from.bare == contact.jid.bare) {
                 contact.lockedResource = msg.from.full;
             }
@@ -298,9 +296,8 @@ module.exports = function (client, app) {
 
         var contact = me.getContact(msg.from, msg.to);
         if (contact && !msg.replace) {
-            var message = new Message(msg);
-            message.acked = true;
-            contact.addMessage(message, true);
+            msg.acked = true;
+            contact.addMessage(msg, true);
         }
     });
 

@@ -269,7 +269,7 @@ module.exports = HumanModel.define({
             existing.set(message);
             existing.save();
         } else {
-            this.messages.add(message);
+            message = this.messages.add(message);
             message.save();
         }
 
@@ -277,6 +277,7 @@ module.exports = HumanModel.define({
         if (!this.lastInteraction || this.lastInteraction < newInteraction) {
             this.lastInteraction = newInteraction;
         }
+        return message;
     },
     fetchHistory: function () {
         var self = this;
@@ -330,11 +331,10 @@ module.exports = HumanModel.define({
                         if (original && original.correct(msg)) return;
                     }
 
-                    var message = new Message(msg);
-                    message.archivedId = result.mam.id;
-                    message.acked = true;
+                    msg.archivedId = result.mam.id;
+                    msg.acked = true;
 
-                    self.addMessage(message, false);
+                    self.addMessage(msg, false);
                 });
             });
         });
