@@ -69,7 +69,7 @@ module.exports = BasePage.extend({
         this.$chatBox = this.$('.chatBox');
         this.$messageList = this.$('.messages');
 
-        this.staydown = new StayDown(this.$messageList[0], 500);
+        this.staydown = new StayDown({target: this.$messageList[0], interval: 500});
         this.renderCollection();
 
         this.listenTo(this.model.messages, 'add', this.handleChatAdded);
