@@ -9,7 +9,6 @@ var uuid = require('node-uuid');
 var HumanModel = require('human-model');
 var XMPP = require('stanza.io');
 var Contact = require('../models/contact');
-var Resource = require('../models/resource');
 var Message = require('../models/message');
 var Call = require('../models/call');
 
@@ -185,9 +184,8 @@ module.exports = function (client, app) {
                 }
                 resource.set(pres);
             } else {
-                resource = new Resource(pres);
-                resource.id = pres.from.full;
-                contact.resources.add(resource);
+                pres.id = pres.from.full;
+                resource = contact.resources.add(pres);
 
                 if (!pres.caps) {
                     resource.fetchDisco();
