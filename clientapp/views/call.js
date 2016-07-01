@@ -81,7 +81,7 @@ module.exports = HumanView.extend({
             terminated: '',
             ringing: '.cancel',
             mute: '.end, .unmute',
-            unmute: '.end, .mute',
+            unmute: '.end, .mute'
             //hold: '',
             //resumed: ''
         };
