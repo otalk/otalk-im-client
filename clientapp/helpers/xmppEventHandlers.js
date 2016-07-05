@@ -418,7 +418,7 @@ module.exports = function (client, app) {
         contact.jingleCall = null;
         contact.onCall = false;
         if (me.calls.length == 1) { // this is the last call
-            client.jingle.stopLocalMedia();
+            client.localMedia.stop();
             client.jingle.localStream = null;
         }
     });
@@ -444,6 +444,7 @@ module.exports = function (client, app) {
             me.contacts.add(contact);
         }
         contact.stream = session.streams[0];
+        session.accept();
     });
 
     client.on('jingle:remotestream:removed', function (session) {

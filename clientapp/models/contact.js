@@ -6,6 +6,8 @@ var crypto = require('crypto');
 var async = require('async');
 var uuid = require('node-uuid');
 var HumanModel = require('human-model');
+var LocalMedia = require('localmedia');
+var attachMediaStream = require('attachmediastream');
 var Resources = require('./resources');
 var Messages = require('./messages');
 var Message = require('./message');
@@ -216,7 +218,23 @@ module.exports = HumanModel.define({
         if (this.jingleResources.length) {
             var peer = this.jingleResources[0];
             this.callState = 'starting';
-            app.api.call(peer.id);
+
+            console.log("calling:", peer);
+
+            var localMedia = client.localMedia = new LocalMedia();
+
+            localMedia.on('localStream', function (stream) {
+                attachMediaStream(stream, document.getElementById('localVideo'), {
+                    mirror: true,
+                    muted: true
+                });
+            });
+
+            localMedia.start(null, function (err, stream) {
+                var sess = client.jingle.createMediaSession(peer.id);
+                sess.addStream(stream);
+                sess.start();
+            });
         } else {
             logger.error('no jingle resources for this user');
         }

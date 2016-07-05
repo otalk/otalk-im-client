@@ -4,13 +4,13 @@
 var _ = require('underscore');
 var StayDown = require('staydown');
 var XMPP = require('stanza.io');
+var LocalMedia = require('localmedia');
+var attachMediaStream = require('attachmediastream');
 var BasePage = require('./base');
 var templates = require('../templates');
 var MessageModel = require('../models/message');
 var embedIt = require('../helpers/embedIt');
 var htmlify = require('../helpers/htmlify');
-var attachMediaStream = require('attachmediastream');
-
 
 module.exports = BasePage.extend({
     template: templates.pages.chat,
@@ -232,13 +232,23 @@ module.exports = BasePage.extend({
         this.$('button.accept').prop('disabled', true);
         if (this.model.jingleCall.jingleSession.state == 'pending') {
             if (!client.jingle.localStream) {
-                client.jingle.startLocalMedia(null, function (err) {
+                var localMedia = client.localMedia = new LocalMedia();
+
+                localMedia.on('localStream', function (stream) {
+                    attachMediaStream(stream, document.getElementById('localVideo'), {
+                        mirror: true,
+                        muted: true
+                    });
+                });
+
+                localMedia.start(null, function (err, stream) {
                     if (err) {
                         self.model.jingleCall.end({
                             condition: 'decline'
                         });
                     } else {
                         client.sendPresence({to: new XMPP.JID(self.model.jingleCall.jingleSession.peer) });
+                        //self.model.jingleCall.jingleSession.addStream(stream);
                         self.model.jingleCall.jingleSession.accept();
                     }
                 });
