@@ -134,11 +134,10 @@ module.exports = HumanModel.define({
                 if (err) return;
 
                 contacts.forEach(function (contact) {
-                    contact = new Contact(contact);
                     contact.owner = self.jid.bare;
                     contact.inRoster = true;
+                    contact = self.contacts.add(contact);
                     contact.save();
-                    self.contacts.add(contact);
                 });
 
                 self.contacts.trigger('loaded');
