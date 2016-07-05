@@ -385,31 +385,31 @@ module.exports = function (client, app) {
     client.on('jingle:incoming', function (session) {
         var contact = me.getContact(session.peer);
         if (!contact) {
-            contact = new Contact({jid: new XMPP.JID(session.peer).bare});
+            contact = {jid: new XMPP.JID(session.peer).bare};
+            contact = me.contacts.add(contact);
             contact.resources.add({id: session.peer});
-            me.contacts.add(contact);
         }
 
-        var call = new Call({
+        var call = {
             contact: contact,
             state: 'incoming',
             jingleSession: session
-        });
+        };
+        call = me.calls.add(call);
         contact.jingleCall = call;
         contact.callState = 'incoming';
-        me.calls.add(call);
         // FIXME: send directed presence if not on roster
     });
 
     client.on('jingle:outgoing', function (session) {
         var contact = me.getContact(session.peer);
-        var call = new Call({
+        var call = {
             contact: contact,
             state: 'outgoing',
             jingleSession: session
-        });
+        };
+        call = me.calls.add(call);
         contact.jingleCall = call;
-        me.calls.add(call);
     });
 
     client.on('jingle:terminated', function (session) {
