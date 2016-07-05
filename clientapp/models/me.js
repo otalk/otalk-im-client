@@ -108,11 +108,10 @@ module.exports = HumanModel.define({
             contact.set(data);
             contact.save();
         } else if (create) {
-            contact = new Contact(data);
-            contact.inRoster = true;
-            contact.owner = this.jid.bare;
+            data.inRoster = true;
+            data.owner = this.jid.bare;
+            contact = this.contacts.add(data);
             contact.save();
-            this.contacts.add(contact);
         }
     },
     removeContact: function (jid) {
