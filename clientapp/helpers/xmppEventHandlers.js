@@ -437,14 +437,13 @@ module.exports = function (client, app) {
         me.stream = null;
     });
 
-    client.on('jingle:remotestream:added', function (session) {
+    client.on('jingle:remotestream:added', function (session, stream) {
         var contact = me.getContact(session.peer);
         if (!contact) {
             contact.resources.add({id: session.peer});
             me.contacts.add(contact);
         }
-        contact.stream = session.streams[0];
-        session.accept();
+        contact.stream = stream;
     });
 
     client.on('jingle:remotestream:removed', function (session) {

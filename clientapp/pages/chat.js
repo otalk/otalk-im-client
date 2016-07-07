@@ -229,9 +229,10 @@ module.exports = BasePage.extend({
         e.preventDefault();
         var self = this;
 
-        this.$('button.accept').prop('disabled', true);
+        // [FIXME] this.$('button.accept').prop('disabled', true);
         if (this.model.jingleCall.jingleSession.state == 'pending') {
             if (!client.jingle.localStream) {
+
                 var localMedia = client.localMedia = new LocalMedia();
 
                 localMedia.on('localStream', function (stream) {
@@ -248,7 +249,7 @@ module.exports = BasePage.extend({
                         });
                     } else {
                         client.sendPresence({to: new XMPP.JID(self.model.jingleCall.jingleSession.peer) });
-                        //self.model.jingleCall.jingleSession.addStream(stream);
+                        self.model.jingleCall.jingleSession.addStream(stream);
                         self.model.jingleCall.jingleSession.accept();
                     }
                 });
