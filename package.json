@@ -25,6 +25,7 @@
     "jquery": "^3.0.0",
     "jxt": "^3.0.7",
     "localmedia": "^2.1.1",
+    "@lukekarrys/jade-runtime": "^1.11.1",
     "moonboots": "^5.0.0",
     "node-uuid": "^1.4.7",
     "notify.js": "0.0.3",
