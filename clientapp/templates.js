@@ -72,11 +72,6 @@ templatizer["includes"]["contactListItem"] = function tmpl_includes_contactListI
     return buf.join("");
 };
 
-// includes/contactRequest.jade compiled template
-templatizer["includes"]["contactRequest"] = function tmpl_includes_contactRequest() {
-    return '<li><span class="jid"></span><button class="primary approve">Approve</button><button class="secondary deny">Deny</button></li>';
-};
-
 // includes/contactListItemResource.jade compiled template
 templatizer["includes"]["contactListItemResource"] = function tmpl_includes_contactListItemResource(locals) {
     var buf = [];
@@ -87,6 +82,11 @@ templatizer["includes"]["contactListItemResource"] = function tmpl_includes_cont
         buf.push('<li><p class="jid">' + jade.escape(null == (jade_interp = resource.jid) ? "" : jade_interp) + '</p><p class="status">' + jade.escape(null == (jade_interp = resource.status) ? "" : jade_interp) + "</p></li>");
     }).call(this, "resource" in locals_for_with ? locals_for_with.resource : typeof resource !== "undefined" ? resource : undefined);
     return buf.join("");
+};
+
+// includes/contactRequest.jade compiled template
+templatizer["includes"]["contactRequest"] = function tmpl_includes_contactRequest() {
+    return '<li><span class="jid"></span><button class="primary approve">Approve</button><button class="secondary deny">Deny</button></li>';
 };
 
 // includes/embeds.jade compiled template
