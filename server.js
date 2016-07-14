@@ -126,9 +126,9 @@ app.get('/oembed', function (req, res) {
             res.status(200);
             res.set('Content-Type', oembed.MIME_OEMBED_JSON);
             if (callback) {
-                res.send(callback + '(' + JSON.stringify(result) + ')');
+                return res.send(callback + '(' + JSON.stringify(result) + ')');
             } else {
-                res.send(JSON.stringify(result));
+                return res.send(JSON.stringify(result));
             }
         });
     } else if (req.query.urls) {
