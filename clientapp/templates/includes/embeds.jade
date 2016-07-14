@@ -11,7 +11,7 @@
 - else if (locals.type === 'video' && locals.thumbnail_url)
   section.embed.active
     a.preview(href=locals.original, target="_blank")
-      img.embedded(width=locals.width, height=locals.height, src=locals.thumbnail_url, alt=locals.title);
+      img.embedded(width=locals.width, height=locals.height, src=locals.thumbnail_url, alt=locals.title)
       -if (locals.title || locals.description)
         .description
           -if (locals.title)
