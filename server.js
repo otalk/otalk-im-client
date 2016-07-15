@@ -24,9 +24,7 @@ oembed.EMBEDLY_KEY = config.embedly.key;
 
 var clientApp = new Moonboots({
     main: __dirname + '/clientapp/app.js',
-    templateFile: __dirname + '/clientapp/templates/main.html',
     developmentMode: config.isDev,
-    cachePeriod: 0,
     libraries: [
         __dirname + '/clientapp/libraries/jquery.js',
         __dirname + '/clientapp/libraries/ui.js',
@@ -87,7 +85,16 @@ clientApp.on('ready', function () {
 
     // serves app on every other url
     app.get('*', function (req, res) {
-        res.set('Content-Type', 'text/html; charset=utf-8').send(clientApp.htmlSource());
+        var html = '';
+        var prefix = clientApp.config.resourcePrefix;
+        var templateFile = __dirname + '/clientapp/templates/main.html';
+        html = fs.readFileSync(templateFile, 'utf-8');
+        html = html
+            .replace('#{jsFileName}', prefix + clientApp.jsFileName())
+            .replace('#{cssFileName}', prefix + clientApp.cssFileName());
+
+        res.set('Content-Type', 'text/html; charset=utf-8')
+            .send(html);
     });
 });
 
