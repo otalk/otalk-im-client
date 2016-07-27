@@ -3,6 +3,7 @@
 
 var HumanModel = require('human-model');
 var getUserMedia = require('getusermedia');
+var XMPP = require('stanza.io');
 var Contacts = require('./contacts');
 var Calls = require('./calls');
 var Contact = require('./contact');
@@ -32,18 +33,18 @@ module.exports = HumanModel.define({
     },
     props: {
         jid: ['object', true],
-        status: 'string',
-        avatarID: 'string',
-        rosterVer: 'string',
-        nick: 'string'
+        status: ['string'],
+        avatarID: ['string'],
+        rosterVer: ['string'],
+        nick: ['string']
     },
     session: {
-        avatar: 'string',
+        avatar: ['string'],
         connected: ['bool', false, false],
         shouldAskForAlertsPermission: ['bool', false, false],
         hasFocus: ['bool', false, false],
-        _activeContact: 'string',
-        stream: 'object'
+        _activeContact: ['string'],
+        stream: ['object']
     },
     collections: {
         contacts: Contacts,
@@ -86,8 +87,8 @@ module.exports = HumanModel.define({
         });
     },
     getContact: function (jid, alt) {
-        if (typeof jid === 'string') jid = new client.JID(jid);
-        if (typeof alt === 'string') alt = new client.JID(alt);
+        if (typeof jid === 'string') jid = new XMPP.JID(jid);
+        if (typeof alt === 'string') alt = new XMPP.JID(alt);
 
         if (this.isMe(jid)) {
             jid = alt || jid;
@@ -107,11 +108,10 @@ module.exports = HumanModel.define({
             contact.set(data);
             contact.save();
         } else if (create) {
-            contact = new Contact(data);
-            contact.inRoster = true;
-            contact.owner = this.jid.bare;
+            data.inRoster = true;
+            data.owner = this.jid.bare;
+            contact = this.contacts.add(data);
             contact.save();
-            this.contacts.add(contact);
         }
     },
     removeContact: function (jid) {
@@ -134,11 +134,10 @@ module.exports = HumanModel.define({
                 if (err) return;
 
                 contacts.forEach(function (contact) {
-                    contact = new Contact(contact);
                     contact.owner = self.jid.bare;
                     contact.inRoster = true;
+                    contact = self.contacts.add(contact);
                     contact.save();
-                    self.contacts.add(contact);
                 });
 
                 self.contacts.trigger('loaded');

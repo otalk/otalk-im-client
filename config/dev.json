@@ -1,5 +1,6 @@
 {
     "isDev": true,
+    "host": "localhost:8080",
     "http": {
         "baseUrl": "http://localhost:8000",
         "port": 8000,

@@ -6,6 +6,8 @@ var crypto = require('crypto');
 var async = require('async');
 var uuid = require('node-uuid');
 var HumanModel = require('human-model');
+var LocalMedia = require('localmedia');
+var attachMediaStream = require('attachmediastream');
 var Resources = require('./resources');
 var Messages = require('./messages');
 var Message = require('./message');
@@ -39,18 +41,18 @@ module.exports = HumanModel.define({
     },
     session: {
         activeContact: ['bool', false, false],
-        avatar: 'string',
-        avatarSource: 'string',
-        lastInteraction: 'date',
-        lastHistoryFetch: 'date',
-        lastSentMessage: 'object',
-        lockedResource: 'string',
+        avatar: ['string'],
+        avatarSource: ['string'],
+        lastInteraction: ['date'],
+        lastHistoryFetch: ['date'],
+        lastSentMessage: ['object'],
+        lockedResource: ['string'],
         offlineStatus: ['string', false, ''],
-        topResource: 'string',
+        topResource: ['string'],
         unreadCount: ['number', false, 0],
         _forceUpdate: ['number', false, 0],
         onCall: ['boolean', false, false],
-        stream: 'object'
+        stream: ['object']
     },
     derived: {
         streamUrl: {
@@ -216,7 +218,23 @@ module.exports = HumanModel.define({
         if (this.jingleResources.length) {
             var peer = this.jingleResources[0];
             this.callState = 'starting';
-            app.api.call(peer.id);
+
+            console.log("calling:", peer);
+
+            var localMedia = client.localMedia = new LocalMedia();
+
+            localMedia.on('localStream', function (stream) {
+                attachMediaStream(stream, document.getElementById('localVideo'), {
+                    mirror: true,
+                    muted: true
+                });
+            });
+
+            localMedia.start(null, function (err, stream) {
+                var sess = client.jingle.createMediaSession(peer.id);
+                sess.addStream(stream);
+                sess.start();
+            });
         } else {
             logger.error('no jingle resources for this user');
         }
@@ -269,7 +287,7 @@ module.exports = HumanModel.define({
             existing.set(message);
             existing.save();
         } else {
-            this.messages.add(message);
+            message = this.messages.add(message);
             message.save();
         }
 
@@ -277,6 +295,7 @@ module.exports = HumanModel.define({
         if (!this.lastInteraction || this.lastInteraction < newInteraction) {
             this.lastInteraction = newInteraction;
         }
+        return message;
     },
     fetchHistory: function () {
         var self = this;
@@ -304,7 +323,7 @@ module.exports = HumanModel.define({
                 filter.end = new Date(Date.now());
             }
 
-            client.getHistory(filter, function (err, res) {
+            client.searchHistory(filter, function (err, res) {
                 if (err) return;
 
                 self.lastHistoryFetch = new Date(Date.now());
@@ -330,11 +349,10 @@ module.exports = HumanModel.define({
                         if (original && original.correct(msg)) return;
                     }
 
-                    var message = new Message(msg);
-                    message.archivedId = result.mam.id;
-                    message.acked = true;
+                    msg.archivedId = result.mam.id;
+                    msg.acked = true;
 
-                    self.addMessage(message, false);
+                    self.addMessage(msg, false);
                 });
             });
         });

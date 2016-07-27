@@ -7,8 +7,8 @@ var crypto = require('crypto');
 var bows = require('bows');
 var uuid = require('node-uuid');
 var HumanModel = require('human-model');
+var XMPP = require('stanza.io');
 var Contact = require('../models/contact');
-var Resource = require('../models/resource');
 var Message = require('../models/message');
 var Call = require('../models/call');
 
@@ -44,7 +44,7 @@ var discoCapsQueue = async.queue(function (pres, cb) {
             }
             if (client.verifyVerString(result.discoInfo, caps.hash, caps.ver)) {
                 log.info('Saving info for ' + caps.ver);
-                var data = result.discoInfo.toJSON();
+                var data = result.discoInfo;
                 app.storage.disco.add(caps.ver, data, function () {
                     if (resource) resource.discoInfo = data;
                     cb();
@@ -112,8 +112,6 @@ module.exports = function (client, app) {
         window.readyForDeviceID = true;
 
         client.getRoster(function (err, resp) {
-            resp = resp.toJSON();
-
             if (resp.roster && resp.roster.items && resp.roster.items.length) {
                 app.storage.roster.clear(function () {
                     me.contacts.reset();
@@ -143,7 +141,6 @@ module.exports = function (client, app) {
     });
 
     client.on('roster:update', function (iq) {
-        iq = iq.toJSON();
         var items = iq.roster.items;
 
         me.rosterVer = iq.roster.ver;
@@ -169,7 +166,6 @@ module.exports = function (client, app) {
     });
 
     client.on('available', function (pres) {
-        pres = pres.toJSON();
         var contact = me.getContact(pres.from);
         if (contact) {
             delete pres.id;
@@ -188,9 +184,8 @@ module.exports = function (client, app) {
                 }
                 resource.set(pres);
             } else {
-                resource = new Resource(pres);
-                resource.id = pres.from.full;
-                contact.resources.add(resource);
+                pres.id = pres.from.full;
+                resource = contact.resources.add(pres);
 
                 if (!pres.caps) {
                     resource.fetchDisco();
@@ -206,7 +201,6 @@ module.exports = function (client, app) {
     });
 
     client.on('unavailable', function (pres) {
-        pres = pres.toJSON();
         var contact = me.getContact(pres.from);
         if (contact) {
             var resource = contact.resources.get(pres.from.full);
@@ -273,24 +267,21 @@ module.exports = function (client, app) {
     });
 
     client.on('chat', function (msg) {
-        msg = msg.toJSON();
         msg.mid = msg.id;
         delete msg.id;
 
         var contact = me.getContact(msg.from, msg.to);
         if (contact && !msg.replace) {
-            var message = new Message(msg);
-
             if (msg.archived) {
                 msg.archived.forEach(function (archived) {
                     if (me.isMe(archived.by)) {
-                        message.archivedId = archived.id;
+                        msg.archivedId = archived.id;
                     }
                 });
             }
 
-            message.acked = true;
-            contact.addMessage(message, true);
+            msg.acked = true;
+            contact.addMessage(msg, true);
             if (msg.from.bare == contact.jid.bare) {
                 contact.lockedResource = msg.from.full;
             }
@@ -298,15 +289,13 @@ module.exports = function (client, app) {
     });
 
     client.on('groupchat', function (msg) {
-        msg = msg.toJSON();
         msg.mid = msg.id;
         delete msg.id;
 
         var contact = me.getContact(msg.from, msg.to);
         if (contact && !msg.replace) {
-            var message = new Message(msg);
-            message.acked = true;
-            contact.addMessage(message, true);
+            msg.acked = true;
+            contact.addMessage(msg, true);
         }
     });
 
@@ -318,7 +307,6 @@ module.exports = function (client, app) {
     });
 
     client.on('replace', function (msg) {
-        msg = msg.toJSON();
         msg.mid = msg.id;
         delete msg.id;
 
@@ -333,8 +321,6 @@ module.exports = function (client, app) {
     });
 
     client.on('receipt', function (msg) {
-        msg = msg.toJSON();
-
         var contact = me.getContact(msg.from, msg.to);
         if (!contact) return;
 
@@ -399,31 +385,31 @@ module.exports = function (client, app) {
     client.on('jingle:incoming', function (session) {
         var contact = me.getContact(session.peer);
         if (!contact) {
-            contact = new Contact({jid: client.JID(session.peer).bare});
+            contact = {jid: new XMPP.JID(session.peer).bare};
+            contact = me.contacts.add(contact);
             contact.resources.add({id: session.peer});
-            me.contacts.add(contact);
         }
 
-        var call = new Call({
+        var call = {
             contact: contact,
             state: 'incoming',
             jingleSession: session
-        });
+        };
+        call = me.calls.add(call);
         contact.jingleCall = call;
         contact.callState = 'incoming';
-        me.calls.add(call);
         // FIXME: send directed presence if not on roster
     });
 
     client.on('jingle:outgoing', function (session) {
         var contact = me.getContact(session.peer);
-        var call = new Call({
+        var call = {
             contact: contact,
             state: 'outgoing',
             jingleSession: session
-        });
+        };
+        call = me.calls.add(call);
         contact.jingleCall = call;
-        me.calls.add(call);
     });
 
     client.on('jingle:terminated', function (session) {
@@ -432,7 +418,7 @@ module.exports = function (client, app) {
         contact.jingleCall = null;
         contact.onCall = false;
         if (me.calls.length == 1) { // this is the last call
-            client.jingle.stopLocalMedia();
+            client.localMedia.stop();
             client.jingle.localStream = null;
         }
     });
@@ -451,13 +437,13 @@ module.exports = function (client, app) {
         me.stream = null;
     });
 
-    client.on('jingle:remotestream:added', function (session) {
+    client.on('jingle:remotestream:added', function (session, stream) {
         var contact = me.getContact(session.peer);
         if (!contact) {
             contact.resources.add({id: session.peer});
             me.contacts.add(contact);
         }
-        contact.stream = session.streams[0];
+        contact.stream = stream;
     });
 
     client.on('jingle:remotestream:removed', function (session) {

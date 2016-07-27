@@ -1,0 +1,3 @@
+{
+    "ignore": ["clientapp/templates.js", "clientapp/templates/*"]
+}

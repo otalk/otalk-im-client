@@ -9,13 +9,13 @@ module.exports = HumanModel.define({
     type: 'resource',
     session: {
         id: ['string', true],
-        status: 'string',
-        show: 'string',
+        status: ['string', false],
+        show: ['string', false],
         priority: ['number', false, 0],
         chatState: ['string', false, 'gone'],
-        idleSince: 'date',
-        discoInfo: 'object',
-        timezoneOffset: 'number'
+        idleSince: ['date', false],
+        discoInfo: ['object'],
+        timezoneOffset: ['number']
     },
     derived: {
         mucDisplayName: {

@@ -2,6 +2,7 @@
 "use strict";
 
 var crypto = require('crypto');
+var XMPP = require('stanza.io');
 var BasePage = require('./base');
 var templates = require('../templates');
 
@@ -120,7 +121,7 @@ module.exports = BasePage.extend({
         me.mucs.add({
             id: mucjid,
             name: mucjid,
-            jid: new client.JID(mucjid),
+            jid: new XMPP.JID(mucjid),
             nick: me.nick,
             autoJoin: false
         });

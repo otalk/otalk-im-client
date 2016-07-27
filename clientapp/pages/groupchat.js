@@ -3,6 +3,7 @@
 
 var _ = require('underscore');
 var StayDown = require('staydown');
+var XMPP = require('stanza.io');
 var BasePage = require('./base');
 var templates = require('../templates');
 var MUCRosterItem = require('../views/mucRosterItem');
@@ -63,7 +64,7 @@ module.exports = BasePage.extend({
         this.$chatBox = this.$('.chatBox');
         this.$messageList = this.$('.messages');
 
-        this.staydown = new StayDown(this.$messageList[0], 500);
+        this.staydown = new StayDown({target: this.$messageList[0], interval: 500});
 
         this.renderMessages();
         this.renderCollection(this.model.resources, MUCRosterItem, this.$('.groupRoster'));
@@ -189,7 +190,7 @@ module.exports = BasePage.extend({
 
             var id = client.sendMessage(message);
             message.mid = id;
-            message.from = client.JID(this.model.jid.bare + '/' + this.model.nick);
+            message.from = new XMPP.JID(this.model.jid.bare + '/' + this.model.nick);
 
             if (this.editMode) {
                 this.model.lastSentMessage.correct(message);

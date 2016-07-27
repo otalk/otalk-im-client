@@ -3,14 +3,14 @@
 
 var _ = require('underscore');
 var StayDown = require('staydown');
+var XMPP = require('stanza.io');
+var LocalMedia = require('localmedia');
+var attachMediaStream = require('attachmediastream');
 var BasePage = require('./base');
 var templates = require('../templates');
-var Message = require('../views/message');
 var MessageModel = require('../models/message');
 var embedIt = require('../helpers/embedIt');
 var htmlify = require('../helpers/htmlify');
-var attachMediaStream = require('attachmediastream');
-
 
 module.exports = BasePage.extend({
     template: templates.pages.chat,
@@ -69,7 +69,7 @@ module.exports = BasePage.extend({
         this.$chatBox = this.$('.chatBox');
         this.$messageList = this.$('.messages');
 
-        this.staydown = new StayDown(this.$messageList[0], 500);
+        this.staydown = new StayDown({target: this.$messageList[0], interval: 500});
         this.renderCollection();
 
         this.listenTo(this.model.messages, 'add', this.handleChatAdded);
@@ -163,7 +163,7 @@ module.exports = BasePage.extend({
 
             message = {
                 id: client.nextId(),
-                to: client.JID(this.model.lockedResource || this.model.jid),
+                to: new XMPP.JID(this.model.lockedResource || this.model.jid),
                 type: 'chat',
                 body: val,
                 requestReceipt: true,
@@ -186,9 +186,7 @@ module.exports = BasePage.extend({
             if (this.editMode) {
                 this.model.lastSentMessage.correct(message);
             } else {
-                var msgModel = new MessageModel(message);
-                this.model.addMessage(msgModel);
-                this.model.lastSentMessage = msgModel;
+                this.model.lastSentMessage = this.model.addMessage(message);
             }
         }
         this.editMode = false;
@@ -224,28 +222,39 @@ module.exports = BasePage.extend({
             newEl = $(model.templateHtml);
             this.staydown.append(newEl[0]);
         }
-        embedIt(newEl);
+        // [FIXME] embedIt(newEl);
         this.lastModel = model;
     },
     handleAcceptClick: function (e) {
         e.preventDefault();
         var self = this;
 
-        this.$('button.accept').prop('disabled', true);
+        // [FIXME] this.$('button.accept').prop('disabled', true);
         if (this.model.jingleCall.jingleSession.state == 'pending') {
             if (!client.jingle.localStream) {
-                client.jingle.startLocalMedia(null, function (err) {
+
+                var localMedia = client.localMedia = new LocalMedia();
+
+                localMedia.on('localStream', function (stream) {
+                    attachMediaStream(stream, document.getElementById('localVideo'), {
+                        mirror: true,
+                        muted: true
+                    });
+                });
+
+                localMedia.start(null, function (err, stream) {
                     if (err) {
                         self.model.jingleCall.end({
                             condition: 'decline'
                         });
                     } else {
-                        client.sendPresence({to: client.JID(self.model.jingleCall.jingleSession.peer) });
+                        client.sendPresence({to: new XMPP.JID(self.model.jingleCall.jingleSession.peer) });
+                        self.model.jingleCall.jingleSession.addStream(stream);
                         self.model.jingleCall.jingleSession.accept();
                     }
                 });
             } else {
-                client.sendPresence({to: client.JID(this.model.jingleCall.jingleSession.peer) });
+                client.sendPresence({to: new XMPP.JID(this.model.jingleCall.jingleSession.peer) });
                 this.model.jingleCall.jingleSession.accept();
             }
         }

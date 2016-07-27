@@ -1,5 +1,6 @@
 var fs = require('fs');
 var https = require('https');
+var compression = require('compression');
 var express = require('express');
 var helmet = require('helmet');
 var Moonboots = require('moonboots');
@@ -11,22 +12,19 @@ var async = require('async');
 
 var app = express();
 
-app.use(express.compress());
+app.use(compression());
 app.use(express.static(__dirname + '/public'));
-if (!config.isDev) {
-    app.use(helmet.xframe());
+app.use(helmet());
+if (config.isDev) {
+    app.use(helmet.noCache());
 }
-app.use(helmet.iexss());
-app.use(helmet.contentTypeOptions());
 
 oembed.EMBEDLY_URL = config.embedly.url || 'https://api.embed.ly/1/oembed';
 oembed.EMBEDLY_KEY = config.embedly.key;
 
 var clientApp = new Moonboots({
     main: __dirname + '/clientapp/app.js',
-    templateFile: __dirname + '/clientapp/templates/main.html',
     developmentMode: config.isDev,
-    cachePeriod: 0,
     libraries: [
         __dirname + '/clientapp/libraries/jquery.js',
         __dirname + '/clientapp/libraries/ui.js',
@@ -34,7 +32,7 @@ var clientApp = new Moonboots({
         __dirname + '/clientapp/libraries/IndexedDBShim.min.js'
     ],
     browserify: {
-        debug: false
+        debug: true
     },
     stylesheets: [
         __dirname + '/public/css/otalk.css'
@@ -45,7 +43,9 @@ var clientApp = new Moonboots({
 if (config.isDev) {
     clientApp.config.beforeBuildJS = function () {
         var clientFolder = __dirname + '/clientapp';
-        templatizer(clientFolder + '/templates', clientFolder + '/templates.js');
+        templatizer(clientFolder + '/templates',
+                    clientFolder + '/templates.js',
+                    function (err, templates) { console.log(err || 'Success!'); });
     };
 }
 
@@ -67,8 +67,35 @@ clientApp.on('ready', function () {
         res.send(cacheManifest);
     });
 
+    app.get('/' + clientApp.jsFileName(),
+            function (req, res) {
+                clientApp.jsSource(function (err, js) {
+                    res.set('Content-Type', 'application/javascript').send(js);
+                });
+            }
+           );
+
+    app.get('/' + clientApp.cssFileName(),
+            function (req, res) {
+                clientApp.cssSource(function (err, css) {
+                    res.set('Content-Type', 'text/css').send(css);
+                });
+            }
+           );
+
     // serves app on every other url
-    app.get('*', clientApp.html());
+    app.get('*', function (req, res) {
+        var html = '';
+        var prefix = clientApp.config.resourcePrefix;
+        var templateFile = __dirname + '/clientapp/templates/main.html';
+        html = fs.readFileSync(templateFile, 'utf-8');
+        html = html
+            .replace('#{jsFileName}', prefix + clientApp.jsFileName())
+            .replace('#{cssFileName}', prefix + clientApp.cssFileName());
+
+        res.set('Content-Type', 'text/html; charset=utf-8')
+            .send(html);
+    });
 });
 
 var webappManifest = fs.readFileSync('./public/x-manifest.webapp');
@@ -106,9 +133,9 @@ app.get('/oembed', function (req, res) {
             res.status(200);
             res.set('Content-Type', oembed.MIME_OEMBED_JSON);
             if (callback) {
-                res.send(callback + '(' + JSON.stringify(result) + ')');
+                return res.send(callback + '(' + JSON.stringify(result) + ')');
             } else {
-                res.send(JSON.stringify(result));
+                return res.send(JSON.stringify(result));
             }
         });
     } else if (req.query.urls) {
